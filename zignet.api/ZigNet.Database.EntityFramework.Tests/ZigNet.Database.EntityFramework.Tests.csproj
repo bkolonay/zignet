@@ -71,6 +71,10 @@
       <Project>{CC3DA63B-D39A-41A9-8941-2203A92E250A}</Project>
       <Name>ZigNet.Database.EntityFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ZigNet.Database\ZigNet.Database.csproj">
+      <Project>{26b84886-3e8d-442d-a4ef-5e89d5b5f11d}</Project>
+      <Name>ZigNet.Database</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
