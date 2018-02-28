@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Chartist from 'chartist';
 import './chartist.css';
+import './chartistPieChart.css';
 
 class ChartistPieChart extends Component {
 

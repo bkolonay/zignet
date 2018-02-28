@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import ChartistPieChart from '../common/ChartistPieChart';
+import '../common/bootstrap.css'
 
 class SuiteResultChart extends Component {
   constructor(props) {
@@ -14,12 +15,17 @@ class SuiteResultChart extends Component {
     }
   }
 
+  getTotalTests() {
+    return this.suiteResult.totalPassedTests + this.suiteResult.totalFailedTests;
+  }
+
   render() {
     return (
-      <div>
-        <h2>{this.suiteResult.suiteName}</h2>
+      <div className="col-4">
+        <h3 className="text-center">{this.suiteResult.suiteName}</h3>
         <ChartistPieChart chartId={this.suiteResult.suiteResultId}
                           chartData={this.chartData} />
+        <p className="text-center">Total: {this.getTotalTests()}</p>
       </div>
     );
   }

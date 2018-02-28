@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 
 import SuiteResults from './home/SuiteResults'
 import ZigNetApi from './api/ZigNetApi'
@@ -8,11 +7,11 @@ import ZigNetApi from './api/ZigNetApi'
 class App extends Component {
 
   render() {
-    const zignetApi = new ZigNetApi();
-    const latestSuiteResults = zignetApi.getLatestSuiteResults();
+    const zigNetApi = new ZigNetApi();
+    const latestSuiteResults = zigNetApi.getLatestSuiteResults();
 
     return (
-      <div className="App">
+      <div>
         <h1>ZigNet</h1>
         <SuiteResults suiteResults={latestSuiteResults} />
       </div>

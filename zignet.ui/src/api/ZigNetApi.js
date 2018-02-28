@@ -12,6 +12,24 @@ class ZigNetApi {
           suiteResultId: 2,
           totalPassedTests: 10,
           totalFailedTests: 120
+        },
+        {
+          suiteName: 'Suite 03',
+          suiteResultId: 3,
+          totalPassedTests: 10,
+          totalFailedTests: 120
+        },
+        {
+          suiteName: 'Suite 04',
+          suiteResultId: 4,
+          totalPassedTests: 10,
+          totalFailedTests: 120
+        },
+        {
+          suiteName: 'Suite 05',
+          suiteResultId: 5,
+          totalPassedTests: 10,
+          totalFailedTests: 120
         }        
     ]  	
   }
