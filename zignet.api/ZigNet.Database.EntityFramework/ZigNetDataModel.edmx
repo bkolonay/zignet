@@ -1,0 +1,771 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ZigNet.Database.EntityFramework.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Suite_SuiteCategories">
+          <Key>
+            <PropertyRef Name="SuiteId" />
+            <PropertyRef Name="SuiteCategoryId" />
+          </Key>
+          <Property Name="SuiteId" Type="int" Nullable="false" />
+          <Property Name="SuiteCategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SuiteCategories">
+          <Key>
+            <PropertyRef Name="SuiteCategoryID" />
+          </Key>
+          <Property Name="SuiteCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SuiteResults">
+          <Key>
+            <PropertyRef Name="SuiteResultID" />
+          </Key>
+          <Property Name="SuiteResultID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SuiteId" Type="int" Nullable="false" />
+          <Property Name="SuiteResultStartDateTime" Type="datetime" Nullable="false" />
+          <Property Name="SuiteResultEndDateTime" Type="datetime" />
+          <Property Name="SuiteResultTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SuiteResultTypes">
+          <Key>
+            <PropertyRef Name="SuiteResultTypeID" />
+          </Key>
+          <Property Name="SuiteResultTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SuiteResultTypeName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Suites">
+          <Key>
+            <PropertyRef Name="SuiteID" />
+          </Key>
+          <Property Name="SuiteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SuiteName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Suites_Tests">
+          <Key>
+            <PropertyRef Name="SuiteId" />
+            <PropertyRef Name="TestId" />
+          </Key>
+          <Property Name="SuiteId" Type="int" Nullable="false" />
+          <Property Name="TestId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Test_TestCategories">
+          <Key>
+            <PropertyRef Name="TestId" />
+            <PropertyRef Name="TestCategoryId" />
+          </Key>
+          <Property Name="TestId" Type="int" Nullable="false" />
+          <Property Name="TestCategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestCategories">
+          <Key>
+            <PropertyRef Name="TestCategoryID" />
+          </Key>
+          <Property Name="TestCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestFailureDetails">
+          <Key>
+            <PropertyRef Name="TestFailureDetailID" />
+          </Key>
+          <Property Name="TestFailureDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestFailureDetail" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestFailureTypes">
+          <Key>
+            <PropertyRef Name="TestFailureTypeID" />
+          </Key>
+          <Property Name="TestFailureTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestFailureTypeName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestResult_TestFailureDetails">
+          <Key>
+            <PropertyRef Name="TestResultId" />
+            <PropertyRef Name="TestFailureDetailId" />
+          </Key>
+          <Property Name="TestResultId" Type="int" Nullable="false" />
+          <Property Name="TestFailureDetailId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestResult_TestFailureType">
+          <Key>
+            <PropertyRef Name="TestResultId" />
+            <PropertyRef Name="TestFailureTypeId" />
+          </Key>
+          <Property Name="TestResultId" Type="int" Nullable="false" />
+          <Property Name="TestFailureTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestResults">
+          <Key>
+            <PropertyRef Name="TestResultID" />
+          </Key>
+          <Property Name="TestResultID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestId" Type="int" Nullable="false" />
+          <Property Name="SuiteResultId" Type="int" Nullable="false" />
+          <Property Name="TestResultStartDateTime" Type="datetime" Nullable="false" />
+          <Property Name="TestResultEndDateTime" Type="datetime" Nullable="false" />
+          <Property Name="TestResultTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestResultTypes">
+          <Key>
+            <PropertyRef Name="TestResultTypeID" />
+          </Key>
+          <Property Name="TestResultTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestResultTypeName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tests">
+          <Key>
+            <PropertyRef Name="TestID" />
+          </Key>
+          <Property Name="TestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_FailureDetailTestResult">
+          <End Role="TestFailureDetails" Type="Self.TestFailureDetails" Multiplicity="1" />
+          <End Role="TestResult_TestFailureDetails" Type="Self.TestResult_TestFailureDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestFailureDetails">
+              <PropertyRef Name="TestFailureDetailID" />
+            </Principal>
+            <Dependent Role="TestResult_TestFailureDetails">
+              <PropertyRef Name="TestFailureDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FailureTypeTestResult">
+          <End Role="TestFailureTypes" Type="Self.TestFailureTypes" Multiplicity="1" />
+          <End Role="TestResult_TestFailureType" Type="Self.TestResult_TestFailureType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestFailureTypes">
+              <PropertyRef Name="TestFailureTypeID" />
+            </Principal>
+            <Dependent Role="TestResult_TestFailureType">
+              <PropertyRef Name="TestFailureTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SuiteCategoryCategory">
+          <End Role="SuiteCategories" Type="Self.SuiteCategories" Multiplicity="1" />
+          <End Role="Suite_SuiteCategories" Type="Self.Suite_SuiteCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SuiteCategories">
+              <PropertyRef Name="SuiteCategoryID" />
+            </Principal>
+            <Dependent Role="Suite_SuiteCategories">
+              <PropertyRef Name="SuiteCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SuiteCategorySuite">
+          <End Role="Suites" Type="Self.Suites" Multiplicity="1" />
+          <End Role="Suite_SuiteCategories" Type="Self.Suite_SuiteCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suites">
+              <PropertyRef Name="SuiteID" />
+            </Principal>
+            <Dependent Role="Suite_SuiteCategories">
+              <PropertyRef Name="SuiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SuiteResultSuite">
+          <End Role="Suites" Type="Self.Suites" Multiplicity="1" />
+          <End Role="SuiteResults" Type="Self.SuiteResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suites">
+              <PropertyRef Name="SuiteID" />
+            </Principal>
+            <Dependent Role="SuiteResults">
+              <PropertyRef Name="SuiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SuiteResultSuiteResultType">
+          <End Role="SuiteResultTypes" Type="Self.SuiteResultTypes" Multiplicity="1" />
+          <End Role="SuiteResults" Type="Self.SuiteResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SuiteResultTypes">
+              <PropertyRef Name="SuiteResultTypeID" />
+            </Principal>
+            <Dependent Role="SuiteResults">
+              <PropertyRef Name="SuiteResultTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SuiteTest">
+          <End Role="Suites" Type="Self.Suites" Multiplicity="1" />
+          <End Role="Suites_Tests" Type="Self.Suites_Tests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suites">
+              <PropertyRef Name="SuiteID" />
+            </Principal>
+            <Dependent Role="Suites_Tests">
+              <PropertyRef Name="SuiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestCategoryCategory">
+          <End Role="TestCategories" Type="Self.TestCategories" Multiplicity="1" />
+          <End Role="Test_TestCategories" Type="Self.Test_TestCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestCategories">
+              <PropertyRef Name="TestCategoryID" />
+            </Principal>
+            <Dependent Role="Test_TestCategories">
+              <PropertyRef Name="TestCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestCategoryTest">
+          <End Role="Tests" Type="Self.Tests" Multiplicity="1" />
+          <End Role="Test_TestCategories" Type="Self.Test_TestCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tests">
+              <PropertyRef Name="TestID" />
+            </Principal>
+            <Dependent Role="Test_TestCategories">
+              <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestResultFailureDetail">
+          <End Role="TestResults" Type="Self.TestResults" Multiplicity="1" />
+          <End Role="TestResult_TestFailureDetails" Type="Self.TestResult_TestFailureDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResults">
+              <PropertyRef Name="TestResultID" />
+            </Principal>
+            <Dependent Role="TestResult_TestFailureDetails">
+              <PropertyRef Name="TestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestResultFailureType">
+          <End Role="TestResults" Type="Self.TestResults" Multiplicity="1" />
+          <End Role="TestResult_TestFailureType" Type="Self.TestResult_TestFailureType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResults">
+              <PropertyRef Name="TestResultID" />
+            </Principal>
+            <Dependent Role="TestResult_TestFailureType">
+              <PropertyRef Name="TestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestResultSuiteResult">
+          <End Role="SuiteResults" Type="Self.SuiteResults" Multiplicity="1" />
+          <End Role="TestResults" Type="Self.TestResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SuiteResults">
+              <PropertyRef Name="SuiteResultID" />
+            </Principal>
+            <Dependent Role="TestResults">
+              <PropertyRef Name="SuiteResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestResultTest">
+          <End Role="Tests" Type="Self.Tests" Multiplicity="1" />
+          <End Role="TestResults" Type="Self.TestResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tests">
+              <PropertyRef Name="TestID" />
+            </Principal>
+            <Dependent Role="TestResults">
+              <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestResultTestResultType">
+          <End Role="TestResultTypes" Type="Self.TestResultTypes" Multiplicity="1" />
+          <End Role="TestResults" Type="Self.TestResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResultTypes">
+              <PropertyRef Name="TestResultTypeID" />
+            </Principal>
+            <Dependent Role="TestResults">
+              <PropertyRef Name="TestResultTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestSuite">
+          <End Role="Tests" Type="Self.Tests" Multiplicity="1" />
+          <End Role="Suites_Tests" Type="Self.Suites_Tests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tests">
+              <PropertyRef Name="TestID" />
+            </Principal>
+            <Dependent Role="Suites_Tests">
+              <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ZigNetDatabaseEntityFrameworkModelStoreContainer">
+          <EntitySet Name="Suite_SuiteCategories" EntityType="Self.Suite_SuiteCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SuiteCategories" EntityType="Self.SuiteCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SuiteResults" EntityType="Self.SuiteResults" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SuiteResultTypes" EntityType="Self.SuiteResultTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Suites" EntityType="Self.Suites" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Suites_Tests" EntityType="Self.Suites_Tests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Test_TestCategories" EntityType="Self.Test_TestCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestCategories" EntityType="Self.TestCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestFailureDetails" EntityType="Self.TestFailureDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestFailureTypes" EntityType="Self.TestFailureTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestResult_TestFailureDetails" EntityType="Self.TestResult_TestFailureDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestResult_TestFailureType" EntityType="Self.TestResult_TestFailureType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestResults" EntityType="Self.TestResults" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestResultTypes" EntityType="Self.TestResultTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tests" EntityType="Self.Tests" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_FailureDetailTestResult" Association="Self.FK_FailureDetailTestResult">
+            <End Role="TestFailureDetails" EntitySet="TestFailureDetails" />
+            <End Role="TestResult_TestFailureDetails" EntitySet="TestResult_TestFailureDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FailureTypeTestResult" Association="Self.FK_FailureTypeTestResult">
+            <End Role="TestFailureTypes" EntitySet="TestFailureTypes" />
+            <End Role="TestResult_TestFailureType" EntitySet="TestResult_TestFailureType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SuiteCategoryCategory" Association="Self.FK_SuiteCategoryCategory">
+            <End Role="SuiteCategories" EntitySet="SuiteCategories" />
+            <End Role="Suite_SuiteCategories" EntitySet="Suite_SuiteCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SuiteCategorySuite" Association="Self.FK_SuiteCategorySuite">
+            <End Role="Suites" EntitySet="Suites" />
+            <End Role="Suite_SuiteCategories" EntitySet="Suite_SuiteCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SuiteResultSuite" Association="Self.FK_SuiteResultSuite">
+            <End Role="Suites" EntitySet="Suites" />
+            <End Role="SuiteResults" EntitySet="SuiteResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SuiteResultSuiteResultType" Association="Self.FK_SuiteResultSuiteResultType">
+            <End Role="SuiteResultTypes" EntitySet="SuiteResultTypes" />
+            <End Role="SuiteResults" EntitySet="SuiteResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SuiteTest" Association="Self.FK_SuiteTest">
+            <End Role="Suites" EntitySet="Suites" />
+            <End Role="Suites_Tests" EntitySet="Suites_Tests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestCategoryCategory" Association="Self.FK_TestCategoryCategory">
+            <End Role="TestCategories" EntitySet="TestCategories" />
+            <End Role="Test_TestCategories" EntitySet="Test_TestCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestCategoryTest" Association="Self.FK_TestCategoryTest">
+            <End Role="Tests" EntitySet="Tests" />
+            <End Role="Test_TestCategories" EntitySet="Test_TestCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestResultFailureDetail" Association="Self.FK_TestResultFailureDetail">
+            <End Role="TestResults" EntitySet="TestResults" />
+            <End Role="TestResult_TestFailureDetails" EntitySet="TestResult_TestFailureDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestResultFailureType" Association="Self.FK_TestResultFailureType">
+            <End Role="TestResults" EntitySet="TestResults" />
+            <End Role="TestResult_TestFailureType" EntitySet="TestResult_TestFailureType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestResultSuiteResult" Association="Self.FK_TestResultSuiteResult">
+            <End Role="SuiteResults" EntitySet="SuiteResults" />
+            <End Role="TestResults" EntitySet="TestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestResultTest" Association="Self.FK_TestResultTest">
+            <End Role="Tests" EntitySet="Tests" />
+            <End Role="TestResults" EntitySet="TestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestResultTestResultType" Association="Self.FK_TestResultTestResultType">
+            <End Role="TestResultTypes" EntitySet="TestResultTypes" />
+            <End Role="TestResults" EntitySet="TestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestSuite" Association="Self.FK_TestSuite">
+            <End Role="Tests" EntitySet="Tests" />
+            <End Role="Suites_Tests" EntitySet="Suites_Tests" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ZigNet.Database.EntityFramework.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SuiteCategory">
+          <Key>
+            <PropertyRef Name="SuiteCategoryID" />
+          </Key>
+          <Property Name="SuiteCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Suites" Relationship="Self.Suite_SuiteCategories" FromRole="SuiteCategories" ToRole="Suites" />
+        </EntityType>
+        <EntityType Name="SuiteResult">
+          <Key>
+            <PropertyRef Name="SuiteResultID" />
+          </Key>
+          <Property Name="SuiteResultID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SuiteId" Type="Int32" Nullable="false" />
+          <Property Name="SuiteResultStartDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SuiteResultEndDateTime" Type="DateTime" Precision="3" />
+          <Property Name="SuiteResultTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Suite" Relationship="Self.FK_SuiteResultSuite" FromRole="SuiteResults" ToRole="Suites" />
+          <NavigationProperty Name="SuiteResultType" Relationship="Self.FK_SuiteResultSuiteResultType" FromRole="SuiteResults" ToRole="SuiteResultTypes" />
+          <NavigationProperty Name="TestResults" Relationship="Self.FK_TestResultSuiteResult" FromRole="SuiteResults" ToRole="TestResults" />
+        </EntityType>
+        <EntityType Name="SuiteResultType">
+          <Key>
+            <PropertyRef Name="SuiteResultTypeID" />
+          </Key>
+          <Property Name="SuiteResultTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SuiteResultTypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="SuiteResults" Relationship="Self.FK_SuiteResultSuiteResultType" FromRole="SuiteResultTypes" ToRole="SuiteResults" />
+        </EntityType>
+        <EntityType Name="Suite">
+          <Key>
+            <PropertyRef Name="SuiteID" />
+          </Key>
+          <Property Name="SuiteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SuiteName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="SuiteResults" Relationship="Self.FK_SuiteResultSuite" FromRole="Suites" ToRole="SuiteResults" />
+          <NavigationProperty Name="SuiteCategories" Relationship="Self.Suite_SuiteCategories" FromRole="Suites" ToRole="SuiteCategories" />
+          <NavigationProperty Name="Tests" Relationship="Self.Suites_Tests" FromRole="Suites" ToRole="Tests" />
+        </EntityType>
+        <EntityType Name="TestCategory">
+          <Key>
+            <PropertyRef Name="TestCategoryID" />
+          </Key>
+          <Property Name="TestCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Tests" Relationship="Self.Test_TestCategories" FromRole="TestCategories" ToRole="Tests" />
+        </EntityType>
+        <EntityType Name="TestFailureDetail">
+          <Key>
+            <PropertyRef Name="TestFailureDetailID" />
+          </Key>
+          <Property Name="TestFailureDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestFailureDetail1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TestResults" Relationship="Self.TestResult_TestFailureDetails" FromRole="TestFailureDetails" ToRole="TestResults" />
+        </EntityType>
+        <EntityType Name="TestFailureType">
+          <Key>
+            <PropertyRef Name="TestFailureTypeID" />
+          </Key>
+          <Property Name="TestFailureTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestFailureTypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TestResults" Relationship="Self.TestResult_TestFailureType" FromRole="TestFailureTypes" ToRole="TestResults" />
+        </EntityType>
+        <EntityType Name="TestResult">
+          <Key>
+            <PropertyRef Name="TestResultID" />
+          </Key>
+          <Property Name="TestResultID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestId" Type="Int32" Nullable="false" />
+          <Property Name="SuiteResultId" Type="Int32" Nullable="false" />
+          <Property Name="TestResultStartDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TestResultEndDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TestResultTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SuiteResult" Relationship="Self.FK_TestResultSuiteResult" FromRole="TestResults" ToRole="SuiteResults" />
+          <NavigationProperty Name="Test" Relationship="Self.FK_TestResultTest" FromRole="TestResults" ToRole="Tests" />
+          <NavigationProperty Name="TestResultType" Relationship="Self.FK_TestResultTestResultType" FromRole="TestResults" ToRole="TestResultTypes" />
+          <NavigationProperty Name="TestFailureDetails" Relationship="Self.TestResult_TestFailureDetails" FromRole="TestResults" ToRole="TestFailureDetails" />
+          <NavigationProperty Name="TestFailureTypes" Relationship="Self.TestResult_TestFailureType" FromRole="TestResults" ToRole="TestFailureTypes" />
+        </EntityType>
+        <EntityType Name="TestResultType">
+          <Key>
+            <PropertyRef Name="TestResultTypeID" />
+          </Key>
+          <Property Name="TestResultTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestResultTypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TestResults" Relationship="Self.FK_TestResultTestResultType" FromRole="TestResultTypes" ToRole="TestResults" />
+        </EntityType>
+        <EntityType Name="Test">
+          <Key>
+            <PropertyRef Name="TestID" />
+          </Key>
+          <Property Name="TestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TestResults" Relationship="Self.FK_TestResultTest" FromRole="Tests" ToRole="TestResults" />
+          <NavigationProperty Name="Suites" Relationship="Self.Suites_Tests" FromRole="Tests" ToRole="Suites" />
+          <NavigationProperty Name="TestCategories" Relationship="Self.Test_TestCategories" FromRole="Tests" ToRole="TestCategories" />
+        </EntityType>
+        <Association Name="FK_SuiteResultSuite">
+          <End Role="Suites" Type="Self.Suite" Multiplicity="1" />
+          <End Role="SuiteResults" Type="Self.SuiteResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suites">
+              <PropertyRef Name="SuiteID" />
+            </Principal>
+            <Dependent Role="SuiteResults">
+              <PropertyRef Name="SuiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SuiteResultSuiteResultType">
+          <End Role="SuiteResultTypes" Type="Self.SuiteResultType" Multiplicity="1" />
+          <End Role="SuiteResults" Type="Self.SuiteResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SuiteResultTypes">
+              <PropertyRef Name="SuiteResultTypeID" />
+            </Principal>
+            <Dependent Role="SuiteResults">
+              <PropertyRef Name="SuiteResultTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestResultSuiteResult">
+          <End Role="SuiteResults" Type="Self.SuiteResult" Multiplicity="1" />
+          <End Role="TestResults" Type="Self.TestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SuiteResults">
+              <PropertyRef Name="SuiteResultID" />
+            </Principal>
+            <Dependent Role="TestResults">
+              <PropertyRef Name="SuiteResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestResultTest">
+          <End Role="Tests" Type="Self.Test" Multiplicity="1" />
+          <End Role="TestResults" Type="Self.TestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tests">
+              <PropertyRef Name="TestID" />
+            </Principal>
+            <Dependent Role="TestResults">
+              <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestResultTestResultType">
+          <End Role="TestResultTypes" Type="Self.TestResultType" Multiplicity="1" />
+          <End Role="TestResults" Type="Self.TestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResultTypes">
+              <PropertyRef Name="TestResultTypeID" />
+            </Principal>
+            <Dependent Role="TestResults">
+              <PropertyRef Name="TestResultTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Suite_SuiteCategories">
+          <End Role="SuiteCategories" Type="Self.SuiteCategory" Multiplicity="*" />
+          <End Role="Suites" Type="Self.Suite" Multiplicity="*" />
+        </Association>
+        <Association Name="Suites_Tests">
+          <End Role="Suites" Type="Self.Suite" Multiplicity="*" />
+          <End Role="Tests" Type="Self.Test" Multiplicity="*" />
+        </Association>
+        <Association Name="Test_TestCategories">
+          <End Role="TestCategories" Type="Self.TestCategory" Multiplicity="*" />
+          <End Role="Tests" Type="Self.Test" Multiplicity="*" />
+        </Association>
+        <Association Name="TestResult_TestFailureDetails">
+          <End Role="TestFailureDetails" Type="Self.TestFailureDetail" Multiplicity="*" />
+          <End Role="TestResults" Type="Self.TestResult" Multiplicity="*" />
+        </Association>
+        <Association Name="TestResult_TestFailureType">
+          <End Role="TestFailureTypes" Type="Self.TestFailureType" Multiplicity="*" />
+          <End Role="TestResults" Type="Self.TestResult" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="ZigNetEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SuiteCategories" EntityType="Self.SuiteCategory" />
+          <EntitySet Name="SuiteResults" EntityType="Self.SuiteResult" />
+          <EntitySet Name="SuiteResultTypes" EntityType="Self.SuiteResultType" />
+          <EntitySet Name="Suites" EntityType="Self.Suite" />
+          <EntitySet Name="TestCategories" EntityType="Self.TestCategory" />
+          <EntitySet Name="TestFailureDetails" EntityType="Self.TestFailureDetail" />
+          <EntitySet Name="TestFailureTypes" EntityType="Self.TestFailureType" />
+          <EntitySet Name="TestResults" EntityType="Self.TestResult" />
+          <EntitySet Name="TestResultTypes" EntityType="Self.TestResultType" />
+          <EntitySet Name="Tests" EntityType="Self.Test" />
+          <AssociationSet Name="FK_SuiteResultSuite" Association="Self.FK_SuiteResultSuite">
+            <End Role="Suites" EntitySet="Suites" />
+            <End Role="SuiteResults" EntitySet="SuiteResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SuiteResultSuiteResultType" Association="Self.FK_SuiteResultSuiteResultType">
+            <End Role="SuiteResultTypes" EntitySet="SuiteResultTypes" />
+            <End Role="SuiteResults" EntitySet="SuiteResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestResultSuiteResult" Association="Self.FK_TestResultSuiteResult">
+            <End Role="SuiteResults" EntitySet="SuiteResults" />
+            <End Role="TestResults" EntitySet="TestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestResultTest" Association="Self.FK_TestResultTest">
+            <End Role="Tests" EntitySet="Tests" />
+            <End Role="TestResults" EntitySet="TestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestResultTestResultType" Association="Self.FK_TestResultTestResultType">
+            <End Role="TestResultTypes" EntitySet="TestResultTypes" />
+            <End Role="TestResults" EntitySet="TestResults" />
+          </AssociationSet>
+          <AssociationSet Name="Suite_SuiteCategories" Association="Self.Suite_SuiteCategories">
+            <End Role="SuiteCategories" EntitySet="SuiteCategories" />
+            <End Role="Suites" EntitySet="Suites" />
+          </AssociationSet>
+          <AssociationSet Name="Suites_Tests" Association="Self.Suites_Tests">
+            <End Role="Suites" EntitySet="Suites" />
+            <End Role="Tests" EntitySet="Tests" />
+          </AssociationSet>
+          <AssociationSet Name="Test_TestCategories" Association="Self.Test_TestCategories">
+            <End Role="TestCategories" EntitySet="TestCategories" />
+            <End Role="Tests" EntitySet="Tests" />
+          </AssociationSet>
+          <AssociationSet Name="TestResult_TestFailureDetails" Association="Self.TestResult_TestFailureDetails">
+            <End Role="TestFailureDetails" EntitySet="TestFailureDetails" />
+            <End Role="TestResults" EntitySet="TestResults" />
+          </AssociationSet>
+          <AssociationSet Name="TestResult_TestFailureType" Association="Self.TestResult_TestFailureType">
+            <End Role="TestFailureTypes" EntitySet="TestFailureTypes" />
+            <End Role="TestResults" EntitySet="TestResults" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ZigNetDatabaseEntityFrameworkModelStoreContainer" CdmEntityContainer="ZigNetEntities">
+          <EntitySetMapping Name="SuiteCategories">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.SuiteCategory">
+              <MappingFragment StoreEntitySet="SuiteCategories">
+                <ScalarProperty Name="SuiteCategoryID" ColumnName="SuiteCategoryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SuiteResults">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.SuiteResult">
+              <MappingFragment StoreEntitySet="SuiteResults">
+                <ScalarProperty Name="SuiteResultID" ColumnName="SuiteResultID" />
+                <ScalarProperty Name="SuiteId" ColumnName="SuiteId" />
+                <ScalarProperty Name="SuiteResultStartDateTime" ColumnName="SuiteResultStartDateTime" />
+                <ScalarProperty Name="SuiteResultEndDateTime" ColumnName="SuiteResultEndDateTime" />
+                <ScalarProperty Name="SuiteResultTypeId" ColumnName="SuiteResultTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SuiteResultTypes">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.SuiteResultType">
+              <MappingFragment StoreEntitySet="SuiteResultTypes">
+                <ScalarProperty Name="SuiteResultTypeID" ColumnName="SuiteResultTypeID" />
+                <ScalarProperty Name="SuiteResultTypeName" ColumnName="SuiteResultTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suites">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.Suite">
+              <MappingFragment StoreEntitySet="Suites">
+                <ScalarProperty Name="SuiteID" ColumnName="SuiteID" />
+                <ScalarProperty Name="SuiteName" ColumnName="SuiteName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestCategories">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.TestCategory">
+              <MappingFragment StoreEntitySet="TestCategories">
+                <ScalarProperty Name="TestCategoryID" ColumnName="TestCategoryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestFailureDetails">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.TestFailureDetail">
+              <MappingFragment StoreEntitySet="TestFailureDetails">
+                <ScalarProperty Name="TestFailureDetailID" ColumnName="TestFailureDetailID" />
+                <ScalarProperty Name="TestFailureDetail1" ColumnName="TestFailureDetail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestFailureTypes">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.TestFailureType">
+              <MappingFragment StoreEntitySet="TestFailureTypes">
+                <ScalarProperty Name="TestFailureTypeID" ColumnName="TestFailureTypeID" />
+                <ScalarProperty Name="TestFailureTypeName" ColumnName="TestFailureTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestResults">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.TestResult">
+              <MappingFragment StoreEntitySet="TestResults">
+                <ScalarProperty Name="TestResultID" ColumnName="TestResultID" />
+                <ScalarProperty Name="TestId" ColumnName="TestId" />
+                <ScalarProperty Name="SuiteResultId" ColumnName="SuiteResultId" />
+                <ScalarProperty Name="TestResultStartDateTime" ColumnName="TestResultStartDateTime" />
+                <ScalarProperty Name="TestResultEndDateTime" ColumnName="TestResultEndDateTime" />
+                <ScalarProperty Name="TestResultTypeId" ColumnName="TestResultTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestResultTypes">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.TestResultType">
+              <MappingFragment StoreEntitySet="TestResultTypes">
+                <ScalarProperty Name="TestResultTypeID" ColumnName="TestResultTypeID" />
+                <ScalarProperty Name="TestResultTypeName" ColumnName="TestResultTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tests">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.Test">
+              <MappingFragment StoreEntitySet="Tests">
+                <ScalarProperty Name="TestID" ColumnName="TestID" />
+                <ScalarProperty Name="TestName" ColumnName="TestName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Suite_SuiteCategories" TypeName="ZigNet.Database.EntityFramework.Model.Suite_SuiteCategories" StoreEntitySet="Suite_SuiteCategories">
+            <EndProperty Name="SuiteCategories">
+              <ScalarProperty Name="SuiteCategoryID" ColumnName="SuiteCategoryId" />
+            </EndProperty>
+            <EndProperty Name="Suites">
+              <ScalarProperty Name="SuiteID" ColumnName="SuiteId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Suites_Tests" TypeName="ZigNet.Database.EntityFramework.Model.Suites_Tests" StoreEntitySet="Suites_Tests">
+            <EndProperty Name="Suites">
+              <ScalarProperty Name="SuiteID" ColumnName="SuiteId" />
+            </EndProperty>
+            <EndProperty Name="Tests">
+              <ScalarProperty Name="TestID" ColumnName="TestId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Test_TestCategories" TypeName="ZigNet.Database.EntityFramework.Model.Test_TestCategories" StoreEntitySet="Test_TestCategories">
+            <EndProperty Name="TestCategories">
+              <ScalarProperty Name="TestCategoryID" ColumnName="TestCategoryId" />
+            </EndProperty>
+            <EndProperty Name="Tests">
+              <ScalarProperty Name="TestID" ColumnName="TestId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TestResult_TestFailureDetails" TypeName="ZigNet.Database.EntityFramework.Model.TestResult_TestFailureDetails" StoreEntitySet="TestResult_TestFailureDetails">
+            <EndProperty Name="TestFailureDetails">
+              <ScalarProperty Name="TestFailureDetailID" ColumnName="TestFailureDetailId" />
+            </EndProperty>
+            <EndProperty Name="TestResults">
+              <ScalarProperty Name="TestResultID" ColumnName="TestResultId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TestResult_TestFailureType" TypeName="ZigNet.Database.EntityFramework.Model.TestResult_TestFailureType" StoreEntitySet="TestResult_TestFailureType">
+            <EndProperty Name="TestFailureTypes">
+              <ScalarProperty Name="TestFailureTypeID" ColumnName="TestFailureTypeId" />
+            </EndProperty>
+            <EndProperty Name="TestResults">
+              <ScalarProperty Name="TestResultID" ColumnName="TestResultId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>ZigNet API Model</title>
+    <authors>bkolonay</authors>
+    <owners>bkolonay</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/bkolonay/zignet-domain</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ZigNet API model classes</description>
+    <releaseNotes>Initial upload to NuGet</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>ZigNet</tags>
+  </metadata>
+</package>
