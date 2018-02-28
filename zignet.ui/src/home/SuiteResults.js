@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import SuiteResultChart from './SuiteResultChart'
 
 class SuiteResults extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
   	const suiteResults = this.props.suiteResults;
@@ -13,7 +10,7 @@ class SuiteResults extends Component {
 	  <div>
         {suiteResults.map((suiteResult) =>
           <SuiteResultChart key={suiteResult.suiteResultId}
-                            suiteName={suiteResult.suiteName} />
+                            suiteResult={suiteResult} />
         )}
       </div>
     );

@@ -13,7 +13,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1 className="App-title">ZigNet</h1>
+        <h1>ZigNet</h1>
         <SuiteResults suiteResults={latestSuiteResults} />
       </div>
     );
