@@ -4,31 +4,17 @@ import SuiteResultChart from './SuiteResultChart'
 import '../common/bootstrap.css'
 
 class SuiteResults extends Component {
-  constructor(props) {
-  	super();
-  	this.state = { suiteResults: [] }
-  }
-
-  componentDidMount() {
-  	this.props.suiteResults
-  	  .then(suiteResults => {
-  	  	this.setState({
-  	  	  suiteResults: suiteResults
-  	  	})
-  	  })
-  	  .catch(error => alert(error));
-  }
 
   render() {
     return (
-	  <div className="container">
-	  	<div className="row">
-          {this.state.suiteResults.map((suiteResult) =>
-            <SuiteResultChart key={suiteResult.SuiteID}
-                              suiteResult={suiteResult} />
-          )}
+  	  <div className="container">
+  	  	<div className="row">
+            {this.props.suiteResults.map((suiteResult) =>
+              <SuiteResultChart key={suiteResult.SuiteID}
+                                suiteResult={suiteResult} />
+            )}
+          </div>
         </div>
-      </div>
     );
   }
 }

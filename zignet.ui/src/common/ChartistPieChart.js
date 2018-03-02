@@ -16,6 +16,10 @@ class ChartistPieChart extends Component {
 	)
   }
 
+  componentWillReceiveProps(props) {
+  	this.chartistChart.update(props.chartData);
+  }
+
   render() {
     return (
       <div 
