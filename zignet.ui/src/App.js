@@ -7,7 +7,7 @@ import ZigNetApi from './api/ZigNetApi'
 class App extends Component {
   constructor() {
     super();
-    
+
     this.zigNetApi = new ZigNetApi(process.env.REACT_APP_API_BASE_URL + 'api/');
     this.state = { latestSuiteResults: [] }
   }
@@ -15,6 +15,10 @@ class App extends Component {
   componentDidMount() {
     this._getLatestSuiteResults();
     this.intervalId = setInterval(() => this._getLatestSuiteResults(), 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
   }
 
   _getLatestSuiteResults() {
