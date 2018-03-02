@@ -24,7 +24,7 @@ class SuiteResults extends Component {
 	  <div className="container">
 	  	<div className="row">
           {this.state.suiteResults.map((suiteResult) =>
-            <SuiteResultChart key={suiteResult.suiteResultId}
+            <SuiteResultChart key={suiteResult.SuiteID}
                               suiteResult={suiteResult} />
           )}
         </div>

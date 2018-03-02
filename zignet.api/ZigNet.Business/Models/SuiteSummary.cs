@@ -4,6 +4,7 @@ namespace ZigNet.Business.Models
 {
     public class SuiteSummary
     {
+        public int SuiteID { get; set; }
         public string SuiteName { get; set; }
         public int TotalPassedTests { get; set; }
         public int TotalFailedTests { get; set; }

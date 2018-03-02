@@ -23,7 +23,7 @@ class SuiteResultChart extends Component {
     return (
       <div className="col-4">
         <h3 className="text-center">{this.suiteResult.SuiteName}</h3>
-        <ChartistPieChart chartId={this.suiteResult.suiteResultId}
+        <ChartistPieChart chartId={this.suiteResult.SuiteID}
                           chartData={this.chartData} />
         <p className="text-center">Total: {this.getTotalTests()}</p>
       </div>

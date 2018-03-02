@@ -43,6 +43,7 @@ namespace ZigNet.Business.Tests
                 var suiteSummary = suiteSummaries[0];
 
                 Assert.AreEqual(1, suiteSummaries.Count());
+                Assert.AreEqual(1, suiteSummary.SuiteID);
                 Assert.AreEqual("Suite 1", suiteSummary.SuiteName);
                 Assert.AreEqual(1, suiteSummary.TotalFailedTests);
                 Assert.AreEqual(1, suiteSummary.TotalInconclusiveTests);
@@ -103,6 +104,7 @@ namespace ZigNet.Business.Tests
                 var suiteSummary = suiteSummaries[0];
 
                 Assert.AreEqual(1, suiteSummaries.Count());
+                Assert.AreEqual(1, suiteSummary.SuiteID);
                 Assert.AreEqual("Suite 1", suiteSummary.SuiteName);
                 Assert.AreEqual(1, suiteSummary.TotalFailedTests);
                 Assert.AreEqual(1, suiteSummary.TotalInconclusiveTests);
@@ -148,6 +150,7 @@ namespace ZigNet.Business.Tests
                 var suiteSummary = suiteSummaries[0];
 
                 Assert.AreEqual(1, suiteSummaries.Count());
+                Assert.AreEqual(1, suiteSummary.SuiteID);
                 Assert.AreEqual("Suite 1", suiteSummary.SuiteName);
                 Assert.AreEqual(0, suiteSummary.TotalFailedTests);
                 Assert.AreEqual(0, suiteSummary.TotalInconclusiveTests);

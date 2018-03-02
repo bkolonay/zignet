@@ -36,6 +36,7 @@ namespace ZigNet.Business
                 suiteSummaries.Add(
                     new SuiteSummary
                     {
+                        SuiteID = suiteResult.Suite.SuiteID,
                         SuiteName = suiteResult.Suite.Name,
                         TotalFailedTests = tests.Where(t => t.ResultType == TestResultType.Fail).Count(),
                         TotalInconclusiveTests = tests.Where(t => t.ResultType == TestResultType.Inconclusive).Count(),
