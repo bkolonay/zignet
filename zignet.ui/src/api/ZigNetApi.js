@@ -1,38 +1,20 @@
 class ZigNetApi {
-  getLatestSuiteResults() {
-    return [
-        {
-          suiteName: 'Suite 01',
-          suiteResultId: 1,
-          totalPassedTests: 100,
-          totalFailedTests: 25
-        },
-        {
-          suiteName: 'Suite 02',
-          suiteResultId: 2,
-          totalPassedTests: 10,
-          totalFailedTests: 120
-        },
-        {
-          suiteName: 'Suite 03',
-          suiteResultId: 3,
-          totalPassedTests: 10,
-          totalFailedTests: 120
-        },
-        {
-          suiteName: 'Suite 04',
-          suiteResultId: 4,
-          totalPassedTests: 10,
-          totalFailedTests: 120
-        },
-        {
-          suiteName: 'Suite 05',
-          suiteResultId: 5,
-          totalPassedTests: 10,
-          totalFailedTests: 120
-        }        
-    ]  	
+  constructor(apiBaseUrl) {
+    this.apiBaseUrl = apiBaseUrl;
   }
+
+  getLatestSuiteResults() {
+    return this._get(this.apiBaseUrl + 'latestSuiteResults');
+  }
+
+  _get(url) {
+    return fetch(url)
+      .then(function(response) {
+        if (response.ok)
+          return response.json();
+        throw new Error(`URL ${url} returned status code ${response.status}`);
+      });
+  }  
 }
 
 export default ZigNetApi;

@@ -5,15 +5,16 @@ import ZigNetApi from './api/ZigNetApi'
 
 
 class App extends Component {
+  constructor() {
+    super();
+    this.zigNetApi = new ZigNetApi(process.env.REACT_APP_API_BASE_URL + 'api/');
+  }
 
   render() {
-    const zigNetApi = new ZigNetApi();
-    const latestSuiteResults = zigNetApi.getLatestSuiteResults();
-
     return (
       <div>
         <h1>ZigNet</h1>
-        <SuiteResults suiteResults={latestSuiteResults} />
+        <SuiteResults suiteResults={this.zigNetApi.getLatestSuiteResults()} />
       </div>
     );
   }

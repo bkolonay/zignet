@@ -9,20 +9,20 @@ class SuiteResultChart extends Component {
     this.suiteResult = this.props.suiteResult;
     this.chartData = {
       series: [
-        this.suiteResult.totalPassedTests,
-        this.suiteResult.totalFailedTests
+        this.suiteResult.TotalPassedTests,
+        this.suiteResult.TotalFailedTests
       ]
     }
   }
 
   getTotalTests() {
-    return this.suiteResult.totalPassedTests + this.suiteResult.totalFailedTests;
+    return this.suiteResult.TotalPassedTests + this.suiteResult.TotalFailedTests;
   }
 
   render() {
     return (
       <div className="col-4">
-        <h3 className="text-center">{this.suiteResult.suiteName}</h3>
+        <h3 className="text-center">{this.suiteResult.SuiteName}</h3>
         <ChartistPieChart chartId={this.suiteResult.suiteResultId}
                           chartData={this.chartData} />
         <p className="text-center">Total: {this.getTotalTests()}</p>
