@@ -30,15 +30,3 @@ JOIN TestFailureDetails
 	ON TestResult_TestFailureDetails.TestFailureDetailId = TestFailureDetails.TestFailureDetailID
 JOIN Tests
 	ON TestResults.TestId = Tests.TestID
-
-SELECT * FROM SuiteCategories
-
-
-UPDATE Suites
-SET SuiteName = 'LoopNet Services - Prod'
-WHERE SuiteID = 31
-SELECT * FROM Suites
-
---DELETE FROM Suite_SuiteCategories WHERE SuiteId = 27
---DELETE FROM Suites WHERE SuiteId = 27
---DELETE FROM SuiteCategories WHERE SuiteCategoryID = 31
