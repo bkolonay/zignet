@@ -155,6 +155,13 @@ namespace ZigNet.Database.EntityFramework
                     databaseTestResult.Test.TestCategories.Add(new TestCategory { CategoryName = testCategory.Name });
             }
 
+            var suiteResult = _zigNetEntitiesWrapper.GetSuiteResult(testResult.SuiteResult.SuiteResultID);
+            if (!databaseTestResult.Test.Suites.Any(s => s.SuiteID == suiteResult.SuiteId))
+            {
+                var suite = _zigNetEntitiesWrapper.GetSuite(suiteResult.SuiteId);
+                databaseTestResult.Test.Suites.Add(suite);
+            }
+
             _zigNetEntitiesWrapper.SaveTestResult(databaseTestResult);
         }
 

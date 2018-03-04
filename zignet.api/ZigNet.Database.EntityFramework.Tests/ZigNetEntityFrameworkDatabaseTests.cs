@@ -344,6 +344,8 @@ namespace ZigNet.Database.EntityFramework.Tests
                 );
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestCategories()).Returns(
                     new List<TestCategory> { new TestCategory { TestCategoryID = 1, CategoryName = "test category 1" } }.AsQueryable);
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResult(1)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuite(2)).Returns(new Suite { SuiteID = 2 });
 
                 var testResult = new ZigNetTestResult
                 {
@@ -376,9 +378,11 @@ namespace ZigNet.Database.EntityFramework.Tests
                     new Test
                     {
                         TestID = 1,
-                        TestCategories = new List<TestCategory> { new TestCategory { TestCategoryID = 1, CategoryName = "test category 1" } }
+                        TestCategories = new List<TestCategory> { new TestCategory { TestCategoryID = 1, CategoryName = "test category 1" } },
+                        Suites = new List<Suite> { new Suite {SuiteID = 2} }
                     }
                 );
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResult(1)).Returns(new SuiteResult { SuiteId = 2 });
 
                 var testResult = new ZigNetTestResult
                 {
@@ -418,9 +422,11 @@ namespace ZigNet.Database.EntityFramework.Tests
                     new Test
                     {
                         TestID = 1,
-                        TestCategories = new List<TestCategory> { new TestCategory { TestCategoryID = 1, CategoryName = "test category 1" } }
+                        TestCategories = new List<TestCategory> { new TestCategory { TestCategoryID = 1, CategoryName = "test category 1" } },
+                        Suites = new List<Suite> { new Suite {SuiteID = 2} }
                     }
                 );
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResult(1)).Returns(new SuiteResult { SuiteId = 2 });
 
                 var testResult = new ZigNetTestResult
                 {
@@ -455,9 +461,11 @@ namespace ZigNet.Database.EntityFramework.Tests
                     new Test
                     {
                         TestID = 1,
-                        TestCategories = new List<TestCategory> { new TestCategory { TestCategoryID = 1, CategoryName = "test category 1" } }
+                        TestCategories = new List<TestCategory> { new TestCategory { TestCategoryID = 1, CategoryName = "test category 1" } },
+                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
                 );
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResult(1)).Returns(new SuiteResult { SuiteId = 2 });
 
                 var testResult = new ZigNetTestResult
                 {
