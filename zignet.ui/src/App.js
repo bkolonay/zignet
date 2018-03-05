@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 
 import SuiteResults from './home/SuiteResults'
-import ZigNetApi from './api/ZigNetApi'
-
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.zigNetApi = new ZigNetApi(process.env.REACT_APP_API_BASE_URL + 'api/');
+    this.zigNetApi = this.props.zigNetApi;
     this.state = { latestSuiteResults: [] }
   }
 

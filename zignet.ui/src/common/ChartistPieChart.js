@@ -11,9 +11,9 @@ class ChartistPieChart extends Component {
   		this.props.chartData,
   		{ 
   			donut: true,
-			donutWidth: 40
-		}
-	)
+			  donutWidth: 40
+		  }
+	  )
   }
 
   componentWillReceiveProps(props) {

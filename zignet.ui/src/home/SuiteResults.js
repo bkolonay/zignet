@@ -9,12 +9,12 @@ class SuiteResults extends Component {
     return (
   	  <div className="container">
   	  	<div className="row">
-            {this.props.suiteResults.map((suiteResult) =>
-              <SuiteResultChart key={suiteResult.SuiteID}
-                                suiteResult={suiteResult} />
-            )}
-          </div>
+          {this.props.suiteResults.map((suiteResult) =>
+            <SuiteResultChart key={suiteResult.SuiteID}
+                              suiteResult={suiteResult} />
+          )}
         </div>
+      </div>
     );
   }
 }
