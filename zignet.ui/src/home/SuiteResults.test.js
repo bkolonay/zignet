@@ -15,10 +15,12 @@ it('renders single suite result', () => {
       'SuiteEndTime':'2018-02-28T15:05:00'
     }];
   
+  const div = document.createElement('div');
   ReactDOM.render(
     <SuiteResults suiteResults={suiteResults} />,
-    document.createElement('div')
+    div
   );
+  ReactDOM.unmountComponentAtNode(div);
 });
 
 it('renders zero suite results', () => {
@@ -51,10 +53,12 @@ it('renders multiple suite results', () => {
       }
     ];
   
+  const div = document.createElement('div');
   ReactDOM.render(
     <SuiteResults suiteResults={suiteResults} />,
-    document.createElement('div')
+    div
   );
+  ReactDOM.unmountComponentAtNode(div);
 });
 
 it('matches the previous snapshot', () => {

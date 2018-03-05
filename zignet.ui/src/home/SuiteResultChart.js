@@ -9,7 +9,7 @@ class SuiteResultChart extends Component {
     return {
       series: [
         this.props.suiteResult.TotalPassedTests,
-        this.props.suiteResult.TotalFailedTests      
+        this.props.suiteResult.TotalFailedTests
       ]
     };
   }
