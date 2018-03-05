@@ -7,16 +7,14 @@ import ZigNetApi from './api/ZigNetApi'
 jest.mock('./api/ZigNetApi');
 
 it('renders with data', () => {
-  const promise = Promise.resolve(
-    [{
-      'SuiteID':1,
-      'SuiteName':'suite-name',
-      'TotalPassedTests':1,
-      'TotalFailedTests':10,
-      'TotalInconclusiveTests':0,
-      'SuiteEndTime':'2018-02-28T15:05:00'
-    }]
-  );
+  const promise = Promise.resolve([{
+    'SuiteID':1,
+    'SuiteName':'suite-name',
+    'TotalPassedTests':1,
+    'TotalFailedTests':10,
+    'TotalInconclusiveTests':0,
+    'SuiteEndTime':'2018-02-28T15:05:00'
+  }]);
   ZigNetApi.mockImplementation(() => {
   	return {
   	  getLatestSuiteResults: () => {
@@ -34,16 +32,14 @@ it('renders with data', () => {
 });
 
 it('matches the previous snapshot', () => {
-  const promise = Promise.resolve(
-    [{
-      'SuiteID':1,
-      'SuiteName':'suite-name',
-      'TotalPassedTests':1,
-      'TotalFailedTests':10,
-      'TotalInconclusiveTests':0,
-      'SuiteEndTime':'2018-02-28T15:05:00'
-    }]
-  );
+  const promise = Promise.resolve([{
+    'SuiteID':1,
+    'SuiteName':'suite-name',
+    'TotalPassedTests':1,
+    'TotalFailedTests':10,
+    'TotalInconclusiveTests':0,
+    'SuiteEndTime':'2018-02-28T15:05:00'
+  }]);
   ZigNetApi.mockImplementation(() => {
     return {
       getLatestSuiteResults: () => {
