@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import SuiteResultChart from './SuiteResultChart'
-import '../common/bootstrap.css'
 
 class SuiteResults extends Component {
 
