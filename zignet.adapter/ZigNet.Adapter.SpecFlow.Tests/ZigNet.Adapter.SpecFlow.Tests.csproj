@@ -55,11 +55,21 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="ZigNetSpecFlowAdapterBaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZigNet.Adapter.SpecFlow\ZigNet.Adapter.SpecFlow.csproj">
+      <Project>{c2882471-6ee1-46e6-aff3-428c60eb1ac8}</Project>
+      <Name>ZigNet.Adapter.SpecFlow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZigNet.Adapter\ZigNet.Adapter.csproj">
+      <Project>{caf9241a-1950-4b8f-a451-ed64ae3c378d}</Project>
+      <Name>ZigNet.Adapter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

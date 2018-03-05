@@ -68,6 +68,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="ZigNet.Adapter.SpecFlow.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZigNet.Adapter\ZigNet.Adapter.csproj">
