@@ -14,5 +14,8 @@
     "test": "react-scripts test --env=jsdom",
     "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "react-test-renderer": "^16.2.0"
   }
 }

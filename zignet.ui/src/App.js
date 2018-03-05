@@ -26,7 +26,7 @@ class App extends Component {
           latestSuiteResults: response
         })
       })
-      .catch(error => alert(error));    
+      .catch(error => alert(error));
   }
 
   render() {
