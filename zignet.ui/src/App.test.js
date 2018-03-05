@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 
+import App from './App';
 import renderer from 'react-test-renderer';
 import ZigNetApi from './api/ZigNetApi'
 jest.mock('./api/ZigNetApi');
 
-it('renders with data without crashing', () => {
+it('renders with data', () => {
   const promise = Promise.resolve(
     [{
       'SuiteID':1,
