@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using TechTalk.SpecFlow;
+using ZigNet.Adapter.SpecFlow.Utility;
 using ZigNet.Api.Model;
 using ZigNet.Domain.Suite;
 using ZigNet.Domain.Test;
@@ -12,40 +12,33 @@ namespace ZigNet.Adapter.SpecFlow
     public class ZigNetSpecFlowAdapterBase : IZigNetAdapter
     {
         private IZigNetApiHandler _zigNetApiHandler;
+        private IFileService _fileService;
+        private ISpecFlowContextWrapper _specFlowContext;
         private string _suiteResultIdFilePath;
 
-        public ZigNetSpecFlowAdapterBase(IZigNetApiHandler zigNetApiHandler)
+        public ZigNetSpecFlowAdapterBase(IZigNetApiHandler zigNetApiHandler, IDirectoryService directoryService,
+            IFileService fileService, ISpecFlowContextWrapper specFlowContext)
         {
             _zigNetApiHandler = zigNetApiHandler;
-            _suiteResultIdFilePath = Path.Combine(
-                Path.GetDirectoryName(
-                new Uri(Assembly.GetExecutingAssembly().GetName().CodeBase).LocalPath),
-                "suiteResultId.txt"
-            );
+            _fileService = fileService;
+            _specFlowContext = specFlowContext;
+            _suiteResultIdFilePath = Path.Combine(directoryService.GetExecutingDirectory(), "suiteResultId.txt");
         }
 
         public void SaveTestResult(DateTime testStartTime)
         {
-            int suiteResultId;
-            using (StreamReader streamReader = new StreamReader(_suiteResultIdFilePath))
-                suiteResultId = int.Parse(streamReader.ReadToEnd());
-
-            var testCategories = new List<string>();
-            foreach (var tag in ScenarioContext.Current.ScenarioInfo.Tags)
-                testCategories.Add(tag.ToString());
-            foreach (var tag in FeatureContext.Current.FeatureInfo.Tags)
-                testCategories.Add(tag.ToString());
+            var suiteResultId = int.Parse(_fileService.ReadStringFromFile(_suiteResultIdFilePath));
 
             var createTestResultModel = new CreateTestResultModel
             {
                 SuiteResultId = suiteResultId,
                 StartTime = testStartTime,
                 EndTime = DateTime.UtcNow,
-                TestName = ScenarioContext.Current.ScenarioInfo.Title,
-                TestCategories = testCategories.ToArray()
+                TestName = _specFlowContext.GetScenarioTitle(),
+                TestCategories = _specFlowContext.GetScenarioAndFeatureTags()
             };
 
-            var specFlowException = ScenarioContext.Current.TestError;
+            var specFlowException = _specFlowContext.GetScenarioTestError();
             if (specFlowException == null)
                 createTestResultModel.TestResultType = TestResultType.Pass;
             else
@@ -65,10 +58,7 @@ namespace ZigNet.Adapter.SpecFlow
         public int StartSuite(string suiteName)
         {
             var suiteResultId = _zigNetApiHandler.StartSuite(suiteName);
-            using (StreamWriter streamWriter = new StreamWriter(_suiteResultIdFilePath))
-            {
-                streamWriter.Write(suiteResultId);
-            }
+            _fileService.WriteStringToFile(_suiteResultIdFilePath, suiteResultId.ToString());
             return suiteResultId;
         }
 

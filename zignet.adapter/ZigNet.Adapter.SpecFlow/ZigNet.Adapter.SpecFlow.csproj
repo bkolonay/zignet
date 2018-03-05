@@ -55,7 +55,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISpecFlowContextWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecFlowContextWrapper.cs" />
+    <Compile Include="Utility\DirectoryService.cs" />
+    <Compile Include="Utility\FileService.cs" />
+    <Compile Include="Utility\IDirectoryService.cs" />
+    <Compile Include="Utility\IFileService.cs" />
     <Compile Include="ZigNetSpecFlowAdapter.cs" />
     <Compile Include="ZigNetSpecFlowAdapterBase.cs" />
   </ItemGroup>
