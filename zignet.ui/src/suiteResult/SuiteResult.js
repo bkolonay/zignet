@@ -4,7 +4,7 @@ class SuiteResult extends Component {
 
   render() {
     return (
-      <p>Suite result page</p>
+      <p>Suite result page: {this.props.match.params.suiteResultId}</p>
     );
   }
 }

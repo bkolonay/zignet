@@ -4,7 +4,7 @@ class BadRoute extends Component {
 
   render() {
     return (
-      <p>Route does not exist</p>
+      <p className="text-center text-danger">Route does not exist</p>
     );
   }
 }

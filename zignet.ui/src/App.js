@@ -7,6 +7,11 @@ import SuiteResult from './suiteResult/SuiteResult'
 import BadRoute from './common/BadRoute'
 
 class App extends Component {
+  constructor({match}) {
+    super();
+    this.match = match;
+  }
+
 
   render() {
     return (
@@ -16,7 +21,7 @@ class App extends Component {
           <Route exact path="/" 
                  render={(props) => <LatestSuiteResults zigNetApi={this.props.zigNetApi} />} 
            />
-          <Route path="/suiteResult" component={SuiteResult}/>
+          <Route path='/suiteResult/:suiteResultId' component={SuiteResult}/>
           <Route component={BadRoute} />
         </Switch>
       </div>
