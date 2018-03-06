@@ -1,39 +1,24 @@
 import React, { Component } from 'react';
 
-import SuiteResults from './home/SuiteResults'
+import { Route, Switch } from 'react-router-dom'
+
+import LatestSuiteResults from './home/LatestSuiteResults'
+import SuiteResult from './suiteResult/SuiteResult'
+import BadRoute from './common/BadRoute'
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.zigNetApi = this.props.zigNetApi;
-    this.state = { latestSuiteResults: [] }
-  }
-
-  componentDidMount() {
-    this._getLatestSuiteResults();
-    this.intervalId = setInterval(() => this._getLatestSuiteResults(), 5000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalId);
-  }
-
-  _getLatestSuiteResults() {
-    this.zigNetApi.getLatestSuiteResults()
-      .then(response => {
-        this.setState({
-          latestSuiteResults: response
-        })
-      })
-      .catch(error => alert(error));
-  }
 
   render() {
     return (
       <div>
         <h1 className="text-center">ZigNet</h1>
-        <SuiteResults suiteResults={this.state.latestSuiteResults} />
+        <Switch>
+          <Route exact path="/" 
+                 render={(props) => <LatestSuiteResults zigNetApi={this.props.zigNetApi} />} 
+           />
+          <Route path="/suiteResult" component={SuiteResult}/>
+          <Route component={BadRoute} />
+        </Switch>
       </div>
     );
   }

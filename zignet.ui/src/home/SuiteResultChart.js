@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Link } from 'react-router-dom'
+
 import ChartistPieChart from '../common/ChartistPieChart';
 
 class SuiteResultChart extends Component {
@@ -23,6 +25,7 @@ class SuiteResultChart extends Component {
         <h3 className="text-center">{this.props.suiteResult.SuiteName}</h3>
         <ChartistPieChart chartId={this.props.suiteResult.SuiteID}
                           chartData={this._getChartData()} />
+        <p className="text-center"><Link to="/suiteResult">View tests</Link></p>
         <p className="text-center">Total: {this._getTotalTests()}</p>
       </div>
     );
