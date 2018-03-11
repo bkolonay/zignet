@@ -14,7 +14,7 @@ class App extends Component {
         <h1 className="text-center">ZigNet</h1>
         <Switch>
           <Route exact path="/" 
-                 render={(props) => <LatestSuiteResults zigNetApi={this.props.zigNetApi} />} 
+                 render={() => <LatestSuiteResults zigNetApi={this.props.zigNetApi} />} 
            />
           <Route path='/suiteResult/:suiteResultId' component={SuiteResult}/>
           <Route component={BadRoute} />
