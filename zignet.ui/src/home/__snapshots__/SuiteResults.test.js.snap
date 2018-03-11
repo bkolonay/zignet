@@ -21,10 +21,7 @@ exports[`matches the previous snapshot 1`] = `
       />
       <p
         className="text-center"
-      >
-        Total: 
-        11
-      </p>
+      />
     </div>
     <div
       className="col-4"
@@ -40,10 +37,7 @@ exports[`matches the previous snapshot 1`] = `
       />
       <p
         className="text-center"
-      >
-        Total: 
-        33
-      </p>
+      />
     </div>
   </div>
 </div>

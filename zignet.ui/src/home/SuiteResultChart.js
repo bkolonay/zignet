@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-
 import { Link } from 'react-router-dom'
-
 import ChartistPieChart from '../common/ChartistPieChart';
 
 class SuiteResultChart extends Component {

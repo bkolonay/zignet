@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import SuiteResults from './SuiteResults';
 import renderer from 'react-test-renderer';
+import SuiteResults from './SuiteResults';
+jest.mock('react-router-dom');
 
 it('renders single suite result', () => {
   const suiteResults = [{

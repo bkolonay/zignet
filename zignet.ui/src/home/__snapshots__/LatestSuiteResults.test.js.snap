@@ -2,10 +2,12 @@
 
 exports[`matches the previous snapshot 1`] = `
 <div>
-  <h1
-    className="text-center"
+  <div
+    className="container"
   >
-    ZigNet
-  </h1>
+    <div
+      className="row"
+    />
+  </div>
 </div>
 `;

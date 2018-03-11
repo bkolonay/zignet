@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import SuiteResultChart from './SuiteResultChart';
 import renderer from 'react-test-renderer';
+import SuiteResultChart from './SuiteResultChart';
+jest.mock('react-router-dom');
 
 it('renders with passed and failed tests', () => {
   const suiteResult = {

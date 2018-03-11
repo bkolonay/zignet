@@ -15,9 +15,6 @@ exports[`matches the previous snapshot 1`] = `
   />
   <p
     className="text-center"
-  >
-    Total: 
-    691255
-  </p>
+  />
 </div>
 `;

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import SuiteResultChart from './SuiteResultChart'
 
 class SuiteResults extends Component {

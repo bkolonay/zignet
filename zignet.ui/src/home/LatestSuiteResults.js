@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import SuiteResults from './SuiteResults'
 
 class LatestSuiteResults extends Component {
