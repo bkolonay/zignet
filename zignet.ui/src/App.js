@@ -7,11 +7,6 @@ import SuiteResult from './suiteResult/SuiteResult'
 import BadRoute from './common/BadRoute'
 
 class App extends Component {
-  constructor({match}) {
-    super();
-    this.match = match;
-  }
-
 
   render() {
     return (
