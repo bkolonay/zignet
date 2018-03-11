@@ -24,7 +24,9 @@ class SuiteResultChart extends Component {
         <h3 className="text-center">{suiteResult.SuiteName}</h3>
         <ChartistPieChart chartId={suiteResult.SuiteID}
                           chartData={this._getChartData(suiteResult)} />
-        <p className="text-center"><Link to={`/suiteResult/${suiteResult.SuiteID}`}>Total: {this._getTotalTests(suiteResult)}</Link></p>
+        <p className="text-center">
+          <Link to={'/' + suiteResult.SuiteID}>Total: {this._getTotalTests(suiteResult)}</Link>
+        </p>
       </div>
     );
   }
