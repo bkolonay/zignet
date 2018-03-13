@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
 import LatestSuiteResults from './home/LatestSuiteResults'
-import LatestSuiteResultsForSuite from './suite/LatestSuiteResultsForSuite'
+import LatestTestResults from './suite/LatestTestResults'
 import BadRoute from './common/BadRoute'
 
 class App extends Component {
@@ -14,7 +14,9 @@ class App extends Component {
           <Route exact path="/" 
                  render={() => <LatestSuiteResults zigNetApi={this.props.zigNetApi} />} 
           />
-          <Route path='/:suiteId' component={LatestSuiteResultsForSuite}/>
+          <Route path='/:suiteId'
+                 render={(props) => <LatestTestResults {...props} zigNetApi={this.props.zigNetApi} />}
+          />
           <Route component={BadRoute} />
         </Switch>
       </div>

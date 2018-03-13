@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom'
-import ZigNetApi from './api/ZigNetApi'
+// todo: revert below to use regular, not mock
+import ZigNetApi from './api/mocks/ZigNetApi'
 import App from './App';
 import './common/bootstrap.css'
 
