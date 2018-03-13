@@ -74,6 +74,37 @@ namespace ZigNet.Database.EntityFramework
             return testResultsForSuiteResult;
         }
 
+        public ZigNetTestResult GetLatestTestResultInSuite(int testId, int suiteId)
+        {
+            var databaseSuiteResults = _zigNetEntitiesWrapper.GetSuiteResults().Where(sr => sr.SuiteId == suiteId);
+            var databaseTestResults = new List<TestResult>();
+            foreach (var databaseSuiteResult in databaseSuiteResults)
+                databaseTestResults.AddRange(databaseSuiteResult.TestResults.Where(tr => tr.TestId == testId));
+
+            var latestTestResultInSuite = databaseTestResults.OrderByDescending(dtr => dtr.TestResultEndDateTime).FirstOrDefault();
+
+            return latestTestResultInSuite == null ? null : MapDatabaseTestResult(latestTestResultInSuite);
+        }
+
+        public IEnumerable<ZigNetTest> GetTestsForSuite(int suiteId)
+        {
+            var databaseTests = _zigNetEntitiesWrapper.GetSuite(suiteId).Tests;
+
+            var testsForSuite = new List<ZigNetTest>();
+            foreach (var databaseTest in databaseTests)
+            {
+                testsForSuite.Add(
+                    new ZigNetTest
+                    {
+                        TestID = databaseTest.TestID,
+                        Name = databaseTest.TestName
+                    }
+                );
+            }
+
+            return testsForSuite;
+        }
+
         public ZigNetTest GetTestOrDefault(string testName)
         {
             var databaseTest = _zigNetEntitiesWrapper.GetTestOrDefault(testName);
@@ -323,6 +354,18 @@ namespace ZigNet.Database.EntityFramework
                 TestID = databaseTest.TestID,
                 Name = databaseTest.TestName,
                 Categories = MapDatabaseTestCategories(databaseTest)
+            };
+        }
+
+        private ZigNetTestResult MapDatabaseTestResult(TestResult testResult)
+        {
+            return new ZigNetTestResult
+            {
+                TestResultID = testResult.TestResultID,
+                StartTime = testResult.TestResultStartDateTime,
+                EndTime = testResult.TestResultEndDateTime,
+                ResultType = MapDatabaseTestResultType(testResult.TestResultType),
+                Test = MapDatabaseTest(testResult.Test)
             };
         }
     }

@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ZigNet.Api.Mapping;
 using ZigNet.Api.Model;
 using ZigNet.Business;
+using ZigNet.Business.Models;
 
 namespace ZigNet.Api.Controllers
 {
@@ -55,6 +57,12 @@ namespace ZigNet.Api.Controllers
         {
             _zigNetBusiness.EndSuite(endSuiteModel.SuiteResultId, endSuiteModel.SuiteResultType);
             return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [Route("api/Suite/LatestTestResults")]
+        public IEnumerable<LatestTestResult> LatestTestResults([FromBody] int suiteId)
+        {
+            return _zigNetBusiness.GetLatestTestResults(suiteId);
         }
     }
 }

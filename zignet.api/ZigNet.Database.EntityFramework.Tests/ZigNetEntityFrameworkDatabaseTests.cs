@@ -337,7 +337,8 @@ namespace ZigNet.Database.EntityFramework.Tests
             {
                 var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestFailureType(2)).Returns(
-                    new TestFailureType {
+                    new TestFailureType
+                    {
                         TestFailureTypeID = 2,
                         TestFailureTypeName = "Exception"
                     }
@@ -379,7 +380,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                     {
                         TestID = 1,
                         TestCategories = new List<TestCategory> { new TestCategory { TestCategoryID = 1, CategoryName = "test category 1" } },
-                        Suites = new List<Suite> { new Suite {SuiteID = 2} }
+                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
                 );
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResult(1)).Returns(new SuiteResult { SuiteId = 2 });
@@ -423,7 +424,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                     {
                         TestID = 1,
                         TestCategories = new List<TestCategory> { new TestCategory { TestCategoryID = 1, CategoryName = "test category 1" } },
-                        Suites = new List<Suite> { new Suite {SuiteID = 2} }
+                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
                 );
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResult(1)).Returns(new SuiteResult { SuiteId = 2 });
@@ -483,6 +484,141 @@ namespace ZigNet.Database.EntityFramework.Tests
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
                 zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+        }
+
+        [TestClass]
+        public class GetLatestTestResultInSuiteMethod
+        {
+            [TestMethod]
+            public void GetsLatestTestResultInMultipleSuiteResults()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResults()).Returns(
+                    new List<SuiteResult> {
+                        new SuiteResult
+                        {
+                            SuiteId = 1,
+                            TestResults = new List<TestResult>
+                            {
+                                new TestResult
+                                {
+                                    TestId = 2,
+                                    TestResultEndDateTime = new DateTime(2018, 3, 13, 15, 30, 27),
+                                    TestResultType = new TestResultType { TestResultTypeName = "Pass" },
+                                    Test = new Test { TestID = 2 }
+                                },
+                                new TestResult
+                                {
+                                    TestId = 2,
+                                    TestResultEndDateTime = new DateTime(2018, 3, 14, 15, 30, 27),
+                                    TestResultType = new TestResultType { TestResultTypeName = "Pass" },
+                                    Test = new Test { TestID = 2 }
+                                }
+                            }
+                        },
+                        new SuiteResult
+                        {
+                            SuiteId = 1,
+                            TestResults = new List<TestResult>
+                            {
+                                new TestResult
+                                {
+                                    TestId = 2,
+                                    TestResultEndDateTime = new DateTime(2018, 3, 15, 15, 30, 27),
+                                    TestResultType = new TestResultType { TestResultTypeName = "Pass" },
+                                    Test = new Test { TestID = 2 }
+                                },
+                                new TestResult
+                                {
+                                    TestId = 2,
+                                    TestResultEndDateTime = new DateTime(2018, 3, 16, 15, 30, 27),
+                                    TestResultType = new TestResultType { TestResultTypeName = "Pass" },
+                                    Test = new Test { TestID = 2 }
+                                }
+                            }
+                        }
+                    }.AsQueryable
+                );
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+
+                var latestTestResultInSuite = zigNetEntityFrameworkDatabase.GetLatestTestResultInSuite(2, 1);
+
+                Assert.AreEqual(2, latestTestResultInSuite.Test.TestID);
+                Assert.AreEqual(new DateTime(2018, 3, 16, 15, 30, 27), latestTestResultInSuite.EndTime);
+            }
+
+            [TestMethod]
+            public void IgnoresTestResultsWithoutTestId()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResults()).Returns(
+                    new List<SuiteResult> {
+                        new SuiteResult
+                        {
+                            SuiteId = 1,
+                            TestResults = new List<TestResult>
+                            {
+                                new TestResult
+                                {
+                                    TestId = 2,
+                                    TestResultEndDateTime = new DateTime(2018, 3, 13, 15, 30, 27),
+                                    TestResultType = new TestResultType { TestResultTypeName = "Pass" },
+                                    Test = new Test { TestID = 2 }
+                                },
+                                new TestResult
+                                {
+                                    TestId = 3,
+                                    TestResultEndDateTime = new DateTime(2018, 3, 14, 15, 30, 27),
+                                    TestResultType = new TestResultType { TestResultTypeName = "Pass" },
+                                    Test = new Test { TestID = 2 }
+                                }
+                            }
+                        }
+                    }.AsQueryable
+                );
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+
+                var latestTestResultInSuite = zigNetEntityFrameworkDatabase.GetLatestTestResultInSuite(2, 1);
+
+                Assert.AreEqual(2, latestTestResultInSuite.Test.TestID);
+                Assert.AreEqual(new DateTime(2018, 3, 13, 15, 30, 27), latestTestResultInSuite.EndTime);
+            }
+
+            [TestMethod]
+            public void DoesNotThrowWhenZeroSuiteResultsReturned()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResults()).Returns(new List<SuiteResult>().AsQueryable);
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+
+                var latestTestResultInSuite = zigNetEntityFrameworkDatabase.GetLatestTestResultInSuite(2, 1);
+
+                Assert.IsNull(latestTestResultInSuite);
+            }
+
+            [TestMethod]
+            public void DoesNotThrowWhenZeroTestResultsReturned()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResults()).Returns(
+                    new List<SuiteResult> {
+                        new SuiteResult
+                        {
+                            SuiteId = 1,
+                            TestResults = new List<TestResult>()
+                        }
+                    }.AsQueryable
+                );
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+
+                var latestTestResultInSuite = zigNetEntityFrameworkDatabase.GetLatestTestResultInSuite(2, 1);
+
+                Assert.IsNull(latestTestResultInSuite);
             }
         }
     }

@@ -137,5 +137,18 @@ namespace ZigNet.Business
                 ResultType = SuiteResultType.Inconclusive
             };
         }
+
+        public IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId)
+        {
+            throw new NotImplementedException();
+            //var latestTestResults = new List<TestResult>();
+            //var testsForSuite = _zignetDatabase.GetTestsForSuite(suiteId);
+
+            //foreach (var test in testsForSuite)
+            //{
+            //    var latestTestResultInSuite = _zignetDatabase.GetLatestTestResultInSuite(test.TestID, suiteId);
+
+            //}
+        }
     }
 }

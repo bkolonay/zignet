@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IZigNetBusiness.cs" />
+    <Compile Include="Models\LatestTestResult.cs" />
     <Compile Include="Models\SuiteSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZigNetBusiness.cs" />
