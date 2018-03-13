@@ -29,6 +29,12 @@ class ZigNetApi {
         'FailingFromDate':'',
         'PassingFromDate':'2017-01-01T15:05:00'
       },      
+      {
+        'TestResultID':5,
+        'TestName':'Service: get attachments',
+        'FailingFromDate':'2018-03-13T20:05:00',
+        'PassingFromDate':''
+      },      
     ]);    
   }
 
