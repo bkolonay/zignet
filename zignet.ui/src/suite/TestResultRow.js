@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TestStatusLabel from './TestStatusLabel'
 
 class SuiteResults extends Component {
 
@@ -7,7 +8,7 @@ class SuiteResults extends Component {
     return (
   	  <tr>
         <td>{testResult.TestName}</td>
-        <td>{testResult.FailingFromDate}</td>
+        <td><TestStatusLabel failingFromDate={testResult.FailingFromDate} passingFromDate={testResult.PassingFromDate}/></td>
         <td></td>
       </tr>
     );
