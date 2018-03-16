@@ -74,13 +74,18 @@ namespace ZigNet.Database.EntityFramework
             return testResultsForSuiteResult;
         }
 
+        public IEnumerable<ZigNetTestResult> GetTestResultsForTestInSuite(int testId, int suiteId)
+        {
+            var databaseTestResults = GetDatabaseTestResultsForTestInSuite(testId, suiteId);
+            var testResults = new List<ZigNetTestResult>();
+            foreach (var databaseTestResult in databaseTestResults)
+                testResults.Add(MapDatabaseTestResult(databaseTestResult));
+            return testResults;
+        }
+
         public ZigNetTestResult GetLatestTestResultInSuite(int testId, int suiteId)
         {
-            var databaseSuiteResults = _zigNetEntitiesWrapper.GetSuiteResults().Where(sr => sr.SuiteId == suiteId);
-            var databaseTestResults = new List<TestResult>();
-            foreach (var databaseSuiteResult in databaseSuiteResults)
-                databaseTestResults.AddRange(databaseSuiteResult.TestResults.Where(tr => tr.TestId == testId));
-
+            var databaseTestResults = GetDatabaseTestResultsForTestInSuite(testId, suiteId);
             var latestTestResultInSuite = databaseTestResults.OrderByDescending(dtr => dtr.TestResultEndDateTime).FirstOrDefault();
 
             return latestTestResultInSuite == null ? null : MapDatabaseTestResult(latestTestResultInSuite);
@@ -367,6 +372,15 @@ namespace ZigNet.Database.EntityFramework
                 ResultType = MapDatabaseTestResultType(testResult.TestResultType),
                 Test = MapDatabaseTest(testResult.Test)
             };
+        }
+
+        private IEnumerable<TestResult> GetDatabaseTestResultsForTestInSuite(int testId, int suiteId)
+        {
+            var databaseSuiteResults = _zigNetEntitiesWrapper.GetSuiteResults().Where(sr => sr.SuiteId == suiteId);
+            var databaseTestResults = new List<TestResult>();
+            foreach (var databaseSuiteResult in databaseSuiteResults)
+                databaseTestResults.AddRange(databaseSuiteResult.TestResults.Where(tr => tr.TestId == testId));
+            return databaseTestResults;
         }
     }
 }

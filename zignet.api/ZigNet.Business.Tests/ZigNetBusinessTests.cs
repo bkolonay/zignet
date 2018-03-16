@@ -485,5 +485,160 @@ namespace ZigNet.Business.Tests
                 zigNetBusiness.SaveTestResult(testResult);
             }
         }
+
+        [TestClass]
+        public class GetLatestTestResultsMethod
+        {
+            // todo: does not throw when latest test result in suite returns null
+
+            [TestMethod]
+            public void ReturnsFirstTimeTestPassedWhenTestHasAlwaysPassed()
+            {
+                var zigNetDatabseMock = new Mock<IZigNetDatabase>();
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestsForSuite(1))
+                    .Returns(new List<Test> {
+                        new Test {
+                            TestID = 2,
+                            Name = "test1"
+                        }
+                });
+                zigNetDatabseMock.Setup(zndm => zndm.GetLatestTestResultInSuite(2, 1))
+                    .Returns(new ZigNetTestResult { ResultType = TestResultType.Pass });
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1))
+                    .Returns(new List<ZigNetTestResult> {
+                        new ZigNetTestResult {
+                            TestResultID = 11,
+                            ResultType = TestResultType.Pass,
+                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55)
+                        },
+                        new ZigNetTestResult {
+                            TestResultID = 12,
+                            ResultType = TestResultType.Pass,
+                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55)
+                        }
+                });
+
+                var zigNetBusiness = new ZigNetBusiness(zigNetDatabseMock.Object);
+                var latestTestResults = zigNetBusiness.GetLatestTestResults(1);
+
+                var latestTestResult = latestTestResults.ToList()[0];
+                Assert.AreEqual("test1", latestTestResult.TestName);
+                Assert.AreEqual(12, latestTestResult.TestResultID);
+                Assert.AreEqual(new DateTime(2018, 3, 16, 9, 30, 55), latestTestResult.PassingFromDate);
+            }
+
+            [TestMethod]
+            public void ReturnsLastTimeTestPassedWhenTestHasFailedBefore()
+            {
+                var zigNetDatabseMock = new Mock<IZigNetDatabase>();
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestsForSuite(1))
+                    .Returns(new List<Test> {
+                        new Test {
+                            TestID = 2,
+                            Name = "test1"
+                        }
+                });
+                zigNetDatabseMock.Setup(zndm => zndm.GetLatestTestResultInSuite(2, 1))
+                    .Returns(new ZigNetTestResult { ResultType = TestResultType.Pass });
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1))
+                    .Returns(new List<ZigNetTestResult> {
+                        new ZigNetTestResult {
+                            TestResultID = 11,
+                            ResultType = TestResultType.Pass,
+                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55)
+                        },
+                        new ZigNetTestResult {
+                            TestResultID = 12,
+                            ResultType = TestResultType.Fail,
+                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55)
+                        },
+                        new ZigNetTestResult {
+                            TestResultID = 13,
+                            ResultType = TestResultType.Pass,
+                            EndTime = new DateTime(2018, 3, 18, 9, 30, 55)
+                        }
+                });
+
+                var zigNetBusiness = new ZigNetBusiness(zigNetDatabseMock.Object);
+                var latestTestResults = zigNetBusiness.GetLatestTestResults(1);
+
+                var latestTestResult = latestTestResults.ToList()[0];
+                Assert.AreEqual("test1", latestTestResult.TestName);
+                Assert.AreEqual(11, latestTestResult.TestResultID);
+                Assert.AreEqual(new DateTime(2018, 3, 16, 9, 30, 55), latestTestResult.PassingFromDate);
+            }
+
+            [TestMethod]
+            public void ReturnsLatestTestTimeWhenTestPassingAndHasNeverPassed()
+            {
+                var zigNetDatabseMock = new Mock<IZigNetDatabase>();
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestsForSuite(1))
+                    .Returns(new List<Test> {
+                        new Test {
+                            TestID = 2,
+                            Name = "test1"
+                        }
+                });
+                zigNetDatabseMock.Setup(zndm => zndm.GetLatestTestResultInSuite(2, 1))
+                    .Returns(new ZigNetTestResult
+                    {
+                        TestResultID = 12,
+                        ResultType = TestResultType.Pass,
+                        EndTime = new DateTime(2018, 3, 17, 9, 30, 55)
+                    });
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1))
+                    .Returns(new List<ZigNetTestResult> {
+                        new ZigNetTestResult {
+                            TestResultID = 11,
+                            ResultType = TestResultType.Fail,
+                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55)
+                        },
+                        new ZigNetTestResult {
+                            TestResultID = 12,
+                            ResultType = TestResultType.Pass,
+                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55)
+                        }
+                });
+
+                var zigNetBusiness = new ZigNetBusiness(zigNetDatabseMock.Object);
+                var latestTestResults = zigNetBusiness.GetLatestTestResults(1);
+
+                var latestTestResult = latestTestResults.ToList()[0];
+                Assert.AreEqual("test1", latestTestResult.TestName);
+                Assert.AreEqual(12, latestTestResult.TestResultID);
+                Assert.AreEqual(new DateTime(2018, 3, 17, 9, 30, 55), latestTestResult.PassingFromDate);
+            }
+
+            [TestMethod]
+            public void DoesNotThrowWhenZeroTestResultsReturnedForSuite()
+            {
+                var zigNetDatabseMock = new Mock<IZigNetDatabase>();
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestsForSuite(1))
+                    .Returns(new List<Test>());
+
+                var zigNetBusiness = new ZigNetBusiness(zigNetDatabseMock.Object);
+                var latestTestResults = zigNetBusiness.GetLatestTestResults(1);
+
+                Assert.AreEqual(0, latestTestResults.Count());
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(NullReferenceException))]
+            public void ThrowsWhenNoTestResultsForTestInSuite()
+            {
+                var zigNetDatabseMock = new Mock<IZigNetDatabase>();
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestsForSuite(1))
+                    .Returns(new List<Test> {
+                        new Test {
+                            TestID = 2,
+                            Name = "test1"
+                        }
+                });
+                zigNetDatabseMock.Setup(zndm => zndm.GetLatestTestResultInSuite(2, 1)).Returns((ZigNetTestResult)null);
+
+                var zigNetBusiness = new ZigNetBusiness(zigNetDatabseMock.Object);
+                var latestTestResults = zigNetBusiness.GetLatestTestResults(1);
+            }
+        }
     }
 }

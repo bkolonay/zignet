@@ -11,6 +11,7 @@ namespace ZigNet.Database
         IEnumerable<SuiteResult> GetSuiteResultsForSuite(int suiteId);
         SuiteResult GetSuiteResult(int suiteResultId);
         IEnumerable<TestResult> GetTestResultsForSuiteResult(int suiteResultId);
+        IEnumerable<TestResult> GetTestResultsForTestInSuite(int testId, int suiteId);
         IEnumerable<Test> GetTestsForSuite(int suiteId);
         TestResult GetLatestTestResultInSuite(int testId, int suiteId);
         Test GetTestOrDefault(string testName);

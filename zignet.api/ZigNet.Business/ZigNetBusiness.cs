@@ -140,15 +140,50 @@ namespace ZigNet.Business
 
         public IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId)
         {
-            throw new NotImplementedException();
-            //var latestTestResults = new List<TestResult>();
-            //var testsForSuite = _zignetDatabase.GetTestsForSuite(suiteId);
+            var latestTestResults = new List<LatestTestResult>();
+            var testsForSuite = _zignetDatabase.GetTestsForSuite(suiteId);
 
-            //foreach (var test in testsForSuite)
-            //{
-            //    var latestTestResultInSuite = _zignetDatabase.GetLatestTestResultInSuite(test.TestID, suiteId);
+            foreach (var test in testsForSuite)
+            {
+                var latestTestResult = new LatestTestResult { TestName = test.Name };
 
-            //}
+                var latestTestResultInSuite = _zignetDatabase.GetLatestTestResultInSuite(test.TestID, suiteId);
+
+                if (latestTestResultInSuite.ResultType == TestResultType.Pass)
+                {
+                    var allTestResultsInSuiteForTest = _zignetDatabase.GetTestResultsForTestInSuite(test.TestID, suiteId).OrderByDescending(tr => tr.EndTime);
+                    var lastFailedTestResult = allTestResultsInSuiteForTest.FirstOrDefault(tr => tr.ResultType == TestResultType.Fail);
+                    if (lastFailedTestResult != null)
+                    {
+                        var testResultsAfterFailure = allTestResultsInSuiteForTest.Where(tr => tr.EndTime < lastFailedTestResult.EndTime);
+                        var firstPassBeforeFailure = testResultsAfterFailure.FirstOrDefault(tr => tr.ResultType == TestResultType.Pass);
+                        if (firstPassBeforeFailure == null)
+                        {
+                            latestTestResult.TestResultID = latestTestResultInSuite.TestResultID;
+                            latestTestResult.PassingFromDate = latestTestResultInSuite.EndTime;
+                        }
+                        else
+                        {
+                            latestTestResult.TestResultID = firstPassBeforeFailure.TestResultID;
+                            latestTestResult.PassingFromDate = firstPassBeforeFailure.EndTime;
+                        }
+                    }
+                    else
+                    {
+                        var firstTimeTestPassed = allTestResultsInSuiteForTest.Last();
+                        latestTestResult.TestResultID = firstTimeTestPassed.TestResultID;
+                        latestTestResult.PassingFromDate = firstTimeTestPassed.EndTime;
+                    }
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+                
+                latestTestResults.Add(latestTestResult);
+            }
+
+            return latestTestResults;
         }
     }
 }
