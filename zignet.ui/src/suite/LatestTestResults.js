@@ -12,7 +12,7 @@ class LatestTestResults extends Component {
 
   componentDidMount() {
     this._getLatestTestResultsForSuite();
-    this.intervalId = setInterval(() => this._getLatestTestResultsForSuite(), 5000);
+    this.intervalId = setInterval(() => this._getLatestTestResultsForSuite(), 30000);
   }
 
   componentWillUnmount() {
