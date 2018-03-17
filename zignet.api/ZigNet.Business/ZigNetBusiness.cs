@@ -148,7 +148,7 @@ namespace ZigNet.Business
                 var latestTestResult = new LatestTestResult { TestName = test.Name };
 
                 var testResultsInSuiteForTest = _zignetDatabase.GetTestResultsForTestInSuite(test.TestID, suiteId).OrderByDescending(tr => tr.EndTime);
-                var latestTestResultInSuite = testResultsInSuiteForTest.FirstOrDefault();
+                var latestTestResultInSuite = testResultsInSuiteForTest.First();
                 if (latestTestResultInSuite.ResultType == TestResultType.Pass)
                 {
                     var lastFailedTestResult = testResultsInSuiteForTest.FirstOrDefault(tr => tr.ResultType == TestResultType.Fail);
@@ -176,13 +176,27 @@ namespace ZigNet.Business
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    var lastPassedTestResult = testResultsInSuiteForTest.FirstOrDefault(tr => tr.ResultType == TestResultType.Pass);
+                    if (lastPassedTestResult == null)
+                    {
+                        var firstTimeTestFailed = testResultsInSuiteForTest.Last();
+                        latestTestResult.TestResultID = firstTimeTestFailed.TestResultID;
+                        latestTestResult.FailingFromDate = firstTimeTestFailed.EndTime;
+                    }
+                    else
+                    {
+                        latestTestResult.TestResultID = lastPassedTestResult.TestResultID;
+                        latestTestResult.FailingFromDate = lastPassedTestResult.EndTime;
+                    }
                 }
                 
                 latestTestResults.Add(latestTestResult);
             }
 
-            return latestTestResults;
+            var passingLatestTestResults = latestTestResults.Where(ltr => ltr.PassingFromDate != null).OrderByDescending(ltr => ltr.PassingFromDate);
+            var failingLatestTestResults = latestTestResults.Where(ltr => ltr.FailingFromDate != null).OrderBy(ltr => ltr.FailingFromDate).ToList();
+            failingLatestTestResults.AddRange(passingLatestTestResults);
+            return failingLatestTestResults;
         }
     }
 }
