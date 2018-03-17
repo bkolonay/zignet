@@ -500,17 +500,19 @@ namespace ZigNet.Business.Tests
                             Name = "test1"
                         }
                 });
-                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1))
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForSuite(1))
                     .Returns(new List<ZigNetTestResult> {
                         new ZigNetTestResult {
                             TestResultID = 11,
                             ResultType = TestResultType.Pass,
-                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         },
                         new ZigNetTestResult {
                             TestResultID = 12,
                             ResultType = TestResultType.Pass,
-                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         }
                 });
 
@@ -535,22 +537,25 @@ namespace ZigNet.Business.Tests
                             Name = "test1"
                         }
                 });
-                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1))
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForSuite(1))
                     .Returns(new List<ZigNetTestResult> {
                         new ZigNetTestResult {
                             TestResultID = 11,
                             ResultType = TestResultType.Pass,
-                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         },
                         new ZigNetTestResult {
                             TestResultID = 12,
                             ResultType = TestResultType.Fail,
-                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         },
                         new ZigNetTestResult {
                             TestResultID = 13,
                             ResultType = TestResultType.Pass,
-                            EndTime = new DateTime(2018, 3, 18, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 18, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         }
                 });
 
@@ -575,17 +580,19 @@ namespace ZigNet.Business.Tests
                             Name = "test1"
                         }
                 });
-                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1))
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForSuite(1))
                     .Returns(new List<ZigNetTestResult> {
                         new ZigNetTestResult {
                             TestResultID = 11,
                             ResultType = TestResultType.Fail,
-                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         },
                         new ZigNetTestResult {
                             TestResultID = 12,
                             ResultType = TestResultType.Pass,
-                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         }
                 });
 
@@ -624,7 +631,7 @@ namespace ZigNet.Business.Tests
                             Name = "test1"
                         }
                 });
-                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1)).Returns(new List<ZigNetTestResult>());
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForSuite(1)).Returns(new List<ZigNetTestResult>());
 
                 var zigNetBusiness = new ZigNetBusiness(zigNetDatabseMock.Object);
                 var latestTestResults = zigNetBusiness.GetLatestTestResults(1);
@@ -641,17 +648,19 @@ namespace ZigNet.Business.Tests
                             Name = "test1"
                         }
                 });
-                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1))
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForSuite(1))
                     .Returns(new List<ZigNetTestResult> {
                         new ZigNetTestResult {
                             TestResultID = 11,
                             ResultType = TestResultType.Fail,
-                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         },
                         new ZigNetTestResult {
                             TestResultID = 12,
                             ResultType = TestResultType.Fail,
-                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         }
                 });
 
@@ -676,22 +685,25 @@ namespace ZigNet.Business.Tests
                             Name = "test1"
                         }
                 });
-                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1))
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForSuite(1))
                     .Returns(new List<ZigNetTestResult> {
                         new ZigNetTestResult {
                             TestResultID = 11,
                             ResultType = TestResultType.Fail,
-                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         },
                         new ZigNetTestResult {
                             TestResultID = 12,
                             ResultType = TestResultType.Pass,
-                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         },
                         new ZigNetTestResult {
                             TestResultID = 13,
                             ResultType = TestResultType.Fail,
-                            EndTime = new DateTime(2018, 3, 18, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 18, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         }
                 });
 
@@ -728,56 +740,55 @@ namespace ZigNet.Business.Tests
                             Name = "test5-failing-shortest"
                         }
                 });
-                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1))
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForSuite(1))
                     .Returns(new List<ZigNetTestResult> {
                         new ZigNetTestResult {
                             TestResultID = 11,
                             ResultType = TestResultType.Fail,
-                            EndTime = new DateTime(2018, 3, 1, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 1, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
                         },
                         new ZigNetTestResult {
                             TestResultID = 12,
                             ResultType = TestResultType.Pass,
-                            EndTime = new DateTime(2018, 3, 2, 9, 30, 55)
-                        }
-                });
-                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(3, 1))
-                    .Returns(new List<ZigNetTestResult> {
+                            EndTime = new DateTime(2018, 3, 2, 9, 30, 55),
+                            Test = new Test { TestID = 2 }
+                        },
                         new ZigNetTestResult {
                             TestResultID = 11,
                             ResultType = TestResultType.Pass,
-                            EndTime = new DateTime(2018, 3, 10, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 10, 9, 30, 55),
+                            Test = new Test { TestID = 3 }
                         },
                         new ZigNetTestResult {
                             TestResultID = 12,
                             ResultType = TestResultType.Fail,
-                            EndTime = new DateTime(2018, 3, 19, 9, 30, 55)
-                        }
-                });
-                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(4, 1))
-                    .Returns(new List<ZigNetTestResult> {
+                            EndTime = new DateTime(2018, 3, 19, 9, 30, 55),
+                            Test = new Test { TestID = 3 }
+                        },
                         new ZigNetTestResult {
                             TestResultID = 11,
                             ResultType = TestResultType.Fail,
-                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55),
+                            Test = new Test { TestID = 4 }
                         },
                         new ZigNetTestResult {
                             TestResultID = 12,
                             ResultType = TestResultType.Pass,
-                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55)
-                        }
-                });
-                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(5, 1))
-                    .Returns(new List<ZigNetTestResult> {
+                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55),
+                            Test = new Test { TestID = 4 }
+                        },
                         new ZigNetTestResult {
                             TestResultID = 11,
                             ResultType = TestResultType.Pass,
-                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 16, 9, 30, 55),
+                            Test = new Test { TestID = 5 }
                         },
                         new ZigNetTestResult {
                             TestResultID = 12,
                             ResultType = TestResultType.Fail,
-                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55)
+                            EndTime = new DateTime(2018, 3, 17, 9, 30, 55),
+                            Test = new Test { TestID = 5 }
                         }
                 });
 

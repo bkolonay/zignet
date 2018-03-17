@@ -9,10 +9,10 @@ namespace ZigNet.Database
         IEnumerable<Suite> GetSuites();
         IEnumerable<SuiteCategory> GetSuiteCategoriesForSuite(int suiteId);
         IEnumerable<SuiteResult> GetSuiteResultsForSuite(int suiteId);
-        SuiteResult GetSuiteResult(int suiteResultId);
+        IEnumerable<TestResult> GetTestResultsForSuite(int suiteId);
         IEnumerable<TestResult> GetTestResultsForSuiteResult(int suiteResultId);
-        IEnumerable<TestResult> GetTestResultsForTestInSuite(int testId, int suiteId);
         IEnumerable<Test> GetTestsForSuite(int suiteId);
+        SuiteResult GetSuiteResult(int suiteResultId);
         Test GetTestOrDefault(string testName);
         int SaveSuite(Suite suite);
         int SaveSuiteResult(SuiteResult suiteResult);

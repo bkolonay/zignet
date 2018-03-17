@@ -142,13 +142,15 @@ namespace ZigNet.Business
         {
             var latestTestResults = new List<LatestTestResult>();
             var testsForSuite = _zignetDatabase.GetTestsForSuite(suiteId);
+            var testResultsForSuite = _zignetDatabase.GetTestResultsForSuite(suiteId);
 
             foreach (var test in testsForSuite)
             {
                 var latestTestResult = new LatestTestResult { TestName = test.Name };
 
-                var testResultsInSuiteForTest = _zignetDatabase.GetTestResultsForTestInSuite(test.TestID, suiteId).OrderByDescending(tr => tr.EndTime);
+                var testResultsInSuiteForTest = testResultsForSuite.Where(tr => tr.Test.TestID == test.TestID).OrderByDescending(tr => tr.EndTime);
                 var latestTestResultInSuite = testResultsInSuiteForTest.First();
+
                 if (latestTestResultInSuite.ResultType == TestResultType.Pass)
                 {
                     var lastFailedTestResult = testResultsInSuiteForTest.FirstOrDefault(tr => tr.ResultType == TestResultType.Fail);
@@ -196,6 +198,7 @@ namespace ZigNet.Business
             var passingLatestTestResults = latestTestResults.Where(ltr => ltr.PassingFromDate != null).OrderByDescending(ltr => ltr.PassingFromDate);
             var failingLatestTestResults = latestTestResults.Where(ltr => ltr.FailingFromDate != null).OrderBy(ltr => ltr.FailingFromDate).ToList();
             failingLatestTestResults.AddRange(passingLatestTestResults);
+
             return failingLatestTestResults;
         }
     }

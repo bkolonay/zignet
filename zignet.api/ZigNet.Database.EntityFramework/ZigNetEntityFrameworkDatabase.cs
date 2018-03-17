@@ -74,30 +74,25 @@ namespace ZigNet.Database.EntityFramework
             return testResultsForSuiteResult;
         }
 
-        public IEnumerable<ZigNetTestResult> GetTestResultsForTestInSuite(int testId, int suiteId)
+        public IEnumerable<ZigNetTestResult> GetTestResultsForSuite(int suiteId)
         {
-            var databaseTestResults = GetDatabaseTestResultsForTestInSuite(testId, suiteId);
+            var databaseTestResults = _zigNetEntitiesWrapper.GetTestResults().Where(tr => tr.SuiteResult.SuiteId == suiteId);
+
             var testResults = new List<ZigNetTestResult>();
             foreach (var databaseTestResult in databaseTestResults)
                 testResults.Add(MapDatabaseTestResult(databaseTestResult));
+
             return testResults;
         }
 
         public IEnumerable<ZigNetTest> GetTestsForSuite(int suiteId)
         {
-            var databaseTests = _zigNetEntitiesWrapper.GetSuite(suiteId).Tests;
+            var suite = _zigNetEntitiesWrapper.GetSuite(suiteId);
+            var databaseTests = suite.Tests;
 
             var testsForSuite = new List<ZigNetTest>();
             foreach (var databaseTest in databaseTests)
-            {
-                testsForSuite.Add(
-                    new ZigNetTest
-                    {
-                        TestID = databaseTest.TestID,
-                        Name = databaseTest.TestName
-                    }
-                );
-            }
+                testsForSuite.Add(MapDatabaseTestShallow(databaseTest));
 
             return testsForSuite;
         }
@@ -258,6 +253,7 @@ namespace ZigNet.Database.EntityFramework
 
             return suiteCategories;
         }
+
         private ICollection<ZigNetTestCategory> MapDatabaseTestCategories(Test test)
         {
             var databaseTestCategories = test.TestCategories;
@@ -346,11 +342,17 @@ namespace ZigNet.Database.EntityFramework
 
         private ZigNetTest MapDatabaseTest(Test databaseTest)
         {
+            var zigNetTest = MapDatabaseTestShallow(databaseTest);
+            zigNetTest.Categories = MapDatabaseTestCategories(databaseTest);
+            return zigNetTest;
+        }
+
+        private ZigNetTest MapDatabaseTestShallow(Test databaseTest)
+        {
             return new ZigNetTest
             {
                 TestID = databaseTest.TestID,
-                Name = databaseTest.TestName,
-                Categories = MapDatabaseTestCategories(databaseTest)
+                Name = databaseTest.TestName
             };
         }
 
@@ -362,17 +364,8 @@ namespace ZigNet.Database.EntityFramework
                 StartTime = testResult.TestResultStartDateTime,
                 EndTime = testResult.TestResultEndDateTime,
                 ResultType = MapDatabaseTestResultType(testResult.TestResultType),
-                Test = MapDatabaseTest(testResult.Test)
+                Test = MapDatabaseTestShallow(testResult.Test)
             };
-        }
-
-        private IEnumerable<TestResult> GetDatabaseTestResultsForTestInSuite(int testId, int suiteId)
-        {
-            var databaseSuiteResults = _zigNetEntitiesWrapper.GetSuiteResults().Where(sr => sr.SuiteId == suiteId);
-            var databaseTestResults = new List<TestResult>();
-            foreach (var databaseSuiteResult in databaseSuiteResults)
-                databaseTestResults.AddRange(databaseSuiteResult.TestResults.Where(tr => tr.TestId == testId));
-            return databaseTestResults;
         }
     }
 }
