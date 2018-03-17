@@ -147,15 +147,14 @@ namespace ZigNet.Business
             {
                 var latestTestResult = new LatestTestResult { TestName = test.Name };
 
-                var latestTestResultInSuite = _zignetDatabase.GetLatestTestResultInSuite(test.TestID, suiteId);
-
+                var testResultsInSuiteForTest = _zignetDatabase.GetTestResultsForTestInSuite(test.TestID, suiteId).OrderByDescending(tr => tr.EndTime);
+                var latestTestResultInSuite = testResultsInSuiteForTest.FirstOrDefault();
                 if (latestTestResultInSuite.ResultType == TestResultType.Pass)
                 {
-                    var allTestResultsInSuiteForTest = _zignetDatabase.GetTestResultsForTestInSuite(test.TestID, suiteId).OrderByDescending(tr => tr.EndTime);
-                    var lastFailedTestResult = allTestResultsInSuiteForTest.FirstOrDefault(tr => tr.ResultType == TestResultType.Fail);
+                    var lastFailedTestResult = testResultsInSuiteForTest.FirstOrDefault(tr => tr.ResultType == TestResultType.Fail);
                     if (lastFailedTestResult != null)
                     {
-                        var testResultsAfterFailure = allTestResultsInSuiteForTest.Where(tr => tr.EndTime < lastFailedTestResult.EndTime);
+                        var testResultsAfterFailure = testResultsInSuiteForTest.Where(tr => tr.EndTime < lastFailedTestResult.EndTime);
                         var firstPassBeforeFailure = testResultsAfterFailure.FirstOrDefault(tr => tr.ResultType == TestResultType.Pass);
                         if (firstPassBeforeFailure == null)
                         {
@@ -170,7 +169,7 @@ namespace ZigNet.Business
                     }
                     else
                     {
-                        var firstTimeTestPassed = allTestResultsInSuiteForTest.Last();
+                        var firstTimeTestPassed = testResultsInSuiteForTest.Last();
                         latestTestResult.TestResultID = firstTimeTestPassed.TestResultID;
                         latestTestResult.PassingFromDate = firstTimeTestPassed.EndTime;
                     }

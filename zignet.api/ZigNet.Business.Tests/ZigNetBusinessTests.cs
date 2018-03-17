@@ -502,8 +502,6 @@ namespace ZigNet.Business.Tests
                             Name = "test1"
                         }
                 });
-                zigNetDatabseMock.Setup(zndm => zndm.GetLatestTestResultInSuite(2, 1))
-                    .Returns(new ZigNetTestResult { ResultType = TestResultType.Pass });
                 zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1))
                     .Returns(new List<ZigNetTestResult> {
                         new ZigNetTestResult {
@@ -538,8 +536,6 @@ namespace ZigNet.Business.Tests
                             Name = "test1"
                         }
                 });
-                zigNetDatabseMock.Setup(zndm => zndm.GetLatestTestResultInSuite(2, 1))
-                    .Returns(new ZigNetTestResult { ResultType = TestResultType.Pass });
                 zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1))
                     .Returns(new List<ZigNetTestResult> {
                         new ZigNetTestResult {
@@ -579,13 +575,6 @@ namespace ZigNet.Business.Tests
                             Name = "test1"
                         }
                 });
-                zigNetDatabseMock.Setup(zndm => zndm.GetLatestTestResultInSuite(2, 1))
-                    .Returns(new ZigNetTestResult
-                    {
-                        TestResultID = 12,
-                        ResultType = TestResultType.Pass,
-                        EndTime = new DateTime(2018, 3, 17, 9, 30, 55)
-                    });
                 zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1))
                     .Returns(new List<ZigNetTestResult> {
                         new ZigNetTestResult {
@@ -634,7 +623,7 @@ namespace ZigNet.Business.Tests
                             Name = "test1"
                         }
                 });
-                zigNetDatabseMock.Setup(zndm => zndm.GetLatestTestResultInSuite(2, 1)).Returns((ZigNetTestResult)null);
+                zigNetDatabseMock.Setup(zndm => zndm.GetTestResultsForTestInSuite(2, 1)).Returns(new List<ZigNetTestResult>());
 
                 var zigNetBusiness = new ZigNetBusiness(zigNetDatabseMock.Object);
                 var latestTestResults = zigNetBusiness.GetLatestTestResults(1);

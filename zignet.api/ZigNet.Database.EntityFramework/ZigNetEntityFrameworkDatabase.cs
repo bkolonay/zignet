@@ -83,14 +83,6 @@ namespace ZigNet.Database.EntityFramework
             return testResults;
         }
 
-        public ZigNetTestResult GetLatestTestResultInSuite(int testId, int suiteId)
-        {
-            var databaseTestResults = GetDatabaseTestResultsForTestInSuite(testId, suiteId);
-            var latestTestResultInSuite = databaseTestResults.OrderByDescending(dtr => dtr.TestResultEndDateTime).FirstOrDefault();
-
-            return latestTestResultInSuite == null ? null : MapDatabaseTestResult(latestTestResultInSuite);
-        }
-
         public IEnumerable<ZigNetTest> GetTestsForSuite(int suiteId)
         {
             var databaseTests = _zigNetEntitiesWrapper.GetSuite(suiteId).Tests;
