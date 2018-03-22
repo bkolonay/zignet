@@ -3,3 +3,11 @@ SELECT SuiteResults.SuiteResultID, SuiteResults.SuiteId, TestResults.TestResultI
 JOIN TestResults
 	ON TestResults.SuiteResultId = SuiteResults.SuiteResultID
 WHERE SuiteResults.SuiteId = 26
+
+
+SELECT TestResults.TestResultTypeId, COUNT(TestResults.TestResultTypeId) as RecordCount
+	FROM SuiteResults
+JOIN TestResults
+	ON TestResults.SuiteResultId = SuiteResults.SuiteResultID
+WHERE SuiteResults.SuiteId = 26
+GROUP BY TestResults.TestResultTypeId
