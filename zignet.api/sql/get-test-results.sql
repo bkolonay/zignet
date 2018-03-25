@@ -8,7 +8,6 @@ JOIN TestResultTypes
 	ON TestResults.TestResultTypeId = TestResultTypes.TestResultTypeID
 ORDER BY TestResults.TestResultID
 
-
 SELECT TestResults.TestResultID, TestResults.TestId, Tests.TestName,
 	TestResults.TestResultStartDateTime AS StartTime, TestResults.TestResultEndDateTime AS EndTime,
 	TestFailureTypes.TestFailureTypeName
