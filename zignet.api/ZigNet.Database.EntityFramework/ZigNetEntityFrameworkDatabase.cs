@@ -10,7 +10,7 @@ using ZigNetTestResultType = ZigNet.Domain.Test.TestResultType;
 using ZigNetTest = ZigNet.Domain.Test.Test;
 using ZigNetTestCategory = ZigNet.Domain.Test.TestCategory;
 using ZigNetTestFailureType = ZigNet.Domain.Test.TestFailureType;
-using ZigNet.Database.DTOs;
+using LatestTestResultDto = ZigNet.Database.DTOs.LatestTestResult;
 using System.Diagnostics;
 
 namespace ZigNet.Database.EntityFramework
@@ -96,9 +96,9 @@ namespace ZigNet.Database.EntityFramework
             return testResults;
         }
 
-        public IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId)
+        public IEnumerable<LatestTestResultDto> GetLatestTestResults(int suiteId)
         {
-            var latestTestResults = new List<LatestTestResult>();
+            var latestTestResults = new List<LatestTestResultDto>();
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -117,7 +117,7 @@ namespace ZigNet.Database.EntityFramework
                 var loopStopwatch = new Stopwatch();
 
                 // doesn't work because of group by in query
-                var latestTestResult = new LatestTestResult { TestName = test.TestName };
+                var latestTestResult = new LatestTestResultDto { TestName = test.TestName };
 
                 loopStopwatch.Start();
 
