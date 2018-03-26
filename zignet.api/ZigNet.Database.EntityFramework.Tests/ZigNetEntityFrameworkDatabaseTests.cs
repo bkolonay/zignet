@@ -345,8 +345,14 @@ namespace ZigNet.Database.EntityFramework.Tests
                 );
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestCategories()).Returns(
                     new List<TestCategory> { new TestCategory { TestCategoryID = 1, CategoryName = "test category 1" } }.AsQueryable);
-                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResult(1)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(1)).Returns(new SuiteResult { SuiteId = 2 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuite(2)).Returns(new Suite { SuiteID = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
 
                 var testResult = new ZigNetTestResult
                 {
@@ -383,7 +389,13 @@ namespace ZigNet.Database.EntityFramework.Tests
                         Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
                 );
-                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResult(1)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(1)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
 
                 var testResult = new ZigNetTestResult
                 {
@@ -427,7 +439,13 @@ namespace ZigNet.Database.EntityFramework.Tests
                         Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
                 );
-                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResult(1)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(1)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
 
                 var testResult = new ZigNetTestResult
                 {
@@ -466,7 +484,13 @@ namespace ZigNet.Database.EntityFramework.Tests
                         Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
                 );
-                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResult(1)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(1)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
 
                 var testResult = new ZigNetTestResult
                 {
@@ -480,6 +504,394 @@ namespace ZigNet.Database.EntityFramework.Tests
                     StartTime = DateTime.UtcNow,
                     EndTime = DateTime.UtcNow,
                     ResultType = ZigNetTestResultType.Pass
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            // what happens if test result is inconclusive (make it count as a failure)
+
+            [TestMethod]
+            public void CreatesNewLatestTestResult()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(1)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(new List<LatestTestResult>().AsQueryable);
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 0,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 1 },
+                    ResultType = ZigNetTestResultType.Fail,
+                    TestFailureDetails = new ZigNetTestFailureDetails()
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void CreatesNewLatestTestResultWhenSuiteIdDoesNotMatch()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults())
+                    .Returns(new List<LatestTestResult>{
+                        new LatestTestResult { SuiteId = 1, TestId = 4 }
+                    }.AsQueryable);
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTest(4)).Returns(
+                    new Test
+                    {
+                        TestID = 4,
+                        TestCategories = new List<TestCategory>()
+                    }
+                );
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 4,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 5 },
+                    ResultType = ZigNetTestResultType.Fail,
+                    TestFailureDetails = new ZigNetTestFailureDetails()
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void CreatesNewLatestTestResultWhenTestIdDoesNotMatch()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults())
+                    .Returns(new List<LatestTestResult>{
+                        new LatestTestResult { SuiteId = 2, TestId = 3 }
+                    }.AsQueryable);
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTest(4)).Returns(
+                    new Test
+                    {
+                        TestID = 4,
+                        TestCategories = new List<TestCategory>()
+                    }
+                );
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 4,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 5 },
+                    ResultType = ZigNetTestResultType.Fail,
+                    TestFailureDetails = new ZigNetTestFailureDetails()
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void UpdatesExistingLatestTestResult()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults())
+                    .Returns(new List<LatestTestResult>{
+                        new LatestTestResult { SuiteId = 2, TestId = 4 }
+                    }.AsQueryable);
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTest(4)).Returns(
+                    new Test
+                    {
+                        TestID = 4,
+                        TestCategories = new List<TestCategory>()
+                    }
+                );
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 4,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 5 },
+                    ResultType = ZigNetTestResultType.Fail,
+                    TestFailureDetails = new ZigNetTestFailureDetails()
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void UpdatesPassingFromDate()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults())
+                    .Returns(new List<LatestTestResult>{
+                        new LatestTestResult { SuiteId = 2, TestId = 4, FailingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTest(4)).Returns(
+                    new Test
+                    {
+                        TestID = 4,
+                        TestCategories = new List<TestCategory>()
+                    }
+                );
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 4,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 5 },
+                    ResultType = ZigNetTestResultType.Pass
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void UpdatesFailingFromDate()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults())
+                    .Returns(new List<LatestTestResult>{
+                        new LatestTestResult { SuiteId = 2, TestId = 4, PassingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTest(4)).Returns(
+                    new Test
+                    {
+                        TestID = 4,
+                        TestCategories = new List<TestCategory>()
+                    }
+                );
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 4,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 5 },
+                    ResultType = ZigNetTestResultType.Fail,
+                    TestFailureDetails = new ZigNetTestFailureDetails()
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void IgnoresPassingFromDate()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults())
+                    .Returns(new List<LatestTestResult>{
+                        new LatestTestResult { SuiteId = 2, TestId = 4, PassingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTest(4)).Returns(
+                    new Test
+                    {
+                        TestID = 4,
+                        TestCategories = new List<TestCategory>()
+                    }
+                );
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 4,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 5 },
+                    ResultType = ZigNetTestResultType.Pass
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void IgnoresFailingFromDate()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults())
+                    .Returns(new List<LatestTestResult>{
+                        new LatestTestResult { SuiteId = 2, TestId = 4, FailingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTest(4)).Returns(
+                    new Test
+                    {
+                        TestID = 4,
+                        TestCategories = new List<TestCategory>()
+                    }
+                );
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 4,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 5 },
+                    ResultType = ZigNetTestResultType.Fail,
+                    TestFailureDetails = new ZigNetTestFailureDetails()
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void UpdatesFailingFromDateIfInconclusive()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults())
+                    .Returns(new List<LatestTestResult>{
+                        new LatestTestResult { SuiteId = 2, TestId = 4, PassingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTest(4)).Returns(
+                    new Test
+                    {
+                        TestID = 4,
+                        TestCategories = new List<TestCategory>()
+                    }
+                );
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 4,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 5 },
+                    ResultType = ZigNetTestResultType.Inconclusive
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void IgnoresFailingFromDateIfInconclusive()
+            {
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 4 }
+                    });
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults())
+                    .Returns(new List<LatestTestResult>{
+                        new LatestTestResult { SuiteId = 2, TestId = 4, FailingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTest(4)).Returns(
+                    new Test
+                    {
+                        TestID = 4,
+                        TestCategories = new List<TestCategory>()
+                    }
+                );
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 4,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 5 },
+                    ResultType = ZigNetTestResultType.Inconclusive
                 };
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);

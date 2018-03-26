@@ -23,6 +23,7 @@ namespace ZigNet.Database.EntityFramework
         {
             return _zigNetEntities.Suites;
         }
+
         public IEnumerable<Test> GetTestsWithTestResultsForSuite(int suiteId)
         {
             var stopwatch = new Stopwatch();
@@ -155,10 +156,23 @@ namespace ZigNet.Database.EntityFramework
             return suiteResult.SuiteResultID;
         }
 
-        public void SaveTestResult(TestResult testResult)
+        public TestResult SaveTestResult(TestResult testResult)
         {
             _zigNetEntities.TestResults.Add(testResult);
             _zigNetEntities.SaveChanges();
+            return testResult;
+        }
+
+        public void SaveLatestTestResult(LatestTestResult latestTestResult)
+        {
+            if (latestTestResult.LatestTestResultID == 0)
+                _zigNetEntities.LatestTestResults.Add(latestTestResult);
+            _zigNetEntities.SaveChanges();
+        }
+
+        public IQueryable<LatestTestResult> GetLatestTestResults()
+        {
+            return _zigNetEntities.LatestTestResults;
         }
 
         // disposal code copied directly from: https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection

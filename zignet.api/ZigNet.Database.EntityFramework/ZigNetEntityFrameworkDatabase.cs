@@ -292,7 +292,35 @@ namespace ZigNet.Database.EntityFramework
                 databaseTestResult.Test.Suites.Add(suite);
             }
 
-            _zigNetEntitiesWrapper.SaveTestResult(databaseTestResult);
+            var savedTestResult = _zigNetEntitiesWrapper.SaveTestResult(databaseTestResult);
+
+            var databaseLatestTestResult = _zigNetEntitiesWrapper.GetLatestTestResults()
+                .SingleOrDefault(ltr =>
+                    ltr.SuiteId == suiteResult.SuiteId &&
+                    ltr.TestId == databaseTestResult.Test.TestID
+                );
+            if (databaseLatestTestResult == null)
+                databaseLatestTestResult = new LatestTestResult
+                {
+                    SuiteId = suiteResult.SuiteId,
+                    TestId = savedTestResult.Test.TestID,
+                    TestResultId = savedTestResult.TestResultID,
+                    TestName = testResult.Test.Name
+                };
+            var utcNow = DateTime.UtcNow;
+            if (testResult.ResultType == ZigNetTestResultType.Pass && databaseLatestTestResult.PassingFromDateTime == null)
+            {
+                databaseLatestTestResult.PassingFromDateTime = utcNow;
+                databaseLatestTestResult.FailingFromDateTime = null;
+                _zigNetEntitiesWrapper.SaveLatestTestResult(databaseLatestTestResult);
+            }
+            else if ((testResult.ResultType == ZigNetTestResultType.Fail || testResult.ResultType == ZigNetTestResultType.Inconclusive) 
+                      && databaseLatestTestResult.FailingFromDateTime == null)
+            {
+                databaseLatestTestResult.FailingFromDateTime = utcNow;
+                databaseLatestTestResult.PassingFromDateTime = null;
+                _zigNetEntitiesWrapper.SaveLatestTestResult(databaseLatestTestResult);
+            }
         }
 
         private TestFailureType GetTestFailureType(ZigNetTestFailureType zigNetTestFailureType)
