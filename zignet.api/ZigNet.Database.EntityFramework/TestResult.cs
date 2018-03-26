@@ -9,9 +9,8 @@
 
 namespace ZigNet.Database.EntityFramework
 {
-    using System;
     using System.Collections.Generic;
-    
+
     public partial class TestResult
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

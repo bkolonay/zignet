@@ -10,8 +10,7 @@
 namespace ZigNet.Database.EntityFramework
 {
     using System;
-    using System.Collections.Generic;
-    
+
     public partial class LatestTestResult
     {
         public int LatestTestResultID { get; set; }

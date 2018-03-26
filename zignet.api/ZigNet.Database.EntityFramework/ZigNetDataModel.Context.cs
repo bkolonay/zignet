@@ -9,10 +9,9 @@
 
 namespace ZigNet.Database.EntityFramework
 {
-    using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class ZigNetEntities : DbContext
     {
         public ZigNetEntities()
