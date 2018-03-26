@@ -304,12 +304,12 @@ namespace ZigNet.Database.EntityFramework
                 {
                     SuiteId = suiteResult.SuiteId,
                     TestId = savedTestResult.Test.TestID,
-                    TestResultId = savedTestResult.TestResultID,
                     TestName = testResult.Test.Name
                 };
             var utcNow = DateTime.UtcNow;
             if (testResult.ResultType == ZigNetTestResultType.Pass && databaseLatestTestResult.PassingFromDateTime == null)
             {
+                databaseLatestTestResult.TestResultId = savedTestResult.TestResultID;
                 databaseLatestTestResult.PassingFromDateTime = utcNow;
                 databaseLatestTestResult.FailingFromDateTime = null;
                 _zigNetEntitiesWrapper.SaveLatestTestResult(databaseLatestTestResult);
@@ -317,6 +317,7 @@ namespace ZigNet.Database.EntityFramework
             else if ((testResult.ResultType == ZigNetTestResultType.Fail || testResult.ResultType == ZigNetTestResultType.Inconclusive) 
                       && databaseLatestTestResult.FailingFromDateTime == null)
             {
+                databaseLatestTestResult.TestResultId = savedTestResult.TestResultID;
                 databaseLatestTestResult.FailingFromDateTime = utcNow;
                 databaseLatestTestResult.PassingFromDateTime = null;
                 _zigNetEntitiesWrapper.SaveLatestTestResult(databaseLatestTestResult);
