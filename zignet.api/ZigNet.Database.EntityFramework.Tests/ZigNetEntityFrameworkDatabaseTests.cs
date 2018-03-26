@@ -24,7 +24,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void SavesNewSuiteWithNoCategories()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveSuite(It.IsAny<Suite>())).Returns(1);
 
                 var suite = new ZigNetSuite { Name = "new suite", Categories = new List<ZigNetSuiteCategory>() };
@@ -38,7 +38,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void SavesNewSuiteWithEmptyCategoryList()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveSuite(It.IsAny<Suite>())).Returns(1);
 
                 var suite = new ZigNetSuite { Name = "new suite", Categories = new List<ZigNetSuiteCategory>() };
@@ -52,7 +52,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void SavesNewSuiteWithOnlyNewCategories()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveSuite(It.IsAny<Suite>())).Returns(1);
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteCategories()).Returns(new List<SuiteCategory>().AsQueryable());
 
@@ -73,7 +73,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void SavesNewSuiteWithOnlyExistingCategories()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveSuite(It.IsAny<Suite>())).Returns(1);
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteCategories()).Returns(new List<SuiteCategory> {
                     new SuiteCategory { CategoryName = "suite category 1" }
@@ -96,7 +96,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void SavesNewSuiteWithNewAndExistingCategories()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveSuite(It.IsAny<Suite>())).Returns(1);
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteCategories()).Returns(new List<SuiteCategory> {
                     new SuiteCategory { CategoryName = "suite category 1" },
@@ -121,7 +121,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void SavesExistingSuiteWithExistingCategory()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuite(1)).Returns(new Suite { SuiteID = 1 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteCategories()).Returns(new List<SuiteCategory> {
                     new SuiteCategory { SuiteCategoryID = 1, CategoryName = "suite category 1" }
@@ -146,7 +146,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void SavesExistingSuiteWithNewCategory()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuite(1)).Returns(new Suite { SuiteID = 1 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteCategories()).Returns(new List<SuiteCategory> {
                     new SuiteCategory { SuiteCategoryID = 1, CategoryName = "suite category 1" }
@@ -175,7 +175,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void SavesNewSuiteResult()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveSuiteResult(It.IsAny<SuiteResult>())).Returns(1);
 
                 var suiteResult = new ZigNetSuiteResult
@@ -194,7 +194,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void SavesExistingSuiteResult()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 var suiteResult = new ZigNetSuiteResult
                 {
                     SuiteResultID = 2,
@@ -222,7 +222,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var startTime = DateTime.UtcNow;
                 var endTime = DateTime.UtcNow;
 
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResult(1)).Returns(
                     new SuiteResult
                     {
@@ -252,7 +252,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void DoesNotThrowWhenEndDateTimeNull()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResult(1)).Returns(
                     new SuiteResult
                     {
@@ -277,7 +277,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void ReturnsNullWhenTestDoesNotExist()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestOrDefault("test 1")).Returns((ZigNetTest)null);
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
@@ -293,7 +293,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void SavesFailedTestResultWithDetails()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestFailureType(2)).Returns(
                     new TestFailureType
                     {
@@ -333,7 +333,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void SavesExistingTestPassedTestResult()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestCategories()).Returns(
                     new List<TestCategory> {
                         new TestCategory { TestCategoryID = 1, CategoryName = "test category 1" }
@@ -376,7 +376,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void SavesExistingTestFailedTestResult()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestFailureType(1)).Returns(
                     new TestFailureType
                     {
@@ -433,7 +433,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void DoesNotThrowWhenClearingAllTestCategories()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTest(1)).Returns(
                     new Test
                     {
@@ -471,7 +471,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void CreatesNewLatestTestResult()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(1)).Returns(new SuiteResult { SuiteId = 2 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
                     .Returns(new TestResult
@@ -501,7 +501,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void CreatesNewLatestTestResultWhenSuiteIdDoesNotMatch()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
                     .Returns(new TestResult
@@ -541,7 +541,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void CreatesNewLatestTestResultWhenTestIdDoesNotMatch()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
                     .Returns(new TestResult
@@ -581,7 +581,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void UpdatesExistingLatestTestResult()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
                     .Returns(new TestResult
@@ -621,7 +621,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void UpdatesPassingFromDate()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
                     .Returns(new TestResult
@@ -660,7 +660,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void UpdatesFailingFromDate()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
                     .Returns(new TestResult
@@ -700,7 +700,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void IgnoresPassingFromDate()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
                     .Returns(new TestResult
@@ -739,7 +739,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void IgnoresFailingFromDate()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
                     .Returns(new TestResult
@@ -779,7 +779,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void UpdatesFailingFromDateIfInconclusive()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
                     .Returns(new TestResult
@@ -818,7 +818,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void IgnoresFailingFromDateIfInconclusive()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetSuiteResultWithoutTracking(5)).Returns(new SuiteResult { SuiteId = 2 });
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
                     .Returns(new TestResult
@@ -861,7 +861,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void MapsTestResults()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestResults()).Returns(
                     new List<TestResult> {
                         new TestResult
@@ -907,7 +907,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void IgnoresTestResultsWithoutSuiteId()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestResults()).Returns(
                     new List<TestResult> {
                         new TestResult
@@ -938,7 +938,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             [TestMethod]
             public void DoesNotThrowWhenZeroTestResultsReturned()
             {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestResults()).Returns(
                     new List<TestResult>()
                     .AsQueryable
@@ -959,7 +959,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             public void MapsCorrectly()
             {
                 var utcNow = DateTime.UtcNow;
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
                     new List<LatestTestResult> { 
                         new LatestTestResult 
@@ -985,7 +985,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             public void DoesNotThrowWhenNoLatestTestResultsForSuite()
             {
                 var utcNow = DateTime.UtcNow;
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
                     new List<LatestTestResult>().AsQueryable);
 
@@ -999,7 +999,7 @@ namespace ZigNet.Database.EntityFramework.Tests
             public void SortsByFailingTheLongestThenPassingTheShortest()
             {
                 var utcNow = DateTime.UtcNow;
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWriter>();
                 zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
                     new List<LatestTestResult> { 
                         new LatestTestResult 

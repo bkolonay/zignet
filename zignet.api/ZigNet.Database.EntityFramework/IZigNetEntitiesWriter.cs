@@ -5,7 +5,7 @@ using ZigNetTest = ZigNet.Domain.Test.Test;
 
 namespace ZigNet.Database.EntityFramework
 {
-    public interface IZigNetEntitiesWrapper
+    public interface IZigNetEntitiesWriter
     {
         bool SuiteResultExists(int suiteResultId);
         ZigNetSuite GetZigNetSuite(int suiteId);

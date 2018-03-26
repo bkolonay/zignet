@@ -17,9 +17,9 @@ namespace ZigNet.Database.EntityFramework
 {
     public class ZigNetEntityFrameworkDatabase : IZigNetDatabase
     {
-        private IZigNetEntitiesWrapper _zigNetEntitiesWrapper;
+        private IZigNetEntitiesWriter _zigNetEntitiesWrapper;
 
-        public ZigNetEntityFrameworkDatabase(IZigNetEntitiesWrapper zigNetEntitiesWrapper)
+        public ZigNetEntityFrameworkDatabase(IZigNetEntitiesWriter zigNetEntitiesWrapper)
         {
             _zigNetEntitiesWrapper = zigNetEntitiesWrapper;
         }

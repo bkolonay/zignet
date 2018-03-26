@@ -30,7 +30,7 @@ namespace ZigNet.Api
 
             // container registeration taken from here: https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection
             var unityContainer = new UnityContainer();
-            unityContainer.RegisterType<IZigNetEntitiesWrapper, ZigNetEntitiesWrapper>(new HierarchicalLifetimeManager());
+            unityContainer.RegisterType<IZigNetEntitiesWriter, ZigNetEntitiesWriter>(new HierarchicalLifetimeManager());
             unityContainer.RegisterType<IZigNetDatabase, ZigNetEntityFrameworkDatabase>(new HierarchicalLifetimeManager());
             unityContainer.RegisterType<IZigNetBusiness, ZigNetBusiness>(new HierarchicalLifetimeManager());
             unityContainer.RegisterType<IZigNetApiMapper, ZigNetApiMapper>(new HierarchicalLifetimeManager());

@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fix.cs" />
-    <Compile Include="IZigNetEntitiesWrapper.cs" />
+    <Compile Include="IZigNetEntitiesWriter.cs" />
     <Compile Include="LatestTestResult.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
@@ -104,7 +104,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ZigNetDataModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="ZigNetEntitiesWrapper.cs" />
+    <Compile Include="ZigNetEntitiesWriter.cs" />
     <Compile Include="ZigNetEntityFrameworkDatabase.cs" />
   </ItemGroup>
   <ItemGroup>
