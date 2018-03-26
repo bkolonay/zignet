@@ -17,26 +17,28 @@ namespace ZigNet.Database.EntityFramework
 {
     public class ZigNetEntityFrameworkDatabase : IZigNetDatabase
     {
-        private IZigNetEntitiesWriter _zigNetEntitiesWrapper;
+        private IZigNetEntitiesWriter _zigNetEntitiesWriter;
+        private IZigNetEntitiesReadOnly _zigNetEntitiesReadOnly;
 
-        public ZigNetEntityFrameworkDatabase(IZigNetEntitiesWriter zigNetEntitiesWrapper)
+        public ZigNetEntityFrameworkDatabase(IZigNetEntitiesWriter zigNetEntitiesWriter, IZigNetEntitiesReadOnly zigNetEntitiesReadOnly)
         {
-            _zigNetEntitiesWrapper = zigNetEntitiesWrapper;
+            _zigNetEntitiesWriter = zigNetEntitiesWriter;
+            _zigNetEntitiesReadOnly = zigNetEntitiesReadOnly;
         }
 
         public ZigNetSuite GetSuite(int suiteId)
         {
-            return _zigNetEntitiesWrapper.GetZigNetSuite(suiteId);
+            return _zigNetEntitiesWriter.GetZigNetSuite(suiteId);
         }
 
         public bool SuiteResultExists(int suiteResultId)
         {
-            return _zigNetEntitiesWrapper.SuiteResultExists(suiteResultId);
+            return _zigNetEntitiesWriter.SuiteResultExists(suiteResultId);
         }
 
         public IEnumerable<ZigNetSuite> GetSuites()
         {
-            var databaseSuites = _zigNetEntitiesWrapper.GetSuites();
+            var databaseSuites = _zigNetEntitiesWriter.GetSuites();
 
             var suites = new List<ZigNetSuite>();
             foreach (var databaseSuite in databaseSuites)
@@ -47,12 +49,12 @@ namespace ZigNet.Database.EntityFramework
 
         public IEnumerable<ZigNetSuiteCategory> GetSuiteCategoriesForSuite(int suiteId)
         {
-            return MapDatabaseSuiteCategories(_zigNetEntitiesWrapper.GetSuite(suiteId).SuiteCategories);
+            return MapDatabaseSuiteCategories(_zigNetEntitiesWriter.GetSuite(suiteId).SuiteCategories);
         }
 
         public IEnumerable<ZigNetSuiteResult> GetSuiteResultsForSuite(int suiteId)
         {
-            var databaseSuiteResults = _zigNetEntitiesWrapper.GetSuiteResults().Where(sr => sr.SuiteId == suiteId);
+            var databaseSuiteResults = _zigNetEntitiesWriter.GetSuiteResults().Where(sr => sr.SuiteId == suiteId);
 
             var suiteResultsForSuite = new List<ZigNetSuiteResult>();
             foreach (var databaseSuiteResult in databaseSuiteResults)
@@ -63,13 +65,13 @@ namespace ZigNet.Database.EntityFramework
 
         public ZigNetSuiteResult GetSuiteResult(int suiteResultId)
         {
-            var databaseSuiteResult = _zigNetEntitiesWrapper.GetSuiteResult(suiteResultId);
+            var databaseSuiteResult = _zigNetEntitiesWriter.GetSuiteResult(suiteResultId);
             return MapDatabaseSuiteResult(databaseSuiteResult);
         }
 
         public IEnumerable<ZigNetTestResult> GetTestResultsForSuiteResult(int suiteResultId)
         {
-            var databaseTestResults = _zigNetEntitiesWrapper.GetTestResults().Where(tr => tr.SuiteResultId == suiteResultId);
+            var databaseTestResults = _zigNetEntitiesWriter.GetTestResults().Where(tr => tr.SuiteResultId == suiteResultId);
 
             var testResultsForSuiteResult = new List<ZigNetTestResult>();
             foreach (var databaseTestResult in databaseTestResults)
@@ -88,7 +90,7 @@ namespace ZigNet.Database.EntityFramework
 
         public IEnumerable<ZigNetTestResult> GetTestResultsForSuite(int suiteId)
         {
-            var databaseTestResults = _zigNetEntitiesWrapper.GetTestResults().Where(tr => tr.SuiteResult.SuiteId == suiteId);
+            var databaseTestResults = _zigNetEntitiesWriter.GetTestResults().Where(tr => tr.SuiteResult.SuiteId == suiteId);
             var testResults = new List<ZigNetTestResult>();
             foreach (var databaseTestResult in databaseTestResults)
                 testResults.Add(MapDatabaseTestResult(databaseTestResult));
@@ -98,7 +100,7 @@ namespace ZigNet.Database.EntityFramework
 
         public IEnumerable<LatestTestResultDto> GetLatestTestResults(int suiteId)
         {
-            var latestTestResults = _zigNetEntitiesWrapper.GetLatestTestResults().Where(ltr => ltr.SuiteId == suiteId);
+            var latestTestResults = _zigNetEntitiesWriter.GetLatestTestResults().Where(ltr => ltr.SuiteId == suiteId);
 
             var latestTestResultDtos = new List<LatestTestResultDto>();
             foreach (var latestTestResult in latestTestResults)
@@ -118,7 +120,7 @@ namespace ZigNet.Database.EntityFramework
 
         public IEnumerable<ZigNetTest> GetTestsForSuite(int suiteId)
         {
-            var suite = _zigNetEntitiesWrapper.GetSuite(suiteId);
+            var suite = _zigNetEntitiesWriter.GetSuite(suiteId);
             var databaseTests = suite.Tests;
 
             var testsForSuite = new List<ZigNetTest>();
@@ -130,7 +132,7 @@ namespace ZigNet.Database.EntityFramework
 
         public ZigNetTest GetTestOrDefault(string testName)
         {
-            return _zigNetEntitiesWrapper.GetTestOrDefault(testName);
+            return _zigNetEntitiesWriter.GetTestOrDefault(testName);
         }
 
         public int SaveSuite(ZigNetSuite suite)
@@ -139,19 +141,19 @@ namespace ZigNet.Database.EntityFramework
             if (suite.SuiteID == 0)
                 databaseSuite = new Suite { SuiteName = suite.Name, SuiteCategories = new List<SuiteCategory>() };
             else
-                databaseSuite = _zigNetEntitiesWrapper.GetSuite(suite.SuiteID);
+                databaseSuite = _zigNetEntitiesWriter.GetSuite(suite.SuiteID);
 
             databaseSuite.SuiteCategories.Clear();
             foreach (var suiteCategory in suite.Categories)
             {
-                var existingDatabaseSuiteCategory = _zigNetEntitiesWrapper.GetSuiteCategories().SingleOrDefault(sc => sc.CategoryName == suiteCategory.Name);
+                var existingDatabaseSuiteCategory = _zigNetEntitiesWriter.GetSuiteCategories().SingleOrDefault(sc => sc.CategoryName == suiteCategory.Name);
                 if (existingDatabaseSuiteCategory != null)
                     databaseSuite.SuiteCategories.Add(existingDatabaseSuiteCategory);
                 else
                     databaseSuite.SuiteCategories.Add(new SuiteCategory { CategoryName = suiteCategory.Name });
             }
 
-            return _zigNetEntitiesWrapper.SaveSuite(databaseSuite);
+            return _zigNetEntitiesWriter.SaveSuite(databaseSuite);
         }
 
         public int SaveSuiteResult(ZigNetSuiteResult suiteResult)
@@ -160,14 +162,14 @@ namespace ZigNet.Database.EntityFramework
             if (suiteResult.SuiteResultID == 0)
                 databaseSuiteResult = new SuiteResult();
             else
-                databaseSuiteResult = _zigNetEntitiesWrapper.GetSuiteResult(suiteResult.SuiteResultID);
+                databaseSuiteResult = _zigNetEntitiesWriter.GetSuiteResult(suiteResult.SuiteResultID);
 
             databaseSuiteResult.SuiteId = suiteResult.Suite.SuiteID;
             databaseSuiteResult.SuiteResultStartDateTime = suiteResult.StartTime;
             databaseSuiteResult.SuiteResultTypeId = MapSuiteResultType(suiteResult.ResultType);
             databaseSuiteResult.SuiteResultEndDateTime = suiteResult.EndTime;
 
-            return _zigNetEntitiesWrapper.SaveSuiteResult(databaseSuiteResult);
+            return _zigNetEntitiesWriter.SaveSuiteResult(databaseSuiteResult);
         }
 
         public void SaveTestResult(ZigNetTestResult testResult)
@@ -188,12 +190,12 @@ namespace ZigNet.Database.EntityFramework
             }
 
             if (testResult.Test.TestID != 0)
-                databaseTestResult.Test = _zigNetEntitiesWrapper.GetTest(testResult.Test.TestID);
+                databaseTestResult.Test = _zigNetEntitiesWriter.GetTest(testResult.Test.TestID);
             else
                 databaseTestResult.Test = new Test { TestName = testResult.Test.Name, TestCategories = new List<TestCategory>() };
 
             databaseTestResult.Test.TestCategories.Clear();
-            var existingDatabaseTestCategories = _zigNetEntitiesWrapper.GetTestCategories().OrderBy(tc => tc.TestCategoryID).ToList();
+            var existingDatabaseTestCategories = _zigNetEntitiesWriter.GetTestCategories().OrderBy(tc => tc.TestCategoryID).ToList();
             foreach (var testCategory in testResult.Test.Categories)
             {
                 // use FirstOrDefault instead of SingleOrDefault because first-run multi-threaded tests end up inserting duplicate categories
@@ -206,16 +208,16 @@ namespace ZigNet.Database.EntityFramework
                     databaseTestResult.Test.TestCategories.Add(new TestCategory { CategoryName = testCategory.Name });
             }
 
-            var suiteResult = _zigNetEntitiesWrapper.GetSuiteResultWithoutTracking(testResult.SuiteResult.SuiteResultID);
+            var suiteResult = _zigNetEntitiesWriter.GetSuiteResultWithoutTracking(testResult.SuiteResult.SuiteResultID);
             if (!databaseTestResult.Test.Suites.Any(s => s.SuiteID == suiteResult.SuiteId))
             {
-                var suite = _zigNetEntitiesWrapper.GetSuite(suiteResult.SuiteId);
+                var suite = _zigNetEntitiesWriter.GetSuite(suiteResult.SuiteId);
                 databaseTestResult.Test.Suites.Add(suite);
             }
 
-            var savedTestResult = _zigNetEntitiesWrapper.SaveTestResult(databaseTestResult);
+            var savedTestResult = _zigNetEntitiesWriter.SaveTestResult(databaseTestResult);
 
-            var databaseLatestTestResult = _zigNetEntitiesWrapper.GetLatestTestResults()
+            var databaseLatestTestResult = _zigNetEntitiesWriter.GetLatestTestResults()
                 .SingleOrDefault(ltr =>
                     ltr.SuiteId == suiteResult.SuiteId &&
                     ltr.TestId == databaseTestResult.Test.TestID
@@ -233,7 +235,7 @@ namespace ZigNet.Database.EntityFramework
                 databaseLatestTestResult.TestResultId = savedTestResult.TestResultID;
                 databaseLatestTestResult.PassingFromDateTime = utcNow;
                 databaseLatestTestResult.FailingFromDateTime = null;
-                _zigNetEntitiesWrapper.SaveLatestTestResult(databaseLatestTestResult);
+                _zigNetEntitiesWriter.SaveLatestTestResult(databaseLatestTestResult);
             }
             else if ((testResult.ResultType == ZigNetTestResultType.Fail || testResult.ResultType == ZigNetTestResultType.Inconclusive) 
                       && databaseLatestTestResult.FailingFromDateTime == null)
@@ -241,7 +243,7 @@ namespace ZigNet.Database.EntityFramework
                 databaseLatestTestResult.TestResultId = savedTestResult.TestResultID;
                 databaseLatestTestResult.FailingFromDateTime = utcNow;
                 databaseLatestTestResult.PassingFromDateTime = null;
-                _zigNetEntitiesWrapper.SaveLatestTestResult(databaseLatestTestResult);
+                _zigNetEntitiesWriter.SaveLatestTestResult(databaseLatestTestResult);
             }
         }
 
@@ -250,9 +252,9 @@ namespace ZigNet.Database.EntityFramework
             switch (zigNetTestFailureType)
             {
                 case ZigNetTestFailureType.Exception:
-                    return _zigNetEntitiesWrapper.GetTestFailureType(2);
+                    return _zigNetEntitiesWriter.GetTestFailureType(2);
                 case ZigNetTestFailureType.Assertion:
-                    return _zigNetEntitiesWrapper.GetTestFailureType(1);
+                    return _zigNetEntitiesWriter.GetTestFailureType(1);
                 default:
                     throw new InvalidOperationException("Test failure type not recognized");
             }

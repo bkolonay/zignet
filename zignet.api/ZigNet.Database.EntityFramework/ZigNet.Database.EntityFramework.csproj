@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fix.cs" />
+    <Compile Include="IZigNetEntitiesReadOnly.cs" />
+    <Compile Include="IZigNetEntitiesSingleton.cs" />
     <Compile Include="IZigNetEntitiesWriter.cs" />
     <Compile Include="LatestTestResult.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
@@ -104,6 +106,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ZigNetDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ZigNetEntitiesReadOnly.cs" />
+    <Compile Include="ZigNetEntitiesSingleton.cs" />
     <Compile Include="ZigNetEntitiesWriter.cs" />
     <Compile Include="ZigNetEntityFrameworkDatabase.cs" />
   </ItemGroup>

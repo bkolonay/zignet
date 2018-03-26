@@ -9,11 +9,11 @@ using ZigNetTestCategory = ZigNet.Domain.Test.TestCategory;
 
 namespace ZigNet.Database.EntityFramework
 {
-    public class ZigNetEntitiesWriter : IZigNetEntitiesWriter
+    public class ZigNetEntitiesReadOnly : IZigNetEntitiesReadOnly
     {
         private ZigNetEntities _zigNetEntities;
 
-        public ZigNetEntitiesWriter(IZigNetEntitiesSingleton zigNetEntitiesSingleton)
+        public ZigNetEntitiesReadOnly(IZigNetEntitiesSingleton zigNetEntitiesSingleton)
         {
             _zigNetEntities = zigNetEntitiesSingleton.GetInstance();
         }
