@@ -112,6 +112,20 @@ namespace ZigNet.Business
 
         public void SaveTestResult(TestResult testResult)
         {
+            if (string.IsNullOrWhiteSpace(testResult.Test.Name))
+                throw new ArgumentNullException("TestName", "Test name cannot be null");
+
+            var existingTestWithSameName = _zignetDatabase.GetTestOrDefault(testResult.Test.Name);
+            if (existingTestWithSameName != null)
+            {
+                testResult.Test.TestID = existingTestWithSameName.TestID;
+                testResult.Test.Categories = testResult.Test.Categories.Concat(existingTestWithSameName.Categories).ToList();
+            }
+
+            // todo: could remove this to save a db call
+            if (!_zignetDatabase.SuiteResultExists(testResult.SuiteResult.SuiteResultID))
+                throw new ArgumentOutOfRangeException("SuiteResultID", "Test result can not be saved with SuiteResultID that does not exist.");
+
             _zignetDatabase.SaveTestResult(testResult);
         }
 

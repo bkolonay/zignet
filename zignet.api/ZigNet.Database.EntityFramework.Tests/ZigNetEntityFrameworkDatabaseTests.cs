@@ -468,8 +468,6 @@ namespace ZigNet.Database.EntityFramework.Tests
                 zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
             }
 
-            // what happens if test result is inconclusive (make it count as a failure)
-
             [TestMethod]
             public void CreatesNewLatestTestResult()
             {
