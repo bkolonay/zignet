@@ -951,5 +951,96 @@ namespace ZigNet.Database.EntityFramework.Tests
                 Assert.AreEqual(0, testResultsForTestInSuite.Count());
             }
         }
+
+        [TestClass]
+        public class GetLatestTestResultsMethod
+        {
+            [TestMethod]
+            public void MapsCorrectly()
+            {
+                var utcNow = DateTime.UtcNow;
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> { 
+                        new LatestTestResult 
+                        {
+                            SuiteId = 1,
+                            TestResultId = 2,
+                            TestName = "test1",
+                            PassingFromDateTime = utcNow,
+                        }
+                    }.AsQueryable);
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+
+                Assert.AreEqual(1, latestTestResults.Count);
+                Assert.AreEqual(2, latestTestResults[0].TestResultID);
+                Assert.AreEqual("test1", latestTestResults[0].TestName);
+                Assert.AreEqual(utcNow, latestTestResults[0].PassingFromDate);
+                Assert.IsNull(latestTestResults[0].FailingFromDate);
+            }
+
+            [TestMethod]
+            public void DoesNotThrowWhenNoLatestTestResultsForSuite()
+            {
+                var utcNow = DateTime.UtcNow;
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult>().AsQueryable);
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+
+                Assert.AreEqual(0, latestTestResults.Count);
+            }
+
+            [TestMethod]
+            public void SortsByFailingTheLongestThenPassingTheShortest()
+            {
+                var utcNow = DateTime.UtcNow;
+                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> { 
+                        new LatestTestResult 
+                        {
+                            SuiteId = 1,
+                            TestResultId = 2,
+                            TestName = "test passing the longest",
+                            PassingFromDateTime = new DateTime(2018, 3, 1, 1, 00, 00),
+                        },
+                        new LatestTestResult 
+                        {
+                            SuiteId = 1,
+                            TestResultId = 3,
+                            TestName = "test failing the longest",
+                            FailingFromDateTime = new DateTime(2018, 3, 1, 1, 00, 00),
+                        },
+                        new LatestTestResult 
+                        {
+                            SuiteId = 1,
+                            TestResultId = 4,
+                            TestName = "test passing the shortest",
+                            PassingFromDateTime = new DateTime(2018, 3, 1, 1, 01, 00),
+                        },
+                        new LatestTestResult 
+                        {
+                            SuiteId = 1,
+                            TestResultId = 5,
+                            TestName = "test failing the shortest",
+                            FailingFromDateTime = new DateTime(2018, 3, 1, 1, 01, 00),
+                        }
+                    }.AsQueryable);
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+
+                Assert.AreEqual(4, latestTestResults.Count);
+                Assert.AreEqual("test failing the longest", latestTestResults[0].TestName);
+                Assert.AreEqual("test failing the shortest", latestTestResults[1].TestName);
+                Assert.AreEqual("test passing the shortest", latestTestResults[2].TestName);
+                Assert.AreEqual("test passing the longest", latestTestResults[3].TestName);
+            }
+        }
     }
 }
