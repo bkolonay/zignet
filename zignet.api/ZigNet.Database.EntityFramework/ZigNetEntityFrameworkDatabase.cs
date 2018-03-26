@@ -109,7 +109,11 @@ namespace ZigNet.Database.EntityFramework
                     FailingFromDate = latestTestResult.FailingFromDateTime,
                     PassingFromDate = latestTestResult.PassingFromDateTime
                 });
-            return latestTestResultDtos;
+            var passingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.PassingFromDate != null).OrderByDescending(ltr => ltr.PassingFromDate);
+            var failingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.FailingFromDate != null).OrderBy(ltr => ltr.FailingFromDate).ToList();
+            failingLatestTestResultDtos.AddRange(passingLatestTestResultDtos);
+
+            return failingLatestTestResultDtos;
         }
 
         public IEnumerable<ZigNetTest> GetTestsForSuite(int suiteId)
