@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ZigNet.Database.EntityFramework.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LatestTestResults">
+          <Key>
+            <PropertyRef Name="LatestTestResultID" />
+          </Key>
+          <Property Name="LatestTestResultID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SuiteId" Type="int" Nullable="false" />
+          <Property Name="TestId" Type="int" Nullable="false" />
+          <Property Name="TestResultId" Type="int" Nullable="false" />
+          <Property Name="TestName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PassingFromDateTime" Type="datetime" />
+          <Property Name="FailingFromDateTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="Suite_SuiteCategories">
           <Key>
             <PropertyRef Name="SuiteId" />
@@ -143,6 +155,42 @@
             </Principal>
             <Dependent Role="TestResult_TestFailureType">
               <PropertyRef Name="TestFailureTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LatestTestResultSuite">
+          <End Role="Suites" Type="Self.Suites" Multiplicity="1" />
+          <End Role="LatestTestResults" Type="Self.LatestTestResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suites">
+              <PropertyRef Name="SuiteID" />
+            </Principal>
+            <Dependent Role="LatestTestResults">
+              <PropertyRef Name="SuiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LatestTestResultTest">
+          <End Role="Tests" Type="Self.Tests" Multiplicity="1" />
+          <End Role="LatestTestResults" Type="Self.LatestTestResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tests">
+              <PropertyRef Name="TestID" />
+            </Principal>
+            <Dependent Role="LatestTestResults">
+              <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LatestTestResultTestResult">
+          <End Role="TestResults" Type="Self.TestResults" Multiplicity="1" />
+          <End Role="LatestTestResults" Type="Self.LatestTestResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResults">
+              <PropertyRef Name="TestResultID" />
+            </Principal>
+            <Dependent Role="LatestTestResults">
+              <PropertyRef Name="TestResultId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -303,6 +351,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ZigNetDatabaseEntityFrameworkModelStoreContainer">
+          <EntitySet Name="LatestTestResults" EntityType="Self.LatestTestResults" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Suite_SuiteCategories" EntityType="Self.Suite_SuiteCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SuiteCategories" EntityType="Self.SuiteCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SuiteResults" EntityType="Self.SuiteResults" Schema="dbo" store:Type="Tables" />
@@ -325,6 +374,18 @@
           <AssociationSet Name="FK_FailureTypeTestResult" Association="Self.FK_FailureTypeTestResult">
             <End Role="TestFailureTypes" EntitySet="TestFailureTypes" />
             <End Role="TestResult_TestFailureType" EntitySet="TestResult_TestFailureType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LatestTestResultSuite" Association="Self.FK_LatestTestResultSuite">
+            <End Role="Suites" EntitySet="Suites" />
+            <End Role="LatestTestResults" EntitySet="LatestTestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LatestTestResultTest" Association="Self.FK_LatestTestResultTest">
+            <End Role="Tests" EntitySet="Tests" />
+            <End Role="LatestTestResults" EntitySet="LatestTestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LatestTestResultTestResult" Association="Self.FK_LatestTestResultTestResult">
+            <End Role="TestResults" EntitySet="TestResults" />
+            <End Role="LatestTestResults" EntitySet="LatestTestResults" />
           </AssociationSet>
           <AssociationSet Name="FK_SuiteCategoryCategory" Association="Self.FK_SuiteCategoryCategory">
             <End Role="SuiteCategories" EntitySet="SuiteCategories" />
@@ -421,6 +482,7 @@
           <NavigationProperty Name="SuiteResults" Relationship="Self.FK_SuiteResultSuite" FromRole="Suites" ToRole="SuiteResults" />
           <NavigationProperty Name="SuiteCategories" Relationship="Self.Suite_SuiteCategories" FromRole="Suites" ToRole="SuiteCategories" />
           <NavigationProperty Name="Tests" Relationship="Self.Suites_Tests" FromRole="Suites" ToRole="Tests" />
+          <NavigationProperty Name="LatestTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultSuite" FromRole="Suite" ToRole="LatestTestResult" />
         </EntityType>
         <EntityType Name="TestCategory">
           <Key>
@@ -461,6 +523,7 @@
           <NavigationProperty Name="TestResultType" Relationship="Self.FK_TestResultTestResultType" FromRole="TestResults" ToRole="TestResultTypes" />
           <NavigationProperty Name="TestFailureDetails" Relationship="Self.TestResult_TestFailureDetails" FromRole="TestResults" ToRole="TestFailureDetails" />
           <NavigationProperty Name="TestFailureTypes" Relationship="Self.TestResult_TestFailureType" FromRole="TestResults" ToRole="TestFailureTypes" />
+          <NavigationProperty Name="LatestTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTestResult" FromRole="TestResult" ToRole="LatestTestResult" />
         </EntityType>
         <EntityType Name="TestResultType">
           <Key>
@@ -479,6 +542,7 @@
           <NavigationProperty Name="TestResults" Relationship="Self.FK_TestResultTest" FromRole="Tests" ToRole="TestResults" />
           <NavigationProperty Name="Suites" Relationship="Self.Suites_Tests" FromRole="Tests" ToRole="Suites" />
           <NavigationProperty Name="TestCategories" Relationship="Self.Test_TestCategories" FromRole="Tests" ToRole="TestCategories" />
+          <NavigationProperty Name="LatestTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTest" FromRole="Test" ToRole="LatestTestResult" />
         </EntityType>
         <Association Name="FK_SuiteResultSuite">
           <End Role="Suites" Type="Self.Suite" Multiplicity="1" />
@@ -611,7 +675,71 @@
             <End Role="TestFailureTypes" EntitySet="TestFailureTypes" />
             <End Role="TestResults" EntitySet="TestResults" />
           </AssociationSet>
+          <EntitySet Name="LatestTestResults" EntityType="ZigNet.Database.EntityFramework.Model.LatestTestResult" />
+          <AssociationSet Name="FK_LatestTestResultSuite" Association="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultSuite">
+            <End Role="Suite" EntitySet="Suites" />
+            <End Role="LatestTestResult" EntitySet="LatestTestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LatestTestResultTest" Association="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTest">
+            <End Role="Test" EntitySet="Tests" />
+            <End Role="LatestTestResult" EntitySet="LatestTestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LatestTestResultTestResult" Association="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTestResult">
+            <End Role="TestResult" EntitySet="TestResults" />
+            <End Role="LatestTestResult" EntitySet="LatestTestResults" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="LatestTestResult">
+          <Key>
+            <PropertyRef Name="LatestTestResultID" />
+          </Key>
+          <Property Name="LatestTestResultID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SuiteId" Type="Int32" Nullable="false" />
+          <Property Name="TestId" Type="Int32" Nullable="false" />
+          <Property Name="TestResultId" Type="Int32" Nullable="false" />
+          <Property Name="TestName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PassingFromDateTime" Type="DateTime" Precision="3" />
+          <Property Name="FailingFromDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Suite" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultSuite" FromRole="LatestTestResult" ToRole="Suite" />
+          <NavigationProperty Name="Test" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTest" FromRole="LatestTestResult" ToRole="Test" />
+          <NavigationProperty Name="TestResult" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTestResult" FromRole="LatestTestResult" ToRole="TestResult" />
+        </EntityType>
+        <Association Name="FK_LatestTestResultSuite">
+          <End Type="ZigNet.Database.EntityFramework.Model.Suite" Role="Suite" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.LatestTestResult" Role="LatestTestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suite">
+              <PropertyRef Name="SuiteID" />
+            </Principal>
+            <Dependent Role="LatestTestResult">
+              <PropertyRef Name="SuiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LatestTestResultTest">
+          <End Type="ZigNet.Database.EntityFramework.Model.Test" Role="Test" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.LatestTestResult" Role="LatestTestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Test">
+              <PropertyRef Name="TestID" />
+            </Principal>
+            <Dependent Role="LatestTestResult">
+              <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LatestTestResultTestResult">
+          <End Type="ZigNet.Database.EntityFramework.Model.TestResult" Role="TestResult" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.LatestTestResult" Role="LatestTestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResult">
+              <PropertyRef Name="TestResultID" />
+            </Principal>
+            <Dependent Role="LatestTestResult">
+              <PropertyRef Name="TestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -745,6 +873,19 @@
               <ScalarProperty Name="TestResultID" ColumnName="TestResultId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="LatestTestResults">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.LatestTestResult">
+              <MappingFragment StoreEntitySet="LatestTestResults">
+                <ScalarProperty Name="FailingFromDateTime" ColumnName="FailingFromDateTime" />
+                <ScalarProperty Name="PassingFromDateTime" ColumnName="PassingFromDateTime" />
+                <ScalarProperty Name="TestName" ColumnName="TestName" />
+                <ScalarProperty Name="TestResultId" ColumnName="TestResultId" />
+                <ScalarProperty Name="TestId" ColumnName="TestId" />
+                <ScalarProperty Name="SuiteId" ColumnName="SuiteId" />
+                <ScalarProperty Name="LatestTestResultID" ColumnName="LatestTestResultID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

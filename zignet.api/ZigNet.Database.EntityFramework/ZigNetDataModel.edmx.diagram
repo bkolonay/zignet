@@ -25,6 +25,10 @@
         <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.Test_TestCategories" ManuallyRouted="false" />
         <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.TestResult_TestFailureDetails" ManuallyRouted="false" />
         <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.TestResult_TestFailureType" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ZigNet.Database.EntityFramework.Model.LatestTestResult" Width="1.5" PointX="9.75" PointY="1.875" />
+        <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultSuite" />
+        <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTest" />
+        <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTestResult" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

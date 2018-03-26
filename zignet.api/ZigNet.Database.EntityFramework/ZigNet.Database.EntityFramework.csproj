@@ -55,6 +55,9 @@
   <ItemGroup>
     <Compile Include="Fix.cs" />
     <Compile Include="IZigNetEntitiesWrapper.cs" />
+    <Compile Include="LatestTestResult.cs">
+      <DependentUpon>ZigNetDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Suite.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>

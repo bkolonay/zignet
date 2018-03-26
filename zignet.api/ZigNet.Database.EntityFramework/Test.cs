@@ -9,8 +9,9 @@
 
 namespace ZigNet.Database.EntityFramework
 {
+    using System;
     using System.Collections.Generic;
-
+    
     public partial class Test
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,6 +20,7 @@ namespace ZigNet.Database.EntityFramework
             this.TestResults = new HashSet<TestResult>();
             this.Suites = new HashSet<Suite>();
             this.TestCategories = new HashSet<TestCategory>();
+            this.LatestTestResults = new HashSet<LatestTestResult>();
         }
     
         public int TestID { get; set; }
@@ -30,5 +32,7 @@ namespace ZigNet.Database.EntityFramework
         public virtual ICollection<Suite> Suites { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TestCategory> TestCategories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LatestTestResult> LatestTestResults { get; set; }
     }
 }
