@@ -172,6 +172,25 @@ namespace ZigNet.Database.EntityFramework
 
         public void SaveTestResult(ZigNetTestResult testResult)
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            if (string.IsNullOrWhiteSpace(testResult.Test.Name))
+                throw new ArgumentNullException("TestName", "Test name cannot be null");
+
+            var existingTestWithSameName = GetTestOrDefault(testResult.Test.Name);
+            if (existingTestWithSameName != null)
+            {
+                testResult.Test.TestID = existingTestWithSameName.TestID;
+                testResult.Test.Categories = testResult.Test.Categories.Concat(existingTestWithSameName.Categories).ToList();
+            }
+
+            if (!SuiteResultExists(testResult.SuiteResult.SuiteResultID))
+                throw new ArgumentOutOfRangeException("SuiteResultID", "Test result can not be saved with SuiteResultID that does not exist.");
+
+            stopwatch.Stop();
+            var seconds = stopwatch.ElapsedMilliseconds / 1000.0;
+
             var databaseTestResult = new TestResult
             {
                 SuiteResultId = testResult.SuiteResult.SuiteResultID,

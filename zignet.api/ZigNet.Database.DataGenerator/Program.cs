@@ -27,9 +27,9 @@ namespace ZigNet.Database.DataGenerator
                 new DummyTestModel { Name = "Search for listings by pn 2", Categories = new string[] {"ListingAdvertising", "ProdSafe" } }, // 22
             };
 
-            var zignetApiHandler = new ZigNetApiHandler(new HttpRequestSender(), "http://localhost:84/");
+            var zignetApiHandler = new ZigNetApiHandler(new HttpRequestSender(), "http://localhost:52529/");
 
-            for (var i = 0; i < 11212; i++)
+            for (var i = 0; i < 1; i++)
             {
                 Console.WriteLine("Iteration: " + i);
                 var suiteResultId = zignetApiHandler.StartSuite(26);
