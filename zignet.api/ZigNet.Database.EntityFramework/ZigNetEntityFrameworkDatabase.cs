@@ -10,6 +10,8 @@ using ZigNetTestResultType = ZigNet.Domain.Test.TestResultType;
 using ZigNetTest = ZigNet.Domain.Test.Test;
 using ZigNetTestCategory = ZigNet.Domain.Test.TestCategory;
 using ZigNetTestFailureType = ZigNet.Domain.Test.TestFailureType;
+using ZigNet.Database.DTOs;
+using System.Diagnostics;
 
 namespace ZigNet.Database.EntityFramework
 {
@@ -77,12 +79,109 @@ namespace ZigNet.Database.EntityFramework
         public IEnumerable<ZigNetTestResult> GetTestResultsForSuite(int suiteId)
         {
             var databaseTestResults = _zigNetEntitiesWrapper.GetTestResults().Where(tr => tr.SuiteResult.SuiteId == suiteId);
-
             var testResults = new List<ZigNetTestResult>();
             foreach (var databaseTestResult in databaseTestResults)
                 testResults.Add(MapDatabaseTestResult(databaseTestResult));
 
             return testResults;
+        }
+
+        public IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId)
+        {
+            var latestTestResults = new List<LatestTestResult>();
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            var testsWithTestResultsForSuite = _zigNetEntitiesWrapper.GetTestsWithTestResultsForSuite(suiteId);
+
+            stopwatch.Stop();
+            var testsWithTestResultsForSuiteSeconds = stopwatch.ElapsedMilliseconds / 1000.0;
+
+            stopwatch.Reset();
+            stopwatch.Start();
+            foreach (var test in testsWithTestResultsForSuite)
+            {
+                var fullLoopIterationStopwatch = new Stopwatch();
+
+                var loopStopwatch = new Stopwatch();
+
+                var latestTestResult = new LatestTestResult { TestName = test.TestName };
+
+                loopStopwatch.Start();
+
+                var testResultsInSuiteForTest = test.TestResults.OrderByDescending(tr => tr.TestResultEndDateTime);
+                var latestTestResultInSuite = testResultsInSuiteForTest.First();
+
+                loopStopwatch.Stop();
+                var testResultsInSuiteSeconds = loopStopwatch.ElapsedMilliseconds / 1000.0; //0.112, 0.06
+
+                if (latestTestResultInSuite.TestResultTypeId == 3) // pass
+                {
+                    loopStopwatch.Reset();
+                    loopStopwatch.Start();
+
+                    var lastFailedTestResult = testResultsInSuiteForTest.FirstOrDefault(tr => tr.TestResultTypeId == 1); // fail
+
+                    loopStopwatch.Stop();
+                    var firstFailedTestSeconds = loopStopwatch.ElapsedMilliseconds / 1000.0;
+
+                    if (lastFailedTestResult != null)
+                    {
+                        var testResultsAfterFailure = testResultsInSuiteForTest.Where(tr => tr.TestResultEndDateTime < lastFailedTestResult.TestResultEndDateTime);
+                        var firstPassBeforeFailure = testResultsAfterFailure.FirstOrDefault(tr => tr.TestResultTypeId == 3); // pass
+                        if (firstPassBeforeFailure == null)
+                        {
+                            latestTestResult.TestResultID = latestTestResultInSuite.TestResultID;
+                            latestTestResult.PassingFromDate = latestTestResultInSuite.TestResultEndDateTime;
+                        }
+                        else
+                        {
+                            latestTestResult.TestResultID = firstPassBeforeFailure.TestResultID;
+                            latestTestResult.PassingFromDate = firstPassBeforeFailure.TestResultEndDateTime;
+                        }
+                    }
+                    else
+                    {
+                        var firstTimeTestPassed = testResultsInSuiteForTest.OrderBy(tr => tr.TestResultEndDateTime).First();
+                        latestTestResult.TestResultID = firstTimeTestPassed.TestResultID;
+                        latestTestResult.PassingFromDate = firstTimeTestPassed.TestResultEndDateTime;
+                    }
+                }
+                else
+                {
+                    var lastPassedTestResult = testResultsInSuiteForTest.FirstOrDefault(tr => tr.TestResultTypeId == 3); // pass
+                    if (lastPassedTestResult == null)
+                    {
+                        var firstTimeTestFailed = testResultsInSuiteForTest.Last();
+                        latestTestResult.TestResultID = firstTimeTestFailed.TestResultID;
+                        latestTestResult.FailingFromDate = firstTimeTestFailed.TestResultEndDateTime;
+                    }
+                    else
+                    {
+                        latestTestResult.TestResultID = lastPassedTestResult.TestResultID;
+                        latestTestResult.FailingFromDate = lastPassedTestResult.TestResultEndDateTime;
+                    }
+                }
+
+                latestTestResults.Add(latestTestResult);
+
+                fullLoopIterationStopwatch.Stop();
+                var fullLoopIterationSeconds = stopwatch.ElapsedMilliseconds / 1000.0; //.2
+            }
+            stopwatch.Stop();
+            var loopSeconds = stopwatch.ElapsedMilliseconds / 1000.0;
+
+            stopwatch.Reset();
+            stopwatch.Start();
+
+            var passingLatestTestResults = latestTestResults.Where(ltr => ltr.PassingFromDate != null).OrderByDescending(ltr => ltr.PassingFromDate);
+            var failingLatestTestResults = latestTestResults.Where(ltr => ltr.FailingFromDate != null).OrderBy(ltr => ltr.FailingFromDate).ToList();
+            failingLatestTestResults.AddRange(passingLatestTestResults);
+
+            var finalSortSeconds = stopwatch.ElapsedMilliseconds / 1000.0;
+
+            return failingLatestTestResults;
         }
 
         public IEnumerable<ZigNetTest> GetTestsForSuite(int suiteId)

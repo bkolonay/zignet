@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ZigNet.Database.EntityFramework
 {
     public interface IZigNetEntitiesWrapper
     {
         IQueryable<Suite> GetSuites();
+        IEnumerable<Test> GetTestsWithTestResultsForSuite(int suiteId);
         Suite GetSuite(int suiteId);
         IQueryable<SuiteCategory> GetSuiteCategories();
         IQueryable<TestCategory> GetTestCategories();

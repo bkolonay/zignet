@@ -1,15 +1,53 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Data.Entity;
 
 namespace ZigNet.Database.EntityFramework
 {
     public class ZigNetEntitiesWrapper : IZigNetEntitiesWrapper, IDisposable
     {
         private ZigNetEntities _zigNetEntities = new ZigNetEntities();
+        //_zigNetEntities.Database.Log = s => Debug.WriteLine(s);
 
         public IQueryable<Suite> GetSuites()
         {
             return _zigNetEntities.Suites;
+        }
+        public IEnumerable<Test> GetTestsWithTestResultsForSuite(int suiteId)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            var testsForSuite = _zigNetEntities.Suites
+                .AsNoTracking()
+                .Include(s => s.Tests)
+                .Single(s => s.SuiteID == suiteId)
+                .Tests;
+
+            stopwatch.Stop();
+            var testsForSuiteSeconds = stopwatch.ElapsedMilliseconds / 1000.0;
+
+            stopwatch.Reset();
+            stopwatch.Start();
+
+            var testResultsGroupedByTestForSuite = _zigNetEntities.TestResults
+                .AsNoTracking()
+                .Include(tr => tr.Test)
+                .Where(tr => tr.SuiteResult.SuiteId == suiteId)
+                .GroupBy(tr => tr.TestId)
+                .ToList();
+
+            stopwatch.Stop();
+            var testResultsGroupedByTestForSuiteSeconds = stopwatch.ElapsedMilliseconds / 1000.0;
+
+            var testsWithTestResults = new List<Test>();
+            foreach (var groupedTestResult in testResultsGroupedByTestForSuite)
+                if (testsForSuite.Any(t => t.TestID == groupedTestResult.Key))
+                    testsWithTestResults.Add(new Test { TestID = groupedTestResult.Key, TestResults = groupedTestResult.ToList() });
+
+            return testsWithTestResults;
         }
 
         public Suite GetSuite(int suiteId)

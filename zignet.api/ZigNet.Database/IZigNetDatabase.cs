@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ZigNet.Database.DTOs;
 using ZigNet.Domain.Suite;
 using ZigNet.Domain.Test;
 
@@ -11,6 +12,7 @@ namespace ZigNet.Database
         IEnumerable<SuiteResult> GetSuiteResultsForSuite(int suiteId);
         IEnumerable<TestResult> GetTestResultsForSuite(int suiteId);
         IEnumerable<TestResult> GetTestResultsForSuiteResult(int suiteResultId);
+        IEnumerable<LatestTestResult> GetLatestTestResults(int suiteResultId);
         IEnumerable<Test> GetTestsForSuite(int suiteId);
         SuiteResult GetSuiteResult(int suiteResultId);
         Test GetTestOrDefault(string testName);

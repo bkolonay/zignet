@@ -140,66 +140,20 @@ namespace ZigNet.Business
 
         public IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId)
         {
+            var databaseLatestTestResults = _zignetDatabase.GetLatestTestResults(suiteId);
+
             var latestTestResults = new List<LatestTestResult>();
-            var testsForSuite = _zignetDatabase.GetTestsForSuite(suiteId);
-            var testResultsForSuite = _zignetDatabase.GetTestResultsForSuite(suiteId);
-
-            foreach (var test in testsForSuite)
+            foreach (var databaseLatestTestResult in databaseLatestTestResults)
             {
-                var latestTestResult = new LatestTestResult { TestName = test.Name };
-
-                var testResultsInSuiteForTest = testResultsForSuite.Where(tr => tr.Test.TestID == test.TestID).OrderByDescending(tr => tr.EndTime);
-                var latestTestResultInSuite = testResultsInSuiteForTest.First();
-
-                if (latestTestResultInSuite.ResultType == TestResultType.Pass)
+                latestTestResults.Add(new LatestTestResult
                 {
-                    var lastFailedTestResult = testResultsInSuiteForTest.FirstOrDefault(tr => tr.ResultType == TestResultType.Fail);
-                    if (lastFailedTestResult != null)
-                    {
-                        var testResultsAfterFailure = testResultsInSuiteForTest.Where(tr => tr.EndTime < lastFailedTestResult.EndTime);
-                        var firstPassBeforeFailure = testResultsAfterFailure.FirstOrDefault(tr => tr.ResultType == TestResultType.Pass);
-                        if (firstPassBeforeFailure == null)
-                        {
-                            latestTestResult.TestResultID = latestTestResultInSuite.TestResultID;
-                            latestTestResult.PassingFromDate = latestTestResultInSuite.EndTime;
-                        }
-                        else
-                        {
-                            latestTestResult.TestResultID = firstPassBeforeFailure.TestResultID;
-                            latestTestResult.PassingFromDate = firstPassBeforeFailure.EndTime;
-                        }
-                    }
-                    else
-                    {
-                        var firstTimeTestPassed = testResultsInSuiteForTest.Last();
-                        latestTestResult.TestResultID = firstTimeTestPassed.TestResultID;
-                        latestTestResult.PassingFromDate = firstTimeTestPassed.EndTime;
-                    }
-                }
-                else
-                {
-                    var lastPassedTestResult = testResultsInSuiteForTest.FirstOrDefault(tr => tr.ResultType == TestResultType.Pass);
-                    if (lastPassedTestResult == null)
-                    {
-                        var firstTimeTestFailed = testResultsInSuiteForTest.Last();
-                        latestTestResult.TestResultID = firstTimeTestFailed.TestResultID;
-                        latestTestResult.FailingFromDate = firstTimeTestFailed.EndTime;
-                    }
-                    else
-                    {
-                        latestTestResult.TestResultID = lastPassedTestResult.TestResultID;
-                        latestTestResult.FailingFromDate = lastPassedTestResult.EndTime;
-                    }
-                }
-                
-                latestTestResults.Add(latestTestResult);
+                    TestResultID = databaseLatestTestResult.TestResultID,
+                    TestName = databaseLatestTestResult.TestName,
+                    FailingFromDate = databaseLatestTestResult.FailingFromDate,
+                    PassingFromDate = databaseLatestTestResult.PassingFromDate
+                });
             }
-
-            var passingLatestTestResults = latestTestResults.Where(ltr => ltr.PassingFromDate != null).OrderByDescending(ltr => ltr.PassingFromDate);
-            var failingLatestTestResults = latestTestResults.Where(ltr => ltr.FailingFromDate != null).OrderBy(ltr => ltr.FailingFromDate).ToList();
-            failingLatestTestResults.AddRange(passingLatestTestResults);
-
-            return failingLatestTestResults;
+            return latestTestResults;
         }
     }
 }
