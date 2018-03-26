@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Data.Entity;
+using ZigNetSuite = ZigNet.Domain.Suite.Suite;
+using ZigNetTest = ZigNet.Domain.Test.Test;
+using ZigNetTestCategory = ZigNet.Domain.Test.TestCategory;
 
 namespace ZigNet.Database.EntityFramework
 {
     public class ZigNetEntitiesWrapper : IZigNetEntitiesWrapper, IDisposable
     {
-        private ZigNetEntities _zigNetEntities = new ZigNetEntities();
-        //_zigNetEntities.Database.Log = s => Debug.WriteLine(s);
+        private ZigNetEntities _zigNetEntities;
+
+        public ZigNetEntitiesWrapper()
+        {
+            _zigNetEntities = new ZigNetEntities();
+            _zigNetEntities.Database.Log = s => Debug.WriteLine(s);
+        }        
 
         public IQueryable<Suite> GetSuites()
         {
@@ -55,6 +63,13 @@ namespace ZigNet.Database.EntityFramework
             return _zigNetEntities.Suites.Single(s => s.SuiteID == suiteId);
         }
 
+        public ZigNetSuite GetZigNetSuite(int suiteId)
+        {
+            return _zigNetEntities.Suites
+                .Select(s => new ZigNetSuite { SuiteID = s.SuiteID })
+                .Single(s => s.SuiteID == suiteId);
+        }
+
         public IQueryable<SuiteResult> GetSuiteResults()
         {
             return _zigNetEntities.SuiteResults;
@@ -63,6 +78,20 @@ namespace ZigNet.Database.EntityFramework
         public SuiteResult GetSuiteResult(int suiteResultId)
         {
             return GetSuiteResults().Single(sr => sr.SuiteResultID == suiteResultId);
+        }
+
+        public SuiteResult GetSuiteResultWithoutTracking(int suiteResultId)
+        {
+            return GetSuiteResults()
+                .AsNoTracking()
+                .Single(sr => sr.SuiteResultID == suiteResultId);
+        }
+
+        public bool SuiteResultExists(int suiteResultId)
+        {
+            return _zigNetEntities.SuiteResults
+                .AsNoTracking()
+                .Any(sr => sr.SuiteResultID == suiteResultId);
         }
 
         public IQueryable<SuiteCategory> GetSuiteCategories()
@@ -80,19 +109,34 @@ namespace ZigNet.Database.EntityFramework
             return _zigNetEntities.TestResults;
         }
 
-        public Test GetTestOrDefault(string testName)
+        public ZigNetTest GetTestOrDefault(string testName)
         {
-            return _zigNetEntities.Tests.SingleOrDefault(t => t.TestName == testName);
+            return _zigNetEntities.Tests
+                .AsNoTracking()
+                .Include(t => t.TestCategories)
+                .Select(t => 
+                    new ZigNetTest
+                    {
+                        TestID = t.TestID,
+                        Name = t.TestName,
+                        Categories = t.TestCategories.Select(tc => new ZigNetTestCategory { TestCategoryID = tc.TestCategoryID, Name = tc.CategoryName }).ToList()
+                    }
+                )
+                .SingleOrDefault(t => t.Name == testName);
         }
 
         public Test GetTest(int testId)
         {
-            return _zigNetEntities.Tests.Single(t => t.TestID == testId);
+            return _zigNetEntities.Tests
+                .Include(t => t.Suites)
+                .Single(t => t.TestID == testId);
         }
 
         public TestFailureType GetTestFailureType(int testFailureTypeId)
         {
-            return _zigNetEntities.TestFailureTypes.Single(tft => tft.TestFailureTypeID == testFailureTypeId);
+            return _zigNetEntities.TestFailureTypes
+                .AsNoTracking()
+                .Single(tft => tft.TestFailureTypeID == testFailureTypeId);
         }
 
         public int SaveSuite(Suite suite)

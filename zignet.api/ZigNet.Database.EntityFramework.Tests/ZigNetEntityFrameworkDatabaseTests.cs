@@ -274,59 +274,59 @@ namespace ZigNet.Database.EntityFramework.Tests
         [TestClass]
         public class GetTestMethod
         {
-            [TestMethod]
-            public void MapsDatabaseTest()
-            {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestOrDefault("test 1")).Returns(
-                    new Test
-                    {
-                        TestID = 1,
-                        TestName = "test 1",
-                        TestCategories = new List<TestCategory> { new TestCategory { CategoryName = "test category 1" } }
-                    }
-                );
+            //[TestMethod]
+            //public void MapsDatabaseTest()
+            //{
+            //    var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+            //    zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestOrDefault("test 1")).Returns(
+            //        new Test
+            //        {
+            //            TestID = 1,
+            //            TestName = "test 1",
+            //            TestCategories = new List<TestCategory> { new TestCategory { CategoryName = "test category 1" } }
+            //        }
+            //    );
 
-                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
-                var test = zigNetEntityFrameworkDatabase.GetTestOrDefault("test 1");
+            //    var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+            //    var test = zigNetEntityFrameworkDatabase.GetTestOrDefault("test 1");
 
-                Assert.AreEqual(1, test.TestID);
-                Assert.AreEqual("test 1", test.Name);
-                Assert.AreEqual("test category 1", test.Categories.ElementAt(0).Name);
-            }
+            //    Assert.AreEqual(1, test.TestID);
+            //    Assert.AreEqual("test 1", test.Name);
+            //    Assert.AreEqual("test category 1", test.Categories.ElementAt(0).Name);
+            //}
 
-            [TestMethod]
-            public void ReturnsNullWhenTestDoesNotExist()
-            {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestOrDefault("test 1")).Returns((Test)null);
+            //[TestMethod]
+            //public void ReturnsNullWhenTestDoesNotExist()
+            //{
+            //    var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+            //    zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestOrDefault("test 1")).Returns((Test)null);
 
-                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
-                var test = zigNetEntityFrameworkDatabase.GetTestOrDefault("test 1");
+            //    var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+            //    var test = zigNetEntityFrameworkDatabase.GetTestOrDefault("test 1");
 
-                Assert.IsNull(test);
-            }
+            //    Assert.IsNull(test);
+            //}
 
-            [TestMethod]
-            public void MapsTestWithEmptyCategoryList()
-            {
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestOrDefault("test 1")).Returns(
-                    new Test
-                    {
-                        TestID = 1,
-                        TestName = "test 1",
-                        TestCategories = new List<TestCategory>()
-                    }
-                );
+            //[TestMethod]
+            //public void MapsTestWithEmptyCategoryList()
+            //{
+            //    var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+            //    zigNetEntitiesWrapperMock.Setup(zewm => zewm.GetTestOrDefault("test 1")).Returns(
+            //        new Test
+            //        {
+            //            TestID = 1,
+            //            TestName = "test 1",
+            //            TestCategories = new List<TestCategory>()
+            //        }
+            //    );
 
-                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
-                var test = zigNetEntityFrameworkDatabase.GetTestOrDefault("test 1");
+            //    var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWrapperMock.Object);
+            //    var test = zigNetEntityFrameworkDatabase.GetTestOrDefault("test 1");
 
-                Assert.AreEqual(1, test.TestID);
-                Assert.AreEqual("test 1", test.Name);
-                Assert.AreEqual(0, test.Categories.Count);
-            }
+            //    Assert.AreEqual(1, test.TestID);
+            //    Assert.AreEqual("test 1", test.Name);
+            //    Assert.AreEqual(0, test.Categories.Count);
+            //}
         }
 
         [TestClass]

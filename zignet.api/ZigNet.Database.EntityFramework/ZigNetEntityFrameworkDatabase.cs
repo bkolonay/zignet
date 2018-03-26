@@ -24,6 +24,16 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntitiesWrapper = zigNetEntitiesWrapper;
         }
 
+        public ZigNetSuite GetSuite(int suiteId)
+        {
+            return _zigNetEntitiesWrapper.GetZigNetSuite(suiteId);
+        }
+
+        public bool SuiteResultExists(int suiteResultId)
+        {
+            return _zigNetEntitiesWrapper.SuiteResultExists(suiteResultId);
+        }
+
         public IEnumerable<ZigNetSuite> GetSuites()
         {
             var databaseSuites = _zigNetEntitiesWrapper.GetSuites();
@@ -106,6 +116,7 @@ namespace ZigNet.Database.EntityFramework
 
                 var loopStopwatch = new Stopwatch();
 
+                // doesn't work because of group by in query
                 var latestTestResult = new LatestTestResult { TestName = test.TestName };
 
                 loopStopwatch.Start();
@@ -198,10 +209,7 @@ namespace ZigNet.Database.EntityFramework
 
         public ZigNetTest GetTestOrDefault(string testName)
         {
-            var databaseTest = _zigNetEntitiesWrapper.GetTestOrDefault(testName);
-            if (databaseTest == null)
-                return null;
-            return MapDatabaseTest(databaseTest);
+            return _zigNetEntitiesWrapper.GetTestOrDefault(testName);
         }
 
         public int SaveSuite(ZigNetSuite suite)
@@ -264,12 +272,12 @@ namespace ZigNet.Database.EntityFramework
                 databaseTestResult.Test = new Test { TestName = testResult.Test.Name, TestCategories = new List<TestCategory>() };
 
             databaseTestResult.Test.TestCategories.Clear();
+            var existingDatabaseTestCategories = _zigNetEntitiesWrapper.GetTestCategories().OrderBy(tc => tc.TestCategoryID).ToList();
             foreach (var testCategory in testResult.Test.Categories)
             {
                 // use FirstOrDefault instead of SingleOrDefault because first-run multi-threaded tests end up inserting duplicate categories
                 // (before the check for duplicates happens)
-                var existingDatabaseTestCategory = _zigNetEntitiesWrapper.GetTestCategories()
-                    .OrderBy(tc => tc.TestCategoryID)
+                var existingDatabaseTestCategory = existingDatabaseTestCategories
                     .FirstOrDefault(tc => tc.CategoryName == testCategory.Name);
                 if (existingDatabaseTestCategory != null)
                     databaseTestResult.Test.TestCategories.Add(existingDatabaseTestCategory);
@@ -277,7 +285,7 @@ namespace ZigNet.Database.EntityFramework
                     databaseTestResult.Test.TestCategories.Add(new TestCategory { CategoryName = testCategory.Name });
             }
 
-            var suiteResult = _zigNetEntitiesWrapper.GetSuiteResult(testResult.SuiteResult.SuiteResultID);
+            var suiteResult = _zigNetEntitiesWrapper.GetSuiteResultWithoutTracking(testResult.SuiteResult.SuiteResultID);
             if (!databaseTestResult.Test.Suites.Any(s => s.SuiteID == suiteResult.SuiteId))
             {
                 var suite = _zigNetEntitiesWrapper.GetSuite(suiteResult.SuiteId);

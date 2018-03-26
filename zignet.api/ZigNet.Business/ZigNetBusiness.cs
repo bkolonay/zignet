@@ -88,7 +88,7 @@ namespace ZigNet.Business
         public int StartSuite(int suiteId)
         {
             var suiteResult = CreateNewSuiteResultForSuite(
-                _zignetDatabase.GetSuites().Single(s => s.SuiteID == suiteId)
+                _zignetDatabase.GetSuite(suiteId)
             );
             return _zignetDatabase.SaveSuiteResult(suiteResult);
         }
@@ -122,8 +122,8 @@ namespace ZigNet.Business
                 testResult.Test.Categories = testResult.Test.Categories.Concat(existingTestWithSameName.Categories).ToList();
             }
 
-            // this will throw if suite result passed in doesn't exist in the DB (it must exist)
-            var testResultSuiteResult = _zignetDatabase.GetSuiteResult(testResult.SuiteResult.SuiteResultID);
+            if (!_zignetDatabase.SuiteResultExists(testResult.SuiteResult.SuiteResultID))
+                throw new ArgumentOutOfRangeException("SuiteResultID", "Test result can not be saved with SuiteResultID that does not exist.");
 
             _zignetDatabase.SaveTestResult(testResult);
         }

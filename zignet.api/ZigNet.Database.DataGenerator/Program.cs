@@ -15,21 +15,21 @@ namespace ZigNet.Database.DataGenerator
             var startTime = DateTime.Now;
             var tests = new List<DummyTestModel>
             {
-                new DummyTestModel { Name = "Search for brokers", Categories = new string[] {"Broker", "ProdSafe" } }, // 13
-                new DummyTestModel { Name = "Get walk score", Categories = new string[] {"Location", "ProdSafe" } },
-                new DummyTestModel { Name = "Get traffic", Categories = new string[] {"Location", "ProdSafe" } },
-                new DummyTestModel { Name = "Delete a single watch listing in FL watch folder", Categories = new string[] {"Watchlistings", "ProdSafe" } },
-                new DummyTestModel { Name = "Get user listing alert option", Categories = new string[] {"ListingAlert", "ProdSafe" } },
-                new DummyTestModel { Name = "Get impression by contactIdAsync", Categories = new string[] {"ListingAnalytics", "ProdSafe" } },
-                new DummyTestModel { Name = "Get new listings on page 1", Categories = new string[] {"ListingAlert", "ProdSafe" } },
-                new DummyTestModel { Name = "Mark mobile lead as read", Categories = new string[] {"Mobile-Leads" } },
-                new DummyTestModel { Name = "Get notification messages for user", Categories = new string[] {"ListingAlert", "ProdSafe" } },
-                new DummyTestModel { Name = "Update user listing alert", Categories = new string[] {"ListingAlert", "ProdSafe" } }, // 22
+                new DummyTestModel { Name = "SEO search for listings at the city level for a standard property type", Categories = new string[] { "Listing", "ProdSafe" } }, // 23
+                new DummyTestModel { Name = "Search for lease listings via non-company based LoopLinks", Categories = new string[] { "ListingMarketplace", "ProdSafe" } },
+                new DummyTestModel { Name = "Retrieve users who are watching multi listing ids using POST request", Categories = new string[] { "Watchlistings", "ProdSafe" } },
+                new DummyTestModel { Name = "Delete a watched listing from a FS folder for a mobile user", Categories = new string[] { "Mobile-Watchlistings", "ProdSafe" } },
+                new DummyTestModel { Name = "I update the targetedUserExperience", Categories = new string[] { "SavedSearch", "ProdSafe" } },
+                new DummyTestModel { Name = "Update a FL save search for a specific user with a save search ID", Categories = new string[] { "SavedSearch", "ProdSafe" } },
+                new DummyTestModel { Name = "Update notification message to read", Categories = new string[] { "ListingAlert", "ProdSafe" } },
+                new DummyTestModel { Name = "Get a matrix of analytical data keyed around one or more SEO property type IDs for NY", Categories = new string[] { "ListingMarketplace" } },
+                new DummyTestModel { Name = "Create new FS watch listing folder on mobile", Categories = new string[] { "ListingMarketplace", "ProdSafe" } },
+                new DummyTestModel { Name = "Search for listings by pn 2", Categories = new string[] {"ListingAdvertising", "ProdSafe" } }, // 22
             };
 
             var zignetApiHandler = new ZigNetApiHandler(new HttpRequestSender(), "http://localhost:84/");
 
-            for (var i = 0; i < 300000; i++)
+            for (var i = 0; i < 11212; i++)
             {
                 Console.WriteLine("Iteration: " + i);
                 var suiteResultId = zignetApiHandler.StartSuite(26);
@@ -58,6 +58,7 @@ namespace ZigNet.Database.DataGenerator
 
                 zignetApiHandler.StopSuite(suiteResultId, SuiteResultType.Inconclusive);
             }
+
             Console.WriteLine("DONE!");
             Console.WriteLine(string.Format("Start Time: {0} {1}", startTime.ToShortDateString(), startTime.ToShortTimeString()));
             Console.WriteLine(string.Format("End Time {0} {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString()));

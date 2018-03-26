@@ -7,6 +7,8 @@ namespace ZigNet.Database
 {
     public interface IZigNetDatabase
     {
+        bool SuiteResultExists(int suiteResultId);
+        Suite GetSuite(int suiteId);
         IEnumerable<Suite> GetSuites();
         IEnumerable<SuiteCategory> GetSuiteCategoriesForSuite(int suiteId);
         IEnumerable<SuiteResult> GetSuiteResultsForSuite(int suiteId);
