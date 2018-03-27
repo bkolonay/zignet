@@ -25,21 +25,6 @@ namespace ZigNet.Api.Controllers
             return _zigNetBusiness.CreateSuite(_zigNetApiMapper.MapCreateSuiteModel(createSuiteModel));
         }
 
-        [Route("api/Suite/AddCategory")]
-        public HttpResponseMessage AddCategory([FromBody]AddDeleteSuiteCategoryModel addSuiteCategoryModel)
-        {
-            _zigNetBusiness.AddSuiteCategory(addSuiteCategoryModel.SuiteID, addSuiteCategoryModel.SuiteCategoryName);
-            return Request.CreateResponse(HttpStatusCode.OK);
-        }
-
-        [Route("api/Suite/DeleteCategory")]
-        [HttpPost]
-        public HttpResponseMessage DeleteCategory([FromBody]AddDeleteSuiteCategoryModel deleteSuiteCategoryModel)
-        {
-            _zigNetBusiness.DeleteSuiteCategory(deleteSuiteCategoryModel.SuiteID, deleteSuiteCategoryModel.SuiteCategoryName);
-            return Request.CreateResponse(HttpStatusCode.OK);
-        }
-
         [Route("api/Suite/StartById")]
         public int StartById([FromBody]int suiteId)
         {
@@ -63,6 +48,21 @@ namespace ZigNet.Api.Controllers
         public IEnumerable<LatestTestResult> LatestTestResults([FromBody] int suiteId)
         {
             return _zigNetBusiness.GetLatestTestResults(suiteId);
+        }
+
+        [Route("api/Suite/AddCategory")]
+        public HttpResponseMessage AddCategory([FromBody]AddDeleteSuiteCategoryModel addSuiteCategoryModel)
+        {
+            _zigNetBusiness.AddSuiteCategory(addSuiteCategoryModel.SuiteID, addSuiteCategoryModel.SuiteCategoryName);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [Route("api/Suite/DeleteCategory")]
+        [HttpPost]
+        public HttpResponseMessage DeleteCategory([FromBody]AddDeleteSuiteCategoryModel deleteSuiteCategoryModel)
+        {
+            _zigNetBusiness.DeleteSuiteCategory(deleteSuiteCategoryModel.SuiteID, deleteSuiteCategoryModel.SuiteCategoryName);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

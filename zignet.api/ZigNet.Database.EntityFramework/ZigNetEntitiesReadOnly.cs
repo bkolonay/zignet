@@ -27,6 +27,28 @@ namespace ZigNet.Database.EntityFramework
                 .SuiteID;
         }
 
+        public ZigNetTest GetMappedTestWithCategoriesOrDefault(string testName)
+        {
+            return _zigNetEntities.Tests
+                .AsNoTracking()
+                .Include(t => t.TestCategories)
+                .Select(t =>
+                    new ZigNetTest
+                    {
+                        TestID = t.TestID,
+                        Name = t.TestName,
+                        Categories = t.TestCategories.Select(tc => new ZigNetTestCategory { TestCategoryID = tc.TestCategoryID, Name = tc.CategoryName }).ToList()
+                    }
+                )
+                .SingleOrDefault(t => t.Name == testName);
+        }
+        public SuiteResult GetSuiteResult(int suiteResultId)
+        {
+            return GetSuiteResults()
+                .AsNoTracking()
+                .Single(sr => sr.SuiteResultID == suiteResultId);
+        }
+
 
         public IQueryable<Suite> GetSuites()
         {
@@ -68,11 +90,6 @@ namespace ZigNet.Database.EntityFramework
             return testsWithTestResults;
         }
 
-        public Suite GetSuite(int suiteId)
-        {
-            return _zigNetEntities.Suites.Single(s => s.SuiteID == suiteId);
-        }
-
         public ZigNetSuite GetZigNetSuite(int suiteId)
         {
             return _zigNetEntities.Suites
@@ -83,18 +100,6 @@ namespace ZigNet.Database.EntityFramework
         public IQueryable<SuiteResult> GetSuiteResults()
         {
             return _zigNetEntities.SuiteResults;
-        }
-
-        public SuiteResult GetSuiteResult(int suiteResultId)
-        {
-            return GetSuiteResults().Single(sr => sr.SuiteResultID == suiteResultId);
-        }
-
-        public SuiteResult GetSuiteResultWithoutTracking(int suiteResultId)
-        {
-            return GetSuiteResults()
-                .AsNoTracking()
-                .Single(sr => sr.SuiteResultID == suiteResultId);
         }
 
         public bool SuiteResultExists(int suiteResultId)
@@ -117,22 +122,6 @@ namespace ZigNet.Database.EntityFramework
         public IQueryable<TestResult> GetTestResults()
         {
             return _zigNetEntities.TestResults;
-        }
-
-        public ZigNetTest GetTestOrDefault(string testName)
-        {
-            return _zigNetEntities.Tests
-                .AsNoTracking()
-                .Include(t => t.TestCategories)
-                .Select(t => 
-                    new ZigNetTest
-                    {
-                        TestID = t.TestID,
-                        Name = t.TestName,
-                        Categories = t.TestCategories.Select(tc => new ZigNetTestCategory { TestCategoryID = tc.TestCategoryID, Name = tc.CategoryName }).ToList()
-                    }
-                )
-                .SingleOrDefault(t => t.Name == testName);
         }
 
         public Test GetTest(int testId)
@@ -177,11 +166,6 @@ namespace ZigNet.Database.EntityFramework
             if (latestTestResult.LatestTestResultID == 0)
                 _zigNetEntities.LatestTestResults.Add(latestTestResult);
             _zigNetEntities.SaveChanges();
-        }
-
-        public IQueryable<LatestTestResult> GetLatestTestResults()
-        {
-            return _zigNetEntities.LatestTestResults;
         }
     }
 }

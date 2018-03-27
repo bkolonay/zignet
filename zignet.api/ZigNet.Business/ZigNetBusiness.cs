@@ -29,7 +29,32 @@ namespace ZigNet.Business
         {
             _zignetDatabase.StopSuite(suiteResultId, suiteResultType);
         }
+        public void SaveTestResult(TestResult testResult)
+        {
+            if (string.IsNullOrWhiteSpace(testResult.Test.Name))
+                throw new ArgumentNullException("TestName", "Test name cannot be null");
 
+            _zignetDatabase.SaveTestResult(testResult);
+        }
+
+
+        public IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId)
+        {
+            var databaseLatestTestResults = _zignetDatabase.GetLatestTestResults(suiteId);
+
+            var latestTestResults = new List<LatestTestResult>();
+            foreach (var databaseLatestTestResult in databaseLatestTestResults)
+            {
+                latestTestResults.Add(new LatestTestResult
+                {
+                    TestResultID = databaseLatestTestResult.TestResultID,
+                    TestName = databaseLatestTestResult.TestName,
+                    FailingFromDate = databaseLatestTestResult.FailingFromDate,
+                    PassingFromDate = databaseLatestTestResult.PassingFromDate
+                });
+            }
+            return latestTestResults;
+        }
 
 
         public IEnumerable<SuiteSummary> GetLatestSuiteResults()
@@ -71,7 +96,6 @@ namespace ZigNet.Business
 
             return _zignetDatabase.SaveSuite(suite);
         }
-
         public void AddSuiteCategory(int suiteId, string suiteCategoryName)
         {
             if (string.IsNullOrWhiteSpace(suiteCategoryName))
@@ -85,7 +109,6 @@ namespace ZigNet.Business
             suite.Categories.Add(new SuiteCategory { Name = suiteCategoryName });
             _zignetDatabase.SaveSuite(suite);
         }
-
         public void DeleteSuiteCategory(int suiteId, string suiteCategoryName)
         {
             if (string.IsNullOrWhiteSpace(suiteCategoryName))
@@ -98,43 +121,6 @@ namespace ZigNet.Business
             var suite = _zignetDatabase.GetSuites().Single(s => s.SuiteID == suiteId);
             suite.Categories.Remove(suite.Categories.Single(sc => sc.Name == suiteCategoryName));
             _zignetDatabase.SaveSuite(suite);
-        }
-
-        public void SaveTestResult(TestResult testResult)
-        {
-            if (string.IsNullOrWhiteSpace(testResult.Test.Name))
-                throw new ArgumentNullException("TestName", "Test name cannot be null");
-
-            var existingTestWithSameName = _zignetDatabase.GetTestOrDefault(testResult.Test.Name);
-            if (existingTestWithSameName != null)
-            {
-                testResult.Test.TestID = existingTestWithSameName.TestID;
-                testResult.Test.Categories = testResult.Test.Categories.Concat(existingTestWithSameName.Categories).ToList();
-            }
-
-            // todo: could remove this to save a db call
-            if (!_zignetDatabase.SuiteResultExists(testResult.SuiteResult.SuiteResultID))
-                throw new ArgumentOutOfRangeException("SuiteResultID", "Test result can not be saved with SuiteResultID that does not exist.");
-
-            _zignetDatabase.SaveTestResult(testResult);
-        }
-
-        public IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId)
-        {
-            var databaseLatestTestResults = _zignetDatabase.GetLatestTestResults(suiteId);
-
-            var latestTestResults = new List<LatestTestResult>();
-            foreach (var databaseLatestTestResult in databaseLatestTestResults)
-            {
-                latestTestResults.Add(new LatestTestResult
-                {
-                    TestResultID = databaseLatestTestResult.TestResultID,
-                    TestName = databaseLatestTestResult.TestName,
-                    FailingFromDate = databaseLatestTestResult.FailingFromDate,
-                    PassingFromDate = databaseLatestTestResult.PassingFromDate
-                });
-            }
-            return latestTestResults;
         }
     }
 }

@@ -48,8 +48,87 @@ namespace ZigNet.Database.EntityFramework
             databaseSuiteResult.SuiteResultTypeId = MapSuiteResultType(suiteResultType);
             _zigNetEntitiesWriter.SaveSuiteResult(databaseSuiteResult);
         }
+        public void SaveTestResult(ZigNetTestResult testResult)
+        {
+            var existingTestWithSameName = _zigNetEntitiesReadOnly.GetMappedTestWithCategoriesOrDefault(testResult.Test.Name);
+            if (existingTestWithSameName != null)
+            {
+                testResult.Test.TestID = existingTestWithSameName.TestID;
+                testResult.Test.Categories = testResult.Test.Categories.Concat(existingTestWithSameName.Categories).ToList();
+            }
 
+            var databaseTestResult = new TestResult
+            {
+                SuiteResultId = testResult.SuiteResult.SuiteResultID,
+                TestResultStartDateTime = testResult.StartTime,
+                TestResultEndDateTime = testResult.EndTime,
+                TestResultTypeId = MapTestResultType(testResult.ResultType)
+            };
 
+            if (testResult.ResultType == ZigNetTestResultType.Fail)
+            {
+                databaseTestResult.TestFailureTypes.Add(GetTestFailureType(testResult.TestFailureDetails.FailureType));
+                if (!string.IsNullOrWhiteSpace(testResult.TestFailureDetails.FailureDetailMessage))
+                    databaseTestResult.TestFailureDetails.Add(new TestFailureDetail { TestFailureDetail1 = testResult.TestFailureDetails.FailureDetailMessage });
+            }
+
+            if (testResult.Test.TestID != 0)
+                databaseTestResult.Test = _zigNetEntitiesWriter.GetTestWithSuites(testResult.Test.TestID);
+            else
+                databaseTestResult.Test = new Test { TestName = testResult.Test.Name, TestCategories = new List<TestCategory>() };
+
+            databaseTestResult.Test.TestCategories.Clear();
+            var existingDatabaseTestCategories = _zigNetEntitiesWriter.GetTestCategories().OrderBy(tc => tc.TestCategoryID).ToList();
+            foreach (var testCategory in testResult.Test.Categories)
+            {
+                // use FirstOrDefault instead of SingleOrDefault because first-run multi-threaded tests end up inserting duplicate categories
+                // (before the check for duplicates happens)
+                var existingDatabaseTestCategory = existingDatabaseTestCategories
+                    .FirstOrDefault(tc => tc.CategoryName == testCategory.Name);
+                if (existingDatabaseTestCategory != null)
+                    databaseTestResult.Test.TestCategories.Add(existingDatabaseTestCategory);
+                else
+                    databaseTestResult.Test.TestCategories.Add(new TestCategory { CategoryName = testCategory.Name });
+            }
+
+            var suiteResult = _zigNetEntitiesReadOnly.GetSuiteResult(testResult.SuiteResult.SuiteResultID);
+            if (!databaseTestResult.Test.Suites.Any(s => s.SuiteID == suiteResult.SuiteId))
+            {
+                var suite = _zigNetEntitiesWriter.GetSuite(suiteResult.SuiteId);
+                databaseTestResult.Test.Suites.Add(suite);
+            }
+
+            var savedTestResult = _zigNetEntitiesWriter.SaveTestResult(databaseTestResult);
+
+            var databaseLatestTestResult = _zigNetEntitiesWriter.GetLatestTestResults()
+                .SingleOrDefault(ltr =>
+                    ltr.SuiteId == suiteResult.SuiteId &&
+                    ltr.TestId == databaseTestResult.Test.TestID
+                );
+            if (databaseLatestTestResult == null)
+                databaseLatestTestResult = new LatestTestResult
+                {
+                    SuiteId = suiteResult.SuiteId,
+                    TestId = savedTestResult.Test.TestID,
+                    TestName = testResult.Test.Name
+                };
+            var utcNow = DateTime.UtcNow;
+            if (testResult.ResultType == ZigNetTestResultType.Pass && databaseLatestTestResult.PassingFromDateTime == null)
+            {
+                databaseLatestTestResult.TestResultId = savedTestResult.TestResultID;
+                databaseLatestTestResult.PassingFromDateTime = utcNow;
+                databaseLatestTestResult.FailingFromDateTime = null;
+                _zigNetEntitiesWriter.SaveLatestTestResult(databaseLatestTestResult);
+            }
+            else if ((testResult.ResultType == ZigNetTestResultType.Fail || testResult.ResultType == ZigNetTestResultType.Inconclusive)
+                      && databaseLatestTestResult.FailingFromDateTime == null)
+            {
+                databaseLatestTestResult.TestResultId = savedTestResult.TestResultID;
+                databaseLatestTestResult.FailingFromDateTime = utcNow;
+                databaseLatestTestResult.PassingFromDateTime = null;
+                _zigNetEntitiesWriter.SaveLatestTestResult(databaseLatestTestResult);
+            }
+        }
 
 
         public bool SuiteResultExists(int suiteResultId)
@@ -151,10 +230,6 @@ namespace ZigNet.Database.EntityFramework
             return testsForSuite;
         }
 
-        public ZigNetTest GetTestOrDefault(string testName)
-        {
-            return _zigNetEntitiesWriter.GetTestOrDefault(testName);
-        }
 
         public int SaveSuite(ZigNetSuite suite)
         {
@@ -175,81 +250,6 @@ namespace ZigNet.Database.EntityFramework
             }
 
             return _zigNetEntitiesWriter.SaveSuite(databaseSuite);
-        }
-
-        public void SaveTestResult(ZigNetTestResult testResult)
-        {
-            var databaseTestResult = new TestResult
-            {
-                SuiteResultId = testResult.SuiteResult.SuiteResultID,
-                TestResultStartDateTime = testResult.StartTime,
-                TestResultEndDateTime = testResult.EndTime,
-                TestResultTypeId = MapTestResultType(testResult.ResultType)
-            };
-
-            if (testResult.ResultType == ZigNetTestResultType.Fail)
-            {
-                databaseTestResult.TestFailureTypes.Add(GetTestFailureType(testResult.TestFailureDetails.FailureType));
-                if (!string.IsNullOrWhiteSpace(testResult.TestFailureDetails.FailureDetailMessage))
-                    databaseTestResult.TestFailureDetails.Add(new TestFailureDetail { TestFailureDetail1 = testResult.TestFailureDetails.FailureDetailMessage });
-            }
-
-            if (testResult.Test.TestID != 0)
-                databaseTestResult.Test = _zigNetEntitiesWriter.GetTest(testResult.Test.TestID);
-            else
-                databaseTestResult.Test = new Test { TestName = testResult.Test.Name, TestCategories = new List<TestCategory>() };
-
-            databaseTestResult.Test.TestCategories.Clear();
-            var existingDatabaseTestCategories = _zigNetEntitiesWriter.GetTestCategories().OrderBy(tc => tc.TestCategoryID).ToList();
-            foreach (var testCategory in testResult.Test.Categories)
-            {
-                // use FirstOrDefault instead of SingleOrDefault because first-run multi-threaded tests end up inserting duplicate categories
-                // (before the check for duplicates happens)
-                var existingDatabaseTestCategory = existingDatabaseTestCategories
-                    .FirstOrDefault(tc => tc.CategoryName == testCategory.Name);
-                if (existingDatabaseTestCategory != null)
-                    databaseTestResult.Test.TestCategories.Add(existingDatabaseTestCategory);
-                else
-                    databaseTestResult.Test.TestCategories.Add(new TestCategory { CategoryName = testCategory.Name });
-            }
-
-            var suiteResult = _zigNetEntitiesWriter.GetSuiteResultWithoutTracking(testResult.SuiteResult.SuiteResultID);
-            if (!databaseTestResult.Test.Suites.Any(s => s.SuiteID == suiteResult.SuiteId))
-            {
-                var suite = _zigNetEntitiesWriter.GetSuite(suiteResult.SuiteId);
-                databaseTestResult.Test.Suites.Add(suite);
-            }
-
-            var savedTestResult = _zigNetEntitiesWriter.SaveTestResult(databaseTestResult);
-
-            var databaseLatestTestResult = _zigNetEntitiesWriter.GetLatestTestResults()
-                .SingleOrDefault(ltr =>
-                    ltr.SuiteId == suiteResult.SuiteId &&
-                    ltr.TestId == databaseTestResult.Test.TestID
-                );
-            if (databaseLatestTestResult == null)
-                databaseLatestTestResult = new LatestTestResult
-                {
-                    SuiteId = suiteResult.SuiteId,
-                    TestId = savedTestResult.Test.TestID,
-                    TestName = testResult.Test.Name
-                };
-            var utcNow = DateTime.UtcNow;
-            if (testResult.ResultType == ZigNetTestResultType.Pass && databaseLatestTestResult.PassingFromDateTime == null)
-            {
-                databaseLatestTestResult.TestResultId = savedTestResult.TestResultID;
-                databaseLatestTestResult.PassingFromDateTime = utcNow;
-                databaseLatestTestResult.FailingFromDateTime = null;
-                _zigNetEntitiesWriter.SaveLatestTestResult(databaseLatestTestResult);
-            }
-            else if ((testResult.ResultType == ZigNetTestResultType.Fail || testResult.ResultType == ZigNetTestResultType.Inconclusive) 
-                      && databaseLatestTestResult.FailingFromDateTime == null)
-            {
-                databaseLatestTestResult.TestResultId = savedTestResult.TestResultID;
-                databaseLatestTestResult.FailingFromDateTime = utcNow;
-                databaseLatestTestResult.PassingFromDateTime = null;
-                _zigNetEntitiesWriter.SaveLatestTestResult(databaseLatestTestResult);
-            }
         }
 
         private TestFailureType GetTestFailureType(ZigNetTestFailureType zigNetTestFailureType)

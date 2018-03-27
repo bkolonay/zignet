@@ -25,10 +25,33 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntities.SaveChanges();
             return suiteResult.SuiteResultID;
         }
-
         public SuiteResult GetSuiteResult(int suiteResultId)
         {
             return GetSuiteResults().Single(sr => sr.SuiteResultID == suiteResultId);
+        }
+        public Test GetTestWithSuites(int testId)
+        {
+            return _zigNetEntities.Tests
+                .Include(t => t.Suites)
+                .Single(t => t.TestID == testId);
+        }
+        public IQueryable<TestCategory> GetTestCategories()
+        {
+            return _zigNetEntities.TestCategories;
+        }
+        public Suite GetSuite(int suiteId)
+        {
+            return _zigNetEntities.Suites.Single(s => s.SuiteID == suiteId);
+        }
+        public TestResult SaveTestResult(TestResult testResult)
+        {
+            _zigNetEntities.TestResults.Add(testResult);
+            _zigNetEntities.SaveChanges();
+            return testResult;
+        }
+        public IQueryable<LatestTestResult> GetLatestTestResults()
+        {
+            return _zigNetEntities.LatestTestResults;
         }
 
 
@@ -72,11 +95,6 @@ namespace ZigNet.Database.EntityFramework
             return testsWithTestResults;
         }
 
-        public Suite GetSuite(int suiteId)
-        {
-            return _zigNetEntities.Suites.Single(s => s.SuiteID == suiteId);
-        }
-
         public ZigNetSuite GetZigNetSuite(int suiteId)
         {
             return _zigNetEntities.Suites
@@ -87,13 +105,6 @@ namespace ZigNet.Database.EntityFramework
         public IQueryable<SuiteResult> GetSuiteResults()
         {
             return _zigNetEntities.SuiteResults;
-        }
-
-        public SuiteResult GetSuiteResultWithoutTracking(int suiteResultId)
-        {
-            return GetSuiteResults()
-                .AsNoTracking()
-                .Single(sr => sr.SuiteResultID == suiteResultId);
         }
 
         public bool SuiteResultExists(int suiteResultId)
@@ -108,37 +119,9 @@ namespace ZigNet.Database.EntityFramework
             return _zigNetEntities.SuiteCategories;
         }
 
-        public IQueryable<TestCategory> GetTestCategories()
-        {
-            return _zigNetEntities.TestCategories;
-        }
-
         public IQueryable<TestResult> GetTestResults()
         {
             return _zigNetEntities.TestResults;
-        }
-
-        public ZigNetTest GetTestOrDefault(string testName)
-        {
-            return _zigNetEntities.Tests
-                .AsNoTracking()
-                .Include(t => t.TestCategories)
-                .Select(t => 
-                    new ZigNetTest
-                    {
-                        TestID = t.TestID,
-                        Name = t.TestName,
-                        Categories = t.TestCategories.Select(tc => new ZigNetTestCategory { TestCategoryID = tc.TestCategoryID, Name = tc.CategoryName }).ToList()
-                    }
-                )
-                .SingleOrDefault(t => t.Name == testName);
-        }
-
-        public Test GetTest(int testId)
-        {
-            return _zigNetEntities.Tests
-                .Include(t => t.Suites)
-                .Single(t => t.TestID == testId);
         }
 
         public TestFailureType GetTestFailureType(int testFailureTypeId)
@@ -156,13 +139,6 @@ namespace ZigNet.Database.EntityFramework
             return suite.SuiteID;
         }
 
-        public TestResult SaveTestResult(TestResult testResult)
-        {
-            _zigNetEntities.TestResults.Add(testResult);
-            _zigNetEntities.SaveChanges();
-            return testResult;
-        }
-
         public void SaveLatestTestResult(LatestTestResult latestTestResult)
         {
             if (latestTestResult.LatestTestResultID == 0)
@@ -170,9 +146,6 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntities.SaveChanges();
         }
 
-        public IQueryable<LatestTestResult> GetLatestTestResults()
-        {
-            return _zigNetEntities.LatestTestResults;
-        }
+        
     }
 }

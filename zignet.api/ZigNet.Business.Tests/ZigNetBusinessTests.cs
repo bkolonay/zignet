@@ -396,25 +396,25 @@ namespace ZigNet.Business.Tests
                 zigNetBusiness.SaveTestResult(testResult);
             }
 
-            [TestMethod]
-            public void AssignsTestIdWhenTestWithSameNameExists()
-            {
-                var zignetDatabase = new Mock<IZigNetDatabase>();
-                zignetDatabase.Setup(zd => zd.GetTestOrDefault("test 1")).Returns(new Test { Name = "test 1", TestID = 1, Categories = new List<TestCategory>() });
-                zignetDatabase.Setup(zd => zd.SuiteResultExists(2)).Returns(true);
+            //[TestMethod]
+            //public void AssignsTestIdWhenTestWithSameNameExists()
+            //{
+            //    var zignetDatabase = new Mock<IZigNetDatabase>();
+            //    zignetDatabase.Setup(zd => zd.GetTestOrDefault("test 1")).Returns(new Test { Name = "test 1", TestID = 1, Categories = new List<TestCategory>() });
+            //    zignetDatabase.Setup(zd => zd.SuiteResultExists(2)).Returns(true);
 
-                var testResult = new ZigNetTestResult {
-                    Test = new Test 
-                    { 
-                        Name = "test 1", 
-                        Categories = new List<TestCategory>() 
-                    },
-                    SuiteResult = new SuiteResult{ SuiteResultID = 2 }
-                };
+            //    var testResult = new ZigNetTestResult {
+            //        Test = new Test 
+            //        { 
+            //            Name = "test 1", 
+            //            Categories = new List<TestCategory>() 
+            //        },
+            //        SuiteResult = new SuiteResult{ SuiteResultID = 2 }
+            //    };
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
-                zigNetBusiness.SaveTestResult(testResult);
-            }
+            //    var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+            //    zigNetBusiness.SaveTestResult(testResult);
+            //}
 
             [TestMethod]
             public void DoesNotAssignsTestIdWhenTestWithSameNameDoesNotExist()
@@ -441,63 +441,63 @@ namespace ZigNet.Business.Tests
                 zigNetBusiness.SaveTestResult(testResult);
             }
 
-            [TestMethod]
-            public void CopiesExistingTestCategories()
-            {
-                var zignetDatabase = new Mock<IZigNetDatabase>();
-                zignetDatabase.Setup(zd => zd.GetTestOrDefault("test 1")).Returns(
-                    new Test
-                    {
-                        Name = "test 1",
-                        TestID = 1,
-                        Categories = new List<TestCategory> {
-                            new TestCategory { TestCategoryID = 1, Name = "test category 1" } }
-                    }
-                );
-                zignetDatabase.Setup(zd => zd.SuiteResultExists(2)).Returns(true);
+            //[TestMethod]
+            //public void CopiesExistingTestCategories()
+            //{
+            //    var zignetDatabase = new Mock<IZigNetDatabase>();
+            //    zignetDatabase.Setup(zd => zd.GetTestOrDefault("test 1")).Returns(
+            //        new Test
+            //        {
+            //            Name = "test 1",
+            //            TestID = 1,
+            //            Categories = new List<TestCategory> {
+            //                new TestCategory { TestCategoryID = 1, Name = "test category 1" } }
+            //        }
+            //    );
+            //    zignetDatabase.Setup(zd => zd.SuiteResultExists(2)).Returns(true);
 
-                var testResult = new ZigNetTestResult
-                {
-                    Test = new Test
-                    {
-                        Name = "test 1",
-                        Categories = new List<TestCategory>()
-                    },
-                    SuiteResult = new SuiteResult { SuiteResultID = 2 }
-                };
+            //    var testResult = new ZigNetTestResult
+            //    {
+            //        Test = new Test
+            //        {
+            //            Name = "test 1",
+            //            Categories = new List<TestCategory>()
+            //        },
+            //        SuiteResult = new SuiteResult { SuiteResultID = 2 }
+            //    };
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
-                zigNetBusiness.SaveTestResult(testResult);
-            }
+            //    var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+            //    zigNetBusiness.SaveTestResult(testResult);
+            //}
 
-            [TestMethod]
-            public void MergesNewAndExistingTestCategories()
-            {
-                var zignetDatabase = new Mock<IZigNetDatabase>();
-                zignetDatabase.Setup(zd => zd.GetTestOrDefault("test 1")).Returns(
-                    new Test
-                    {
-                        Name = "test 1",
-                        TestID = 1,
-                        Categories = new List<TestCategory> {
-                            new TestCategory { TestCategoryID = 1, Name = "test category 1" } }
-                    }
-                );
-                zignetDatabase.Setup(zd => zd.SuiteResultExists(2)).Returns(true);
+            //[TestMethod]
+            //public void MergesNewAndExistingTestCategories()
+            //{
+            //    var zignetDatabase = new Mock<IZigNetDatabase>();
+            //    zignetDatabase.Setup(zd => zd.GetTestOrDefault("test 1")).Returns(
+            //        new Test
+            //        {
+            //            Name = "test 1",
+            //            TestID = 1,
+            //            Categories = new List<TestCategory> {
+            //                new TestCategory { TestCategoryID = 1, Name = "test category 1" } }
+            //        }
+            //    );
+            //    zignetDatabase.Setup(zd => zd.SuiteResultExists(2)).Returns(true);
 
-                var testResult = new ZigNetTestResult
-                {
-                    Test = new Test
-                    {
-                        Name = "test 1",
-                        Categories = new List<TestCategory> { new TestCategory { Name = "test category 2" } }
-                    },
-                    SuiteResult = new SuiteResult { SuiteResultID = 2 }
-                };
+            //    var testResult = new ZigNetTestResult
+            //    {
+            //        Test = new Test
+            //        {
+            //            Name = "test 1",
+            //            Categories = new List<TestCategory> { new TestCategory { Name = "test category 2" } }
+            //        },
+            //        SuiteResult = new SuiteResult { SuiteResultID = 2 }
+            //    };
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
-                zigNetBusiness.SaveTestResult(testResult);
-            }
+            //    var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+            //    zigNetBusiness.SaveTestResult(testResult);
+            //}
         }
 
         [TestClass]
