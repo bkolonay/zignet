@@ -10,6 +10,7 @@ namespace ZigNet.Database
         int StartSuite(int suiteId);
         int StartSuite(string suiteName);
         void StopSuite(int suiteResultId, SuiteResultType suiteResultType);
+        IEnumerable<LatestTestResult> GetLatestTestResults(int suiteResultId);
 
 
         bool SuiteResultExists(int suiteResultId);
@@ -18,7 +19,6 @@ namespace ZigNet.Database
         IEnumerable<SuiteResult> GetSuiteResultsForSuite(int suiteId);
         IEnumerable<TestResult> GetTestResultsForSuite(int suiteId);
         IEnumerable<TestResult> GetTestResultsForSuiteResult(int suiteResultId);
-        IEnumerable<LatestTestResult> GetLatestTestResults(int suiteResultId);
         IEnumerable<Test> GetTestsForSuite(int suiteId);
         SuiteResult GetSuiteResult(int suiteResultId);
         void SaveTestResult(TestResult testResult);

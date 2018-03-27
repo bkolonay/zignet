@@ -129,6 +129,25 @@ namespace ZigNet.Database.EntityFramework
                 _zigNetEntitiesWriter.SaveLatestTestResult(databaseLatestTestResult);
             }
         }
+        public IEnumerable<LatestTestResultDto> GetLatestTestResults(int suiteId)
+        {
+            var latestTestResults = _zigNetEntitiesReadOnly.GetLatestTestResults().Where(ltr => ltr.SuiteId == suiteId);
+
+            var latestTestResultDtos = new List<LatestTestResultDto>();
+            foreach (var latestTestResult in latestTestResults)
+                latestTestResultDtos.Add(new LatestTestResultDto
+                {
+                    TestResultID = latestTestResult.TestResultId,
+                    TestName = latestTestResult.TestName,
+                    FailingFromDate = latestTestResult.FailingFromDateTime,
+                    PassingFromDate = latestTestResult.PassingFromDateTime
+                });
+            var passingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.PassingFromDate != null).OrderByDescending(ltr => ltr.PassingFromDate);
+            var failingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.FailingFromDate != null).OrderBy(ltr => ltr.FailingFromDate).ToList();
+            failingLatestTestResultDtos.AddRange(passingLatestTestResultDtos);
+
+            return failingLatestTestResultDtos;
+        }
 
 
         public bool SuiteResultExists(int suiteResultId)
@@ -196,26 +215,6 @@ namespace ZigNet.Database.EntityFramework
                 testResults.Add(MapDatabaseTestResult(databaseTestResult));
 
             return testResults;
-        }
-
-        public IEnumerable<LatestTestResultDto> GetLatestTestResults(int suiteId)
-        {
-            var latestTestResults = _zigNetEntitiesWriter.GetLatestTestResults().Where(ltr => ltr.SuiteId == suiteId);
-
-            var latestTestResultDtos = new List<LatestTestResultDto>();
-            foreach (var latestTestResult in latestTestResults)
-                latestTestResultDtos.Add(new LatestTestResultDto
-                {
-                    TestResultID = latestTestResult.TestResultId,
-                    TestName = latestTestResult.TestName,
-                    FailingFromDate = latestTestResult.FailingFromDateTime,
-                    PassingFromDate = latestTestResult.PassingFromDateTime
-                });
-            var passingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.PassingFromDate != null).OrderByDescending(ltr => ltr.PassingFromDate);
-            var failingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.FailingFromDate != null).OrderBy(ltr => ltr.FailingFromDate).ToList();
-            failingLatestTestResultDtos.AddRange(passingLatestTestResultDtos);
-
-            return failingLatestTestResultDtos;
         }
 
         public IEnumerable<ZigNetTest> GetTestsForSuite(int suiteId)

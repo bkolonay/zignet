@@ -26,7 +26,6 @@ namespace ZigNet.Database.EntityFramework
                 .Single(s => s.SuiteName == suiteName)
                 .SuiteID;
         }
-
         public ZigNetTest GetMappedTestWithCategoriesOrDefault(string testName)
         {
             return _zigNetEntities.Tests
@@ -47,6 +46,10 @@ namespace ZigNet.Database.EntityFramework
             return GetSuiteResults()
                 .AsNoTracking()
                 .Single(sr => sr.SuiteResultID == suiteResultId);
+        }
+        public IQueryable<LatestTestResult> GetLatestTestResults()
+        {
+            return _zigNetEntities.LatestTestResults.AsNoTracking();
         }
 
 

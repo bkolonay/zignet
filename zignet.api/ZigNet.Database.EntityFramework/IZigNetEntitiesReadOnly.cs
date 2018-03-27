@@ -10,6 +10,7 @@ namespace ZigNet.Database.EntityFramework
         int GetSuiteId(string suiteName);
         ZigNetTest GetMappedTestWithCategoriesOrDefault(string testName);
         SuiteResult GetSuiteResult(int suiteResultId);
+        IQueryable<LatestTestResult> GetLatestTestResults();
 
         bool SuiteResultExists(int suiteResultId);
         ZigNetSuite GetZigNetSuite(int suiteId);
