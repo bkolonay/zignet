@@ -26,14 +26,35 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntitiesReadOnly = zigNetEntitiesReadOnly;
         }
 
-        public ZigNetSuite GetSuite(int suiteId)
+        public int StartSuite(int suiteId)
         {
-            return _zigNetEntitiesWriter.GetZigNetSuite(suiteId);
+            return _zigNetEntitiesWriter.SaveSuiteResult(
+                new SuiteResult
+                {
+                    SuiteId = suiteId,
+                    SuiteResultStartDateTime = DateTime.UtcNow,
+                    SuiteResultTypeId = MapSuiteResultType(ZigNetSuiteResultType.Inconclusive)
+                });
         }
+        public int StartSuite(string suiteName)
+        {
+            var suiteId = _zigNetEntitiesReadOnly.GetSuiteId(suiteName);
+            return StartSuite(suiteId);
+        }
+        public void StopSuite(int suiteResultId, ZigNetSuiteResultType suiteResultType)
+        {
+            var databaseSuiteResult = _zigNetEntitiesWriter.GetSuiteResult(suiteResultId);
+            databaseSuiteResult.SuiteResultEndDateTime = DateTime.UtcNow;
+            databaseSuiteResult.SuiteResultTypeId = MapSuiteResultType(suiteResultType);
+            _zigNetEntitiesWriter.SaveSuiteResult(databaseSuiteResult);
+        }
+
+
+
 
         public bool SuiteResultExists(int suiteResultId)
         {
-            return _zigNetEntitiesWriter.SuiteResultExists(suiteResultId);
+            return _zigNetEntitiesReadOnly.SuiteResultExists(suiteResultId);
         }
 
         public IEnumerable<ZigNetSuite> GetSuites()
@@ -154,22 +175,6 @@ namespace ZigNet.Database.EntityFramework
             }
 
             return _zigNetEntitiesWriter.SaveSuite(databaseSuite);
-        }
-
-        public int SaveSuiteResult(ZigNetSuiteResult suiteResult)
-        {
-            SuiteResult databaseSuiteResult;
-            if (suiteResult.SuiteResultID == 0)
-                databaseSuiteResult = new SuiteResult();
-            else
-                databaseSuiteResult = _zigNetEntitiesWriter.GetSuiteResult(suiteResult.SuiteResultID);
-
-            databaseSuiteResult.SuiteId = suiteResult.Suite.SuiteID;
-            databaseSuiteResult.SuiteResultStartDateTime = suiteResult.StartTime;
-            databaseSuiteResult.SuiteResultTypeId = MapSuiteResultType(suiteResult.ResultType);
-            databaseSuiteResult.SuiteResultEndDateTime = suiteResult.EndTime;
-
-            return _zigNetEntitiesWriter.SaveSuiteResult(databaseSuiteResult);
         }
 
         public void SaveTestResult(ZigNetTestResult testResult)

@@ -18,6 +18,20 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntities = zigNetEntitiesSingleton.GetInstance();
         }
 
+        public int SaveSuiteResult(SuiteResult suiteResult)
+        {
+            if (suiteResult.SuiteResultID == 0)
+                _zigNetEntities.SuiteResults.Add(suiteResult);
+            _zigNetEntities.SaveChanges();
+            return suiteResult.SuiteResultID;
+        }
+
+        public SuiteResult GetSuiteResult(int suiteResultId)
+        {
+            return GetSuiteResults().Single(sr => sr.SuiteResultID == suiteResultId);
+        }
+
+
         public IQueryable<Suite> GetSuites()
         {
             return _zigNetEntities.Suites;
@@ -73,11 +87,6 @@ namespace ZigNet.Database.EntityFramework
         public IQueryable<SuiteResult> GetSuiteResults()
         {
             return _zigNetEntities.SuiteResults;
-        }
-
-        public SuiteResult GetSuiteResult(int suiteResultId)
-        {
-            return GetSuiteResults().Single(sr => sr.SuiteResultID == suiteResultId);
         }
 
         public SuiteResult GetSuiteResultWithoutTracking(int suiteResultId)
@@ -145,14 +154,6 @@ namespace ZigNet.Database.EntityFramework
                 _zigNetEntities.Suites.Add(suite);
             _zigNetEntities.SaveChanges();
             return suite.SuiteID;
-        }
-
-        public int SaveSuiteResult(SuiteResult suiteResult)
-        {
-            if (suiteResult.SuiteResultID == 0)
-                _zigNetEntities.SuiteResults.Add(suiteResult);
-            _zigNetEntities.SaveChanges();
-            return suiteResult.SuiteResultID;
         }
 
         public TestResult SaveTestResult(TestResult testResult)

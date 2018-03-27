@@ -7,8 +7,12 @@ namespace ZigNet.Database
 {
     public interface IZigNetDatabase
     {
+        int StartSuite(int suiteId);
+        int StartSuite(string suiteName);
+        void StopSuite(int suiteResultId, SuiteResultType suiteResultType);
+
+
         bool SuiteResultExists(int suiteResultId);
-        Suite GetSuite(int suiteId);
         IEnumerable<Suite> GetSuites();
         IEnumerable<SuiteCategory> GetSuiteCategoriesForSuite(int suiteId);
         IEnumerable<SuiteResult> GetSuiteResultsForSuite(int suiteId);
@@ -19,7 +23,6 @@ namespace ZigNet.Database
         SuiteResult GetSuiteResult(int suiteResultId);
         Test GetTestOrDefault(string testName);
         int SaveSuite(Suite suite);
-        int SaveSuiteResult(SuiteResult suiteResult);
         void SaveTestResult(TestResult testResult);
     }
 }

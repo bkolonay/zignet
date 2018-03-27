@@ -17,6 +17,21 @@ namespace ZigNet.Business
             _zignetDatabase = zigNetDatabase;
         }
 
+        public int StartSuite(int suiteId)
+        {
+            return _zignetDatabase.StartSuite(suiteId);
+        }
+        public int StartSuite(string suiteName)
+        {
+            return _zignetDatabase.StartSuite(suiteName);
+        }
+        public void StopSuite(int suiteResultId, SuiteResultType suiteResultType)
+        {
+            _zignetDatabase.StopSuite(suiteResultId, suiteResultType);
+        }
+
+
+
         public IEnumerable<SuiteSummary> GetLatestSuiteResults()
         {
             var latestSuiteResults = new List<SuiteResult>();
@@ -85,31 +100,6 @@ namespace ZigNet.Business
             _zignetDatabase.SaveSuite(suite);
         }
 
-        public int StartSuite(int suiteId)
-        {
-            var suiteResult = CreateNewSuiteResultForSuite(
-                _zignetDatabase.GetSuite(suiteId)
-            );
-            return _zignetDatabase.SaveSuiteResult(suiteResult);
-        }
-
-        public int StartSuite(string suiteName)
-        {
-            var suiteResult = CreateNewSuiteResultForSuite(
-                _zignetDatabase.GetSuites().Single(s => s.Name == suiteName)
-            );
-            return _zignetDatabase.SaveSuiteResult(suiteResult);
-        }
-
-        public void EndSuite(int suiteResultId, SuiteResultType suiteResultType)
-        {
-            var suiteResult = _zignetDatabase.GetSuiteResult(suiteResultId);
-
-            suiteResult.EndTime = DateTime.UtcNow;
-            suiteResult.ResultType = suiteResultType;
-            _zignetDatabase.SaveSuiteResult(suiteResult);
-        }
-
         public void SaveTestResult(TestResult testResult)
         {
             if (string.IsNullOrWhiteSpace(testResult.Test.Name))
@@ -127,16 +117,6 @@ namespace ZigNet.Business
                 throw new ArgumentOutOfRangeException("SuiteResultID", "Test result can not be saved with SuiteResultID that does not exist.");
 
             _zignetDatabase.SaveTestResult(testResult);
-        }
-
-        private SuiteResult CreateNewSuiteResultForSuite(Suite suite)
-        {
-            return new SuiteResult
-            {
-                Suite = suite,
-                StartTime = DateTime.UtcNow,
-                ResultType = SuiteResultType.Inconclusive
-            };
         }
 
         public IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId)

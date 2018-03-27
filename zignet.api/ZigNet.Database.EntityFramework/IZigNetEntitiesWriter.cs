@@ -7,6 +7,8 @@ namespace ZigNet.Database.EntityFramework
 {
     public interface IZigNetEntitiesWriter
     {
+        SuiteResult GetSuiteResult(int suiteResultId);
+
         bool SuiteResultExists(int suiteResultId);
         ZigNetSuite GetZigNetSuite(int suiteId);
         IQueryable<Suite> GetSuites();
@@ -15,7 +17,6 @@ namespace ZigNet.Database.EntityFramework
         IQueryable<SuiteCategory> GetSuiteCategories();
         IQueryable<TestCategory> GetTestCategories();
         IQueryable<SuiteResult> GetSuiteResults();
-        SuiteResult GetSuiteResult(int suiteResultId);
         SuiteResult GetSuiteResultWithoutTracking(int suiteResultId);
         IQueryable<TestResult> GetTestResults();
         ZigNetTest GetTestOrDefault(string testName);

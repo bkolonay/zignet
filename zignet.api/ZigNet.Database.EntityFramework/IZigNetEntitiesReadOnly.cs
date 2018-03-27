@@ -7,6 +7,8 @@ namespace ZigNet.Database.EntityFramework
 {
     public interface IZigNetEntitiesReadOnly
     {
+        int GetSuiteId(string suiteName);
+
         bool SuiteResultExists(int suiteResultId);
         ZigNetSuite GetZigNetSuite(int suiteId);
         IQueryable<Suite> GetSuites();

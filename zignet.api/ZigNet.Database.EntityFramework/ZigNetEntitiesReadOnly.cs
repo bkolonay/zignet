@@ -18,6 +18,16 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntities = zigNetEntitiesSingleton.GetInstance();
         }
 
+        public int GetSuiteId(string suiteName)
+        {
+            return _zigNetEntities.Suites
+                .AsNoTracking()
+                .Select(s => new { s.SuiteName, s.SuiteID })
+                .Single(s => s.SuiteName == suiteName)
+                .SuiteID;
+        }
+
+
         public IQueryable<Suite> GetSuites()
         {
             return _zigNetEntities.Suites;
