@@ -6,7 +6,6 @@ using System.Linq;
 using ZigNetSuite = ZigNet.Domain.Suite.Suite;
 using ZigNetSuiteCategory = ZigNet.Domain.Suite.SuiteCategory;
 using ZigNetSuiteResult = ZigNet.Domain.Suite.SuiteResult;
-using ZigNetSuiteResultType = ZigNet.Domain.Suite.SuiteResultType;
 using ZigNetTest = ZigNet.Domain.Test.Test;
 using ZigNetTestResult = ZigNet.Domain.Test.TestResult;
 using ZigNetTestResultType = ZigNet.Domain.Test.TestResultType;

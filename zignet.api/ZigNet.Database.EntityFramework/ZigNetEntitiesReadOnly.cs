@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
-using ZigNetSuite = ZigNet.Domain.Suite.Suite;
 using ZigNetTest = ZigNet.Domain.Test.Test;
 using ZigNetTestCategory = ZigNet.Domain.Test.TestCategory;
-using ZigNetSuiteResult = ZigNet.Domain.Suite.SuiteResult;
-using ZigNetTestResultType = ZigNet.Domain.Test.TestResultType;
 using ZigNet.Database.DTOs;
 
 namespace ZigNet.Database.EntityFramework

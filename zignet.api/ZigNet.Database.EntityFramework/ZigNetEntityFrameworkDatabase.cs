@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using ZigNetSuite = ZigNet.Domain.Suite.Suite;
-using ZigNetSuiteResult = ZigNet.Domain.Suite.SuiteResult;
 using ZigNetSuiteCategory = ZigNet.Domain.Suite.SuiteCategory;
 using ZigNetTestResult = ZigNet.Domain.Test.TestResult;
 using ZigNetSuiteResultType = ZigNet.Domain.Suite.SuiteResultType;
 using ZigNetTestResultType = ZigNet.Domain.Test.TestResultType;
-using ZigNetTest = ZigNet.Domain.Test.Test;
-using ZigNetTestCategory = ZigNet.Domain.Test.TestCategory;
 using ZigNetTestFailureType = ZigNet.Domain.Test.TestFailureType;
 using LatestTestResultDto = ZigNet.Database.DTOs.LatestTestResult;
-using System.Diagnostics;
 using ZigNet.Database.DTOs;
 
 namespace ZigNet.Database.EntityFramework

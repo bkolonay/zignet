@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ZigNet.Database.DTOs;
-using ZigNetSuite = ZigNet.Domain.Suite.Suite;
 using ZigNetTest = ZigNet.Domain.Test.Test;
 
 namespace ZigNet.Database.EntityFramework
