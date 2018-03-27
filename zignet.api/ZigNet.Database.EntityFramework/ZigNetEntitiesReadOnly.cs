@@ -16,9 +16,9 @@ namespace ZigNet.Database.EntityFramework
     {
         private ZigNetEntities _zigNetEntities;
 
-        public ZigNetEntitiesReadOnly(IZigNetEntitiesSingleton zigNetEntitiesSingleton)
+        public ZigNetEntitiesReadOnly(IZigNetEntitiesWrapper zigNetEntitiesWrapper)
         {
-            _zigNetEntities = zigNetEntitiesSingleton.GetInstance();
+            _zigNetEntities = zigNetEntitiesWrapper.Get();
         }
 
         public int GetSuiteId(string suiteName)

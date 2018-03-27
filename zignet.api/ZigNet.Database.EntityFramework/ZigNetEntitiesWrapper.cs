@@ -1,25 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ZigNet.Database.EntityFramework
 {
-    public class ZigNetEntitiesSingleton : IZigNetEntitiesSingleton, IDisposable
+    public class ZigNetEntitiesWrapper : IZigNetEntitiesWrapper, IDisposable
     {
-        private ZigNetEntities _zigNetEntities;
+        private ZigNetEntities _zigNetEntities = new ZigNetEntities();
 
-        public ZigNetEntities GetInstance()
+        public ZigNetEntities Get()
         {
-            if (_zigNetEntities == null)
-            {
-                _zigNetEntities = new ZigNetEntities();
-#if DEBUG
-                _zigNetEntities.Database.Log = s => Debug.WriteLine(s);
-#endif
-            }
             return _zigNetEntities;
         }
 

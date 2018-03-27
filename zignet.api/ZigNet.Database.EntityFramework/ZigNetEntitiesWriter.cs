@@ -13,9 +13,9 @@ namespace ZigNet.Database.EntityFramework
     {
         private ZigNetEntities _zigNetEntities;
 
-        public ZigNetEntitiesWriter(IZigNetEntitiesSingleton zigNetEntitiesSingleton)
+        public ZigNetEntitiesWriter(IZigNetEntitiesWrapper zigNetEntitiesWrapper)
         {
-            _zigNetEntities = zigNetEntitiesSingleton.GetInstance();
+            _zigNetEntities = zigNetEntitiesWrapper.Get();
         }
 
         public Suite GetSuite(int suiteId)
