@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using ZigNet.Business;
-using ZigNet.Business.Models;
+using ZigNet.Database.DTOs;
 
 namespace ZigNet.Api.Controllers
 {

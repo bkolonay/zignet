@@ -5,7 +5,7 @@ using System.Web.Http;
 using ZigNet.Api.Mapping;
 using ZigNet.Api.Model;
 using ZigNet.Business;
-using ZigNet.Business.Models;
+using ZigNet.Database.DTOs;
 
 namespace ZigNet.Api.Controllers
 {
