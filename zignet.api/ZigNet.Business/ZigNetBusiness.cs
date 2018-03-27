@@ -55,25 +55,7 @@ namespace ZigNet.Business
         }
         public IEnumerable<SuiteSummary> GetLatestSuiteResults()
         {
-            var latestSuiteResults = _zignetDatabase.GetLatestSuiteResults();
-
-            var suiteSummaries = new List<SuiteSummary>();
-            foreach (var latestSuiteResult in latestSuiteResults)
-            {
-                suiteSummaries.Add(
-                    new SuiteSummary
-                    {
-                        SuiteID = latestSuiteResult.SuiteID,
-                        SuiteName = latestSuiteResult.SuiteName,
-                        TotalFailedTests = latestSuiteResult.TotalFailedTests,
-                        TotalInconclusiveTests = latestSuiteResult.TotalInconclusiveTests,
-                        TotalPassedTests = latestSuiteResult.TotalPassedTests,
-                        SuiteEndTime = latestSuiteResult.SuiteEndTime
-                    }
-                );
-            }
-
-            return suiteSummaries;
+            return _zignetDatabase.GetLatestSuiteResults();
         }
 
         public int CreateSuite(Suite suite)
