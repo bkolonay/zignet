@@ -76,7 +76,6 @@ namespace ZigNet.Database.EntityFramework
                     .AsNoTracking()
                     .Where(tr => tr.SuiteResultId == suiteResult.SuiteResultID);
 
-                // todo: fix enums being hard coded (MapTestResultType is in EFDb class)
                 suiteSummaries.Add(
                     new SuiteSummary
                     {
