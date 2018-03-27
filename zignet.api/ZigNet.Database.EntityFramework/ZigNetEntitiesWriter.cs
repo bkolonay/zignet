@@ -144,8 +144,6 @@ namespace ZigNet.Database.EntityFramework
             if (latestTestResult.LatestTestResultID == 0)
                 _zigNetEntities.LatestTestResults.Add(latestTestResult);
             _zigNetEntities.SaveChanges();
-        }
-
-        
+        }        
     }
 }

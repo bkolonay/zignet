@@ -6,6 +6,9 @@ using System.Data.Entity;
 using ZigNetSuite = ZigNet.Domain.Suite.Suite;
 using ZigNetTest = ZigNet.Domain.Test.Test;
 using ZigNetTestCategory = ZigNet.Domain.Test.TestCategory;
+using ZigNetSuiteResult = ZigNet.Domain.Suite.SuiteResult;
+using ZigNetTestResultType = ZigNet.Domain.Test.TestResultType;
+using ZigNet.Database.DTOs;
 
 namespace ZigNet.Database.EntityFramework
 {
@@ -50,6 +53,45 @@ namespace ZigNet.Database.EntityFramework
         public IQueryable<LatestTestResult> GetLatestTestResults()
         {
             return _zigNetEntities.LatestTestResults.AsNoTracking();
+        }
+
+        public IEnumerable<SuiteSummary> GetLatestSuiteResults()
+        {
+            var suites = _zigNetEntities.Suites
+                .AsNoTracking()
+                .Include(s => s.SuiteResults);
+
+            var latestSuiteResults = new List<SuiteResult>();
+            foreach (var suite in suites)
+            {
+                var latestSuiteResult = suite.SuiteResults.OrderByDescending(sr => sr.SuiteResultStartDateTime).FirstOrDefault();
+                if (latestSuiteResult == null)
+                    continue;
+                latestSuiteResults.Add(latestSuiteResult);
+            }
+
+            var suiteSummaries = new List<SuiteSummary>();
+            foreach (var suiteResult in latestSuiteResults)
+            {
+                var testResults = _zigNetEntities.TestResults
+                    .AsNoTracking()
+                    .Where(tr => tr.SuiteResultId == suiteResult.SuiteResultID);
+
+                // todo: fix enums being hard coded
+                suiteSummaries.Add(
+                    new SuiteSummary
+                    {
+                        SuiteID = suiteResult.Suite.SuiteID,
+                        SuiteName = suiteResult.Suite.SuiteName,
+                        TotalFailedTests = testResults.Where(t => t.TestResultTypeId == 1).Count(),
+                        TotalInconclusiveTests = testResults.Where(t => t.TestResultTypeId == 2).Count(),
+                        TotalPassedTests = testResults.Where(t => t.TestResultTypeId == 3).Count(),
+                        SuiteEndTime = suiteResult.SuiteResultEndDateTime
+                    }
+                );
+            }
+
+            return suiteSummaries;
         }
 
 

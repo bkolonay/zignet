@@ -22,7 +22,6 @@ namespace ZigNet.Database.EntityFramework
         IQueryable<SuiteResult> GetSuiteResults();
         IQueryable<TestResult> GetTestResults();
         TestFailureType GetTestFailureType(int testFailureTypeId);
-        
         int SaveSuiteResult(SuiteResult suiteResult);
         void SaveLatestTestResult(LatestTestResult latestTestResult);
 

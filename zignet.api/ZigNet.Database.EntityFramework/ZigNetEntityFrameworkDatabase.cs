@@ -12,6 +12,7 @@ using ZigNetTestCategory = ZigNet.Domain.Test.TestCategory;
 using ZigNetTestFailureType = ZigNet.Domain.Test.TestFailureType;
 using LatestTestResultDto = ZigNet.Database.DTOs.LatestTestResult;
 using System.Diagnostics;
+using ZigNet.Database.DTOs;
 
 namespace ZigNet.Database.EntityFramework
 {
@@ -148,13 +149,6 @@ namespace ZigNet.Database.EntityFramework
 
             return failingLatestTestResultDtos;
         }
-
-
-        public bool SuiteResultExists(int suiteResultId)
-        {
-            return _zigNetEntitiesReadOnly.SuiteResultExists(suiteResultId);
-        }
-
         public IEnumerable<ZigNetSuite> GetSuites()
         {
             var databaseSuites = _zigNetEntitiesWriter.GetSuites();
@@ -164,6 +158,16 @@ namespace ZigNet.Database.EntityFramework
                 suites.Add(MapDatabaseSuite(databaseSuite));
 
             return suites;
+        }
+        public IEnumerable<SuiteSummary> GetLatestSuiteResults()
+        {
+            return _zigNetEntitiesReadOnly.GetLatestSuiteResults();
+        }
+
+
+        public bool SuiteResultExists(int suiteResultId)
+        {
+            return _zigNetEntitiesReadOnly.SuiteResultExists(suiteResultId);
         }
 
         public IEnumerable<ZigNetSuiteCategory> GetSuiteCategoriesForSuite(int suiteId)

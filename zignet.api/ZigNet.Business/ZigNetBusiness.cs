@@ -53,33 +53,22 @@ namespace ZigNet.Business
             }
             return latestTestResults;
         }
-
-
         public IEnumerable<SuiteSummary> GetLatestSuiteResults()
         {
-            var latestSuiteResults = new List<SuiteResult>();
-            foreach (var suite in _zignetDatabase.GetSuites())
-            {
-                var latestSuiteResult = _zignetDatabase.GetSuiteResultsForSuite(suite.SuiteID).OrderByDescending(sr => sr.StartTime).FirstOrDefault();
-                if (latestSuiteResult == null)
-                    continue;
-                latestSuiteResults.Add(latestSuiteResult);
-            }
+            var latestSuiteResults = _zignetDatabase.GetLatestSuiteResults();
 
             var suiteSummaries = new List<SuiteSummary>();
-            foreach (var suiteResult in latestSuiteResults)
+            foreach (var latestSuiteResult in latestSuiteResults)
             {
-                var tests = _zignetDatabase.GetTestResultsForSuiteResult(suiteResult.SuiteResultID);
-
                 suiteSummaries.Add(
                     new SuiteSummary
                     {
-                        SuiteID = suiteResult.Suite.SuiteID,
-                        SuiteName = suiteResult.Suite.Name,
-                        TotalFailedTests = tests.Where(t => t.ResultType == TestResultType.Fail).Count(),
-                        TotalInconclusiveTests = tests.Where(t => t.ResultType == TestResultType.Inconclusive).Count(),
-                        TotalPassedTests = tests.Where(t => t.ResultType == TestResultType.Pass).Count(),
-                        SuiteEndTime = suiteResult.EndTime
+                        SuiteID = latestSuiteResult.SuiteID,
+                        SuiteName = latestSuiteResult.SuiteName,
+                        TotalFailedTests = latestSuiteResult.TotalFailedTests,
+                        TotalInconclusiveTests = latestSuiteResult.TotalInconclusiveTests,
+                        TotalPassedTests = latestSuiteResult.TotalPassedTests,
+                        SuiteEndTime = latestSuiteResult.SuiteEndTime
                     }
                 );
             }

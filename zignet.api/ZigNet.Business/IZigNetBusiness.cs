@@ -11,9 +11,7 @@ namespace ZigNet.Business
         int StartSuite(string suiteName);
         void StopSuite(int suiteResultId, SuiteResultType suiteResultType);
         void SaveTestResult(TestResult testResult);        
-        
         IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId);
-
         IEnumerable<SuiteSummary> GetLatestSuiteResults();
 
         int CreateSuite(Suite suite);
