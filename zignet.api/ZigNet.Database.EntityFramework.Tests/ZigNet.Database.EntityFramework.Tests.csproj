@@ -63,6 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ZigNetEntitiesReadOnlyTests.cs" />
     <Compile Include="ZigNetEntityFrameworkDatabaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

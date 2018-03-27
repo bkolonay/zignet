@@ -29,8 +29,6 @@ namespace ZigNet.Database.EntityFramework
 
         public int StartSuite(int suiteId)
         {
-            // todo: unit test
-
             return _zigNetEntitiesWriter.SaveSuiteResult(
                 new SuiteResult
                 {
@@ -41,15 +39,11 @@ namespace ZigNet.Database.EntityFramework
         }
         public int StartSuite(string suiteName)
         {
-            // todo: unit test
-
             var suiteId = _zigNetEntitiesReadOnly.GetSuiteId(suiteName);
             return StartSuite(suiteId);
         }
         public void StopSuite(int suiteResultId, ZigNetSuiteResultType suiteResultType)
         {
-            // todo: unit test
-
             var databaseSuiteResult = _zigNetEntitiesWriter.GetSuiteResult(suiteResultId);
             databaseSuiteResult.SuiteResultEndDateTime = DateTime.UtcNow;
             databaseSuiteResult.SuiteResultTypeId = MapSuiteResultType(suiteResultType);

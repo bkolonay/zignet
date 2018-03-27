@@ -11,7 +11,6 @@ namespace ZigNet.Database.EntityFramework
     {
         private ZigNetEntities _zigNetEntities;
 
-        // todo: unit test this
         public ZigNetEntities GetInstance()
         {
             if (_zigNetEntities == null)
