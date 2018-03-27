@@ -350,6 +350,7 @@ namespace ZigNet.Business.Tests
             public void ThrowsWhenSuiteIdDoesNotExist()
             {
                 var zignetDatabase = new Mock<IZigNetDatabase>();
+                zignetDatabase.Setup(zd => zd.StartSuite("suite 2")).Throws(new InvalidOperationException());
 
                 var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
                 zigNetBusiness.StartSuite("suite 2");
@@ -384,6 +385,8 @@ namespace ZigNet.Business.Tests
         [TestClass]
         public class SaveTestResultMethod
         {
+            // todo: does not throw when test name not null
+
             [TestMethod]
             [ExpectedException(typeof(ArgumentNullException))]
             public void ThrowsWhenTestNameNull()
@@ -395,109 +398,6 @@ namespace ZigNet.Business.Tests
                 var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
                 zigNetBusiness.SaveTestResult(testResult);
             }
-
-            //[TestMethod]
-            //public void AssignsTestIdWhenTestWithSameNameExists()
-            //{
-            //    var zignetDatabase = new Mock<IZigNetDatabase>();
-            //    zignetDatabase.Setup(zd => zd.GetTestOrDefault("test 1")).Returns(new Test { Name = "test 1", TestID = 1, Categories = new List<TestCategory>() });
-            //    zignetDatabase.Setup(zd => zd.SuiteResultExists(2)).Returns(true);
-
-            //    var testResult = new ZigNetTestResult {
-            //        Test = new Test 
-            //        { 
-            //            Name = "test 1", 
-            //            Categories = new List<TestCategory>() 
-            //        },
-            //        SuiteResult = new SuiteResult{ SuiteResultID = 2 }
-            //    };
-
-            //    var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
-            //    zigNetBusiness.SaveTestResult(testResult);
-            //}
-
-            //[TestMethod]
-            //public void DoesNotAssignsTestIdWhenTestWithSameNameDoesNotExist()
-            //{
-            //    var zignetDatabase = new Mock<IZigNetDatabase>();
-
-            //    var testResult = new ZigNetTestResult { Test = new Test { Name = "test 1" }, SuiteResult = new SuiteResult { SuiteResultID = 2 } };
-            //    zignetDatabase.Setup(zd => zd.SuiteResultExists(2)).Returns(true);
-
-            //    var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
-            //    zigNetBusiness.SaveTestResult(testResult);
-            //}
-
-            //[TestMethod]
-            //[ExpectedException(typeof(ArgumentOutOfRangeException))]
-            //public void ThrowsIfSuiteResultDoesNotExist()
-            //{
-            //    var zignetDatabase = new Mock<IZigNetDatabase>();
-            //    zignetDatabase.Setup(zd => zd.SuiteResultExists(2)).Returns(false);
-
-            //    var testResult = new ZigNetTestResult { Test = new Test { Name = "test 1" }, SuiteResult = new SuiteResult { SuiteResultID = 2 } };
-
-            //    var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
-            //    zigNetBusiness.SaveTestResult(testResult);
-            //}
-
-            //[TestMethod]
-            //public void CopiesExistingTestCategories()
-            //{
-            //    var zignetDatabase = new Mock<IZigNetDatabase>();
-            //    zignetDatabase.Setup(zd => zd.GetTestOrDefault("test 1")).Returns(
-            //        new Test
-            //        {
-            //            Name = "test 1",
-            //            TestID = 1,
-            //            Categories = new List<TestCategory> {
-            //                new TestCategory { TestCategoryID = 1, Name = "test category 1" } }
-            //        }
-            //    );
-            //    zignetDatabase.Setup(zd => zd.SuiteResultExists(2)).Returns(true);
-
-            //    var testResult = new ZigNetTestResult
-            //    {
-            //        Test = new Test
-            //        {
-            //            Name = "test 1",
-            //            Categories = new List<TestCategory>()
-            //        },
-            //        SuiteResult = new SuiteResult { SuiteResultID = 2 }
-            //    };
-
-            //    var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
-            //    zigNetBusiness.SaveTestResult(testResult);
-            //}
-
-            //[TestMethod]
-            //public void MergesNewAndExistingTestCategories()
-            //{
-            //    var zignetDatabase = new Mock<IZigNetDatabase>();
-            //    zignetDatabase.Setup(zd => zd.GetTestOrDefault("test 1")).Returns(
-            //        new Test
-            //        {
-            //            Name = "test 1",
-            //            TestID = 1,
-            //            Categories = new List<TestCategory> {
-            //                new TestCategory { TestCategoryID = 1, Name = "test category 1" } }
-            //        }
-            //    );
-            //    zignetDatabase.Setup(zd => zd.SuiteResultExists(2)).Returns(true);
-
-            //    var testResult = new ZigNetTestResult
-            //    {
-            //        Test = new Test
-            //        {
-            //            Name = "test 1",
-            //            Categories = new List<TestCategory> { new TestCategory { Name = "test category 2" } }
-            //        },
-            //        SuiteResult = new SuiteResult { SuiteResultID = 2 }
-            //    };
-
-            //    var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
-            //    zigNetBusiness.SaveTestResult(testResult);
-            //}
         }
 
         [TestClass]
