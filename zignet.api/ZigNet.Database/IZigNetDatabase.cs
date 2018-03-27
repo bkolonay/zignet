@@ -11,20 +11,11 @@ namespace ZigNet.Database
         int StartSuite(string suiteName);
         void StopSuite(int suiteResultId, SuiteResultType suiteResultType);
         IEnumerable<LatestTestResult> GetLatestTestResults(int suiteResultId);
-        IEnumerable<Suite> GetSuites();
         IEnumerable<SuiteSummary> GetLatestSuiteResults();
-
-
-        bool SuiteResultExists(int suiteResultId);
-        IEnumerable<SuiteCategory> GetSuiteCategoriesForSuite(int suiteId);
-        IEnumerable<SuiteResult> GetSuiteResultsForSuite(int suiteId);
-        IEnumerable<TestResult> GetTestResultsForSuite(int suiteId);
-        IEnumerable<TestResult> GetTestResultsForSuiteResult(int suiteResultId);
-        IEnumerable<Test> GetTestsForSuite(int suiteId);
-        SuiteResult GetSuiteResult(int suiteResultId);
         void SaveTestResult(TestResult testResult);
 
+        IEnumerable<Suite> GetMappedSuites();
+        IEnumerable<SuiteCategory> GetSuiteCategoriesForSuite(int suiteId);
         int SaveSuite(Suite suite);
-        
     }
 }

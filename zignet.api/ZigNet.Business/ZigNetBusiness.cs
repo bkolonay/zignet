@@ -78,7 +78,7 @@ namespace ZigNet.Business
 
         public int CreateSuite(Suite suite)
         {
-            if (_zignetDatabase.GetSuites().Any(s => s.Name == suite.Name))
+            if (_zignetDatabase.GetMappedSuites().Any(s => s.Name == suite.Name))
                 throw new InvalidOperationException("Suite with name already exists: " + suite.Name);
 
             return _zignetDatabase.SaveSuite(suite);
@@ -92,7 +92,7 @@ namespace ZigNet.Business
             if (currentSuiteCategories.Any(sc => sc.Name == suiteCategoryName))
                 return;
 
-            var suite = _zignetDatabase.GetSuites().Single(s => s.SuiteID == suiteId);
+            var suite = _zignetDatabase.GetMappedSuites().Single(s => s.SuiteID == suiteId);
             suite.Categories.Add(new SuiteCategory { Name = suiteCategoryName });
             _zignetDatabase.SaveSuite(suite);
         }
@@ -105,7 +105,7 @@ namespace ZigNet.Business
             if (!currentSuiteCategories.Any(sc => sc.Name == suiteCategoryName))
                 return;
 
-            var suite = _zignetDatabase.GetSuites().Single(s => s.SuiteID == suiteId);
+            var suite = _zignetDatabase.GetMappedSuites().Single(s => s.SuiteID == suiteId);
             suite.Categories.Remove(suite.Categories.Single(sc => sc.Name == suiteCategoryName));
             _zignetDatabase.SaveSuite(suite);
         }

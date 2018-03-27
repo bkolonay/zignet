@@ -7,24 +7,18 @@ namespace ZigNet.Database.EntityFramework
 {
     public interface IZigNetEntitiesWriter
     {
-        SuiteResult GetSuiteResult(int suiteResultId);
-        Test GetTestWithSuites(int testId);
-        IQueryable<TestCategory> GetTestCategories();
         Suite GetSuite(int suiteId);
-        TestResult SaveTestResult(TestResult testResult);
-        IQueryable<LatestTestResult> GetLatestTestResults();
-
-        bool SuiteResultExists(int suiteResultId);
-        ZigNetSuite GetZigNetSuite(int suiteId);
-        IQueryable<Suite> GetSuites();
-        IEnumerable<Test> GetTestsWithTestResultsForSuite(int suiteId);
-        IQueryable<SuiteCategory> GetSuiteCategories();
-        IQueryable<SuiteResult> GetSuiteResults();
-        IQueryable<TestResult> GetTestResults();
+        Test GetTestWithSuites(int testId);
+        SuiteResult GetSuiteResult(int suiteResultId);        
         TestFailureType GetTestFailureType(int testFailureTypeId);
+        IQueryable<LatestTestResult> GetLatestTestResults();
+        IQueryable<TestCategory> GetTestCategories();
+        TestResult SaveTestResult(TestResult testResult);
         int SaveSuiteResult(SuiteResult suiteResult);
         void SaveLatestTestResult(LatestTestResult latestTestResult);
 
+        IQueryable<Suite> GetSuites();
+        IQueryable<SuiteCategory> GetSuiteCategories();
         int SaveSuite(Suite suite);
     }
 }

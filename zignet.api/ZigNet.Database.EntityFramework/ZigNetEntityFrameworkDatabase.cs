@@ -149,7 +149,12 @@ namespace ZigNet.Database.EntityFramework
 
             return failingLatestTestResultDtos;
         }
-        public IEnumerable<ZigNetSuite> GetSuites()
+        public IEnumerable<SuiteSummary> GetLatestSuiteResults()
+        {
+            return _zigNetEntitiesReadOnly.GetLatestSuiteResults();
+        }
+
+        public IEnumerable<ZigNetSuite> GetMappedSuites()
         {
             var databaseSuites = _zigNetEntitiesWriter.GetSuites();
 
@@ -159,81 +164,10 @@ namespace ZigNet.Database.EntityFramework
 
             return suites;
         }
-        public IEnumerable<SuiteSummary> GetLatestSuiteResults()
-        {
-            return _zigNetEntitiesReadOnly.GetLatestSuiteResults();
-        }
-
-
-        public bool SuiteResultExists(int suiteResultId)
-        {
-            return _zigNetEntitiesReadOnly.SuiteResultExists(suiteResultId);
-        }
-
         public IEnumerable<ZigNetSuiteCategory> GetSuiteCategoriesForSuite(int suiteId)
         {
             return MapDatabaseSuiteCategories(_zigNetEntitiesWriter.GetSuite(suiteId).SuiteCategories);
         }
-
-        public IEnumerable<ZigNetSuiteResult> GetSuiteResultsForSuite(int suiteId)
-        {
-            var databaseSuiteResults = _zigNetEntitiesWriter.GetSuiteResults().Where(sr => sr.SuiteId == suiteId);
-
-            var suiteResultsForSuite = new List<ZigNetSuiteResult>();
-            foreach (var databaseSuiteResult in databaseSuiteResults)
-                suiteResultsForSuite.Add(MapDatabaseSuiteResult(databaseSuiteResult));
-
-            return suiteResultsForSuite;
-        }
-
-        public ZigNetSuiteResult GetSuiteResult(int suiteResultId)
-        {
-            var databaseSuiteResult = _zigNetEntitiesWriter.GetSuiteResult(suiteResultId);
-            return MapDatabaseSuiteResult(databaseSuiteResult);
-        }
-
-        public IEnumerable<ZigNetTestResult> GetTestResultsForSuiteResult(int suiteResultId)
-        {
-            var databaseTestResults = _zigNetEntitiesWriter.GetTestResults().Where(tr => tr.SuiteResultId == suiteResultId);
-
-            var testResultsForSuiteResult = new List<ZigNetTestResult>();
-            foreach (var databaseTestResult in databaseTestResults)
-            {
-                testResultsForSuiteResult.Add(
-                    new ZigNetTestResult
-                    {
-                        TestResultID = databaseTestResult.TestResultID,
-                        ResultType = MapDatabaseTestResultType(databaseTestResult.TestResultType)
-                    }
-                );
-            }
-
-            return testResultsForSuiteResult;
-        }
-
-        public IEnumerable<ZigNetTestResult> GetTestResultsForSuite(int suiteId)
-        {
-            var databaseTestResults = _zigNetEntitiesWriter.GetTestResults().Where(tr => tr.SuiteResult.SuiteId == suiteId);
-            var testResults = new List<ZigNetTestResult>();
-            foreach (var databaseTestResult in databaseTestResults)
-                testResults.Add(MapDatabaseTestResult(databaseTestResult));
-
-            return testResults;
-        }
-
-        public IEnumerable<ZigNetTest> GetTestsForSuite(int suiteId)
-        {
-            var suite = _zigNetEntitiesWriter.GetSuite(suiteId);
-            var databaseTests = suite.Tests;
-
-            var testsForSuite = new List<ZigNetTest>();
-            foreach (var databaseTest in databaseTests)
-                testsForSuite.Add(MapDatabaseTestShallow(databaseTest));
-
-            return testsForSuite;
-        }
-
-
         public int SaveSuite(ZigNetSuite suite)
         {
             Suite databaseSuite;
@@ -267,19 +201,6 @@ namespace ZigNet.Database.EntityFramework
                     throw new InvalidOperationException("Test failure type not recognized");
             }
         }
-
-        private ZigNetSuiteResult MapDatabaseSuiteResult(SuiteResult databaseSuiteResult)
-        {
-            return new ZigNetSuiteResult
-            {
-                SuiteResultID = databaseSuiteResult.SuiteResultID,
-                StartTime = databaseSuiteResult.SuiteResultStartDateTime,
-                EndTime = databaseSuiteResult.SuiteResultEndDateTime,
-                ResultType = MapDatabaseSuiteResultType(databaseSuiteResult.SuiteResultType),
-                Suite = MapDatabaseSuite(databaseSuiteResult.Suite)
-            };
-        }
-
         private int MapSuiteResultType(ZigNetSuiteResultType zigNetSuiteResultType)
         {
             switch (zigNetSuiteResultType)
@@ -294,7 +215,6 @@ namespace ZigNet.Database.EntityFramework
                     throw new InvalidOperationException("Suite result type not recognized");
             }
         }
-
         private int MapTestResultType(ZigNetTestResultType zigNetTestResultType)
         {
             switch (zigNetTestResultType)
@@ -320,48 +240,6 @@ namespace ZigNet.Database.EntityFramework
 
             return suiteCategories;
         }
-
-        private ICollection<ZigNetTestCategory> MapDatabaseTestCategories(Test test)
-        {
-            var databaseTestCategories = test.TestCategories;
-
-            var testCategories = new List<ZigNetTestCategory>();
-            foreach (var databaseTestCategory in databaseTestCategories)
-                testCategories.Add(MapDatabaseTestCategory(databaseTestCategory));
-
-            return testCategories;
-        }
-
-        private ZigNetSuiteResultType MapDatabaseSuiteResultType(SuiteResultType suiteResultType)
-        {
-            switch (suiteResultType.SuiteResultTypeName)
-            {
-                case "Pass":
-                    return ZigNetSuiteResultType.Pass;
-                case "Fail":
-                    return ZigNetSuiteResultType.Fail;
-                case "Inconclusive":
-                    return ZigNetSuiteResultType.Inconclusive;
-                default:
-                    throw new InvalidOperationException("Suite result type not recognized");
-            }
-        }
-
-        private ZigNetTestResultType MapDatabaseTestResultType(TestResultType testResultType)
-        {
-            switch (testResultType.TestResultTypeName)
-            {
-                case "Pass":
-                    return ZigNetTestResultType.Pass;
-                case "Fail":
-                    return ZigNetTestResultType.Fail;
-                case "Inconclusive":
-                    return ZigNetTestResultType.Inconclusive;
-                default:
-                    throw new InvalidOperationException("Test result type not recognized");
-            }
-        }
-
         private ZigNetSuite MapDatabaseSuite(Suite databaseSuite)
         {
             return new ZigNetSuite
@@ -371,7 +249,6 @@ namespace ZigNet.Database.EntityFramework
                 Categories = MapDatabaseSuiteCategories(databaseSuite)
             };
         }
-
         private ZigNetSuiteCategory MapDatabaseSuiteCategory(SuiteCategory databaseSuiteCategory)
         {
             return new ZigNetSuiteCategory
@@ -380,59 +257,12 @@ namespace ZigNet.Database.EntityFramework
                 Name = databaseSuiteCategory.CategoryName
             };
         }
-
-        private ZigNetTestCategory MapDatabaseTestCategory(TestCategory databaseTestCategory)
-        {
-            return new ZigNetTestCategory
-            {
-                TestCategoryID = databaseTestCategory.TestCategoryID,
-                Name = databaseTestCategory.CategoryName
-            };
-        }
-
         private IEnumerable<ZigNetSuiteCategory> MapDatabaseSuiteCategories(IEnumerable<SuiteCategory> databaseSuiteCategories)
         {
             var suiteCategories = new List<ZigNetSuiteCategory>();
             foreach (var databaseSuiteCategory in databaseSuiteCategories)
                 suiteCategories.Add(MapDatabaseSuiteCategory(databaseSuiteCategory));
             return suiteCategories;
-        }
-
-        private SuiteCategory MapSuiteCategory(ZigNetSuiteCategory suiteCategory)
-        {
-            return new SuiteCategory
-            {
-                SuiteCategoryID = suiteCategory.SuiteCategoryID,
-                CategoryName = suiteCategory.Name
-            };
-        }
-
-        private ZigNetTest MapDatabaseTest(Test databaseTest)
-        {
-            var zigNetTest = MapDatabaseTestShallow(databaseTest);
-            zigNetTest.Categories = MapDatabaseTestCategories(databaseTest);
-            return zigNetTest;
-        }
-
-        private ZigNetTest MapDatabaseTestShallow(Test databaseTest)
-        {
-            return new ZigNetTest
-            {
-                TestID = databaseTest.TestID,
-                Name = databaseTest.TestName
-            };
-        }
-
-        private ZigNetTestResult MapDatabaseTestResult(TestResult testResult)
-        {
-            return new ZigNetTestResult
-            {
-                TestResultID = testResult.TestResultID,
-                StartTime = testResult.TestResultStartDateTime,
-                EndTime = testResult.TestResultEndDateTime,
-                ResultType = MapDatabaseTestResultType(testResult.TestResultType),
-                Test = MapDatabaseTestShallow(testResult.Test)
-            };
         }
     }
 }

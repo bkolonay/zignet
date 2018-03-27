@@ -10,9 +10,9 @@ namespace ZigNet.Business
         int StartSuite(int suiteId);
         int StartSuite(string suiteName);
         void StopSuite(int suiteResultId, SuiteResultType suiteResultType);
-        void SaveTestResult(TestResult testResult);        
         IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId);
         IEnumerable<SuiteSummary> GetLatestSuiteResults();
+        void SaveTestResult(TestResult testResult);
 
         int CreateSuite(Suite suite);
         void AddSuiteCategory(int suiteId, string suiteCategoryName);
