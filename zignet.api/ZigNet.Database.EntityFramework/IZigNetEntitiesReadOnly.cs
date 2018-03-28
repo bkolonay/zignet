@@ -8,6 +8,7 @@ namespace ZigNet.Database.EntityFramework
     public interface IZigNetEntitiesReadOnly
     {
         int GetSuiteId(string suiteName);
+        string GetSuiteName(int suiteId);
         ZigNetTest GetMappedTestWithCategoriesOrDefault(string testName);
         SuiteResult GetSuiteResult(int suiteResultId);
         IQueryable<LatestTestResult> GetLatestTestResults();

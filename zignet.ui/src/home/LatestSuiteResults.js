@@ -31,6 +31,7 @@ class LatestSuiteResults extends Component {
   render() {
     return (
       <div>
+        <h1 className="text-center">ZigNet</h1>
         <SuiteResults suiteResults={this.state.latestSuiteResults} />
       </div>
     );

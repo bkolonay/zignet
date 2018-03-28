@@ -36,6 +36,10 @@ namespace ZigNet.Business
 
             _zignetDatabase.SaveTestResult(testResult);
         }
+        public string GetSuiteName(int suiteId)
+        {
+            return _zignetDatabase.GetSuiteName(suiteId);
+        }
         public IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId)
         {
             var databaseLatestTestResults = _zignetDatabase.GetLatestTestResults(suiteId);

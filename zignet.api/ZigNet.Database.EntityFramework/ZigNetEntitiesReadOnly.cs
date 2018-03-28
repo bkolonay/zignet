@@ -24,6 +24,14 @@ namespace ZigNet.Database.EntityFramework
                 .Single(s => s.SuiteName == suiteName)
                 .SuiteID;
         }
+        public string GetSuiteName(int suiteId)
+        {
+            return _zigNetEntities.Suites
+                .AsNoTracking()
+                .Select(s => new { s.SuiteName, s.SuiteID })
+                .Single(s => s.SuiteID == suiteId)
+                .SuiteName;
+        }
         public ZigNetTest GetMappedTestWithCategoriesOrDefault(string testName)
         {
             return _zigNetEntities.Tests

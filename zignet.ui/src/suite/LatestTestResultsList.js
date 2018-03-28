@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import TestResultRow from './TestResultRow'
+import { Link } from 'react-router-dom'
 
 class LatestTestResultsList extends Component {
 
   render() {
     return (
       <div className="container">
+        <h4><Link to='/'>ZigNet</Link></h4>
+        <h2 className="text-center">{this.props.suiteName}</h2>
         <table className="table">
           <thead>
             <tr>

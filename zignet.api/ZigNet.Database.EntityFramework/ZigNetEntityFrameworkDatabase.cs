@@ -45,6 +45,33 @@ namespace ZigNet.Database.EntityFramework
             databaseSuiteResult.SuiteResultTypeId = MapSuiteResultType(suiteResultType);
             _zigNetEntitiesWriter.SaveSuiteResult(databaseSuiteResult);
         }
+        public string GetSuiteName(int suiteId)
+        {
+            return _zigNetEntitiesReadOnly.GetSuiteName(suiteId);
+        }
+        public IEnumerable<LatestTestResultDto> GetLatestTestResults(int suiteId)
+        {
+            var latestTestResults = _zigNetEntitiesReadOnly.GetLatestTestResults().Where(ltr => ltr.SuiteId == suiteId);
+
+            var latestTestResultDtos = new List<LatestTestResultDto>();
+            foreach (var latestTestResult in latestTestResults)
+                latestTestResultDtos.Add(new LatestTestResultDto
+                {
+                    TestResultID = latestTestResult.TestResultId,
+                    TestName = latestTestResult.TestName,
+                    FailingFromDate = latestTestResult.FailingFromDateTime,
+                    PassingFromDate = latestTestResult.PassingFromDateTime
+                });
+            var passingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.PassingFromDate != null).OrderByDescending(ltr => ltr.PassingFromDate);
+            var failingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.FailingFromDate != null).OrderBy(ltr => ltr.FailingFromDate).ToList();
+            failingLatestTestResultDtos.AddRange(passingLatestTestResultDtos);
+
+            return failingLatestTestResultDtos;
+        }
+        public IEnumerable<SuiteSummary> GetLatestSuiteResults()
+        {
+            return _zigNetEntitiesReadOnly.GetLatestSuiteResults();
+        }
         public void SaveTestResult(ZigNetTestResult testResult)
         {
             var existingTestWithSameName = _zigNetEntitiesReadOnly.GetMappedTestWithCategoriesOrDefault(testResult.Test.Name);
@@ -125,29 +152,6 @@ namespace ZigNet.Database.EntityFramework
                 databaseLatestTestResult.PassingFromDateTime = null;
                 _zigNetEntitiesWriter.SaveLatestTestResult(databaseLatestTestResult);
             }
-        }
-        public IEnumerable<LatestTestResultDto> GetLatestTestResults(int suiteId)
-        {
-            var latestTestResults = _zigNetEntitiesReadOnly.GetLatestTestResults().Where(ltr => ltr.SuiteId == suiteId);
-
-            var latestTestResultDtos = new List<LatestTestResultDto>();
-            foreach (var latestTestResult in latestTestResults)
-                latestTestResultDtos.Add(new LatestTestResultDto
-                {
-                    TestResultID = latestTestResult.TestResultId,
-                    TestName = latestTestResult.TestName,
-                    FailingFromDate = latestTestResult.FailingFromDateTime,
-                    PassingFromDate = latestTestResult.PassingFromDateTime
-                });
-            var passingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.PassingFromDate != null).OrderByDescending(ltr => ltr.PassingFromDate);
-            var failingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.FailingFromDate != null).OrderBy(ltr => ltr.FailingFromDate).ToList();
-            failingLatestTestResultDtos.AddRange(passingLatestTestResultDtos);
-
-            return failingLatestTestResultDtos;
-        }
-        public IEnumerable<SuiteSummary> GetLatestSuiteResults()
-        {
-            return _zigNetEntitiesReadOnly.GetLatestSuiteResults();
         }
 
         public IEnumerable<ZigNetSuite> GetMappedSuites()

@@ -10,6 +10,7 @@ namespace ZigNet.Database
         int StartSuite(int suiteId);
         int StartSuite(string suiteName);
         void StopSuite(int suiteResultId, SuiteResultType suiteResultType);
+        string GetSuiteName(int suiteId);
         IEnumerable<LatestTestResult> GetLatestTestResults(int suiteResultId);
         IEnumerable<SuiteSummary> GetLatestSuiteResults();
         void SaveTestResult(TestResult testResult);

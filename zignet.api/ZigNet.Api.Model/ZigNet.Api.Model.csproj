@@ -48,11 +48,18 @@
     <Compile Include="CreateSuiteModel.cs" />
     <Compile Include="CreateTestResultModel.cs" />
     <Compile Include="EndSuiteModel.cs" />
+    <Compile Include="GetLatestTestResultsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartSuiteByNameModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZigNet.Database\ZigNet.Database.csproj">
+      <Project>{26B84886-3E8D-442D-A4EF-5E89D5B5F11D}</Project>
+      <Name>ZigNet.Database</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

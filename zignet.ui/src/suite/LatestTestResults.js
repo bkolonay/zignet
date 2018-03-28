@@ -6,7 +6,10 @@ class LatestTestResults extends Component {
     super(props);
 
     this.zigNetApi = this.props.zigNetApi;
-    this.state = { latestTestResults: [] }
+    this.state = { 
+      suiteName: '',
+      latestTestResults: []
+    }
     this.suiteId = this.props.match.params.suiteId;
   }
 
@@ -23,7 +26,8 @@ class LatestTestResults extends Component {
     this.zigNetApi.getLatestTestResultsForSuite(this.suiteId)
       .then(response => {
         this.setState({
-          latestTestResults: response
+          suiteName: response.SuiteName,
+          latestTestResults: response.LatestTestResults
         })
       })
       .catch(error => alert(error));
@@ -32,7 +36,7 @@ class LatestTestResults extends Component {
   render() {
     return (
       <div>
-        <LatestTestResultsList testResults={this.state.latestTestResults} />
+        <LatestTestResultsList suiteName={this.state.suiteName} testResults={this.state.latestTestResults} />
       </div>
     );
   }

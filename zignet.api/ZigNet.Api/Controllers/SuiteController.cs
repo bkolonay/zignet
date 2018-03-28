@@ -45,9 +45,13 @@ namespace ZigNet.Api.Controllers
         }
 
         [Route("api/Suite/LatestTestResults")]
-        public IEnumerable<LatestTestResult> LatestTestResults([FromBody] int suiteId)
+        public GetLatestTestResultsModel LatestTestResults([FromBody] int suiteId)
         {
-            return _zigNetBusiness.GetLatestTestResults(suiteId);
+            return new GetLatestTestResultsModel
+            {
+                 SuiteName = _zigNetBusiness.GetSuiteName(suiteId),
+                 LatestTestResults = _zigNetBusiness.GetLatestTestResults(suiteId)
+            };
         }
 
         [Route("api/Suite/AddCategory")]
