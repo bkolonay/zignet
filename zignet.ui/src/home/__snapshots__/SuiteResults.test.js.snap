@@ -20,8 +20,15 @@ exports[`matches the previous snapshot 1`] = `
         id="chart1"
       />
       <p
-        className="text-center"
+        className="text-center chart-label"
       />
+      <p
+        className="text-center text-muted"
+      >
+        <small>
+          a month ago
+        </small>
+      </p>
     </div>
     <div
       className="col-4"
@@ -36,8 +43,15 @@ exports[`matches the previous snapshot 1`] = `
         id="chart2"
       />
       <p
-        className="text-center"
+        className="text-center chart-label"
       />
+      <p
+        className="text-center text-muted"
+      >
+        <small>
+          in a year
+        </small>
+      </p>
     </div>
   </div>
 </div>

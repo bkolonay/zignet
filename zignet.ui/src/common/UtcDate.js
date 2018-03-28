@@ -18,6 +18,10 @@ class UtcDate {
     return this.moment.fromNow(true);
   }
 
+  getTimeFromNowWithSuffix() {
+    return this.moment.fromNow();
+  }  
+
   getTimeFrom(date) {
     const localMoment = moment.utc(date);
     return this.moment.from(localMoment, true);

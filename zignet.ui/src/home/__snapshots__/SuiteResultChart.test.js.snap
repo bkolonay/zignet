@@ -14,7 +14,14 @@ exports[`matches the previous snapshot 1`] = `
     id="chart123456789"
   />
   <p
-    className="text-center"
+    className="text-center chart-label"
   />
+  <p
+    className="text-center text-warning"
+  >
+    <small>
+      running...
+    </small>
+  </p>
 </div>
 `;
