@@ -9,6 +9,8 @@ namespace ZigNet.Database.EntityFramework
 
         public ZigNetEntities Get()
         {
+            //_zigNetEntities.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
+            //_zigNetEntities.Database.CommandTimeout = 99999999;
             return _zigNetEntities;
         }
 
