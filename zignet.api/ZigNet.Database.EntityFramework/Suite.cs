@@ -20,6 +20,7 @@ namespace ZigNet.Database.EntityFramework
             this.SuiteCategories = new HashSet<SuiteCategory>();
             this.Tests = new HashSet<Test>();
             this.LatestTestResults = new HashSet<LatestTestResult>();
+            this.TestFailureDurations = new HashSet<TestFailureDuration>();
         }
     
         public int SuiteID { get; set; }
@@ -33,5 +34,7 @@ namespace ZigNet.Database.EntityFramework
         public virtual ICollection<Test> Tests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LatestTestResult> LatestTestResults { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TestFailureDuration> TestFailureDurations { get; set; }
     }
 }

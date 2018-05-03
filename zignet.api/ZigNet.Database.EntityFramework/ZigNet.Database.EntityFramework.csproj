@@ -82,6 +82,9 @@
     <Compile Include="TestFailureDetail.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TestFailureDuration.cs">
+      <DependentUpon>ZigNetDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TestFailureType.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>

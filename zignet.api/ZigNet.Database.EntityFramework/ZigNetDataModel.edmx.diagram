@@ -29,6 +29,10 @@
         <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultSuite" />
         <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTest" />
         <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTestResult" />
+        <EntityTypeShape EntityType="ZigNet.Database.EntityFramework.Model.TestFailureDuration" Width="1.5" PointX="9.875" PointY="6" />
+        <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationSuite" />
+        <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationTest" />
+        <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationTestResult" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -86,6 +86,17 @@
           <Property Name="TestFailureDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TestFailureDetail" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="TestFailureDurations">
+          <Key>
+            <PropertyRef Name="TestFailureDurationID" />
+          </Key>
+          <Property Name="TestFailureDurationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SuiteId" Type="int" Nullable="false" />
+          <Property Name="TestId" Type="int" Nullable="false" />
+          <Property Name="TestResultId" Type="int" Nullable="false" />
+          <Property Name="FailureStartDateTime" Type="datetime" />
+          <Property Name="FailureEndDateTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="TestFailureTypes">
           <Key>
             <PropertyRef Name="TestFailureTypeID" />
@@ -278,6 +289,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TestFailureDurationSuite">
+          <End Role="Suites" Type="Self.Suites" Multiplicity="1" />
+          <End Role="TestFailureDurations" Type="Self.TestFailureDurations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suites">
+              <PropertyRef Name="SuiteID" />
+            </Principal>
+            <Dependent Role="TestFailureDurations">
+              <PropertyRef Name="SuiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestFailureDurationTest">
+          <End Role="Tests" Type="Self.Tests" Multiplicity="1" />
+          <End Role="TestFailureDurations" Type="Self.TestFailureDurations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tests">
+              <PropertyRef Name="TestID" />
+            </Principal>
+            <Dependent Role="TestFailureDurations">
+              <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestFailureDurationTestResult">
+          <End Role="TestResults" Type="Self.TestResults" Multiplicity="1" />
+          <End Role="TestFailureDurations" Type="Self.TestFailureDurations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResults">
+              <PropertyRef Name="TestResultID" />
+            </Principal>
+            <Dependent Role="TestFailureDurations">
+              <PropertyRef Name="TestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TestResultFailureDetail">
           <End Role="TestResults" Type="Self.TestResults" Multiplicity="1" />
           <End Role="TestResult_TestFailureDetails" Type="Self.TestResult_TestFailureDetails" Multiplicity="*" />
@@ -361,6 +408,7 @@
           <EntitySet Name="Test_TestCategories" EntityType="Self.Test_TestCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestCategories" EntityType="Self.TestCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestFailureDetails" EntityType="Self.TestFailureDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestFailureDurations" EntityType="Self.TestFailureDurations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestFailureTypes" EntityType="Self.TestFailureTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestResult_TestFailureDetails" EntityType="Self.TestResult_TestFailureDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestResult_TestFailureType" EntityType="Self.TestResult_TestFailureType" Schema="dbo" store:Type="Tables" />
@@ -414,6 +462,18 @@
           <AssociationSet Name="FK_TestCategoryTest" Association="Self.FK_TestCategoryTest">
             <End Role="Tests" EntitySet="Tests" />
             <End Role="Test_TestCategories" EntitySet="Test_TestCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestFailureDurationSuite" Association="Self.FK_TestFailureDurationSuite">
+            <End Role="Suites" EntitySet="Suites" />
+            <End Role="TestFailureDurations" EntitySet="TestFailureDurations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestFailureDurationTest" Association="Self.FK_TestFailureDurationTest">
+            <End Role="Tests" EntitySet="Tests" />
+            <End Role="TestFailureDurations" EntitySet="TestFailureDurations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestFailureDurationTestResult" Association="Self.FK_TestFailureDurationTestResult">
+            <End Role="TestResults" EntitySet="TestResults" />
+            <End Role="TestFailureDurations" EntitySet="TestFailureDurations" />
           </AssociationSet>
           <AssociationSet Name="FK_TestResultFailureDetail" Association="Self.FK_TestResultFailureDetail">
             <End Role="TestResults" EntitySet="TestResults" />
@@ -483,6 +543,7 @@
           <NavigationProperty Name="SuiteCategories" Relationship="Self.Suite_SuiteCategories" FromRole="Suites" ToRole="SuiteCategories" />
           <NavigationProperty Name="Tests" Relationship="Self.Suites_Tests" FromRole="Suites" ToRole="Tests" />
           <NavigationProperty Name="LatestTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultSuite" FromRole="Suite" ToRole="LatestTestResult" />
+          <NavigationProperty Name="TestFailureDurations" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationSuite" FromRole="Suite" ToRole="TestFailureDuration" />
         </EntityType>
         <EntityType Name="TestCategory">
           <Key>
@@ -524,6 +585,7 @@
           <NavigationProperty Name="TestFailureDetails" Relationship="Self.TestResult_TestFailureDetails" FromRole="TestResults" ToRole="TestFailureDetails" />
           <NavigationProperty Name="TestFailureTypes" Relationship="Self.TestResult_TestFailureType" FromRole="TestResults" ToRole="TestFailureTypes" />
           <NavigationProperty Name="LatestTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTestResult" FromRole="TestResult" ToRole="LatestTestResult" />
+          <NavigationProperty Name="TestFailureDurations" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationTestResult" FromRole="TestResult" ToRole="TestFailureDuration" />
         </EntityType>
         <EntityType Name="TestResultType">
           <Key>
@@ -543,6 +605,7 @@
           <NavigationProperty Name="Suites" Relationship="Self.Suites_Tests" FromRole="Tests" ToRole="Suites" />
           <NavigationProperty Name="TestCategories" Relationship="Self.Test_TestCategories" FromRole="Tests" ToRole="TestCategories" />
           <NavigationProperty Name="LatestTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTest" FromRole="Test" ToRole="LatestTestResult" />
+          <NavigationProperty Name="TestFailureDurations" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationTest" FromRole="Test" ToRole="TestFailureDuration" />
         </EntityType>
         <Association Name="FK_SuiteResultSuite">
           <End Role="Suites" Type="Self.Suite" Multiplicity="1" />
@@ -688,6 +751,19 @@
             <End Role="TestResult" EntitySet="TestResults" />
             <End Role="LatestTestResult" EntitySet="LatestTestResults" />
           </AssociationSet>
+          <EntitySet Name="TestFailureDurations" EntityType="ZigNet.Database.EntityFramework.Model.TestFailureDuration" />
+          <AssociationSet Name="FK_TestFailureDurationSuite" Association="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationSuite">
+            <End Role="Suite" EntitySet="Suites" />
+            <End Role="TestFailureDuration" EntitySet="TestFailureDurations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestFailureDurationTest" Association="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationTest">
+            <End Role="Test" EntitySet="Tests" />
+            <End Role="TestFailureDuration" EntitySet="TestFailureDurations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestFailureDurationTestResult" Association="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationTestResult">
+            <End Role="TestResult" EntitySet="TestResults" />
+            <End Role="TestFailureDuration" EntitySet="TestFailureDurations" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="LatestTestResult">
           <Key>
@@ -736,6 +812,56 @@
               <PropertyRef Name="TestResultID" />
             </Principal>
             <Dependent Role="LatestTestResult">
+              <PropertyRef Name="TestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TestFailureDuration">
+          <Key>
+            <PropertyRef Name="TestFailureDurationID" />
+          </Key>
+          <Property Name="TestFailureDurationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SuiteId" Type="Int32" Nullable="false" />
+          <Property Name="TestId" Type="Int32" Nullable="false" />
+          <Property Name="TestResultId" Type="Int32" Nullable="false" />
+          <Property Name="FailureStartDateTime" Type="DateTime" Precision="3" />
+          <Property Name="FailureEndDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Suite" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationSuite" FromRole="TestFailureDuration" ToRole="Suite" />
+          <NavigationProperty Name="Test" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationTest" FromRole="TestFailureDuration" ToRole="Test" />
+          <NavigationProperty Name="TestResult" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationTestResult" FromRole="TestFailureDuration" ToRole="TestResult" />
+        </EntityType>
+        <Association Name="FK_TestFailureDurationSuite">
+          <End Type="ZigNet.Database.EntityFramework.Model.Suite" Role="Suite" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.TestFailureDuration" Role="TestFailureDuration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suite">
+              <PropertyRef Name="SuiteID" />
+            </Principal>
+            <Dependent Role="TestFailureDuration">
+              <PropertyRef Name="SuiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestFailureDurationTest">
+          <End Type="ZigNet.Database.EntityFramework.Model.Test" Role="Test" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.TestFailureDuration" Role="TestFailureDuration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Test">
+              <PropertyRef Name="TestID" />
+            </Principal>
+            <Dependent Role="TestFailureDuration">
+              <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestFailureDurationTestResult">
+          <End Type="ZigNet.Database.EntityFramework.Model.TestResult" Role="TestResult" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.TestFailureDuration" Role="TestFailureDuration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResult">
+              <PropertyRef Name="TestResultID" />
+            </Principal>
+            <Dependent Role="TestFailureDuration">
               <PropertyRef Name="TestResultId" />
             </Dependent>
           </ReferentialConstraint>
@@ -883,6 +1009,18 @@
                 <ScalarProperty Name="TestId" ColumnName="TestId" />
                 <ScalarProperty Name="SuiteId" ColumnName="SuiteId" />
                 <ScalarProperty Name="LatestTestResultID" ColumnName="LatestTestResultID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestFailureDurations">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.TestFailureDuration">
+              <MappingFragment StoreEntitySet="TestFailureDurations">
+                <ScalarProperty Name="FailureEndDateTime" ColumnName="FailureEndDateTime" />
+                <ScalarProperty Name="FailureStartDateTime" ColumnName="FailureStartDateTime" />
+                <ScalarProperty Name="TestResultId" ColumnName="TestResultId" />
+                <ScalarProperty Name="TestId" ColumnName="TestId" />
+                <ScalarProperty Name="SuiteId" ColumnName="SuiteId" />
+                <ScalarProperty Name="TestFailureDurationID" ColumnName="TestFailureDurationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
