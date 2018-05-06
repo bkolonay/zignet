@@ -52,7 +52,8 @@ namespace ZigNet.Business
                     TestResultID = databaseLatestTestResult.TestResultID,
                     TestName = databaseLatestTestResult.TestName,
                     FailingFromDate = databaseLatestTestResult.FailingFromDate,
-                    PassingFromDate = databaseLatestTestResult.PassingFromDate
+                    PassingFromDate = databaseLatestTestResult.PassingFromDate,
+                    TestFailureDurations = databaseLatestTestResult.TestFailureDurations
                 });
             }
             return latestTestResults;
