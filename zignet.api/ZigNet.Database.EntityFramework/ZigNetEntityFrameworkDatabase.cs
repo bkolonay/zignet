@@ -55,12 +55,13 @@ namespace ZigNet.Database.EntityFramework
             var latestTestResults = _zigNetEntitiesReadOnly.GetLatestTestResults().Where(ltr => ltr.SuiteId == suiteId);
 
             var latestTestResultDtos = new List<LatestTestResultDto>();
+            var utcNow = DateTime.UtcNow;
             foreach (var latestTestResult in latestTestResults)
             {
                 var databaseTestFailureDurations = _zigNetEntitiesReadOnly.GetTestFailureDurations().Where(tfd => 
                     tfd.SuiteId == latestTestResult.SuiteId &&
                     tfd.TestId == latestTestResult.TestId &&
-                    tfd.FailureStartDateTime > DateTime.Now.AddHours(24));
+                    tfd.FailureStartDateTime > utcNow.AddHours(-24));
 
                 var testFailureDurations = new List<TestFailureDurationDto>();
                 foreach (var databaseTestFailureDuration in databaseTestFailureDurations)
