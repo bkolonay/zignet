@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ZigNet.Database.DTOs
 {
@@ -8,5 +9,6 @@ namespace ZigNet.Database.DTOs
         public string TestName { get; set; }
         public DateTime? FailingFromDate { get; set; }
         public DateTime? PassingFromDate { get; set; }
+        public IEnumerable<TestFailureDuration> TestFailureDurations { get; set; }
     }
 }

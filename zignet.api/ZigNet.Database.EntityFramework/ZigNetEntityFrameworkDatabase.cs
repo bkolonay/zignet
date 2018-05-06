@@ -8,6 +8,7 @@ using ZigNetSuiteResultType = ZigNet.Domain.Suite.SuiteResultType;
 using ZigNetTestResultType = ZigNet.Domain.Test.TestResultType;
 using ZigNetTestFailureType = ZigNet.Domain.Test.TestFailureType;
 using LatestTestResultDto = ZigNet.Database.DTOs.LatestTestResult;
+using TestFailureDurationDto = ZigNet.Database.DTOs.TestFailureDuration;
 using ZigNet.Database.DTOs;
 
 namespace ZigNet.Database.EntityFramework
@@ -55,13 +56,29 @@ namespace ZigNet.Database.EntityFramework
 
             var latestTestResultDtos = new List<LatestTestResultDto>();
             foreach (var latestTestResult in latestTestResults)
+            {
+                var databaseTestFailureDurations = _zigNetEntitiesReadOnly.GetTestFailureDurations().Where(tfd => 
+                    tfd.SuiteId == latestTestResult.SuiteId &&
+                    tfd.TestId == latestTestResult.TestId &&
+                    tfd.FailureStartDateTime > DateTime.Now.AddHours(24));
+
+                var testFailureDurations = new List<TestFailureDurationDto>();
+                foreach (var databaseTestFailureDuration in databaseTestFailureDurations)
+                    testFailureDurations.Add(new TestFailureDurationDto
+                    {
+                        FailureStart = databaseTestFailureDuration.FailureStartDateTime,
+                        FailureEnd = databaseTestFailureDuration.FailureEndDateTime
+                    });
+
                 latestTestResultDtos.Add(new LatestTestResultDto
                 {
                     TestResultID = latestTestResult.TestResultId,
                     TestName = latestTestResult.TestName,
                     FailingFromDate = latestTestResult.FailingFromDateTime,
-                    PassingFromDate = latestTestResult.PassingFromDateTime
+                    PassingFromDate = latestTestResult.PassingFromDateTime,
+                    TestFailureDurations = testFailureDurations
                 });
+            }
             var passingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.PassingFromDate != null).OrderByDescending(ltr => ltr.PassingFromDate);
             var failingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.FailingFromDate != null).OrderBy(ltr => ltr.FailingFromDate).ToList();
             failingLatestTestResultDtos.AddRange(passingLatestTestResultDtos);

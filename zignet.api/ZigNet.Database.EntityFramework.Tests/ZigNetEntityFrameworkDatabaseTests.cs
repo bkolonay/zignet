@@ -1486,6 +1486,33 @@ namespace ZigNet.Database.EntityFramework.Tests
                 Assert.AreEqual("test passing the shortest", latestTestResults[2].TestName);
                 Assert.AreEqual("test passing the longest", latestTestResults[3].TestName);
             }
+
+            [TestMethod]
+            public void AddsTestFailureDurations()
+            {
+                var utcNow = DateTime.UtcNow;
+                var zigNetEntitiesReadOnlyMock = new Mock<IZigNetEntitiesReadOnly>();
+                zigNetEntitiesReadOnlyMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> {
+                            new LatestTestResult
+                            {
+                                SuiteId = 1,
+                                TestResultId = 2,
+                                TestName = "test1",
+                                PassingFromDateTime = utcNow,
+                            }
+                        }.AsQueryable);
+                var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+
+                Assert.AreEqual(1, latestTestResults.Count);
+                Assert.AreEqual(2, latestTestResults[0].TestResultID);
+                Assert.AreEqual("test1", latestTestResults[0].TestName);
+                Assert.AreEqual(utcNow, latestTestResults[0].PassingFromDate);
+                Assert.IsNull(latestTestResults[0].FailingFromDate);
+            }
         }
     }
 }

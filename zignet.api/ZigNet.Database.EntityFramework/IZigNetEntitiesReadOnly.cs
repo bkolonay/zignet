@@ -12,6 +12,7 @@ namespace ZigNet.Database.EntityFramework
         ZigNetTest GetMappedTestWithCategoriesOrDefault(string testName);
         SuiteResult GetSuiteResult(int suiteResultId);
         IQueryable<LatestTestResult> GetLatestTestResults();
+        IQueryable<TestFailureDuration> GetTestFailureDurations();
         IEnumerable<SuiteSummary> GetLatestSuiteResults();
     }
 }

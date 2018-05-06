@@ -57,6 +57,10 @@ namespace ZigNet.Database.EntityFramework
         {
             return _zigNetEntities.LatestTestResults.AsNoTracking();
         }
+        public IQueryable<TestFailureDuration> GetTestFailureDurations()
+        {
+            return _zigNetEntities.TestFailureDurations.AsNoTracking();
+        }
         public IEnumerable<SuiteSummary> GetLatestSuiteResults()
         {
             var suites = _zigNetEntities.Suites
