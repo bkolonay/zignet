@@ -40,6 +40,10 @@ namespace ZigNet.Database.EntityFramework
         {
             return _zigNetEntities.LatestTestResults;
         }
+        public IQueryable<TestFailureDuration> GetTestFailureDurations()
+        {
+            return _zigNetEntities.TestFailureDurations;
+        }
         public int SaveSuiteResult(SuiteResult suiteResult)
         {
             if (suiteResult.SuiteResultID == 0)
@@ -52,7 +56,13 @@ namespace ZigNet.Database.EntityFramework
             if (latestTestResult.LatestTestResultID == 0)
                 _zigNetEntities.LatestTestResults.Add(latestTestResult);
             _zigNetEntities.SaveChanges();
-        }        
+        }
+        public void SaveTestFailedDuration(TestFailureDuration testFailedDuration)
+        {
+            if (testFailedDuration.TestFailureDurationID == 0)
+                _zigNetEntities.TestFailureDurations.Add(testFailedDuration);
+            _zigNetEntities.SaveChanges();
+        }
         public TestResult SaveTestResult(TestResult testResult)
         {
             _zigNetEntities.TestResults.Add(testResult);

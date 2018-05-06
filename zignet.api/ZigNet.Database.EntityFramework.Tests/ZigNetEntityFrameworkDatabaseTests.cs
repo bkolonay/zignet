@@ -199,6 +199,10 @@ namespace ZigNet.Database.EntityFramework.Tests
                     new List<LatestTestResult> { 
                         new LatestTestResult { SuiteId = 2, TestId = 1, FailingFromDateTime = DateTime.UtcNow }
                     }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestFailureDurations()).Returns(
+                    new List<TestFailureDuration> {
+                        new TestFailureDuration { SuiteId = 2, TestId = 1 }
+                    }.AsQueryable);
 
                 var testResult = new ZigNetTestResult
                 {
@@ -286,6 +290,10 @@ namespace ZigNet.Database.EntityFramework.Tests
                     new List<LatestTestResult> { 
                         new LatestTestResult { SuiteId = 2, TestId = 1, FailingFromDateTime = DateTime.UtcNow }
                     }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestFailureDurations()).Returns(
+                    new List<TestFailureDuration> {
+                        new TestFailureDuration { SuiteId = 2, TestId = 1 }
+                    }.AsQueryable);
 
                 var testResult = new ZigNetTestResult
                 {
@@ -327,6 +335,10 @@ namespace ZigNet.Database.EntityFramework.Tests
                 zigNetEntitiesWriterMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
                     new List<LatestTestResult> { 
                         new LatestTestResult { SuiteId = 2, TestId = 1, FailingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestFailureDurations()).Returns(
+                    new List<TestFailureDuration> {
+                        new TestFailureDuration { SuiteId = 2, TestId = 1 }
                     }.AsQueryable);
 
                 var testResult = new ZigNetTestResult
@@ -371,6 +383,10 @@ namespace ZigNet.Database.EntityFramework.Tests
                 zigNetEntitiesWriterMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
                     new List<LatestTestResult> { 
                         new LatestTestResult { SuiteId = 2, TestId = 3, FailingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestFailureDurations()).Returns(
+                    new List<TestFailureDuration> {
+                        new TestFailureDuration { SuiteId = 2, TestId = 3 }
                     }.AsQueryable);
 
                 var testResult = new ZigNetTestResult
@@ -460,6 +476,10 @@ namespace ZigNet.Database.EntityFramework.Tests
                 zigNetEntitiesWriterMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
                     new List<LatestTestResult> { 
                         new LatestTestResult { SuiteId = 2, TestId = 1, FailingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestFailureDurations()).Returns(
+                    new List<TestFailureDuration> {
+                        new TestFailureDuration { SuiteId = 2, TestId = 1 }
                     }.AsQueryable);
 
                 var testResult = new ZigNetTestResult
@@ -927,6 +947,298 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
                 zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
             }
+
+            [TestMethod]
+            public void IgnoresTestFailedDurationIfAlwaysPassed()
+            {
+                var zigNetEntitiesReadOnlyMock = new Mock<IZigNetEntitiesReadOnly>();
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetMappedTestWithCategoriesOrDefault("test 1"))
+                    .Returns(new ZigNetTest { Name = "test 1", TestID = 1, Categories = new List<ZigNetTestCategory>() });
+                zigNetEntitiesReadOnlyMock.Setup(zewm => zewm.GetSuiteResult(2)).Returns(new SuiteResult { SuiteId = 2 });
+
+                var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestWithSuites(1)).Returns(
+                    new Test
+                    {
+                        TestID = 1,
+                        TestCategories = new List<TestCategory>(),
+                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
+                    }
+                );
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 1 }
+                    });
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetSuite(2)).Returns(new Suite { SuiteID = 2 });
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> {
+                        new LatestTestResult { SuiteId = 2, TestId = 1, FailingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 1,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 2 },
+                    ResultType = ZigNetTestResultType.Pass
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void IgnoresTestFailedDurationIfPassedBefore()
+            {
+                var zigNetEntitiesReadOnlyMock = new Mock<IZigNetEntitiesReadOnly>();
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetMappedTestWithCategoriesOrDefault("test 1"))
+                    .Returns(new ZigNetTest { Name = "test 1", TestID = 1, Categories = new List<ZigNetTestCategory>() });
+                zigNetEntitiesReadOnlyMock.Setup(zewm => zewm.GetSuiteResult(2)).Returns(new SuiteResult { SuiteId = 2 });
+
+                var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestWithSuites(1)).Returns(
+                    new Test
+                    {
+                        TestID = 1,
+                        TestCategories = new List<TestCategory>(),
+                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
+                    }
+                );
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 1 }
+                    });
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetSuite(2)).Returns(new Suite { SuiteID = 2 });
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> {
+                        new LatestTestResult { SuiteId = 2, TestId = 1, FailingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestFailureDurations()).Returns(
+                    new List<TestFailureDuration> {
+                        new TestFailureDuration { TestFailureDurationID = 4, SuiteId = 2, TestId = 1, TestResultId = 3, FailureStartDateTime = DateTime.Now, FailureEndDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 1,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 2 },
+                    ResultType = ZigNetTestResultType.Pass
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void UpdatesTestFailedDurationEndTimeWhenNewlyPassing()
+            {
+                var zigNetEntitiesReadOnlyMock = new Mock<IZigNetEntitiesReadOnly>();
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetMappedTestWithCategoriesOrDefault("test 1"))
+                    .Returns(new ZigNetTest { Name = "test 1", TestID = 1, Categories = new List<ZigNetTestCategory>() });
+                zigNetEntitiesReadOnlyMock.Setup(zewm => zewm.GetSuiteResult(2)).Returns(new SuiteResult { SuiteId = 2 });
+
+                var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestWithSuites(1)).Returns(
+                    new Test
+                    {
+                        TestID = 1,
+                        TestCategories = new List<TestCategory>(),
+                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
+                    }
+                );
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 1 }
+                    });
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetSuite(2)).Returns(new Suite { SuiteID = 2 });
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> {
+                        new LatestTestResult { SuiteId = 2, TestId = 1, FailingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestFailureDurations()).Returns(
+                    new List<TestFailureDuration> {
+                        new TestFailureDuration { SuiteId = 2, TestId = 1, FailureStartDateTime = DateTime.Now }
+                    }.AsQueryable);
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 1,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 2 },
+                    ResultType = ZigNetTestResultType.Pass
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void CreatesTestFailedDurationIfFirstFailure()
+            {
+                var zigNetEntitiesReadOnlyMock = new Mock<IZigNetEntitiesReadOnly>();
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetMappedTestWithCategoriesOrDefault("test 1"))
+                    .Returns(new ZigNetTest { Name = "test 1", TestID = 1, Categories = new List<ZigNetTestCategory>() });
+                zigNetEntitiesReadOnlyMock.Setup(zewm => zewm.GetSuiteResult(2)).Returns(new SuiteResult { SuiteId = 2 });
+
+                var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestWithSuites(1)).Returns(
+                    new Test
+                    {
+                        TestID = 1,
+                        TestCategories = new List<TestCategory>(),
+                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
+                    }
+                );
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 1 }
+                    });
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetSuite(2)).Returns(new Suite { SuiteID = 2 });
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> {
+                        new LatestTestResult { SuiteId = 2, TestId = 1, FailingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 1,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 2 },
+                    ResultType = ZigNetTestResultType.Fail,
+                    TestFailureDetails = new ZigNetTestFailureDetails()
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void CreatesTestFailedDurationIfNewFailure()
+            {
+                var zigNetEntitiesReadOnlyMock = new Mock<IZigNetEntitiesReadOnly>();
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetMappedTestWithCategoriesOrDefault("test 1"))
+                    .Returns(new ZigNetTest { Name = "test 1", TestID = 1, Categories = new List<ZigNetTestCategory>() });
+                zigNetEntitiesReadOnlyMock.Setup(zewm => zewm.GetSuiteResult(2)).Returns(new SuiteResult { SuiteId = 2 });
+
+                var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestWithSuites(1)).Returns(
+                    new Test
+                    {
+                        TestID = 1,
+                        TestCategories = new List<TestCategory>(),
+                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
+                    }
+                );
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 1 }
+                    });
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetSuite(2)).Returns(new Suite { SuiteID = 2 });
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> {
+                        new LatestTestResult { SuiteId = 2, TestId = 1, FailingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestFailureDurations()).Returns(
+                    new List<TestFailureDuration> {
+                        new TestFailureDuration { SuiteId = 2, TestId = 1, FailureStartDateTime = DateTime.Now, FailureEndDateTime = DateTime.Now }
+                    }.AsQueryable);
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 1,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 2 },
+                    ResultType = ZigNetTestResultType.Fail,
+                    TestFailureDetails = new ZigNetTestFailureDetails()
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            [TestMethod]
+            public void IgnoresTestFailedDurationIfSecondFailure()
+            {
+                var zigNetEntitiesReadOnlyMock = new Mock<IZigNetEntitiesReadOnly>();
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetMappedTestWithCategoriesOrDefault("test 1"))
+                    .Returns(new ZigNetTest { Name = "test 1", TestID = 1, Categories = new List<ZigNetTestCategory>() });
+                zigNetEntitiesReadOnlyMock.Setup(zewm => zewm.GetSuiteResult(2)).Returns(new SuiteResult { SuiteId = 2 });
+
+                var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestWithSuites(1)).Returns(
+                    new Test
+                    {
+                        TestID = 1,
+                        TestCategories = new List<TestCategory>(),
+                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
+                    }
+                );
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>()))
+                    .Returns(new TestResult
+                    {
+                        TestResultID = 3,
+                        Test = new Test { TestID = 1 }
+                    });
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetSuite(2)).Returns(new Suite { SuiteID = 2 });
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> {
+                        new LatestTestResult { SuiteId = 2, TestId = 1, FailingFromDateTime = DateTime.UtcNow }
+                    }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.GetTestFailureDurations()).Returns(
+                    new List<TestFailureDuration> {
+                        new TestFailureDuration { SuiteId = 2, TestId = 1, FailureStartDateTime = DateTime.Now }
+                    }.AsQueryable);
+
+                var testResult = new ZigNetTestResult
+                {
+                    Test = new ZigNetTest
+                    {
+                        TestID = 1,
+                        Name = "test 1",
+                        Categories = new List<ZigNetTestCategory>()
+                    },
+                    SuiteResult = new ZigNetSuiteResult { SuiteResultID = 2 },
+                    ResultType = ZigNetTestResultType.Fail,
+                    TestFailureDetails = new ZigNetTestFailureDetails()
+                };
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
+                zigNetEntityFrameworkDatabase.SaveTestResult(testResult);
+            }
+
+            // todo: make sure it gets the latest record
+            // todo: make sure it ignores records that dont match (suite id and test id)
         }
 
         [TestClass]

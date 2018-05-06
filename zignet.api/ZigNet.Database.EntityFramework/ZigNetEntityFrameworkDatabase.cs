@@ -152,6 +152,37 @@ namespace ZigNet.Database.EntityFramework
                 databaseLatestTestResult.PassingFromDateTime = null;
                 _zigNetEntitiesWriter.SaveLatestTestResult(databaseLatestTestResult);
             }
+
+            // todo: make sure using suiteResult, databaseTestResult, and savedTestResult aren't executing more queries (it should use the integer)
+            //  may be easier to test this in the else-if
+            //  if they are, assign the integers to variables
+            var latestDatabaseTestFailedDuration = _zigNetEntitiesWriter.GetTestFailureDurations()
+                .OrderByDescending(tfd => tfd.FailureStartDateTime)
+                .FirstOrDefault(tfd =>
+                    tfd.SuiteId == suiteResult.SuiteId &&
+                    tfd.TestId == databaseTestResult.Test.TestID
+                );
+            if (testResult.ResultType == ZigNetTestResultType.Pass
+                && latestDatabaseTestFailedDuration != null
+                && latestDatabaseTestFailedDuration.FailureStartDateTime != null && latestDatabaseTestFailedDuration.FailureEndDateTime == null)
+            {
+                latestDatabaseTestFailedDuration.FailureEndDateTime = utcNow;
+                _zigNetEntitiesWriter.SaveTestFailedDuration(latestDatabaseTestFailedDuration);
+            }
+            else if (testResult.ResultType == ZigNetTestResultType.Fail || testResult.ResultType == ZigNetTestResultType.Inconclusive)
+            {
+                if (latestDatabaseTestFailedDuration == null || latestDatabaseTestFailedDuration.FailureEndDateTime != null)
+                {
+                    var newTestFailedDuration = new TestFailureDuration
+                    {
+                        SuiteId = suiteResult.SuiteId,
+                        TestId = savedTestResult.Test.TestID,
+                        TestResultId = savedTestResult.TestResultID,
+                        FailureStartDateTime = utcNow
+                    };
+                    _zigNetEntitiesWriter.SaveTestFailedDuration(newTestFailedDuration);
+                }
+            }
         }
 
         public IEnumerable<ZigNetSuite> GetMappedSuites()
