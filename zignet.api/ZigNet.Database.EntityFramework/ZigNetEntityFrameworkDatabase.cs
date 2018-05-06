@@ -153,9 +153,6 @@ namespace ZigNet.Database.EntityFramework
                 _zigNetEntitiesWriter.SaveLatestTestResult(databaseLatestTestResult);
             }
 
-            // todo: make sure using suiteResult, databaseTestResult, and savedTestResult aren't executing more queries (it should use the integer)
-            //  may be easier to test this in the else-if
-            //  if they are, assign the integers to variables
             var latestDatabaseTestFailedDuration = _zigNetEntitiesWriter.GetTestFailureDurations()
                 .OrderByDescending(tfd => tfd.FailureStartDateTime)
                 .FirstOrDefault(tfd =>
