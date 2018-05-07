@@ -13,17 +13,17 @@ class TestHistory extends Component {
   componentDidMount() {
     let historyBarWidth = this.historyBarDiv.offsetWidth
 
-    let utcNow = moment.utc();
-    let oneDayAgoUtc = moment.utc(utcNow.format()).subtract(24, 'hours');
+    let now = moment();
+    let oneDayAgo = moment(now.format()).subtract(24, 'hours');
 
     var failureDivs = [];
     var testFailureDurations = this.props.testFailureDurations;
     for (var i = 0; i < testFailureDurations.length; i++) {
       // the time the test started failing (e.g. 22 hours ago, or 2 hours after the start of the bar boundary)
-      let testFailureStartTime = moment.utc(testFailureDurations[i].FailureStart);
+      let testFailureStartTime = moment.utc(testFailureDurations[i].FailureStart).local();
       // get number of minutes between 24 hours ago and when the test started failing (e.g. 120 minutes)
       // _this is the amount of time the test was PASSING before it started failing_
-      let minutesBetweenOneDayAgoAndTestFailureTime = moment.duration(testFailureStartTime.diff(oneDayAgoUtc)).asMinutes();
+      let minutesBetweenOneDayAgoAndTestFailureTime = moment.duration(testFailureStartTime.diff(oneDayAgo)).asMinutes();
       // get the percentage of time the test was PASSING (in minutes) within the last 24 hours (e.g. 8.3332%)
       let passingPercentOfLastDay = (minutesBetweenOneDayAgoAndTestFailureTime / 1440) * 100;
 
@@ -33,7 +33,7 @@ class TestHistory extends Component {
       let failureDivStart = (passingPercentOfLastDay / 100) * historyBarWidth;
 
       // the time the test stopped failing (e.g. 21 hours ago, or 3 hours after the start of the bar boundary)
-      let testFailureEndTime = moment.utc(testFailureDurations[i].FailureEnd);
+      let testFailureEndTime = moment.utc(testFailureDurations[i].FailureEnd).local();
       // get the number of minutes between the failure start and end (e.g. 60 minutes)
       // TODO: account for when there is no end time
       let failureDurationInMinutes = moment.duration(testFailureEndTime.diff(testFailureStartTime)).asMinutes();
