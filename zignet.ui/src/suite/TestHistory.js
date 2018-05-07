@@ -24,26 +24,39 @@ class TestHistory extends Component {
       // get number of minutes between 24 hours ago and when the test started failing (e.g. 120 minutes)
       // _this is the amount of time the test was PASSING before it started failing_
       let minutesBetweenOneDayAgoAndTestFailureTime = moment.duration(testFailureStartTime.diff(oneDayAgo)).asMinutes();
-      // get the percentage of time the test was PASSING (in minutes) within the last 24 hours (e.g. 8.3332%)
-      let passingPercentOfLastDay = (minutesBetweenOneDayAgoAndTestFailureTime / 1440) * 100;
 
-      // convert this to a percentage of the bar pixel width (e.g. 25.647 pixels)
-      // _this is the OFFSET of where the failure div should START_
-      // TODO: account/test for when div should start at 0
-      let failureDivStart = (passingPercentOfLastDay / 100) * historyBarWidth;
+      // start div at 0 if start time is before 24 hours ago
+      var failureDivStart = 0;
+      if (minutesBetweenOneDayAgoAndTestFailureTime > 0) {
+        // get the percentage of time the test was PASSING (in minutes) within the last 24 hours (e.g. 8.3332%)
+        let passingPercentOfLastDay = (minutesBetweenOneDayAgoAndTestFailureTime / 1440) * 100;
 
-      // the time the test stopped failing (e.g. 21 hours ago, or 3 hours after the start of the bar boundary)
-      let testFailureEndTime = moment.utc(testFailureDurations[i].FailureEnd).local();
-      // get the number of minutes between the failure start and end (e.g. 60 minutes)
-      // TODO: account for when there is no end time
-      let failureDurationInMinutes = moment.duration(testFailureEndTime.diff(testFailureStartTime)).asMinutes();
+        // convert this to a percentage of the bar pixel width (e.g. 25.647 pixels)
+        // _this is the OFFSET of where the failure div should START_
+        // TODO: account/test for when div should start at 0
+        failureDivStart = Math.ceil((passingPercentOfLastDay / 100) * historyBarWidth);
+      }
+      else
+        testFailureStartTime = oneDayAgo;
 
-      // get the percent of time the test was failing within the past 24 hours (e.g. 4.17%)
-      let failingPercentOfLastDay = (failureDurationInMinutes / 1440) * 100;
+      var failureDivWidth = 0;
+      if (testFailureDurations[i].FailureEnd) {
+        // the time the test stopped failing (e.g. 21 hours ago, or 3 hours after the start of the bar boundary)
+        let testFailureEndTime = moment.utc(testFailureDurations[i].FailureEnd).local();
+        // get the number of minutes between the failure start and end (e.g. 60 minutes)
+        // TODO: account for when there is no end time
+        let failureDurationInMinutes = moment.duration(testFailureEndTime.diff(testFailureStartTime)).asMinutes();
 
-      // convert this to a percentage of the bar pixel width (e.g. 12.8853)
-      // _this is the WIDTH or the failure div_
-      let failureDivWidth = (failingPercentOfLastDay / 100) * historyBarWidth;
+        // get the percent of time the test was failing within the past 24 hours (e.g. 4.17%)
+        let failingPercentOfLastDay = (failureDurationInMinutes / 1440) * 100;
+
+        // convert this to a percentage of the bar pixel width (e.g. 12.8853)
+        // _this is the WIDTH or the failure div_
+        failureDivWidth = (failingPercentOfLastDay / 100) * historyBarWidth;
+      }
+      else 
+        failureDivWidth = historyBarWidth - failureDivStart;
+
 
       failureDivs.push(<div key={i} style={{left: failureDivStart, width: failureDivWidth}}/>);
     }
