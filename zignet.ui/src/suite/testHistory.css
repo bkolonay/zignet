@@ -1,0 +1,11 @@
+.testHistoryBar {
+	position: relative;
+	height: 15px;
+	background: #28a745;
+}
+
+.testHistoryBar div {
+	position: absolute;
+	height: inherit;
+	background: #dc3545;
+}
