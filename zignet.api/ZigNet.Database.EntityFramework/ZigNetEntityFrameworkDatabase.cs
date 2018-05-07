@@ -60,9 +60,9 @@ namespace ZigNet.Database.EntityFramework
             {
                 var testFailureDurationLimit = utcNow.AddHours(-24);
                 var databaseTestFailureDurations = _zigNetEntitiesReadOnly.GetTestFailureDurations().Where(tfd =>
-                    tfd.SuiteId == latestTestResult.SuiteId &&
-                    tfd.TestId == latestTestResult.TestId &&
-                    tfd.FailureStartDateTime > testFailureDurationLimit);
+                    (tfd.SuiteId == latestTestResult.SuiteId && tfd.TestId == latestTestResult.TestId) &&
+                    (tfd.FailureEndDateTime > testFailureDurationLimit || tfd.FailureEndDateTime == null)
+                );
 
                 var testFailureDurations = new List<TestFailureDurationDto>();
                 foreach (var databaseTestFailureDuration in databaseTestFailureDurations)
