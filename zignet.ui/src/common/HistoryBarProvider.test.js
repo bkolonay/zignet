@@ -98,7 +98,7 @@ it('gets a failure duration with a start time before 24 hours ago and no end tim
 it('gets a failure duration with a start time 1 second before 24 hours ago and end time 1 second within 24 hours', () => {
   let now = moment("2018-05-07T01:00:00-07:00"); // 5/7/2018 1am
   var failureStart = moment("2018-05-06T00:59:59-07:00"); // 5/6/2018 12:59:59am (1 second before 24 hours ago)
-  var failureEnd = moment("2018-05-06T02:00:00-07:00"); // 5/6/2018 2am
+  var failureEnd = moment("2018-05-06T01:00:01-07:00"); // 5/6/2018 1:00:01
   let testFailureDuration = {
     FailureStart: failureStart.utc().format(),
     FailureEnd: failureEnd.utc().format()
@@ -108,5 +108,5 @@ it('gets a failure duration with a start time 1 second before 24 hours ago and e
   let errorDivAttributes = historyBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
 
   expect(errorDivAttributes.left).toEqual(0);
-  expect(errorDivAttributes.width).toEqual(12);
+  expect(errorDivAttributes.width).toEqual(1);
 });
