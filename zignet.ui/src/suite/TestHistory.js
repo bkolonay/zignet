@@ -10,10 +10,9 @@ class TestHistory extends Component {
       failureDivs: []
     };
     this.historyBarProvider = new HistoryBarProvider(); 
-  }  
+  }
 
-  componentDidMount() {
-    let testFailureDurations = this.props.testFailureDurations;
+  _getFailureDivs(testFailureDurations) {
     let historyBarWidth = this.historyBarDiv.offsetWidth
     let now = moment();
     var failureDivs = [];
@@ -21,8 +20,18 @@ class TestHistory extends Component {
       let failureDivAttributes = this.historyBarProvider.getErrorDivAttributes(historyBarWidth, now, testFailureDurations[i]);
       failureDivs.push(<div key={i} style={failureDivAttributes}/>);
     }
+    return failureDivs;
+  }
+
+  componentDidMount() {
     this.setState({
-      failureDivs: failureDivs
+      failureDivs: this._getFailureDivs(this.props.testFailureDurations)
+    });
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      failureDivs: this._getFailureDivs(props.testFailureDurations)
     });
   }
 
