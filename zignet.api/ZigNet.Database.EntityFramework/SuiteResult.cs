@@ -18,6 +18,7 @@ namespace ZigNet.Database.EntityFramework
         public SuiteResult()
         {
             this.TestResults = new HashSet<TestResult>();
+            this.TemporaryTestResults = new HashSet<TemporaryTestResult>();
         }
     
         public int SuiteResultID { get; set; }
@@ -30,5 +31,7 @@ namespace ZigNet.Database.EntityFramework
         public virtual SuiteResultType SuiteResultType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TestResult> TestResults { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TemporaryTestResult> TemporaryTestResults { get; set; }
     }
 }

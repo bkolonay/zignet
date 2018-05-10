@@ -36,5 +36,6 @@ namespace ZigNet.Database.EntityFramework
         public virtual DbSet<Test> Tests { get; set; }
         public virtual DbSet<LatestTestResult> LatestTestResults { get; set; }
         public virtual DbSet<TestFailureDuration> TestFailureDurations { get; set; }
+        public virtual DbSet<TemporaryTestResult> TemporaryTestResults { get; set; }
     }
 }

@@ -73,6 +73,9 @@
     <Compile Include="SuiteResultType.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TemporaryTestResult.cs">
+      <DependentUpon>ZigNetDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Test.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>

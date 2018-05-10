@@ -64,6 +64,16 @@
           <Property Name="SuiteId" Type="int" Nullable="false" />
           <Property Name="TestId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="TemporaryTestResults">
+          <Key>
+            <PropertyRef Name="TemporaryTestResultID" />
+          </Key>
+          <Property Name="TemporaryTestResultID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestResultId" Type="int" Nullable="false" />
+          <Property Name="SuiteResultId" Type="int" Nullable="false" />
+          <Property Name="SuiteId" Type="int" Nullable="false" />
+          <Property Name="TestResultTypeId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Test_TestCategories">
           <Key>
             <PropertyRef Name="TestId" />
@@ -265,6 +275,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TemporaryTestResultSuite">
+          <End Role="Suites" Type="Self.Suites" Multiplicity="1" />
+          <End Role="TemporaryTestResults" Type="Self.TemporaryTestResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suites">
+              <PropertyRef Name="SuiteID" />
+            </Principal>
+            <Dependent Role="TemporaryTestResults">
+              <PropertyRef Name="SuiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemporaryTestResultSuiteResult">
+          <End Role="SuiteResults" Type="Self.SuiteResults" Multiplicity="1" />
+          <End Role="TemporaryTestResults" Type="Self.TemporaryTestResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SuiteResults">
+              <PropertyRef Name="SuiteResultID" />
+            </Principal>
+            <Dependent Role="TemporaryTestResults">
+              <PropertyRef Name="SuiteResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemporaryTestResultTestResult">
+          <End Role="TestResults" Type="Self.TestResults" Multiplicity="1" />
+          <End Role="TemporaryTestResults" Type="Self.TemporaryTestResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResults">
+              <PropertyRef Name="TestResultID" />
+            </Principal>
+            <Dependent Role="TemporaryTestResults">
+              <PropertyRef Name="TestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemporaryTestResultTestResultType">
+          <End Role="TestResultTypes" Type="Self.TestResultTypes" Multiplicity="1" />
+          <End Role="TemporaryTestResults" Type="Self.TemporaryTestResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResultTypes">
+              <PropertyRef Name="TestResultTypeID" />
+            </Principal>
+            <Dependent Role="TemporaryTestResults">
+              <PropertyRef Name="TestResultTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TestCategoryCategory">
           <End Role="TestCategories" Type="Self.TestCategories" Multiplicity="1" />
           <End Role="Test_TestCategories" Type="Self.Test_TestCategories" Multiplicity="*" />
@@ -405,6 +463,7 @@
           <EntitySet Name="SuiteResultTypes" EntityType="Self.SuiteResultTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Suites" EntityType="Self.Suites" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Suites_Tests" EntityType="Self.Suites_Tests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemporaryTestResults" EntityType="Self.TemporaryTestResults" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Test_TestCategories" EntityType="Self.Test_TestCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestCategories" EntityType="Self.TestCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestFailureDetails" EntityType="Self.TestFailureDetails" Schema="dbo" store:Type="Tables" />
@@ -454,6 +513,22 @@
           <AssociationSet Name="FK_SuiteTest" Association="Self.FK_SuiteTest">
             <End Role="Suites" EntitySet="Suites" />
             <End Role="Suites_Tests" EntitySet="Suites_Tests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemporaryTestResultSuite" Association="Self.FK_TemporaryTestResultSuite">
+            <End Role="Suites" EntitySet="Suites" />
+            <End Role="TemporaryTestResults" EntitySet="TemporaryTestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemporaryTestResultSuiteResult" Association="Self.FK_TemporaryTestResultSuiteResult">
+            <End Role="SuiteResults" EntitySet="SuiteResults" />
+            <End Role="TemporaryTestResults" EntitySet="TemporaryTestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemporaryTestResultTestResult" Association="Self.FK_TemporaryTestResultTestResult">
+            <End Role="TestResults" EntitySet="TestResults" />
+            <End Role="TemporaryTestResults" EntitySet="TemporaryTestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemporaryTestResultTestResultType" Association="Self.FK_TemporaryTestResultTestResultType">
+            <End Role="TestResultTypes" EntitySet="TestResultTypes" />
+            <End Role="TemporaryTestResults" EntitySet="TemporaryTestResults" />
           </AssociationSet>
           <AssociationSet Name="FK_TestCategoryCategory" Association="Self.FK_TestCategoryCategory">
             <End Role="TestCategories" EntitySet="TestCategories" />
@@ -524,6 +599,7 @@
           <NavigationProperty Name="Suite" Relationship="Self.FK_SuiteResultSuite" FromRole="SuiteResults" ToRole="Suites" />
           <NavigationProperty Name="SuiteResultType" Relationship="Self.FK_SuiteResultSuiteResultType" FromRole="SuiteResults" ToRole="SuiteResultTypes" />
           <NavigationProperty Name="TestResults" Relationship="Self.FK_TestResultSuiteResult" FromRole="SuiteResults" ToRole="TestResults" />
+          <NavigationProperty Name="TemporaryTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultSuiteResult" FromRole="SuiteResult" ToRole="TemporaryTestResult" />
         </EntityType>
         <EntityType Name="SuiteResultType">
           <Key>
@@ -544,6 +620,7 @@
           <NavigationProperty Name="Tests" Relationship="Self.Suites_Tests" FromRole="Suites" ToRole="Tests" />
           <NavigationProperty Name="LatestTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultSuite" FromRole="Suite" ToRole="LatestTestResult" />
           <NavigationProperty Name="TestFailureDurations" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationSuite" FromRole="Suite" ToRole="TestFailureDuration" />
+          <NavigationProperty Name="TemporaryTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultSuite" FromRole="Suite" ToRole="TemporaryTestResult" />
         </EntityType>
         <EntityType Name="TestCategory">
           <Key>
@@ -586,6 +663,7 @@
           <NavigationProperty Name="TestFailureTypes" Relationship="Self.TestResult_TestFailureType" FromRole="TestResults" ToRole="TestFailureTypes" />
           <NavigationProperty Name="LatestTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTestResult" FromRole="TestResult" ToRole="LatestTestResult" />
           <NavigationProperty Name="TestFailureDurations" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationTestResult" FromRole="TestResult" ToRole="TestFailureDuration" />
+          <NavigationProperty Name="TemporaryTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultTestResult" FromRole="TestResult" ToRole="TemporaryTestResult" />
         </EntityType>
         <EntityType Name="TestResultType">
           <Key>
@@ -594,6 +672,7 @@
           <Property Name="TestResultTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TestResultTypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="TestResults" Relationship="Self.FK_TestResultTestResultType" FromRole="TestResultTypes" ToRole="TestResults" />
+          <NavigationProperty Name="TemporaryTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultTestResultType" FromRole="TestResultType" ToRole="TemporaryTestResult" />
         </EntityType>
         <EntityType Name="Test">
           <Key>
@@ -764,6 +843,23 @@
             <End Role="TestResult" EntitySet="TestResults" />
             <End Role="TestFailureDuration" EntitySet="TestFailureDurations" />
           </AssociationSet>
+          <EntitySet Name="TemporaryTestResults" EntityType="ZigNet.Database.EntityFramework.Model.TemporaryTestResult" />
+          <AssociationSet Name="FK_TemporaryTestResultSuiteResult" Association="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultSuiteResult">
+            <End Role="SuiteResult" EntitySet="SuiteResults" />
+            <End Role="TemporaryTestResult" EntitySet="TemporaryTestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemporaryTestResultSuite" Association="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultSuite">
+            <End Role="Suite" EntitySet="Suites" />
+            <End Role="TemporaryTestResult" EntitySet="TemporaryTestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemporaryTestResultTestResult" Association="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultTestResult">
+            <End Role="TestResult" EntitySet="TestResults" />
+            <End Role="TemporaryTestResult" EntitySet="TemporaryTestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemporaryTestResultTestResultType" Association="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultTestResultType">
+            <End Role="TestResultType" EntitySet="TestResultTypes" />
+            <End Role="TemporaryTestResult" EntitySet="TemporaryTestResults" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="LatestTestResult">
           <Key>
@@ -863,6 +959,68 @@
             </Principal>
             <Dependent Role="TestFailureDuration">
               <PropertyRef Name="TestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TemporaryTestResult">
+          <Key>
+            <PropertyRef Name="TemporaryTestResultID" />
+          </Key>
+          <Property Name="TemporaryTestResultID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestResultId" Type="Int32" Nullable="false" />
+          <Property Name="SuiteResultId" Type="Int32" Nullable="false" />
+          <Property Name="SuiteId" Type="Int32" Nullable="false" />
+          <Property Name="TestResultTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SuiteResult" Relationship="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultSuiteResult" FromRole="TemporaryTestResult" ToRole="SuiteResult" />
+          <NavigationProperty Name="Suite" Relationship="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultSuite" FromRole="TemporaryTestResult" ToRole="Suite" />
+          <NavigationProperty Name="TestResult" Relationship="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultTestResult" FromRole="TemporaryTestResult" ToRole="TestResult" />
+          <NavigationProperty Name="TestResultType" Relationship="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultTestResultType" FromRole="TemporaryTestResult" ToRole="TestResultType" />
+        </EntityType>
+        <Association Name="FK_TemporaryTestResultSuiteResult">
+          <End Type="ZigNet.Database.EntityFramework.Model.SuiteResult" Role="SuiteResult" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.TemporaryTestResult" Role="TemporaryTestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SuiteResult">
+              <PropertyRef Name="SuiteResultID" />
+            </Principal>
+            <Dependent Role="TemporaryTestResult">
+              <PropertyRef Name="SuiteResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemporaryTestResultSuite">
+          <End Type="ZigNet.Database.EntityFramework.Model.Suite" Role="Suite" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.TemporaryTestResult" Role="TemporaryTestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suite">
+              <PropertyRef Name="SuiteID" />
+            </Principal>
+            <Dependent Role="TemporaryTestResult">
+              <PropertyRef Name="SuiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemporaryTestResultTestResult">
+          <End Type="ZigNet.Database.EntityFramework.Model.TestResult" Role="TestResult" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.TemporaryTestResult" Role="TemporaryTestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResult">
+              <PropertyRef Name="TestResultID" />
+            </Principal>
+            <Dependent Role="TemporaryTestResult">
+              <PropertyRef Name="TestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemporaryTestResultTestResultType">
+          <End Type="ZigNet.Database.EntityFramework.Model.TestResultType" Role="TestResultType" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.TemporaryTestResult" Role="TemporaryTestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResultType">
+              <PropertyRef Name="TestResultTypeID" />
+            </Principal>
+            <Dependent Role="TemporaryTestResult">
+              <PropertyRef Name="TestResultTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1021,6 +1179,17 @@
                 <ScalarProperty Name="TestId" ColumnName="TestId" />
                 <ScalarProperty Name="SuiteId" ColumnName="SuiteId" />
                 <ScalarProperty Name="TestFailureDurationID" ColumnName="TestFailureDurationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemporaryTestResults">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.TemporaryTestResult">
+              <MappingFragment StoreEntitySet="TemporaryTestResults">
+                <ScalarProperty Name="TestResultTypeId" ColumnName="TestResultTypeId" />
+                <ScalarProperty Name="SuiteId" ColumnName="SuiteId" />
+                <ScalarProperty Name="SuiteResultId" ColumnName="SuiteResultId" />
+                <ScalarProperty Name="TestResultId" ColumnName="TestResultId" />
+                <ScalarProperty Name="TemporaryTestResultID" ColumnName="TemporaryTestResultID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
