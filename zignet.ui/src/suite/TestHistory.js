@@ -18,7 +18,7 @@ class TestHistory extends Component {
     var failureDivs = [];
     for (var i = 0; i < testFailureDurations.length; i++) {
       let failureDivAttributes = this.historyBarProvider.getErrorDivAttributes(historyBarWidth, now, testFailureDurations[i]);
-      failureDivs.push(<div key={i} style={failureDivAttributes}/>);
+      failureDivs.push(<div key={i} style={failureDivAttributes} title={this.historyBarProvider.getDivTitle(testFailureDurations[i])}/>);
     }
     return failureDivs;
   }

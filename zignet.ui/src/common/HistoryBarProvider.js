@@ -1,6 +1,13 @@
 import moment from 'moment';
 
 class HistoryBarProvider {
+
+  /* 
+    helped with percentage calculations:
+     - https://www.calculatorsoup.com/calculators/math/percentage.php
+     - https://www.timeanddate.com/date/timeduration.html
+  */
+  
 	getErrorDivAttributes(historyBarWidth, now, testFailureDuration) {
 		let oneDayAgo = moment(now.format()).subtract(24, 'hours');
     let testFailureStartTime = moment.utc(testFailureDuration.FailureStart).local();
@@ -28,12 +35,21 @@ class HistoryBarProvider {
 
     return {left: failureDivStart, width: failureDivWidth};
 	}
+
+  getDivTitle(testFailureDuration) {
+    let testFailureStartTime = moment.utc(testFailureDuration.FailureStart).local();
+    if (testFailureDuration.FailureEnd)
+    {
+      let testFailureEndTime = moment.utc(testFailureDuration.FailureEnd).local();
+      let timeFromStartToEnd = testFailureStartTime.to(testFailureEndTime, true);
+      return timeFromStartToEnd + ' from ' + testFailureStartTime.format('l h:mma') + ' - ' + testFailureEndTime.format('l h:mma');
+    }
+    else
+    {
+      let timeFromStartToEnd = testFailureStartTime.toNow(true);
+      return timeFromStartToEnd + ' from ' + testFailureStartTime.format('l h:mma') + ' - now';
+    }      
+  }
 }
 
 export default HistoryBarProvider;
-
-/* 
-	helped with percentage calculations:
-	 - https://www.calculatorsoup.com/calculators/math/percentage.php
-   - https://www.timeanddate.com/date/timeduration.html
-*/
