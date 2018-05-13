@@ -4,7 +4,6 @@ using System.Data.Entity;
 using ZigNetTest = ZigNet.Domain.Test.Test;
 using ZigNetTestCategory = ZigNet.Domain.Test.TestCategory;
 using ZigNet.Database.DTOs;
-using System;
 
 namespace ZigNet.Database.EntityFramework
 {
@@ -66,16 +65,6 @@ namespace ZigNet.Database.EntityFramework
         {
             var suites = _zigNetEntities.Suites
                 .AsNoTracking();
-                //.Include(s => s.SuiteResults);
-
-            //var latestSuiteResults = new List<SuiteResult>();
-            //foreach (var suite in suites)
-            //{
-            //    var latestSuiteResult = suite.SuiteResults.OrderByDescending(sr => sr.SuiteResultStartDateTime).FirstOrDefault();
-            //    if (latestSuiteResult == null)
-            //        continue;
-            //    latestSuiteResults.Add(latestSuiteResult);
-            //}
 
             var suiteSummaries = new List<SuiteSummary>();
             foreach (var suite in suites)
@@ -84,8 +73,6 @@ namespace ZigNet.Database.EntityFramework
                     .AsNoTracking()
                     .Where(ttr => ttr.SuiteId == suite.SuiteID);
 
-                // todo: make sure this doesn't throw when 0 test results returned
-                // todo: add task for possibly putting index on TemporaryTestResults SuiteId
                 var firstTemporaryTestResult = temporaryTestResults.FirstOrDefault();
                 var suiteEndTime = firstTemporaryTestResult == null ? null : firstTemporaryTestResult.SuiteResult.SuiteResultEndDateTime;
 
