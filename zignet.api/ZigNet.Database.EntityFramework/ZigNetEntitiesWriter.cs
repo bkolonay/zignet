@@ -74,6 +74,13 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntities.TemporaryTestResults.Add(temporaryTestResult);
             _zigNetEntities.SaveChanges();
         }
+        // todo: verify this doesn't throw when 0 test results returned
+        public void DeleteAllTemporaryTestResultsForSuite(int suiteId)
+        {
+            var temporaryTestResultsToDelete = _zigNetEntities.TemporaryTestResults.Where(ttr => ttr.SuiteId == suiteId);
+            _zigNetEntities.TemporaryTestResults.RemoveRange(temporaryTestResultsToDelete);
+            _zigNetEntities.SaveChanges();
+        }
 
         public IQueryable<Suite> GetSuites()
         {

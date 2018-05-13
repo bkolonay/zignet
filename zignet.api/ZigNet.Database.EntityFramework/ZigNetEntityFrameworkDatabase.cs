@@ -26,6 +26,7 @@ namespace ZigNet.Database.EntityFramework
 
         public int StartSuite(int suiteId)
         {
+            _zigNetEntitiesWriter.DeleteAllTemporaryTestResultsForSuite(suiteId);
             return _zigNetEntitiesWriter.SaveSuiteResult(
                 new SuiteResult
                 {

@@ -16,6 +16,7 @@ namespace ZigNet.Database.EntityFramework
         void SaveTestFailedDuration(TestFailureDuration testFailedDuration);
         TestResult SaveTestResult(TestResult testResult);
         void SaveTemporaryTestResult(TemporaryTestResult testResult);
+        void DeleteAllTemporaryTestResultsForSuite(int suiteId);
 
         IQueryable<Suite> GetSuites();
         IQueryable<SuiteCategory> GetSuiteCategories();
