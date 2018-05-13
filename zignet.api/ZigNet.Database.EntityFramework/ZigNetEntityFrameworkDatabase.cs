@@ -141,7 +141,15 @@ namespace ZigNet.Database.EntityFramework
                 databaseTestResult.Test.Suites.Add(suite);
             }
 
+            // todo: make sure extra queries aren't run when getting suiteId
             var savedTestResult = _zigNetEntitiesWriter.SaveTestResult(databaseTestResult);
+            _zigNetEntitiesWriter.SaveTemporaryTestResult(new TemporaryTestResult
+            {
+                TestResultId = savedTestResult.TestResultID,
+                SuiteResultId = testResult.SuiteResult.SuiteResultID,
+                SuiteId = suiteResult.SuiteId,
+                TestResultTypeId = databaseTestResult.TestResultTypeId
+            });
 
             var databaseLatestTestResult = _zigNetEntitiesWriter.GetLatestTestResults()
                 .SingleOrDefault(ltr =>

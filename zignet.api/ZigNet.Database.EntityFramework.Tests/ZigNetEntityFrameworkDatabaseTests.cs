@@ -203,6 +203,9 @@ namespace ZigNet.Database.EntityFramework.Tests
                     new List<TestFailureDuration> {
                         new TestFailureDuration { SuiteId = 2, TestId = 1 }
                     }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>())).Returns(
+                    new TestResult { TestResultID = 3 });
+
 
                 var testResult = new ZigNetTestResult
                 {
@@ -294,6 +297,8 @@ namespace ZigNet.Database.EntityFramework.Tests
                     new List<TestFailureDuration> {
                         new TestFailureDuration { SuiteId = 2, TestId = 1 }
                     }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>())).Returns(
+                    new TestResult { TestResultID = 3 });
 
                 var testResult = new ZigNetTestResult
                 {
@@ -340,6 +345,8 @@ namespace ZigNet.Database.EntityFramework.Tests
                     new List<TestFailureDuration> {
                         new TestFailureDuration { SuiteId = 2, TestId = 1 }
                     }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>())).Returns(
+                    new TestResult { TestResultID = 3 });
 
                 var testResult = new ZigNetTestResult
                 {
@@ -388,6 +395,8 @@ namespace ZigNet.Database.EntityFramework.Tests
                     new List<TestFailureDuration> {
                         new TestFailureDuration { SuiteId = 2, TestId = 3 }
                     }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>())).Returns(
+                    new TestResult { TestResultID = 3 });
 
                 var testResult = new ZigNetTestResult
                 {
@@ -429,6 +438,8 @@ namespace ZigNet.Database.EntityFramework.Tests
                     new List<LatestTestResult> { 
                         new LatestTestResult { SuiteId = 2, TestId = 1, PassingFromDateTime = DateTime.UtcNow }
                     }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>())).Returns(
+                    new TestResult { TestResultID = 3 });
 
                 var testResult = new ZigNetTestResult
                 {
@@ -481,6 +492,8 @@ namespace ZigNet.Database.EntityFramework.Tests
                     new List<TestFailureDuration> {
                         new TestFailureDuration { SuiteId = 2, TestId = 1 }
                     }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>())).Returns(
+                    new TestResult { TestResultID = 3 });
 
                 var testResult = new ZigNetTestResult
                 {
@@ -529,6 +542,8 @@ namespace ZigNet.Database.EntityFramework.Tests
                     new List<LatestTestResult> { 
                         new LatestTestResult { SuiteId = 2, TestId = 1, PassingFromDateTime = DateTime.UtcNow }
                     }.AsQueryable);
+                zigNetEntitiesWriterMock.Setup(zewm => zewm.SaveTestResult(It.IsAny<TestResult>())).Returns(
+                    new TestResult { TestResultID = 3 });
 
                 var testResult = new ZigNetTestResult
                 {

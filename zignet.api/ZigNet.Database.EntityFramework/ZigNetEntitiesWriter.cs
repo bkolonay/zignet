@@ -69,6 +69,11 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntities.SaveChanges();
             return testResult;
         }
+        public void SaveTemporaryTestResult(TemporaryTestResult temporaryTestResult)
+        {
+            _zigNetEntities.TemporaryTestResults.Add(temporaryTestResult);
+            _zigNetEntities.SaveChanges();
+        }
 
         public IQueryable<Suite> GetSuites()
         {
