@@ -58,9 +58,9 @@ namespace ZigNet.Business
             }
             return latestTestResults;
         }
-        public IEnumerable<SuiteSummary> GetLatestSuiteResults()
+        public IEnumerable<SuiteSummary> GetLatestSuiteResults(bool groupResultsByApplicationAndEnvironment)
         {
-            return _zignetDatabase.GetLatestSuiteResults();
+            return _zignetDatabase.GetLatestSuiteResults(groupResultsByApplicationAndEnvironment);
         }
 
         public int CreateSuite(Suite suite)

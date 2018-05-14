@@ -88,9 +88,13 @@ namespace ZigNet.Database.EntityFramework
 
             return failingLatestTestResultDtos;
         }
-        public IEnumerable<SuiteSummary> GetLatestSuiteResults()
+        public IEnumerable<SuiteSummary> GetLatestSuiteResults(bool groupResultsByApplicationAndEnvironment)
         {
-            return _zigNetEntitiesReadOnly.GetLatestSuiteResults();
+            if (groupResultsByApplicationAndEnvironment)
+                return _zigNetEntitiesReadOnly.GetLatestSuiteResultsGroupedByApplicationAndEnvironment();
+            else
+                return _zigNetEntitiesReadOnly.GetLatestSuiteResults();
+
         }
         public void SaveTestResult(ZigNetTestResult testResult)
         {

@@ -12,7 +12,7 @@ namespace ZigNet.Business
         void StopSuite(int suiteResultId, SuiteResultType suiteResultType);
         string GetSuiteName(int suiteId);
         IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId);
-        IEnumerable<SuiteSummary> GetLatestSuiteResults();
+        IEnumerable<SuiteSummary> GetLatestSuiteResults(bool groupResultsByApplicationAndEnvironment);
         void SaveTestResult(TestResult testResult);
 
         int CreateSuite(Suite suite);

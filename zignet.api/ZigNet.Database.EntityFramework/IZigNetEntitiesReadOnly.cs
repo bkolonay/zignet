@@ -14,5 +14,6 @@ namespace ZigNet.Database.EntityFramework
         IQueryable<LatestTestResult> GetLatestTestResults();
         IQueryable<TestFailureDuration> GetTestFailureDurations();
         IEnumerable<SuiteSummary> GetLatestSuiteResults();
+        IEnumerable<SuiteSummary> GetLatestSuiteResultsGroupedByApplicationAndEnvironment();
     }
 }

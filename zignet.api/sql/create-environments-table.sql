@@ -21,4 +21,16 @@ VALUES ('Production', 'Prod')
 INSERT INTO Environments
 VALUES ('Development', 'Dev')
 
+INSERT INTO Environments
+VALUES ('DevMain Debug', 'DVM (D)')
+
+INSERT INTO Environments
+VALUES ('TestMain Debug', 'TSM (D)')
+
+INSERT INTO Environments
+VALUES ('TestRelease Debug', 'TSR (D)')
+
+INSERT INTO Environments
+VALUES ('Production Debug', 'Prod (D)')
+
 SELECT * FROM Environments

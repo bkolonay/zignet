@@ -15,9 +15,9 @@ namespace ZigNet.Api.Controllers
             _zigNetBusiness = zignetBusiness;
         }
 
-        public IEnumerable<SuiteSummary> Get()
+        public IEnumerable<SuiteSummary> Get(bool group = false)
         {
-            var latestSuiteResults = _zigNetBusiness.GetLatestSuiteResults();
+            var latestSuiteResults = _zigNetBusiness.GetLatestSuiteResults(group);
             var debugSuiteResults = latestSuiteResults.Where(sr => sr.SuiteName.Contains("(D)"));
             var releaseSuiteResults = latestSuiteResults.Where(sr => !sr.SuiteName.Contains("(D)")).ToList();
             releaseSuiteResults.AddRange(debugSuiteResults);

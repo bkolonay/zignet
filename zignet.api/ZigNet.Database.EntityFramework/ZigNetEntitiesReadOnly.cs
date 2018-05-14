@@ -79,7 +79,7 @@ namespace ZigNet.Database.EntityFramework
                 suiteSummaries.Add(
                     new SuiteSummary
                     {
-                        SuiteID = suite.SuiteID,
+                        SuiteIds = new List<int> { suite.SuiteID },
                         SuiteName = suite.SuiteName,
                         TotalFailedTests = temporaryTestResults.Where(t => t.TestResultTypeId == 1).Count(),
                         TotalInconclusiveTests = temporaryTestResults.Where(t => t.TestResultTypeId == 2).Count(),
@@ -88,6 +88,54 @@ namespace ZigNet.Database.EntityFramework
                     }
                 );
             }
+
+            return suiteSummaries;
+        }
+        public IEnumerable<SuiteSummary> GetLatestSuiteResultsGroupedByApplicationAndEnvironment()
+        {
+            var suites = _zigNetEntities.Suites
+                .Include(s => s.Application)
+                .Include(s => s.Environment)
+                .AsNoTracking();
+
+            var suiteSummaryDictionary = new Dictionary<string, SuiteSummary>();
+            foreach (var suite in suites)
+            {
+                var temporaryTestResults = _zigNetEntities.TemporaryTestResults
+                    .AsNoTracking()
+                    .Where(ttr => ttr.SuiteId == suite.SuiteID);
+
+                var key = suite.Application.ApplicationNameAbbreviation + " " + suite.Environment.EnvironmentNameAbbreviation;
+                if (suiteSummaryDictionary.ContainsKey(key))
+                {
+                    var existingSuiteSummary = suiteSummaryDictionary[key];
+                    existingSuiteSummary.SuiteName = existingSuiteSummary.SuiteName + " + " + suite.SuiteName;
+                    existingSuiteSummary.SuiteIds.Add(suite.SuiteID);
+                    existingSuiteSummary.TotalFailedTests = existingSuiteSummary.TotalFailedTests +
+                        temporaryTestResults.Where(t => t.TestResultTypeId == 1).Count();
+                    existingSuiteSummary.TotalInconclusiveTests = existingSuiteSummary.TotalInconclusiveTests +
+                        temporaryTestResults.Where(t => t.TestResultTypeId == 2).Count();
+                    existingSuiteSummary.TotalPassedTests = existingSuiteSummary.TotalPassedTests +
+                        temporaryTestResults.Where(t => t.TestResultTypeId == 3).Count();
+                    suiteSummaryDictionary[key] = existingSuiteSummary;
+                }
+                else
+                    suiteSummaryDictionary.Add(key,
+                        new SuiteSummary
+                        {
+                            SuiteIds = new List<int> { suite.SuiteID },
+                            SuiteName = suite.SuiteName,
+                            TotalFailedTests = temporaryTestResults.Where(t => t.TestResultTypeId == 1).Count(),
+                            TotalInconclusiveTests = temporaryTestResults.Where(t => t.TestResultTypeId == 2).Count(),
+                            TotalPassedTests = temporaryTestResults.Where(t => t.TestResultTypeId == 3).Count()
+                        }
+                    );
+            }
+
+            var suiteSummaries = new List<SuiteSummary>();
+            var keys = suiteSummaryDictionary.Keys;
+            foreach (var key in keys)
+                suiteSummaries.Add(suiteSummaryDictionary[key]);
 
             return suiteSummaries;
         }
