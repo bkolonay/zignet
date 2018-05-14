@@ -38,6 +38,10 @@
         <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultSuite" />
         <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultTestResult" />
         <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultTestResultType" />
+        <EntityTypeShape EntityType="ZigNet.Database.EntityFramework.Model.Application" Width="1.5" PointX="1.125" PointY="6.5" />
+        <EntityTypeShape EntityType="ZigNet.Database.EntityFramework.Model.Environment" Width="1.5" PointX="0.75" PointY="9.875" />
+        <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_SuiteApplication" />
+        <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_SuiteEnvironment" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

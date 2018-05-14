@@ -5,6 +5,22 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ZigNet.Database.EntityFramework.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Applications">
+          <Key>
+            <PropertyRef Name="ApplicationID" />
+          </Key>
+          <Property Name="ApplicationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicationName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ApplicationNameAbbreviation" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Environments">
+          <Key>
+            <PropertyRef Name="EnvironmentID" />
+          </Key>
+          <Property Name="EnvironmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EnvironmentName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EnvironmentNameAbbreviation" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="LatestTestResults">
           <Key>
             <PropertyRef Name="LatestTestResultID" />
@@ -55,6 +71,8 @@
           </Key>
           <Property Name="SuiteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SuiteName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ApplicationId" Type="int" Nullable="false" />
+          <Property Name="EnvironmentId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Suites_Tests">
           <Key>
@@ -215,6 +233,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SuiteApplication">
+          <End Role="Applications" Type="Self.Applications" Multiplicity="1" />
+          <End Role="Suites" Type="Self.Suites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationID" />
+            </Principal>
+            <Dependent Role="Suites">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SuiteCategoryCategory">
           <End Role="SuiteCategories" Type="Self.SuiteCategories" Multiplicity="1" />
           <End Role="Suite_SuiteCategories" Type="Self.Suite_SuiteCategories" Multiplicity="*" />
@@ -236,6 +266,18 @@
             </Principal>
             <Dependent Role="Suite_SuiteCategories">
               <PropertyRef Name="SuiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SuiteEnvironment">
+          <End Role="Environments" Type="Self.Environments" Multiplicity="1" />
+          <End Role="Suites" Type="Self.Suites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Environments">
+              <PropertyRef Name="EnvironmentID" />
+            </Principal>
+            <Dependent Role="Suites">
+              <PropertyRef Name="EnvironmentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -456,6 +498,8 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ZigNetDatabaseEntityFrameworkModelStoreContainer">
+          <EntitySet Name="Applications" EntityType="Self.Applications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Environments" EntityType="Self.Environments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LatestTestResults" EntityType="Self.LatestTestResults" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Suite_SuiteCategories" EntityType="Self.Suite_SuiteCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SuiteCategories" EntityType="Self.SuiteCategories" Schema="dbo" store:Type="Tables" />
@@ -494,6 +538,10 @@
             <End Role="TestResults" EntitySet="TestResults" />
             <End Role="LatestTestResults" EntitySet="LatestTestResults" />
           </AssociationSet>
+          <AssociationSet Name="FK_SuiteApplication" Association="Self.FK_SuiteApplication">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="Suites" EntitySet="Suites" />
+          </AssociationSet>
           <AssociationSet Name="FK_SuiteCategoryCategory" Association="Self.FK_SuiteCategoryCategory">
             <End Role="SuiteCategories" EntitySet="SuiteCategories" />
             <End Role="Suite_SuiteCategories" EntitySet="Suite_SuiteCategories" />
@@ -501,6 +549,10 @@
           <AssociationSet Name="FK_SuiteCategorySuite" Association="Self.FK_SuiteCategorySuite">
             <End Role="Suites" EntitySet="Suites" />
             <End Role="Suite_SuiteCategories" EntitySet="Suite_SuiteCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SuiteEnvironment" Association="Self.FK_SuiteEnvironment">
+            <End Role="Environments" EntitySet="Environments" />
+            <End Role="Suites" EntitySet="Suites" />
           </AssociationSet>
           <AssociationSet Name="FK_SuiteResultSuite" Association="Self.FK_SuiteResultSuite">
             <End Role="Suites" EntitySet="Suites" />
@@ -621,6 +673,10 @@
           <NavigationProperty Name="LatestTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultSuite" FromRole="Suite" ToRole="LatestTestResult" />
           <NavigationProperty Name="TestFailureDurations" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationSuite" FromRole="Suite" ToRole="TestFailureDuration" />
           <NavigationProperty Name="TemporaryTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultSuite" FromRole="Suite" ToRole="TemporaryTestResult" />
+          <Property Name="ApplicationId" Type="Int32" Nullable="false" />
+          <Property Name="EnvironmentId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Application" Relationship="ZigNet.Database.EntityFramework.Model.FK_SuiteApplication" FromRole="Suite" ToRole="Application" />
+          <NavigationProperty Name="Environment" Relationship="ZigNet.Database.EntityFramework.Model.FK_SuiteEnvironment" FromRole="Suite" ToRole="Environment" />
         </EntityType>
         <EntityType Name="TestCategory">
           <Key>
@@ -860,6 +916,16 @@
             <End Role="TestResultType" EntitySet="TestResultTypes" />
             <End Role="TemporaryTestResult" EntitySet="TemporaryTestResults" />
           </AssociationSet>
+          <EntitySet Name="Applications" EntityType="ZigNet.Database.EntityFramework.Model.Application" />
+          <EntitySet Name="Environments" EntityType="ZigNet.Database.EntityFramework.Model.Environment" />
+          <AssociationSet Name="FK_SuiteApplication" Association="ZigNet.Database.EntityFramework.Model.FK_SuiteApplication">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="Suite" EntitySet="Suites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SuiteEnvironment" Association="ZigNet.Database.EntityFramework.Model.FK_SuiteEnvironment">
+            <End Role="Environment" EntitySet="Environments" />
+            <End Role="Suite" EntitySet="Suites" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="LatestTestResult">
           <Key>
@@ -1024,6 +1090,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="ApplicationID" />
+          </Key>
+          <Property Name="ApplicationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicationNameAbbreviation" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Suites" Relationship="ZigNet.Database.EntityFramework.Model.FK_SuiteApplication" FromRole="Application" ToRole="Suite" />
+        </EntityType>
+        <EntityType Name="Environment">
+          <Key>
+            <PropertyRef Name="EnvironmentID" />
+          </Key>
+          <Property Name="EnvironmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EnvironmentName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EnvironmentNameAbbreviation" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Suites" Relationship="ZigNet.Database.EntityFramework.Model.FK_SuiteEnvironment" FromRole="Environment" ToRole="Suite" />
+        </EntityType>
+        <Association Name="FK_SuiteApplication">
+          <End Type="ZigNet.Database.EntityFramework.Model.Application" Role="Application" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.Suite" Role="Suite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationID" />
+            </Principal>
+            <Dependent Role="Suite">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SuiteEnvironment">
+          <End Type="ZigNet.Database.EntityFramework.Model.Environment" Role="Environment" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.Suite" Role="Suite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Environment">
+              <PropertyRef Name="EnvironmentID" />
+            </Principal>
+            <Dependent Role="Suite">
+              <PropertyRef Name="EnvironmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1060,6 +1168,8 @@
           <EntitySetMapping Name="Suites">
             <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.Suite">
               <MappingFragment StoreEntitySet="Suites">
+                <ScalarProperty Name="EnvironmentId" ColumnName="EnvironmentId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="SuiteID" ColumnName="SuiteID" />
                 <ScalarProperty Name="SuiteName" ColumnName="SuiteName" />
               </MappingFragment>
@@ -1190,6 +1300,24 @@
                 <ScalarProperty Name="SuiteResultId" ColumnName="SuiteResultId" />
                 <ScalarProperty Name="TestResultId" ColumnName="TestResultId" />
                 <ScalarProperty Name="TemporaryTestResultID" ColumnName="TemporaryTestResultID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.Application">
+              <MappingFragment StoreEntitySet="Applications">
+                <ScalarProperty Name="ApplicationNameAbbreviation" ColumnName="ApplicationNameAbbreviation" />
+                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Environments">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.Environment">
+              <MappingFragment StoreEntitySet="Environments">
+                <ScalarProperty Name="EnvironmentNameAbbreviation" ColumnName="EnvironmentNameAbbreviation" />
+                <ScalarProperty Name="EnvironmentName" ColumnName="EnvironmentName" />
+                <ScalarProperty Name="EnvironmentID" ColumnName="EnvironmentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -26,6 +26,8 @@ namespace ZigNet.Database.EntityFramework
     
         public int SuiteID { get; set; }
         public string SuiteName { get; set; }
+        public int ApplicationId { get; set; }
+        public int EnvironmentId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SuiteResult> SuiteResults { get; set; }
@@ -39,5 +41,7 @@ namespace ZigNet.Database.EntityFramework
         public virtual ICollection<TestFailureDuration> TestFailureDurations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TemporaryTestResult> TemporaryTestResults { get; set; }
+        public virtual Application Application { get; set; }
+        public virtual Environment Environment { get; set; }
     }
 }

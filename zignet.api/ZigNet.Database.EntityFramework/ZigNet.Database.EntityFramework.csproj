@@ -53,6 +53,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application.cs">
+      <DependentUpon>ZigNetDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Environment.cs">
+      <DependentUpon>ZigNetDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Fix.cs" />
     <Compile Include="IZigNetEntitiesReadOnly.cs" />
     <Compile Include="IZigNetEntitiesWrapper.cs" />
