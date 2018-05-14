@@ -1,3 +1,5 @@
+USE ZigNet
+
 --DROP TABLE Environments
 
 CREATE TABLE Environments (

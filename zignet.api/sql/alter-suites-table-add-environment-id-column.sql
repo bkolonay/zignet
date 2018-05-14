@@ -1,3 +1,5 @@
+USE ZigNet
+
 --DROP TABLE Applications
 
 ALTER TABLE Suites
@@ -9,14 +11,33 @@ REFERENCES Environments(EnvironmentID)
 ALTER TABLE Suites
 DROP CONSTRAINT DF_SuiteDefaultEnvironmentId
 
-UPDATE Suites
-SET EnvironmentId = 4
---SELECT * FROM Suites
-WHERE SuiteID IN (29, 31)
+--INSERT INTO Suites
+--VALUES ('LN UI - TSM', 1, 2)
 
-SELECT Suites.SuiteID, Suites.SuiteName, /*Environments.EnvironmentName,*/ Environments.EnvironmentNameAbbreviation AS EnvAbbr, Environments.EnvironmentID AS EnvId
+--INSERT INTO Suites
+--VALUES ('LN UI - TSM (D)', 1, 7)
+
+INSERT INTO Suites
+VALUES ('LM Mobile - DVM (D)', 2, 6)
+
+INSERT INTO Suites
+VALUES ('LM Mobile - DVM', 2, 1)
+
+--SELECT * FROM Applications
+
+--UPDATE Suites
+--SET EnvironmentId = 9
+----SELECT * FROM Suites
+--WHERE SuiteID IN (29)
+
+SELECT Suites.SuiteID, Suites.SuiteName,
+	/*Environments.EnvironmentName,*/ 
+	Environments.EnvironmentNameAbbreviation AS EnvAbbr, Environments.EnvironmentID AS EnvId,
+	Applications.ApplicationNameAbbreviation AS AppAbbr, Applications.ApplicationID As AppId
 FROM Suites
 INNER JOIN Environments
 	ON Suites.EnvironmentId = Environments.EnvironmentID
+INNER JOIN Applications
+	ON Suites.ApplicationId = Applications.ApplicationID
 
 SELECT * FROM Environments

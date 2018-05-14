@@ -109,7 +109,6 @@ namespace ZigNet.Database.EntityFramework
                 if (suiteSummaryDictionary.ContainsKey(key))
                 {
                     var existingSuiteSummary = suiteSummaryDictionary[key];
-                    existingSuiteSummary.SuiteName = existingSuiteSummary.SuiteName + " + " + suite.SuiteName;
                     existingSuiteSummary.SuiteIds.Add(suite.SuiteID);
                     existingSuiteSummary.TotalFailedTests = existingSuiteSummary.TotalFailedTests +
                         temporaryTestResults.Where(t => t.TestResultTypeId == 1).Count();
@@ -124,7 +123,7 @@ namespace ZigNet.Database.EntityFramework
                         new SuiteSummary
                         {
                             SuiteIds = new List<int> { suite.SuiteID },
-                            SuiteName = suite.SuiteName,
+                            SuiteName = key,
                             TotalFailedTests = temporaryTestResults.Where(t => t.TestResultTypeId == 1).Count(),
                             TotalInconclusiveTests = temporaryTestResults.Where(t => t.TestResultTypeId == 2).Count(),
                             TotalPassedTests = temporaryTestResults.Where(t => t.TestResultTypeId == 3).Count()
