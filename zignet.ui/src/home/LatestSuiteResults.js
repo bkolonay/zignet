@@ -11,7 +11,7 @@ class LatestSuiteResults extends Component {
 
   componentDidMount() {
     this._getLatestSuiteResults();
-    this.intervalId = setInterval(() => this._getLatestSuiteResults(), 15000);
+    this.intervalId = setInterval(() => this._getLatestSuiteResults(), 10000);
   }
 
   componentWillUnmount() {
