@@ -11,7 +11,7 @@ exports[`matches the previous snapshot with a multiple failure durations 1`] = `
         "width": NaN,
       }
     }
-    title="an hour from 5/10/2018 1:00am - 5/10/2018 2:00am"
+    title="an hour from 5/14/2018 1:00am - 5/14/2018 2:00am"
   />
   <div
     style={
@@ -20,7 +20,7 @@ exports[`matches the previous snapshot with a multiple failure durations 1`] = `
         "width": NaN,
       }
     }
-    title="2 hours from 5/10/2018 5:00am - 5/10/2018 7:00am"
+    title="2 hours from 5/14/2018 5:00am - 5/14/2018 7:00am"
   />
 </div>
 `;
@@ -36,7 +36,7 @@ exports[`matches the previous snapshot with a single failure duration 1`] = `
         "width": NaN,
       }
     }
-    title="an hour from 5/10/2018 1:00am - 5/10/2018 2:00am"
+    title="an hour from 5/14/2018 1:00am - 5/14/2018 2:00am"
   />
 </div>
 `;

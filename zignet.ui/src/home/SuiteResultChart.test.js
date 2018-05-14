@@ -6,7 +6,7 @@ jest.mock('react-router-dom');
 
 it('renders with passed and failed tests', () => {
   const suiteResult = {
-    'SuiteID':123456789,
+    'SuiteIds':[123456789],
     'SuiteName':'suite-name',
     'TotalPassedTests':12345,
     'TotalFailedTests':678910
@@ -23,7 +23,7 @@ it('renders with passed and failed tests', () => {
 it('renders with empty data', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <SuiteResultChart suiteResult={{}} />,
+    <SuiteResultChart suiteResult={{'SuiteIds':[]}} />,
     div
   );
   ReactDOM.unmountComponentAtNode(div);
@@ -31,7 +31,7 @@ it('renders with empty data', () => {
 
 it('matches the previous snapshot', () => {
   const suiteResult = {
-    'SuiteID':123456789,
+    'SuiteIds':[123456789],
     'SuiteName':'suite-name',
     'TotalPassedTests':12345,
     'TotalFailedTests':678910

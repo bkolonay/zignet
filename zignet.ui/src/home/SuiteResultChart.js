@@ -31,10 +31,10 @@ class SuiteResultChart extends Component {
     return (
       <div className="col-4">
         <h3 className="text-center">{suiteResult.SuiteName}</h3>
-        <ChartistPieChart chartId={suiteResult.SuiteID}
+        <ChartistPieChart chartId={suiteResult.SuiteIds[0]}
                           chartData={this._getChartData(suiteResult)} />
         <p className="text-center chart-label">
-          <Link to={'/' + suiteResult.SuiteID}>Total: {this._getTotalTests(suiteResult)}</Link>
+          <Link to={'/' + suiteResult.SuiteIds[0]}>Total: {this._getTotalTests(suiteResult)}</Link>
         </p>
         {this._getLastRunTime(suiteResult)}
       </div>

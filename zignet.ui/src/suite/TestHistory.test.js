@@ -71,8 +71,8 @@ it('matches the previous snapshot with no data', () => {
 it('matches the previous snapshot with a single failure duration', () => {
 
   const testFailureDurations = [{
-    FailureStart: '2018-05-10T01:00:00-07:00',
-    FailureEnd: '2018-05-10T02:00:00-07:00'
+    FailureStart: '2018-05-14T01:00:00-07:00',
+    FailureEnd: '2018-05-14T02:00:00-07:00'
   }];
   const options = {createNodeMock};
 
@@ -85,12 +85,12 @@ it('matches the previous snapshot with a single failure duration', () => {
 it('matches the previous snapshot with a multiple failure durations', () => {
 
   const testFailureDurations = [{
-    FailureStart: '2018-05-10T01:00:00-07:00',
-    FailureEnd: '2018-05-10T02:00:00-07:00'
+    FailureStart: '2018-05-14T01:00:00-07:00',
+    FailureEnd: '2018-05-14T02:00:00-07:00'
   },
   {
-    FailureStart: '2018-05-10T05:00:00-07:00',
-    FailureEnd: '2018-05-10T07:00:00-07:00'
+    FailureStart: '2018-05-14T05:00:00-07:00',
+    FailureEnd: '2018-05-14T07:00:00-07:00'
   }];
   const options = {createNodeMock};
 

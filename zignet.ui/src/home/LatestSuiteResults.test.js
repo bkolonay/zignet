@@ -9,7 +9,7 @@ import LatestSuiteResults from './LatestSuiteResults';
 
 it('renders with data', () => {
   const promise = Promise.resolve([{
-    'SuiteID':1,
+    'SuiteIds':[1],
     'SuiteName':'suite-name',
     'TotalPassedTests':1,
     'TotalFailedTests':10,
@@ -34,7 +34,7 @@ it('renders with data', () => {
 
 it('matches the previous snapshot', () => {
   const promise = Promise.resolve([{
-    'SuiteID':1,
+    'SuiteIds':[1],
     'SuiteName':'suite-name',
     'TotalPassedTests':1,
     'TotalFailedTests':10,

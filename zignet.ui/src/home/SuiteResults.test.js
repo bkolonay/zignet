@@ -6,7 +6,7 @@ jest.mock('react-router-dom');
 
 it('renders single suite result', () => {
   const suiteResults = [{
-    'SuiteID':1,
+    'SuiteIds':[1],
     'SuiteName':'suite-name',
     'TotalPassedTests':1,
     'TotalFailedTests':10,
@@ -34,7 +34,7 @@ it('renders zero suite results', () => {
 it('renders multiple suite results', () => {
   const suiteResults = [
     {
-      'SuiteID':1,
+      'SuiteIds':[1],
       'SuiteName':'suite-name',
       'TotalPassedTests':1,
       'TotalFailedTests':10,
@@ -42,7 +42,7 @@ it('renders multiple suite results', () => {
       'SuiteEndTime':'2018-02-28T15:05:00'
     },
     {
-      'SuiteID':2,
+      'SuiteIds':[2],
       'SuiteName':'suite-name 2',
       'TotalPassedTests':9,
       'TotalFailedTests':24,
@@ -62,7 +62,7 @@ it('renders multiple suite results', () => {
 it('matches the previous snapshot', () => {
   const suiteResults = [
     {
-      'SuiteID':1,
+      'SuiteIds':[1],
       'SuiteName':'suite-name',
       'TotalPassedTests':1,
       'TotalFailedTests':10,
@@ -70,7 +70,7 @@ it('matches the previous snapshot', () => {
       'SuiteEndTime':'2018-02-28T15:05:00'
     },
     {
-      'SuiteID':2,
+      'SuiteIds':[2],
       'SuiteName':'suite-name 2',
       'TotalPassedTests':9,
       'TotalFailedTests':24,
