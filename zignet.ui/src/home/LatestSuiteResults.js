@@ -5,21 +5,26 @@ class LatestSuiteResults extends Component {
   constructor(props) {
     super(props);
 
+    if (this.props.location.search.indexOf('group=true') !== -1)
+      this.suiteResultsGrouped = true;
+    else
+      this.suiteResultsGrouped = false;
+
     this.zigNetApi = this.props.zigNetApi;
     this.state = { latestSuiteResults: [] }
   }
 
   componentDidMount() {
-    this._getLatestSuiteResults();
-    this.intervalId = setInterval(() => this._getLatestSuiteResults(), 10000);
+    this._getLatestSuiteResults(this.suiteResultsGrouped);
+    this.intervalId = setInterval(() => this._getLatestSuiteResults(this.suiteResultsGrouped), 10000);
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalId);
   }
 
-  _getLatestSuiteResults() {
-    this.zigNetApi.getLatestSuiteResults()
+  _getLatestSuiteResults(suiteResultsGrouped) {
+    this.zigNetApi.getLatestSuiteResults(suiteResultsGrouped)
       .then(response => {
         this.setState({
           latestSuiteResults: response
@@ -32,7 +37,7 @@ class LatestSuiteResults extends Component {
     return (
       <div>
         <h1 className="text-center">ZigNet</h1>
-        <SuiteResults suiteResults={this.state.latestSuiteResults} />
+        <SuiteResults suiteResultsGrouped={this.suiteResultsGrouped} suiteResults={this.state.latestSuiteResults} />
       </div>
     );
   }

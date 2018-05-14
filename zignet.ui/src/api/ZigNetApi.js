@@ -3,8 +3,11 @@ class ZigNetApi {
     this.apiBaseUrl = apiBaseUrl;
   }
 
-  getLatestSuiteResults() {
-    return this._get(this.apiBaseUrl + 'latestSuiteResults');
+  getLatestSuiteResults(suiteResultsGrouped) {
+    if (suiteResultsGrouped)
+      return this._get(this.apiBaseUrl + 'latestSuiteResults?group=true');
+    else
+      return this._get(this.apiBaseUrl + 'latestSuiteResults');
   }
 
   getLatestTestResultsForSuite(suiteId) {

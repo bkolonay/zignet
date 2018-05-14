@@ -11,7 +11,7 @@ class App extends Component {
       <div>
         <Switch>
           <Route exact path="/" 
-                 render={() => <LatestSuiteResults zigNetApi={this.props.zigNetApi} />} 
+                 render={(props) => <LatestSuiteResults {...props} zigNetApi={this.props.zigNetApi} />} 
           />
           <Route path='/:suiteId'
                  render={(props) => <LatestTestResults {...props} zigNetApi={this.props.zigNetApi} />}
