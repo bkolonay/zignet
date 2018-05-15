@@ -41,7 +41,11 @@ class LatestTestResults extends Component {
   render() {
     return (
       <div>
-        <LatestTestResultsList suiteName={this.state.suiteName} testResults={this.state.latestTestResults} />
+        <LatestTestResultsList 
+          suiteName={this.state.suiteName}
+          suiteId={this.suiteId}
+          testResults={this.state.latestTestResults}
+          testResultsGrouped={this.testResultsGrouped} />
       </div>
     );
   }
