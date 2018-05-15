@@ -19,7 +19,8 @@ class SuiteResults extends Component {
   	  	<div className="row">
           {this.props.suiteResults.map((suiteResult) =>
             <SuiteResultChart key={suiteResult.SuiteIds[0]}
-                              suiteResult={suiteResult} />
+                              suiteResult={suiteResult}
+                              suiteResultsGrouped={this.props.suiteResultsGrouped} />
           )}
         </div>
       </div>

@@ -26,6 +26,13 @@ class SuiteResultChart extends Component {
       return <p className="text-center text-warning"><small>running...</small></p>
   }
 
+  _getLinkToListPage(suiteResult, suiteResultsGrouped) {
+    if (suiteResultsGrouped)
+      return <Link to={'/' + suiteResult.SuiteIds[0] + "?group=true"}>Total: {this._getTotalTests(suiteResult)}</Link>
+    else
+      return <Link to={'/' + suiteResult.SuiteIds[0]}>Total: {this._getTotalTests(suiteResult)}</Link>
+  }
+
   render() {
     const suiteResult = this.props.suiteResult;
     return (
@@ -34,7 +41,7 @@ class SuiteResultChart extends Component {
         <ChartistPieChart chartId={suiteResult.SuiteIds[0]}
                           chartData={this._getChartData(suiteResult)} />
         <p className="text-center chart-label">
-          <Link to={'/' + suiteResult.SuiteIds[0]}>Total: {this._getTotalTests(suiteResult)}</Link>
+          {this._getLinkToListPage(suiteResult, this.props.suiteResultsGrouped)}
         </p>
         {this._getLastRunTime(suiteResult)}
       </div>
