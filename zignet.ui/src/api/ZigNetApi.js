@@ -10,8 +10,11 @@ class ZigNetApi {
       return this._get(this.apiBaseUrl + 'latestSuiteResults');
   }
 
-  getLatestTestResultsForSuite(suiteId) {
-    return this._post(this.apiBaseUrl + 'suite/latestTestResults', suiteId);
+  getLatestTestResultsForSuite(suiteId, testResultsGrouped) {
+    if (testResultsGrouped)
+      return this._post(this.apiBaseUrl + 'suite/latestTestResults?group=true', suiteId);
+    else
+      return this._post(this.apiBaseUrl + 'suite/latestTestResults', suiteId);
   }  
 
   _get(url) {
