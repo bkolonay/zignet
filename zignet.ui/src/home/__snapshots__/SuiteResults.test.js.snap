@@ -5,6 +5,18 @@ exports[`matches the previous snapshot 1`] = `
   className="container"
 >
   <div
+    className="text-right"
+  >
+    <a
+      className="btn btn-primary"
+      href="/?group=true"
+      role="button"
+      title="Click to group results by environment"
+    >
+      Group
+    </a>
+  </div>
+  <div
     className="row"
   >
     <div

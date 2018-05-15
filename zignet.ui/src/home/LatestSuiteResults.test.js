@@ -25,7 +25,7 @@ it('renders with data', () => {
   });
   
   const div = document.createElement('div');
-  ReactDOM.render(<LatestSuiteResults zigNetApi={new ZigNetApi('http://api-url/api/')}/>, div);
+  ReactDOM.render(<LatestSuiteResults location={{ search: '' }} zigNetApi={new ZigNetApi('http://api-url/api/')}/>, div);
   return promise.then(() => {
     ReactDOM.unmountComponentAtNode(div);
   });
@@ -50,7 +50,7 @@ it('matches the previous snapshot', () => {
   });
 
   const tree = renderer
-    .create(<LatestSuiteResults zigNetApi={new ZigNetApi('http://api-url/api/')}/>)
+    .create(<LatestSuiteResults location={{ search: '' }} zigNetApi={new ZigNetApi('http://api-url/api/')}/>)
     .toJSON();
   return promise.then(() => {
     expect(tree).toMatchSnapshot();
