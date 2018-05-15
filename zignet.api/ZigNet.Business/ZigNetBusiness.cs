@@ -36,27 +36,13 @@ namespace ZigNet.Business
 
             _zignetDatabase.SaveTestResult(testResult);
         }
-        public string GetSuiteName(int suiteId)
+        public string GetSuiteName(int suiteId, bool groupSuiteNameByApplicationAndEnvironment)
         {
-            return _zignetDatabase.GetSuiteName(suiteId);
+            return _zignetDatabase.GetSuiteName(suiteId, groupSuiteNameByApplicationAndEnvironment);
         }
-        public IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId)
+        public IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId, bool groupResultsByApplicationAndEnvironment)
         {
-            var databaseLatestTestResults = _zignetDatabase.GetLatestTestResults(suiteId);
-
-            var latestTestResults = new List<LatestTestResult>();
-            foreach (var databaseLatestTestResult in databaseLatestTestResults)
-            {
-                latestTestResults.Add(new LatestTestResult
-                {
-                    TestResultID = databaseLatestTestResult.TestResultID,
-                    TestName = databaseLatestTestResult.TestName,
-                    FailingFromDate = databaseLatestTestResult.FailingFromDate,
-                    PassingFromDate = databaseLatestTestResult.PassingFromDate,
-                    TestFailureDurations = databaseLatestTestResult.TestFailureDurations
-                });
-            }
-            return latestTestResults;
+            return _zignetDatabase.GetLatestTestResults(suiteId, groupResultsByApplicationAndEnvironment);
         }
         public IEnumerable<SuiteSummary> GetLatestSuiteResults(bool groupResultsByApplicationAndEnvironment)
         {

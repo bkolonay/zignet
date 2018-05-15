@@ -9,8 +9,11 @@ namespace ZigNet.Database.EntityFramework
     {
         int GetSuiteId(string suiteName);
         string GetSuiteName(int suiteId);
-        ZigNetTest GetMappedTestWithCategoriesOrDefault(string testName);
+        string GetSuiteNameGroupedByApplicationAndEnvironment(int suiteId);
+        Suite GetSuite(int suiteId);
         SuiteResult GetSuiteResult(int suiteResultId);
+        ZigNetTest GetMappedTestWithCategoriesOrDefault(string testName);
+        IQueryable<Suite> GetSuites();
         IQueryable<LatestTestResult> GetLatestTestResults();
         IQueryable<TestFailureDuration> GetTestFailureDurations();
         IEnumerable<SuiteSummary> GetLatestSuiteResults();

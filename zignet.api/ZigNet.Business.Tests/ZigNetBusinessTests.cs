@@ -178,14 +178,14 @@ namespace ZigNet.Business.Tests
                 var utcNow = DateTime.UtcNow;
 
                 var zignetDatabaseMock = new Mock<IZigNetDatabase>();
-                zignetDatabaseMock.Setup(zdm => zdm.GetLatestTestResults(1)).Returns(
+                zignetDatabaseMock.Setup(zdm => zdm.GetLatestTestResults(1, false)).Returns(
                     new List<LatestTestResult>{ 
                         new LatestTestResult { TestName = "test1", FailingFromDate = utcNow, TestResultID = 2 } 
                     }
                 );
 
                 var zigNetBusiness = new ZigNetBusiness(zignetDatabaseMock.Object);
-                var latestTestResults = zigNetBusiness.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetBusiness.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual("test1", latestTestResults[0].TestName);
@@ -200,9 +200,9 @@ namespace ZigNet.Business.Tests
                 var utcNow = DateTime.UtcNow;
 
                 var zignetDatabaseMock = new Mock<IZigNetDatabase>();
-                zignetDatabaseMock.Setup(zdm => zdm.GetLatestTestResults(1)).Returns(new List<LatestTestResult>());
+                zignetDatabaseMock.Setup(zdm => zdm.GetLatestTestResults(1, false)).Returns(new List<LatestTestResult>());
                 var zigNetBusiness = new ZigNetBusiness(zignetDatabaseMock.Object);
-                var latestTestResults = zigNetBusiness.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetBusiness.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(0, latestTestResults.Count);
             }

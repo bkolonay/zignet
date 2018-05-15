@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace ZigNet.Database.EntityFramework
 {
     public class ZigNetEntitiesWrapper : IZigNetEntitiesWrapper, IDisposable

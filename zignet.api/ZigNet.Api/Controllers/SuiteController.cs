@@ -43,12 +43,12 @@ namespace ZigNet.Api.Controllers
         }
 
         [Route("api/Suite/LatestTestResults")]
-        public GetLatestTestResultsModel LatestTestResults([FromBody] int suiteId)
+        public GetLatestTestResultsModel LatestTestResults([FromBody] int suiteId, bool group = false)
         {
             return new GetLatestTestResultsModel
             {
-                 SuiteName = _zigNetBusiness.GetSuiteName(suiteId),
-                 LatestTestResults = _zigNetBusiness.GetLatestTestResults(suiteId)
+                 SuiteName = _zigNetBusiness.GetSuiteName(suiteId, group),
+                 LatestTestResults = _zigNetBusiness.GetLatestTestResults(suiteId, group)
             };
         }
 

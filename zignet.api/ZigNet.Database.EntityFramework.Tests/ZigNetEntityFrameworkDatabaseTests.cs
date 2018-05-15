@@ -1430,7 +1430,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual(2, latestTestResults[0].TestResultID);
@@ -1449,7 +1449,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(0, latestTestResults.Count);
             }
@@ -1493,13 +1493,192 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(4, latestTestResults.Count);
                 Assert.AreEqual("test failing the longest", latestTestResults[0].TestName);
                 Assert.AreEqual("test failing the shortest", latestTestResults[1].TestName);
                 Assert.AreEqual("test passing the shortest", latestTestResults[2].TestName);
                 Assert.AreEqual("test passing the longest", latestTestResults[3].TestName);
+            }
+
+            [TestMethod]
+            public void GroupsOneSuite()
+            {
+                var utcNow = DateTime.UtcNow;
+                var zigNetEntitiesReadOnlyMock = new Mock<IZigNetEntitiesReadOnly>();
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetSuite(1)).Returns(
+                    new Suite { SuiteID = 1, EnvironmentId = 3, ApplicationId = 4 });
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetSuites()).Returns(
+                    new List<Suite> { new Suite { SuiteID = 1, EnvironmentId = 3, ApplicationId = 4 } }.AsQueryable);
+                zigNetEntitiesReadOnlyMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> {
+                            new LatestTestResult
+                            {
+                                SuiteId = 1,
+                                TestResultId = 2,
+                                TestName = "test1",
+                                PassingFromDateTime = utcNow,
+                            }
+                        }.AsQueryable);
+                var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, true).ToList();
+
+                Assert.AreEqual(1, latestTestResults.Count);
+                Assert.AreEqual(2, latestTestResults[0].TestResultID);
+                Assert.AreEqual("test1", latestTestResults[0].TestName);
+                Assert.AreEqual(utcNow, latestTestResults[0].PassingFromDate);
+                Assert.IsNull(latestTestResults[0].FailingFromDate);
+            }
+
+            [TestMethod]
+            public void GroupsMultipleSuites()
+            {
+                var utcNow = DateTime.UtcNow;
+                var zigNetEntitiesReadOnlyMock = new Mock<IZigNetEntitiesReadOnly>();
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetSuite(1)).Returns(
+                    new Suite { SuiteID = 1, EnvironmentId = 3, ApplicationId = 4 });
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetSuites()).Returns(
+                    new List<Suite> {
+                        new Suite { SuiteID = 1, EnvironmentId = 3, ApplicationId = 4 },
+                        new Suite { SuiteID = 5, EnvironmentId = 3, ApplicationId = 4 }
+                    }.AsQueryable);
+                zigNetEntitiesReadOnlyMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> {
+                            new LatestTestResult
+                            {
+                                SuiteId = 1,
+                                TestResultId = 2,
+                                TestName = "test1",
+                                PassingFromDateTime = utcNow,
+                            },
+                            new LatestTestResult
+                            {
+                                SuiteId = 5,
+                                TestResultId = 6,
+                                TestName = "test2",
+                                FailingFromDateTime = utcNow,
+                            }
+                        }.AsQueryable);
+                var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, true).OrderBy(ltr => ltr.TestResultID).ToList();
+
+                Assert.AreEqual(2, latestTestResults.Count);
+                Assert.AreEqual(2, latestTestResults[0].TestResultID);
+                Assert.AreEqual("test1", latestTestResults[0].TestName);
+                Assert.AreEqual(utcNow, latestTestResults[0].PassingFromDate);
+                Assert.IsNull(latestTestResults[0].FailingFromDate);
+                Assert.AreEqual(6, latestTestResults[1].TestResultID);
+                Assert.AreEqual("test2", latestTestResults[1].TestName);
+                Assert.AreEqual(utcNow, latestTestResults[1].FailingFromDate);
+                Assert.IsNull(latestTestResults[1].PassingFromDate);
+            }
+
+            [TestMethod]
+            public void IgnoresSuitesWithoutEnvironmentIdWhenGrouped()
+            {
+                var utcNow = DateTime.UtcNow;
+                var zigNetEntitiesReadOnlyMock = new Mock<IZigNetEntitiesReadOnly>();
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetSuite(1)).Returns(
+                    new Suite { SuiteID = 1, EnvironmentId = 3, ApplicationId = 4 });
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetSuites()).Returns(
+                    new List<Suite> {
+                        new Suite { SuiteID = 1, EnvironmentId = 3, ApplicationId = 4 },
+                        new Suite { SuiteID = 5, EnvironmentId = 4, ApplicationId = 4 }
+                    }.AsQueryable);
+                zigNetEntitiesReadOnlyMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> {
+                            new LatestTestResult
+                            {
+                                SuiteId = 1,
+                                TestResultId = 2,
+                                TestName = "test1",
+                                PassingFromDateTime = utcNow,
+                            },
+                            new LatestTestResult
+                            {
+                                SuiteId = 5,
+                                TestResultId = 6,
+                                TestName = "test2",
+                                FailingFromDateTime = utcNow,
+                            }
+                        }.AsQueryable);
+                var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, true).ToList();
+
+                Assert.AreEqual(1, latestTestResults.Count);
+                Assert.AreEqual(2, latestTestResults[0].TestResultID);
+                Assert.AreEqual("test1", latestTestResults[0].TestName);
+                Assert.AreEqual(utcNow, latestTestResults[0].PassingFromDate);
+                Assert.IsNull(latestTestResults[0].FailingFromDate);
+            }
+
+            [TestMethod]
+            public void IgnoresSuitesWithoutApplicationIdWhenGrouped()
+            {
+                var utcNow = DateTime.UtcNow;
+                var zigNetEntitiesReadOnlyMock = new Mock<IZigNetEntitiesReadOnly>();
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetSuite(1)).Returns(
+                    new Suite { SuiteID = 1, EnvironmentId = 3, ApplicationId = 4 });
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetSuites()).Returns(
+                    new List<Suite> {
+                        new Suite { SuiteID = 1, EnvironmentId = 3, ApplicationId = 4 },
+                        new Suite { SuiteID = 5, EnvironmentId = 3, ApplicationId = 5 }
+                    }.AsQueryable);
+                zigNetEntitiesReadOnlyMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(
+                    new List<LatestTestResult> {
+                            new LatestTestResult
+                            {
+                                SuiteId = 1,
+                                TestResultId = 2,
+                                TestName = "test1",
+                                PassingFromDateTime = utcNow,
+                            },
+                            new LatestTestResult
+                            {
+                                SuiteId = 5,
+                                TestResultId = 6,
+                                TestName = "test2",
+                                FailingFromDateTime = utcNow,
+                            }
+                        }.AsQueryable);
+                var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, true).ToList();
+
+                Assert.AreEqual(1, latestTestResults.Count);
+                Assert.AreEqual(2, latestTestResults[0].TestResultID);
+                Assert.AreEqual("test1", latestTestResults[0].TestName);
+                Assert.AreEqual(utcNow, latestTestResults[0].PassingFromDate);
+                Assert.IsNull(latestTestResults[0].FailingFromDate);
+            }
+
+            [TestMethod]
+            public void DoesNotThrowWhenGroupedAndZeroLatestTestResults()
+            {
+                var utcNow = DateTime.UtcNow;
+                var zigNetEntitiesReadOnlyMock = new Mock<IZigNetEntitiesReadOnly>();
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetSuite(1)).Returns(
+                    new Suite { SuiteID = 1, EnvironmentId = 3, ApplicationId = 4 });
+                zigNetEntitiesReadOnlyMock.Setup(zerom => zerom.GetSuites()).Returns(
+                    new List<Suite> {
+                        new Suite { SuiteID = 1, EnvironmentId = 3, ApplicationId = 4 },
+                        new Suite { SuiteID = 5, EnvironmentId = 3, ApplicationId = 4 }
+                    }.AsQueryable);
+                zigNetEntitiesReadOnlyMock.Setup(zewm => zewm.GetLatestTestResults()).Returns(new List<LatestTestResult>().AsQueryable);
+                var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
+
+                var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, true).OrderBy(ltr => ltr.TestResultID).ToList();
+
+                Assert.AreEqual(0, latestTestResults.Count);
             }
 
             [TestMethod]
@@ -1524,7 +1703,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual(1, latestTestResults[0].TestFailureDurations.Count());
@@ -1553,7 +1732,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual(1, latestTestResults[0].TestFailureDurations.Count());
@@ -1583,7 +1762,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual(2, latestTestResults[0].TestFailureDurations.Count());
@@ -1610,7 +1789,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual(0, latestTestResults[0].TestFailureDurations.Count());
@@ -1640,7 +1819,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual(2, latestTestResults[0].TestFailureDurations.Count());
@@ -1670,7 +1849,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual(0, latestTestResults[0].TestFailureDurations.Count());
@@ -1698,7 +1877,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual(0, latestTestResults[0].TestFailureDurations.Count());
@@ -1726,7 +1905,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual(1, latestTestResults[0].TestFailureDurations.Count());
@@ -1757,7 +1936,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual(1, latestTestResults[0].TestFailureDurations.Count());
@@ -1787,7 +1966,7 @@ namespace ZigNet.Database.EntityFramework.Tests
                 var zigNetEntitiesWriterMock = new Mock<IZigNetEntitiesWriter>();
 
                 var zigNetEntityFrameworkDatabase = new ZigNetEntityFrameworkDatabase(zigNetEntitiesWriterMock.Object, zigNetEntitiesReadOnlyMock.Object);
-                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1).ToList();
+                var latestTestResults = zigNetEntityFrameworkDatabase.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual(1, latestTestResults[0].TestFailureDurations.Count());

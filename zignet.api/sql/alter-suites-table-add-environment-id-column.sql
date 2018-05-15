@@ -41,3 +41,12 @@ INNER JOIN Applications
 	ON Suites.ApplicationId = Applications.ApplicationID
 
 SELECT * FROM Environments
+
+INSERT INTO LatestTestResults
+VALUES (33, 57, 209390, 'Test name in LN UI (D) suite', '5/15/2018 11:36am', NULL)
+
+SELECT * FROM LatestTestResults
+WHERE SuiteId = 26
+
+SELECT * FROM LatestTestResults 
+WHERE SuiteId = 33

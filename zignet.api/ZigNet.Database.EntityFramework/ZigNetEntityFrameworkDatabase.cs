@@ -47,13 +47,26 @@ namespace ZigNet.Database.EntityFramework
             databaseSuiteResult.SuiteResultTypeId = MapSuiteResultType(suiteResultType);
             _zigNetEntitiesWriter.SaveSuiteResult(databaseSuiteResult);
         }
-        public string GetSuiteName(int suiteId)
+        public string GetSuiteName(int suiteId, bool groupSuiteNameByApplicationAndEnvironment)
         {
-            return _zigNetEntitiesReadOnly.GetSuiteName(suiteId);
+            if (groupSuiteNameByApplicationAndEnvironment)
+                return _zigNetEntitiesReadOnly.GetSuiteNameGroupedByApplicationAndEnvironment(suiteId);
+            else
+                return _zigNetEntitiesReadOnly.GetSuiteName(suiteId);
         }
-        public IEnumerable<LatestTestResultDto> GetLatestTestResults(int suiteId)
+        public IEnumerable<LatestTestResultDto> GetLatestTestResults(int suiteId, bool groupResultsByApplicationAndEnvironment)
         {
-            var latestTestResults = _zigNetEntitiesReadOnly.GetLatestTestResults().Where(ltr => ltr.SuiteId == suiteId);
+            var latestTestResults = new List<LatestTestResult>();
+            if (groupResultsByApplicationAndEnvironment)
+            {
+                var suite = _zigNetEntitiesReadOnly.GetSuite(suiteId);
+                var suites = _zigNetEntitiesReadOnly.GetSuites()
+                    .Where(s => s.EnvironmentId == suite.EnvironmentId && s.ApplicationId == suite.ApplicationId);
+                foreach (var localSuite in suites)
+                    latestTestResults.AddRange(_zigNetEntitiesReadOnly.GetLatestTestResults().Where(ltr => ltr.SuiteId == localSuite.SuiteID));
+            }
+            else
+                latestTestResults = _zigNetEntitiesReadOnly.GetLatestTestResults().Where(ltr => ltr.SuiteId == suiteId).ToList();
 
             var latestTestResultDtos = new List<LatestTestResultDto>();
             var utcNow = DateTime.UtcNow;

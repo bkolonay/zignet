@@ -32,6 +32,27 @@ namespace ZigNet.Database.EntityFramework
                 .Single(s => s.SuiteID == suiteId)
                 .SuiteName;
         }
+        public string GetSuiteNameGroupedByApplicationAndEnvironment(int suiteId)
+        {
+            var suite = _zigNetEntities.Suites
+                .AsNoTracking()
+                .Select(s => new { s.SuiteID, s.Application.ApplicationNameAbbreviation, s.Environment.EnvironmentNameAbbreviation })
+                .Single(s => s.SuiteID == suiteId);
+
+            return suite.ApplicationNameAbbreviation + " " + suite.EnvironmentNameAbbreviation;
+        }
+        public Suite GetSuite(int suiteId)
+        {
+            return _zigNetEntities.Suites
+                .AsNoTracking()
+                .Single(s => s.SuiteID == suiteId);
+        }
+        public SuiteResult GetSuiteResult(int suiteResultId)
+        {
+            return _zigNetEntities.SuiteResults
+                .AsNoTracking()
+                .Single(sr => sr.SuiteResultID == suiteResultId);
+        }
         public ZigNetTest GetMappedTestWithCategoriesOrDefault(string testName)
         {
             return _zigNetEntities.Tests
@@ -47,11 +68,9 @@ namespace ZigNet.Database.EntityFramework
                 )
                 .SingleOrDefault(t => t.Name == testName);
         }
-        public SuiteResult GetSuiteResult(int suiteResultId)
+        public IQueryable<Suite> GetSuites()
         {
-            return _zigNetEntities.SuiteResults
-                .AsNoTracking()
-                .Single(sr => sr.SuiteResultID == suiteResultId);
+            return _zigNetEntities.Suites.AsNoTracking();
         }
         public IQueryable<LatestTestResult> GetLatestTestResults()
         {
