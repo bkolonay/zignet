@@ -15,13 +15,10 @@ namespace ZigNet.Api.Controllers
             _zigNetBusiness = zignetBusiness;
         }
 
-        public IEnumerable<SuiteSummary> Get(bool group = false)
+        public IEnumerable<SuiteSummary> Get(bool group = false, bool debug = false)
         {
             var latestSuiteResults = _zigNetBusiness.GetLatestSuiteResults(group);
-            var debugSuiteResults = latestSuiteResults.Where(sr => sr.SuiteName.Contains("(D)"));
-            var releaseSuiteResults = latestSuiteResults.Where(sr => !sr.SuiteName.Contains("(D)")).ToList();
-            releaseSuiteResults.AddRange(debugSuiteResults);
-            return releaseSuiteResults;
+            return debug ? latestSuiteResults : latestSuiteResults.Where(lsr => !lsr.SuiteName.Contains("(D)"));
         }
     }
 }
