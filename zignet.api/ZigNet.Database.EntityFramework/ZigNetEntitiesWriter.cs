@@ -29,7 +29,6 @@ namespace ZigNet.Database.EntityFramework
         public TestFailureType GetTestFailureType(int testFailureTypeId)
         {
             return _zigNetEntities.TestFailureTypes
-                .AsNoTracking()
                 .Single(tft => tft.TestFailureTypeID == testFailureTypeId);
         }
         public IQueryable<TestCategory> GetTestCategories()
