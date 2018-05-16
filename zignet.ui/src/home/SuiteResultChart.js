@@ -19,31 +19,34 @@ class SuiteResultChart extends Component {
     return suiteResult.TotalPassedTests + suiteResult.TotalFailedTests;
   }
 
-  _getLastRunTime(suiteResult) {
+  _getLastRunTime(suiteResult, suiteResultsGrouped) {
+    if (suiteResultsGrouped)
+      return <p/>;
     if (suiteResult.SuiteEndTime)
-      return <p className="text-center text-muted"><small>{new UtcDate(suiteResult.SuiteEndTime).getTimeFromNowWithSuffix()}</small></p>
+      return <p className="text-center text-muted"><small>{new UtcDate(suiteResult.SuiteEndTime).getTimeFromNowWithSuffix()}</small></p>;
     else
-      return <p className="text-center text-warning"><small>running...</small></p>
+      return <p className="text-center text-warning"><small>running...</small></p>;
   }
 
   _getLinkToListPage(suiteResult, suiteResultsGrouped) {
     if (suiteResultsGrouped)
-      return <Link to={'/' + suiteResult.SuiteIds[0] + "?group=true"}>Total: {this._getTotalTests(suiteResult)}</Link>
+      return <Link to={'/' + suiteResult.SuiteIds[0] + "?group=true"}>Total: {this._getTotalTests(suiteResult)}</Link>;
     else
-      return <Link to={'/' + suiteResult.SuiteIds[0]}>Total: {this._getTotalTests(suiteResult)}</Link>
+      return <Link to={'/' + suiteResult.SuiteIds[0]}>Total: {this._getTotalTests(suiteResult)}</Link>;
   }
 
   render() {
     const suiteResult = this.props.suiteResult;
+    const suiteResultsGrouped = this.props.suiteResultsGrouped;
     return (
       <div className="col-4">
         <h3 className="text-center">{suiteResult.SuiteName}</h3>
         <ChartistPieChart chartId={suiteResult.SuiteIds[0]}
                           chartData={this._getChartData(suiteResult)} />
         <p className="text-center chart-label">
-          {this._getLinkToListPage(suiteResult, this.props.suiteResultsGrouped)}
+          {this._getLinkToListPage(suiteResult, suiteResultsGrouped)}
         </p>
-        {this._getLastRunTime(suiteResult)}
+        {this._getLastRunTime(suiteResult, suiteResultsGrouped)}
       </div>
     );
   }
