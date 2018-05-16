@@ -10,12 +10,19 @@ class LatestTestResultsList extends Component {
       return <a href={"/" + suiteId} className="btn btn-outline-primary float-right" role="button" title="Click to ungroup results">Ungroup</a>
     else
       return <a href={"/" + suiteId + "?group=true"} className="btn btn-primary float-right" role="button" title="Click to group tests by environment">Group</a>
-  }  
+  }
+
+  _getHomeLink(testResultsGrouped) {
+    if (testResultsGrouped)
+      return <Link to='/?group=true'>ZigNet</Link>;
+    else
+      return <Link to='/'>ZigNet</Link>;
+  }
 
   render() {
     return (
       <div className="container">
-        <h4><Link to='/'>ZigNet</Link></h4>
+        <h4>{this._getHomeLink(this.props.testResultsGrouped)}</h4>
         <h2 className="text-center">
           <span>{this.props.suiteName}</span>
           {this._getGroupButton()}
