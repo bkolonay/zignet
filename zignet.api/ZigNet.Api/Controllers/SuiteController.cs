@@ -32,7 +32,8 @@ namespace ZigNet.Api.Controllers
         [Route("api/Suite/Start")]
         public int Start([FromBody]StartSuiteByNameModel startSuiteByNameModel)
         {
-            return _zigNetBusiness.StartSuite(startSuiteByNameModel.SuiteName);
+            return _zigNetBusiness.StartSuite(startSuiteByNameModel.ApplicationName,
+                startSuiteByNameModel.SuiteName, startSuiteByNameModel.EnvironmentName);
         }
 
         [Route("api/Suite/End")]

@@ -29,9 +29,14 @@ namespace ZigNet.Adapter
             return int.Parse(_httpRequestSender.GetResponse().Body);
         }
 
-        public int StartSuite(string suiteName)
+        public int StartSuite(string applicationName, string suiteName, string environmentName)
         {
-            var startSuiteByNameModel = new StartSuiteByNameModel { SuiteName = suiteName };
+            var startSuiteByNameModel = new StartSuiteByNameModel
+            {
+                ApplicationName = applicationName,
+                SuiteName = suiteName,
+                EnvironmentName = environmentName
+            };
 
             _httpRequestSender.SetHttpRequest(
                 new HttpRequest

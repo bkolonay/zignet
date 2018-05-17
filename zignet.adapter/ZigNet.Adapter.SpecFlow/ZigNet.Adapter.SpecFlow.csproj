@@ -47,8 +47,9 @@
     <Reference Include="TechTalk.SpecRun, Version=1.2.0.15, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SpecRun.SpecFlow.1.2.0\lib\net35\TechTalk.SpecRun.dll</HintPath>
     </Reference>
-    <Reference Include="ZigNet.Api.Model, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZigNet.Api.Model.1.0.1\lib\net45\ZigNet.Api.Model.dll</HintPath>
+    <Reference Include="ZigNet.Api.Model, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZigNet.Api.Model.1.0.2\lib\net45\ZigNet.Api.Model.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ZigNet.Domain, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZigNet.Domain.1.0.6\lib\net45\ZigNet.Domain.dll</HintPath>

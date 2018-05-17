@@ -21,9 +21,9 @@ namespace ZigNet.Business
         {
             return _zignetDatabase.StartSuite(suiteId);
         }
-        public int StartSuite(string suiteName)
+        public int StartSuite(string applicationName, string suiteName, string environmentName)
         {
-            return _zignetDatabase.StartSuite(suiteName);
+            return _zignetDatabase.StartSuite(applicationName, suiteName, environmentName);
         }
         public void StopSuite(int suiteResultId, SuiteResultType suiteResultType)
         {

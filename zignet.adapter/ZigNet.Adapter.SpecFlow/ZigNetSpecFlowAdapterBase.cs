@@ -55,9 +55,9 @@ namespace ZigNet.Adapter.SpecFlow
             _zigNetApiHandler.SaveTestResult(createTestResultModel);
         }
 
-        public int StartSuite(string suiteName)
+        public int StartSuite(string applicationName, string suiteName, string environmentName)
         {
-            var suiteResultId = _zigNetApiHandler.StartSuite(suiteName);
+            var suiteResultId = _zigNetApiHandler.StartSuite(applicationName, suiteName, environmentName);
             _fileService.WriteStringToFile(_suiteResultIdFilePath, suiteResultId.ToString());
             return suiteResultId;
         }

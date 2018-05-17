@@ -16,21 +16,33 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntities = zigNetEntitiesWrapper.Get();
         }
 
-        public int GetSuiteId(string suiteName)
+        public int GetSuiteId(string applicationName, string suiteName, string environmentName)
         {
             return _zigNetEntities.Suites
                 .AsNoTracking()
-                .Select(s => new { s.SuiteName, s.SuiteID })
-                .Single(s => s.SuiteName == suiteName)
+                .Single(s => 
+                    s.Application.ApplicationName == applicationName &&
+                    s.SuiteName == suiteName &&
+                    s.Environment.EnvironmentName == environmentName)
                 .SuiteID;
         }
         public string GetSuiteName(int suiteId)
         {
-            return _zigNetEntities.Suites
+            var suite = _zigNetEntities.Suites
                 .AsNoTracking()
-                .Select(s => new { s.SuiteName, s.SuiteID })
-                .Single(s => s.SuiteID == suiteId)
-                .SuiteName;
+                .Include(s => s.Application.ApplicationName)
+                .Include(s => s.Environment.EnvironmentName)
+                .Select(s => new
+                {
+                    s.SuiteID,
+                    s.SuiteName,
+                    s.Application.ApplicationNameAbbreviation,
+                    s.Environment.EnvironmentNameAbbreviation
+                })
+                .Single(s => s.SuiteID == suiteId);
+
+            return string.Format("{0} {1} ({2})",
+                            suite.ApplicationNameAbbreviation, suite.SuiteName, suite.EnvironmentNameAbbreviation);
         }
         public string GetSuiteNameGroupedByApplicationAndEnvironment(int suiteId)
         {
@@ -83,7 +95,16 @@ namespace ZigNet.Database.EntityFramework
         public IEnumerable<SuiteSummary> GetLatestSuiteResults()
         {
             var suites = _zigNetEntities.Suites
-                .AsNoTracking();
+                .AsNoTracking()
+                .Include(s => s.Application.ApplicationName)
+                .Include(s => s.Environment.EnvironmentName)
+                .Select(s => new
+                {
+                    s.SuiteID,
+                    s.SuiteName,
+                    s.Application.ApplicationNameAbbreviation,
+                    s.Environment.EnvironmentNameAbbreviation
+                });
 
             var suiteSummaries = new List<SuiteSummary>();
             foreach (var suite in suites)
@@ -99,7 +120,8 @@ namespace ZigNet.Database.EntityFramework
                     new SuiteSummary
                     {
                         SuiteIds = new List<int> { suite.SuiteID },
-                        SuiteName = suite.SuiteName,
+                        SuiteName = string.Format("{0} {1} ({2})",
+                            suite.ApplicationNameAbbreviation, suite.SuiteName, suite.EnvironmentNameAbbreviation),
                         TotalFailedTests = temporaryTestResults.Where(t => t.TestResultTypeId == 1).Count(),
                         TotalInconclusiveTests = temporaryTestResults.Where(t => t.TestResultTypeId == 2).Count(),
                         TotalPassedTests = temporaryTestResults.Where(t => t.TestResultTypeId == 3).Count(),

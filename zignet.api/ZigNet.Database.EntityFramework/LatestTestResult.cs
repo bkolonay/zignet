@@ -20,6 +20,7 @@ namespace ZigNet.Database.EntityFramework
         public string TestName { get; set; }
         public Nullable<System.DateTime> PassingFromDateTime { get; set; }
         public Nullable<System.DateTime> FailingFromDateTime { get; set; }
+        public string SuiteName { get; set; }
     
         public virtual Suite Suite { get; set; }
         public virtual Test Test { get; set; }

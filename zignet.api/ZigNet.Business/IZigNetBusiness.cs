@@ -8,7 +8,7 @@ namespace ZigNet.Business
     public interface IZigNetBusiness
     {
         int StartSuite(int suiteId);
-        int StartSuite(string suiteName);
+        int StartSuite(string applicationName, string suiteName, string environmentName);
         void StopSuite(int suiteResultId, SuiteResultType suiteResultType);
         string GetSuiteName(int suiteId, bool groupSuiteNameByApplicationAndEnvironment);
         IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId, bool groupResultsByApplicationAndEnvironment);

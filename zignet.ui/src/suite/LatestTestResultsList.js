@@ -19,6 +19,12 @@ class LatestTestResultsList extends Component {
       return <Link to='/'>ZigNet</Link>;
   }
 
+  _getTypeHeader(testResultsGrouped)
+  {
+    if (testResultsGrouped)
+      return <th scope="col">Type</th>;
+  }
+
   render() {
     return (
       <div className="container">
@@ -31,6 +37,7 @@ class LatestTestResultsList extends Component {
           <thead>
             <tr>
               <th scope="col">Name</th>
+              {this._getTypeHeader(this.props.testResultsGrouped)}
               <th scope="col">Status</th>
               <th scope="col">History</th>
             </tr>
@@ -38,7 +45,8 @@ class LatestTestResultsList extends Component {
           <tbody>
             {this.props.testResults.map((testResult) =>
               <TestResultRow key={testResult.TestResultID}
-                                testResult={testResult} />
+                                testResult={testResult}
+                                testResultsGrouped={this.props.testResultsGrouped} />
             )}        
           </tbody>
         </table>

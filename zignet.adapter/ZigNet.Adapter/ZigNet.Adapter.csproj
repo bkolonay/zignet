@@ -42,8 +42,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="ZigNet.Api.Model, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZigNet.Api.Model.1.0.1\lib\net45\ZigNet.Api.Model.dll</HintPath>
+    <Reference Include="ZigNet.Api.Model, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZigNet.Api.Model.1.0.2\lib\net45\ZigNet.Api.Model.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZigNet.Domain, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">

@@ -6,7 +6,7 @@ namespace ZigNet.Adapter
     public interface IZigNetApiHandler
     {
         int StartSuite(int suiteId);
-        int StartSuite(string suiteName);
+        int StartSuite(string applicationName, string suiteName, string environmentName);
         void SaveTestResult(CreateTestResultModel createTestResultModel);
         void StopSuite(int suiteResultId, SuiteResultType suiteResultType);
     }
