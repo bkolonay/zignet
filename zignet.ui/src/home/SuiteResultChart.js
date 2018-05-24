@@ -19,8 +19,8 @@ class SuiteResultChart extends Component {
     return suiteResult.TotalPassedTests + suiteResult.TotalFailedTests;
   }
 
-  _getLastRunTime(suiteResult, suiteResultsGrouped) {
-    if (suiteResultsGrouped)
+  _getLastRunTime(suiteResult, grouped) {
+    if (grouped)
       return <p/>;
     if (suiteResult.SuiteEndTime)
       return <p className="text-center text-muted"><small>{new UtcDate(suiteResult.SuiteEndTime).getTimeFromNowWithSuffix()}</small></p>;
@@ -28,8 +28,8 @@ class SuiteResultChart extends Component {
       return <p className="text-center text-warning"><small>running...</small></p>;
   }
 
-  _getLinkToListPage(suiteResult, suiteResultsGrouped) {
-    if (suiteResultsGrouped)
+  _getLinkToListPage(suiteResult, grouped) {
+    if (grouped)
       return <Link to={'/' + suiteResult.SuiteIds[0] + "?group=true"}>Total: {this._getTotalTests(suiteResult)}</Link>;
     else
       return <Link to={'/' + suiteResult.SuiteIds[0]}>Total: {this._getTotalTests(suiteResult)}</Link>;
@@ -37,16 +37,16 @@ class SuiteResultChart extends Component {
 
   render() {
     const suiteResult = this.props.suiteResult;
-    const suiteResultsGrouped = this.props.suiteResultsGrouped;
+    const grouped = this.props.grouped;
     return (
       <div className="col-4">
         <h3 className="text-center">{suiteResult.SuiteName}</h3>
         <ChartistPieChart chartId={suiteResult.SuiteIds[0]}
                           chartData={this._getChartData(suiteResult)} />
         <p className="text-center chart-label">
-          {this._getLinkToListPage(suiteResult, suiteResultsGrouped)}
+          {this._getLinkToListPage(suiteResult, grouped)}
         </p>
-        {this._getLastRunTime(suiteResult, suiteResultsGrouped)}
+        {this._getLastRunTime(suiteResult, grouped)}
       </div>
     );
   }

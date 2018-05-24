@@ -3,7 +3,6 @@ import SuiteResultChart from './SuiteResultChart'
 import GroupSuitesButton from './GroupSuitesButton'
 
 class SuiteResults extends Component {
-
   render() {
     return (
   	  <div className="container">
@@ -14,7 +13,7 @@ class SuiteResults extends Component {
           {this.props.suiteResults.map((suiteResult) =>
             <SuiteResultChart key={suiteResult.SuiteIds[0]}
                               suiteResult={suiteResult}
-                              suiteResultsGrouped={this.props.grouped} />
+                              grouped={this.props.grouped} />
           )}
         </div>
       </div>
