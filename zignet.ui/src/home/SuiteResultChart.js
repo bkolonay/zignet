@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import ChartistPieChart from '../common/chartist/ChartistPieChart';
+import ListPageLink from './ListPageLink';
 import UtcDate from '../common/UtcDate'
 import './css/suiteResultChart.css';
 
@@ -28,23 +28,17 @@ class SuiteResultChart extends Component {
       return <p className="text-center text-warning"><small>running...</small></p>;
   }
 
-  _getLinkToListPage(suiteResult, grouped) {
-    if (grouped)
-      return <Link to={'/' + suiteResult.SuiteIds[0] + "?group=true"}>Total: {this._getTotalTests(suiteResult)}</Link>;
-    else
-      return <Link to={'/' + suiteResult.SuiteIds[0]}>Total: {this._getTotalTests(suiteResult)}</Link>;
-  }
-
   render() {
     const suiteResult = this.props.suiteResult;
+    const suiteId = suiteResult.SuiteIds[0];
     const grouped = this.props.grouped;
+    const totalTests = suiteResult.TotalPassedTests + suiteResult.TotalFailedTests;
     return (
       <div className="col-4">
         <h3 className="text-center">{suiteResult.SuiteName}</h3>
-        <ChartistPieChart chartId={suiteResult.SuiteIds[0]}
-                          chartData={this._getChartData(suiteResult)} />
+        <ChartistPieChart chartId={suiteResult.SuiteIds[0]} chartData={this._getChartData(suiteResult)} />
         <p className="text-center chart-label">
-          {this._getLinkToListPage(suiteResult, grouped)}
+          <ListPageLink grouped={grouped} suiteId={suiteId} totalTests={totalTests} />
         </p>
         {this._getLastRunTime(suiteResult, grouped)}
       </div>
