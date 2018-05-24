@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import TestList from './TestList'
+import { getTestResults } from '../api/api.js';
 
 class TestListRouter extends Component {
-  constructor(props) {
-    super(props);
-
-    this.grouped = false;
-    if (this.props.queryString.indexOf('group=true') !== -1)
-      this.grouped = true;
-  }  
 
   render() {
+    let grouped = false;
+    if (this.props.queryString.indexOf('group=true') !== -1)
+      grouped = true;
+
     return (
-      <TestList grouped={this.grouped} suiteId={this.props.suiteId} />
+      <TestList grouped={grouped} 
+                suiteId={this.props.suiteId}
+                getTests={() => getTestResults(this.props.suiteId, grouped)} />
     );
   }
 }

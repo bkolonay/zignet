@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import SuiteResults from './SuiteResults'
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = { latestSuiteResults: [] }
   }
