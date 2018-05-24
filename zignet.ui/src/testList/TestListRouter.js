@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TestList from './TestList'
-import { getTestResults } from '../api/api.js';
+import { getTestResults } from '../common/api/api.js';
 
 class TestListRouter extends Component {
 

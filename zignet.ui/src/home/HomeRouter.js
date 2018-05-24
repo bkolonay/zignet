@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Home from './Home'
-import { getSuiteResults } from '../api/api.js';
+import { getSuiteResults } from '../common/api/api.js';
 
 class HomeRouter extends Component {
   constructor(props) {
