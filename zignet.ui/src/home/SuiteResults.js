@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
 import SuiteResultChart from './SuiteResultChart'
+import GroupSuitesButton from './GroupSuitesButton'
 
 class SuiteResults extends Component {
-
-  _getGroupButton() {
-    if (this.props.grouped)
-      return <a href="/" className="btn btn-outline-primary" role="button" title="Click to ungroup results">Ungroup</a>
-    else
-      return <a href="/?group=true" className="btn btn-primary" role="button" title="Click to group results by environment">Group</a>
-  }
 
   render() {
     return (
   	  <div className="container">
         <div className="text-right">
-          {this._getGroupButton()}
+          <GroupSuitesButton grouped={this.props.grouped} />
         </div>
   	  	<div className="row">
           {this.props.suiteResults.map((suiteResult) =>
