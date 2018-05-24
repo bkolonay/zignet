@@ -1,8 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`matches the previous snapshot 1`] = `
+exports[`snapshot with no data 1`] = `
 <div
   className="ct-chart"
-  id="chart321"
+  id="chartundefined"
+/>
+`;
+
+exports[`snapshot with valid data 1`] = `
+<div
+  className="ct-chart"
+  id="chart123"
 />
 `;

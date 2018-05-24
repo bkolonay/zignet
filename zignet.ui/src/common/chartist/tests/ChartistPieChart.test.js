@@ -4,30 +4,23 @@ import renderer from 'react-test-renderer';
 import ChartistPieChart from '../ChartistPieChart';
 
 it('renders with valid data', () => {
-  const chartData = { series: [123, 456] };
-
-  const div = document.createElement('div');
-  ReactDOM.render(
-    <ChartistPieChart chartId={321} chartData={chartData} />,
-    div
-  );
-  ReactDOM.unmountComponentAtNode(div);
+  const component = <ChartistPieChart chartId={1} chartData={{ series: [123, 456] }} />
+  ReactDOM.render(component, document.createElement('div'));
 });
 
 it('renders with empty data', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(
-    <ChartistPieChart />,
-    div
-  );
-  ReactDOM.unmountComponentAtNode(div);
+  const component = <ChartistPieChart />
+  ReactDOM.render(component, document.createElement('div'));
 });
 
-it('matches the previous snapshot', () => {
-  const chartData = { series: [123, 456] };
+it('snapshot with valid data', () => {
+  const component = <ChartistPieChart chartId={123} chartData={{ series: [123, 456] }} />
+  const tree = renderer.create(component).toJSON();  
+  expect(tree).toMatchSnapshot();
+});
 
-  const tree = renderer
-    .create(<ChartistPieChart chartId={321} chartData={chartData} />)
-    .toJSON();
+it('snapshot with no data', () => {
+  const component = <ChartistPieChart />
+  const tree = renderer.create(component).toJSON();  
   expect(tree).toMatchSnapshot();
 });
