@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import TestResults from './TestResults'
+import TestList from './TestList'
 
-class TestResultsRouter extends Component {
+class TestListRouter extends Component {
   constructor(props) {
     super(props);
 
@@ -12,9 +12,9 @@ class TestResultsRouter extends Component {
 
   render() {
     return (
-      <TestResults grouped={this.grouped} suiteId={this.props.suiteId} />
+      <TestList grouped={this.grouped} suiteId={this.props.suiteId} />
     );
   }
 }
 
-export default TestResultsRouter;
+export default TestListRouter;
