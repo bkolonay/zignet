@@ -14,15 +14,13 @@ it('renders when not grouped', () => {
 });
 
 it('snapshot when not grouped', () => {
-  const tree = renderer
-    .create(<GroupSuitesButton grouped={false} />)
-    .toJSON();
+  const component = <GroupSuitesButton grouped={false} />;
+  const tree = renderer.create(component).toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it('snapshot when grouped', () => {
-  const tree = renderer
-    .create(<GroupSuitesButton grouped={true} />)
-    .toJSON();
+  const component = <GroupSuitesButton grouped={true} />;
+  const tree = renderer.create(component).toJSON();
   expect(tree).toMatchSnapshot();
 });

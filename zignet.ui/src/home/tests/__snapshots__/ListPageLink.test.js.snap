@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot when grouped 1`] = `
+<a
+  href="/1?group=true"
+>
+  Total: 
+  2
+</a>
+`;
+
+exports[`snapshot when not grouped 1`] = `
+<a
+  href="/1"
+>
+  Total: 
+  2
+</a>
+`;
+
+exports[`snapshot when total tests zero 1`] = `
+<a
+  href="/1"
+>
+  Total: 
+  0
+</a>
+`;
