@@ -1,43 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
-//import SuiteResultChart from './SuiteResultChart';
+import GroupSuitesButton from '../GroupSuitesButton';
 
-it.skip('renders with passed and failed tests', () => {
-  const suiteResult = {
-    'SuiteIds':[123456789],
-    'SuiteName':'suite-name',
-    'TotalPassedTests':12345,
-    'TotalFailedTests':678910
-  };
-
-  const div = document.createElement('div');
-  ReactDOM.render(
-    <SuiteResultChart key={suiteResult.SuiteID} suiteResult={suiteResult} />,
-    div
-  );
-  ReactDOM.unmountComponentAtNode(div);
+it('renders when not grouped', () => {
+  const component = <GroupSuitesButton grouped={false} />;
+  ReactDOM.render(component,document.createElement('div'));
 });
 
-it.skip('renders with empty data', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(
-    <SuiteResultChart suiteResult={{'SuiteIds':[]}} />,
-    div
-  );
-  ReactDOM.unmountComponentAtNode(div);
+it('renders when not grouped', () => {
+  const component = <GroupSuitesButton grouped={true} />;
+  ReactDOM.render(component,document.createElement('div'));
 });
 
-it.skip('matches the previous snapshot', () => {
-  const suiteResult = {
-    'SuiteIds':[123456789],
-    'SuiteName':'suite-name',
-    'TotalPassedTests':12345,
-    'TotalFailedTests':678910
-  };
-
+it('snapshot when not grouped', () => {
   const tree = renderer
-    .create(<SuiteResultChart key={suiteResult.SuiteID} suiteResult={suiteResult} />)
+    .create(<GroupSuitesButton grouped={false} />)
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it('snapshot when grouped', () => {
+  const tree = renderer
+    .create(<GroupSuitesButton grouped={true} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
