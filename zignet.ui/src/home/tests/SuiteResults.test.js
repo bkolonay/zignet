@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
-import SuiteResults from './SuiteResults';
+import SuiteResults from '../SuiteResults';
 jest.mock('react-router-dom');
 
 it('renders single suite result', () => {

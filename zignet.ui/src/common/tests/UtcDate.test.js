@@ -1,5 +1,5 @@
 import moment from 'moment';
-import UtcDate from './UtcDate';
+import UtcDate from '../UtcDate';
 
 it('gets date and time string', () => {
   let utcDate = new UtcDate("2018-03-13T19:11:27");

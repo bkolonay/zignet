@@ -1,5 +1,5 @@
 import moment from 'moment';
-import HistoryBarProvider from './HistoryBarProvider'
+import HistoryBarProvider from '../HistoryBarProvider'
 
 // getErrorDivAttributes()
 it('gets a failure duration with a start and end time', () => {

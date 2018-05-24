@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
-import TestHistory from './TestHistory';
+import TestHistory from '../TestHistory';
 jest.mock('react-router-dom');
 
 // taken from: https://reactjs.org/blog/2016/11/16/react-v15.4.0.html#mocking-refs-for-snapshot-testing

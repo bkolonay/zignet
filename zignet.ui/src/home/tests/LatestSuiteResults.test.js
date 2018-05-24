@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
-import ZigNetApi from '../api/ZigNetApi'
-jest.mock('../api/ZigNetApi');
+import Home from '../Home';
 jest.mock('react-router-dom');
 
-import LatestSuiteResults from './LatestSuiteResults';
-
-it('renders with data', () => {
+it.skip('renders with data', () => {
   const promise = Promise.resolve([{
     'SuiteIds':[1],
     'SuiteName':'suite-name',
@@ -32,7 +29,7 @@ it('renders with data', () => {
   // above code waiting for promise to resolve taken from: https://github.com/airbnb/enzyme/issues/346#issuecomment-304535773
 });
 
-it('matches the previous snapshot', () => {
+it.skip('matches the previous snapshot', () => {
   const promise = Promise.resolve([{
     'SuiteIds':[1],
     'SuiteName':'suite-name',

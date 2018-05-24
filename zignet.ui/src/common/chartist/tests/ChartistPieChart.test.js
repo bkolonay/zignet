@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
-import ChartistPieChart from './ChartistPieChart';
+import ChartistPieChart from '../ChartistPieChart';
 
 it('renders with valid data', () => {
   const chartData = { series: [123, 456] };

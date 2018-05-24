@@ -7,7 +7,7 @@ exports[`matches the previous snapshot with a multiple failure durations 1`] = `
   <div
     style={
       Object {
-        "left": NaN,
+        "left": 0,
         "width": NaN,
       }
     }
@@ -16,7 +16,7 @@ exports[`matches the previous snapshot with a multiple failure durations 1`] = `
   <div
     style={
       Object {
-        "left": NaN,
+        "left": 0,
         "width": NaN,
       }
     }
@@ -32,7 +32,7 @@ exports[`matches the previous snapshot with a single failure duration 1`] = `
   <div
     style={
       Object {
-        "left": NaN,
+        "left": 0,
         "width": NaN,
       }
     }
