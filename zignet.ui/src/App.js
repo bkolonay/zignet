@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
-import LatestSuiteResults from './home/LatestSuiteResults'
-import LatestTestResults from './suite/LatestTestResults'
+import LatestSuiteResultsRouter from './home/LatestSuiteResultsRouter'
+import LatestTestResultsRouter from './suite/LatestTestResultsRouter'
 import BadRoute from './common/BadRoute'
 
 class App extends Component {
@@ -10,8 +10,12 @@ class App extends Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/" render={(props) => <LatestSuiteResults {...props} />} />
-          <Route path='/:suiteId' render={(props) => <LatestTestResults {...props} />} />
+          <Route exact path="/" render={(props) => 
+            <LatestSuiteResultsRouter queryString={props.location.search} />} 
+          />
+          <Route path='/:suiteId' render={(props) =>
+            <LatestTestResultsRouter queryString={props.location.search} suiteId={props.match.params.suiteId} />}
+          />
           <Route component={BadRoute} />
         </Switch>
       </div>
