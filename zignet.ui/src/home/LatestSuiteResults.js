@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ZigNetApi from '../api/ZigNetApi'
 import SuiteResults from './SuiteResults'
 
 class LatestSuiteResults extends Component {
@@ -14,7 +15,7 @@ class LatestSuiteResults extends Component {
     else
       this.showDebugSuites = false;    
 
-    this.zigNetApi = this.props.zigNetApi;
+    this.zigNetApi = new ZigNetApi(process.env.REACT_APP_API_BASE_URL + 'api/');
     this.state = { latestSuiteResults: [] }
   }
 
