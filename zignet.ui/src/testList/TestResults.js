@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ZigNetApi from '../api/ZigNetApi'
 import LatestTestResultsList from './LatestTestResultsList'
 
-class LatestTestResults extends Component {
+class TestResults extends Component {
   constructor(props) {
     super(props);
 
@@ -46,4 +46,4 @@ class LatestTestResults extends Component {
   }
 }
 
-export default LatestTestResults;
+export default TestResults;

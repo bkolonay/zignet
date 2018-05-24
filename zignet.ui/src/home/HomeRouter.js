@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import LatestSuiteResults from './LatestSuiteResults'
+import Home from './Home'
+import { getSuiteResults } from '../api/api.js';
 
-class LatestSuiteResultsRouter extends Component {
+class HomeRouter extends Component {
   constructor(props) {
     super(props);
 
@@ -16,9 +17,11 @@ class LatestSuiteResultsRouter extends Component {
 
   render() {
     return (
-      <LatestSuiteResults grouped={this.grouped} debug={this.debug} />
+      <Home grouped={this.grouped} 
+            debug={this.debug} 
+            getResults={() => getSuiteResults(this.grouped, this.debug)} />
     );
   }
 }
 
-export default LatestSuiteResultsRouter;
+export default HomeRouter;
