@@ -15,10 +15,6 @@ class SuiteResultChart extends Component {
     };
   }
 
-  _getTotalTests(suiteResult) {
-    return suiteResult.TotalPassedTests + suiteResult.TotalFailedTests;
-  }
-
   _getLastRunTime(suiteResult, grouped) {
     if (grouped)
       return <p/>;
