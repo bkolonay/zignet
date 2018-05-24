@@ -6,26 +6,23 @@ import './css/suiteResultChart.css';
 
 class SuiteResultChart extends Component {
 
-  _getChartData(suiteResult) {
-    return {
-      series: [
-        suiteResult.TotalPassedTests,
-        suiteResult.TotalFailedTests
-      ]
-    };
-  }
-
   render() {
 
     const suiteResult = this.props.suiteResult;
     const suiteId = suiteResult.SuiteIds[0];
     const grouped = this.props.grouped;
     const totalTests = suiteResult.TotalPassedTests + suiteResult.TotalFailedTests;
+    const chartData = {
+      series: [
+        suiteResult.TotalPassedTests,
+        suiteResult.TotalFailedTests
+      ]
+    };
 
     return (
       <div className="col-4">
         <h3 className="text-center">{suiteResult.SuiteName}</h3>
-        <ChartistPieChart chartId={suiteId} chartData={this._getChartData(suiteResult)} />
+        <ChartistPieChart chartId={suiteId} chartData={chartData} />
         <p className="text-center chart-label">
           <ListPageLink grouped={grouped} suiteId={suiteId} totalTests={totalTests} />
         </p>
