@@ -9,7 +9,7 @@ exports[`snapshot when not grouped and has end time 1`] = `
   className="text-center text-muted"
 >
   <small>
-    21 hours ago
+    3 days ago
   </small>
 </p>
 `;

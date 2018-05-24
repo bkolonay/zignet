@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import UtcDate from '../common/UtcDate'
+import { getTimeFromNowWithSuffix } from '../common/UtcDateProvider'
 
-class ListPageLink extends Component {
+class LastRunTimeLabel extends Component {
 
   render() {
 
@@ -9,7 +9,7 @@ class ListPageLink extends Component {
     if (this.props.grouped)
     	label = <p/>;
     else if (this.props.suiteEndTime)
-    	label = <p className="text-center text-muted"><small>{new UtcDate(this.props.suiteEndTime).getTimeFromNowWithSuffix()}</small></p>;
+    	label = <p className="text-center text-muted"><small>{getTimeFromNowWithSuffix(this.props.suiteEndTime)}</small></p>;
     else
     	label = <p className="text-center text-warning"><small>running...</small></p>;
 
@@ -19,4 +19,4 @@ class ListPageLink extends Component {
   }
 }
 
-export default ListPageLink;
+export default LastRunTimeLabel;
