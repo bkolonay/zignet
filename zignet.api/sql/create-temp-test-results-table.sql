@@ -4,7 +4,9 @@
 ----DROP TABLE IF EXISTS SuiteResultTypes
 --DROP TABLE SuiteResults
 
-CREATE TABLE TemporaryTestResults (
+DROP TABLE [ZigNet].[US\bkolonay].TemporaryTestResults
+
+CREATE TABLE dbo.TemporaryTestResults (
 	TemporaryTestResultID int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	TestResultId int NOT NULL,
 	SuiteResultId int NOT NULL,

@@ -4,7 +4,9 @@
 ----DROP TABLE IF EXISTS SuiteResultTypes
 --DROP TABLE SuiteResults
 
-CREATE TABLE TestFailureDurations (
+--DROP TABLE [ZigNet].[US\bkolonay].TestFailureDurations
+
+CREATE TABLE dbo.TestFailureDurations (
 	TestFailureDurationID int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	SuiteId int NOT NULL,
 	TestId int NOT NULL,

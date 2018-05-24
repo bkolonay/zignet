@@ -2,7 +2,7 @@ USE ZigNet
 
 --DROP TABLE Environments
 
-CREATE TABLE Environments (
+CREATE TABLE dbo.Environments (
 	EnvironmentID int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	EnvironmentName NVARCHAR(MAX) NOT NULL,
 	EnvironmentNameAbbreviation NVARCHAR(MAX) NOT NULL,

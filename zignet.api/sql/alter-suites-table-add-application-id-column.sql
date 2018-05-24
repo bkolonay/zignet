@@ -1,5 +1,14 @@
 --DROP TABLE Applications
 
+--ALTER TABLE Suites
+--DROP CONSTRAINT FK_SuiteApplication
+
+--DROP TABLE [ZigNet].[US\bkolonay].Applications
+
+ALTER TABLE Suites
+ADD CONSTRAINT FK_SuiteApplication FOREIGN KEY (ApplicationId)
+REFERENCES dbo.Applications(ApplicationID)
+
 ALTER TABLE Suites
 ADD ApplicationId int NOT NULL
 CONSTRAINT DF_SuiteDefaultApplicationId DEFAULT 1,

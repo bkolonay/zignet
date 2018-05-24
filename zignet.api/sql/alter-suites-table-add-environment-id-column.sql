@@ -2,6 +2,15 @@ USE ZigNet
 
 --DROP TABLE Applications
 
+--ALTER TABLE Suites
+--DROP CONSTRAINT FK_SuiteEnvironment
+
+--DROP TABLE [ZigNet].[US\bkolonay].Environments
+
+ALTER TABLE Suites
+ADD CONSTRAINT FK_SuiteEnvironment FOREIGN KEY (EnvironmentId)
+REFERENCES dbo.Environments(EnvironmentID)
+
 ALTER TABLE Suites
 ADD EnvironmentId int NOT NULL
 CONSTRAINT DF_SuiteDefaultEnvironmentId DEFAULT 1,
@@ -12,23 +21,25 @@ ALTER TABLE Suites
 DROP CONSTRAINT DF_SuiteDefaultEnvironmentId
 
 --INSERT INTO Suites
---VALUES ('LN UI - TSM', 1, 2)
+--VALUES ('LN UI - TSM', 2, 1)
 
 --INSERT INTO Suites
---VALUES ('LN UI - TSM (D)', 1, 7)
+--VALUES ('LN UI - TSM (D)', 7, 1)
 
-INSERT INTO Suites
-VALUES ('LM Mobile - DVM (D)', 2, 6)
+--INSERT INTO Suites
+--VALUES ('LM Mobile - DVM (D)', 6, 2)
 
-INSERT INTO Suites
-VALUES ('LM Mobile - DVM', 2, 1)
+--INSERT INTO Suites
+--VALUES ('LM Mobile - DVM', 1, 2)
 
---SELECT * FROM Applications
+UPDATE Suites
+SET EnvironmentId = 6
+--SELECT * FROM Suites
+WHERE SuiteID IN (24)
 
---UPDATE Suites
---SET EnvironmentId = 9
-----SELECT * FROM Suites
---WHERE SuiteID IN (29)
+SELECT * FROM Suites
+SELECT * FROM Environments
+SELECT * FROM Applications
 
 SELECT Suites.SuiteID, Suites.SuiteName,
 	/*Environments.EnvironmentName,*/ 
