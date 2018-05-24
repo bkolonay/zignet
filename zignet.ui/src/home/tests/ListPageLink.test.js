@@ -8,7 +8,7 @@ it('renders when not grouped', () => {
   ReactDOM.render(component,document.createElement('div'));
 });
 
-it('renders when not grouped', () => {
+it('renders when grouped', () => {
   const component = <ListPageLink grouped={true} suiteId={1} totalTests={2} />;
   ReactDOM.render(component,document.createElement('div'));
 });
