@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import ChartistPieChart from '../common/ChartistPieChart';
 import UtcDate from '../common/UtcDate'
-import './suiteResultChart.css';
+import './css/suiteResultChart.css';
 
 class SuiteResultChart extends Component {
 

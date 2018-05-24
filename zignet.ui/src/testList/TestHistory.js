@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import HistoryBarProvider from '../common/HistoryBarProvider'
-import './testHistory.css';
+import './css/testHistory.css';
 
 class TestHistory extends Component {
   constructor() {

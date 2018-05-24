@@ -17,9 +17,7 @@ class HomeRouter extends Component {
 
   render() {
     return (
-      <Home grouped={this.grouped} 
-            debug={this.debug} 
-            getResults={() => getSuiteResults(this.grouped, this.debug)} />
+      <Home grouped={this.grouped} getResults={() => getSuiteResults(this.grouped, this.debug)} />
     );
   }
 }

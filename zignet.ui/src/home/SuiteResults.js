@@ -4,7 +4,7 @@ import SuiteResultChart from './SuiteResultChart'
 class SuiteResults extends Component {
 
   _getGroupButton() {
-    if (this.props.suiteResultsGrouped)
+    if (this.props.grouped)
       return <a href="/" className="btn btn-outline-primary" role="button" title="Click to ungroup results">Ungroup</a>
     else
       return <a href="/?group=true" className="btn btn-primary" role="button" title="Click to group results by environment">Group</a>
@@ -20,7 +20,7 @@ class SuiteResults extends Component {
           {this.props.suiteResults.map((suiteResult) =>
             <SuiteResultChart key={suiteResult.SuiteIds[0]}
                               suiteResult={suiteResult}
-                              suiteResultsGrouped={this.props.suiteResultsGrouped} />
+                              suiteResultsGrouped={this.props.grouped} />
           )}
         </div>
       </div>
