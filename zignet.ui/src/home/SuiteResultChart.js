@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import ChartistPieChart from '../common/ChartistPieChart';
+import ChartistPieChart from '../common/chartist/ChartistPieChart';
 import UtcDate from '../common/UtcDate'
 import './css/suiteResultChart.css';
 
