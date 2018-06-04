@@ -14,7 +14,7 @@ it('renders with single suite and failed and passed tests', () => {
     'TotalFailedTests':10
   };
 
-  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const component = <SuiteResultChart suiteResult={suiteResult} grouped={false} />;
   ReactDOM.render(component, document.createElement('div'));
 });
 
@@ -26,7 +26,7 @@ it('renders with grouped suites', () => {
     'TotalFailedTests':20
   };
 
-  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const component = <SuiteResultChart suiteResult={suiteResult} grouped={true} />;
   ReactDOM.render(component, document.createElement('div'));
 });
 
@@ -37,7 +37,7 @@ it('renders with only passed tests', () => {
     'TotalPassedTests':200
   };
 
-  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const component = <SuiteResultChart suiteResult={suiteResult} grouped={false} />;
   ReactDOM.render(component, document.createElement('div'));
 });
 
@@ -48,7 +48,7 @@ it('renders with only failed tests', () => {
     'TotalFailedTests':50
   };
 
-  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const component = <SuiteResultChart suiteResult={suiteResult} grouped={false} />;
   ReactDOM.render(component, document.createElement('div'));
 });
 
@@ -60,7 +60,7 @@ it('renders when suite has end time', () => {
     'SuiteEndTime':'2018-05-24T01:00:00'
   };
 
-  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const component = <SuiteResultChart suiteResult={suiteResult} grouped={false} />;
   ReactDOM.render(component, document.createElement('div'));
 });
 
@@ -81,7 +81,7 @@ it('snapshot with single suite and passed and failed tests', () => {
     'TotalFailedTests':10
   };
 
-  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const component = <SuiteResultChart suiteResult={suiteResult} grouped={false} />;
   const tree = renderer.create(component).toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -94,7 +94,7 @@ it('snapshot with grouped suites', () => {
     'TotalFailedTests':20
   };
 
-  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const component = <SuiteResultChart suiteResult={suiteResult} grouped={true} />;
   const tree = renderer.create(component).toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -106,7 +106,7 @@ it('snapshot with only passed tests', () => {
     'TotalPassedTests':200
   };
 
-  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const component = <SuiteResultChart suiteResult={suiteResult} grouped={false} />;
   const tree = renderer.create(component).toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -118,7 +118,7 @@ it('snapshot with only failed tests', () => {
     'TotalFailedTests':50
   };
 
-  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const component = <SuiteResultChart suiteResult={suiteResult} grouped={false} />;
   const tree = renderer.create(component).toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -133,7 +133,7 @@ it('snapshot when suite has end time', () => {
 
   getTimeFromNowWithSuffix.mockReturnValue('3 days ago');
 
-  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const component = <SuiteResultChart suiteResult={suiteResult} grouped={false} />;
   const tree = renderer.create(component).toJSON();
   expect(tree).toMatchSnapshot();
 });

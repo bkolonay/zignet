@@ -81,19 +81,13 @@ exports[`snapshot with grouped suites 1`] = `
     className="text-center chart-label"
   >
     <a
-      href="/1"
+      href="/1?group=true"
     >
       Total: 
       220
     </a>
   </p>
-  <p
-    className="text-center text-warning"
-  >
-    <small>
-      running...
-    </small>
-  </p>
+  <p />
 </div>
 `;
 
