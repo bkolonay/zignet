@@ -2,43 +2,148 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
 import SuiteResultChart from '../SuiteResultChart';
+import { getTimeFromNowWithSuffix } from '../../common/UtcDateProvider';
 jest.mock('react-router-dom');
+jest.mock('../../common/UtcDateProvider');
 
-it('renders with passed and failed tests', () => {
+it('renders with single suite and failed and passed tests', () => {
   const suiteResult = {
-    'SuiteIds':[123456789],
+    'SuiteIds':[1],
     'SuiteName':'suite-name',
-    'TotalPassedTests':12345,
-    'TotalFailedTests':678910
+    'TotalPassedTests':100,
+    'TotalFailedTests':10
   };
 
-  const div = document.createElement('div');
-  ReactDOM.render(
-    <SuiteResultChart key={suiteResult.SuiteID} suiteResult={suiteResult} />,
-    div
-  );
-  ReactDOM.unmountComponentAtNode(div);
+  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  ReactDOM.render(component, document.createElement('div'));
+});
+
+it('renders with grouped suites', () => {
+  const suiteResult = {
+    'SuiteIds':[1, 2],
+    'SuiteName':'grouped-suite-name',
+    'TotalPassedTests':200,
+    'TotalFailedTests':20
+  };
+
+  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  ReactDOM.render(component, document.createElement('div'));
+});
+
+it('renders with only passed tests', () => {
+  const suiteResult = {
+    'SuiteIds':[1],
+    'SuiteName':'suite-name',
+    'TotalPassedTests':200
+  };
+
+  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  ReactDOM.render(component, document.createElement('div'));
+});
+
+it('renders with only failed tests', () => {
+  const suiteResult = {
+    'SuiteIds':[1],
+    'SuiteName':'suite-name',
+    'TotalFailedTests':50
+  };
+
+  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  ReactDOM.render(component, document.createElement('div'));
+});
+
+it('renders when suite has end time', () => {
+  const suiteResult = {
+    'SuiteIds':[1],
+    'SuiteName':'suite-name',
+    'TotalFailedTests':50,
+    'SuiteEndTime':'2018-05-24T01:00:00'
+  };
+
+  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  ReactDOM.render(component, document.createElement('div'));
 });
 
 it('renders with empty data', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(
-    <SuiteResultChart suiteResult={{'SuiteIds':[]}} />,
-    div
-  );
-  ReactDOM.unmountComponentAtNode(div);
-});
-
-xit('matches the previous snapshot', () => {
   const suiteResult = {
-    'SuiteIds':[123456789],
-    'SuiteName':'suite-name',
-    'TotalPassedTests':12345,
-    'TotalFailedTests':678910
+    'SuiteIds':[]
   };
 
-  const tree = renderer
-    .create(<SuiteResultChart key={suiteResult.SuiteID} suiteResult={suiteResult} />)
-    .toJSON();
+  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  ReactDOM.render(component, document.createElement('div'));
+});
+
+it('snapshot with single suite and passed and failed tests', () => {
+  const suiteResult = {
+    'SuiteIds':[1],
+    'SuiteName':'suite-name',
+    'TotalPassedTests':100,
+    'TotalFailedTests':10
+  };
+
+  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const tree = renderer.create(component).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it('snapshot with grouped suites', () => {
+  const suiteResult = {
+    'SuiteIds':[1, 2],
+    'SuiteName':'grouped-suite-name',
+    'TotalPassedTests':200,
+    'TotalFailedTests':20
+  };
+
+  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const tree = renderer.create(component).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it('snapshot with only passed tests', () => {
+  const suiteResult = {
+    'SuiteIds':[1],
+    'SuiteName':'suite-name',
+    'TotalPassedTests':200
+  };
+
+  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const tree = renderer.create(component).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it('snapshot with only failed tests', () => {
+  const suiteResult = {
+    'SuiteIds':[1],
+    'SuiteName':'suite-name',
+    'TotalFailedTests':50
+  };
+
+  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const tree = renderer.create(component).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it('snapshot when suite has end time', () => {
+  const suiteResult = {
+    'SuiteIds':[1],
+    'SuiteName':'suite-name',
+    'TotalFailedTests':50,
+    'SuiteEndTime':'2018-05-24T01:00:00'
+  };
+
+  getTimeFromNowWithSuffix.mockReturnValue('3 days ago');
+
+  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const tree = renderer.create(component).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it('snapshot with empty data', () => {
+  const suiteResult = {
+    'SuiteIds':[]
+  };
+
+  const component = <SuiteResultChart suiteResult={suiteResult} />;
+  const tree = renderer.create(component).toJSON();
   expect(tree).toMatchSnapshot();
 });

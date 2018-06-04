@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`matches the previous snapshot 1`] = `
+exports[`snapshot when suite has end time 1`] = `
 <div
   className="col-4"
 >
@@ -11,11 +11,181 @@ exports[`matches the previous snapshot 1`] = `
   </h3>
   <div
     className="ct-chart"
-    id="chart123456789"
+    id="chart1"
   />
   <p
     className="text-center chart-label"
+  >
+    <a
+      href="/1"
+    >
+      Total: 
+      NaN
+    </a>
+  </p>
+  <p
+    className="text-center text-muted"
+  >
+    <small>
+      3 days ago
+    </small>
+  </p>
+</div>
+`;
+
+exports[`snapshot with empty data 1`] = `
+<div
+  className="col-4"
+>
+  <h3
+    className="text-center"
   />
+  <div
+    className="ct-chart"
+    id="chartundefined"
+  />
+  <p
+    className="text-center chart-label"
+  >
+    <a
+      href="/undefined"
+    >
+      Total: 
+      NaN
+    </a>
+  </p>
+  <p
+    className="text-center text-warning"
+  >
+    <small>
+      running...
+    </small>
+  </p>
+</div>
+`;
+
+exports[`snapshot with grouped suites 1`] = `
+<div
+  className="col-4"
+>
+  <h3
+    className="text-center"
+  >
+    grouped-suite-name
+  </h3>
+  <div
+    className="ct-chart"
+    id="chart1"
+  />
+  <p
+    className="text-center chart-label"
+  >
+    <a
+      href="/1"
+    >
+      Total: 
+      220
+    </a>
+  </p>
+  <p
+    className="text-center text-warning"
+  >
+    <small>
+      running...
+    </small>
+  </p>
+</div>
+`;
+
+exports[`snapshot with only failed tests 1`] = `
+<div
+  className="col-4"
+>
+  <h3
+    className="text-center"
+  >
+    suite-name
+  </h3>
+  <div
+    className="ct-chart"
+    id="chart1"
+  />
+  <p
+    className="text-center chart-label"
+  >
+    <a
+      href="/1"
+    >
+      Total: 
+      NaN
+    </a>
+  </p>
+  <p
+    className="text-center text-warning"
+  >
+    <small>
+      running...
+    </small>
+  </p>
+</div>
+`;
+
+exports[`snapshot with only passed tests 1`] = `
+<div
+  className="col-4"
+>
+  <h3
+    className="text-center"
+  >
+    suite-name
+  </h3>
+  <div
+    className="ct-chart"
+    id="chart1"
+  />
+  <p
+    className="text-center chart-label"
+  >
+    <a
+      href="/1"
+    >
+      Total: 
+      NaN
+    </a>
+  </p>
+  <p
+    className="text-center text-warning"
+  >
+    <small>
+      running...
+    </small>
+  </p>
+</div>
+`;
+
+exports[`snapshot with single suite and passed and failed tests 1`] = `
+<div
+  className="col-4"
+>
+  <h3
+    className="text-center"
+  >
+    suite-name
+  </h3>
+  <div
+    className="ct-chart"
+    id="chart1"
+  />
+  <p
+    className="text-center chart-label"
+  >
+    <a
+      href="/1"
+    >
+      Total: 
+      110
+    </a>
+  </p>
   <p
     className="text-center text-warning"
   >
