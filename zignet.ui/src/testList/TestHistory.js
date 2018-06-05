@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import HistoryBarProvider from '../common/HistoryBarProvider'
+import { getErrorDivAttributes, getDivTitle } from '../common/HistoryBarProvider'
 import './css/testHistory.css';
 
 class TestHistory extends Component {
@@ -9,7 +9,6 @@ class TestHistory extends Component {
     this.state = {
       failureDivs: []
     };
-    this.historyBarProvider = new HistoryBarProvider(); 
   }
 
   _getFailureDivs(testFailureDurations) {
@@ -17,8 +16,8 @@ class TestHistory extends Component {
     let now = moment();
     var failureDivs = [];
     for (var i = 0; i < testFailureDurations.length; i++) {
-      let failureDivAttributes = this.historyBarProvider.getErrorDivAttributes(historyBarWidth, now, testFailureDurations[i]);
-      failureDivs.push(<div key={i} style={failureDivAttributes} title={this.historyBarProvider.getDivTitle(testFailureDurations[i])}/>);
+      let failureDivAttributes = getErrorDivAttributes(historyBarWidth, now, testFailureDurations[i]);
+      failureDivs.push(<div key={i} style={failureDivAttributes} title={getDivTitle(testFailureDurations[i])}/>);
     }
     return failureDivs;
   }
@@ -37,9 +36,8 @@ class TestHistory extends Component {
 
   render() {
     return (
-      <div className="testHistoryBar"
-           ref={(div) => this.historyBarDiv = div}>
-      {this.state.failureDivs.map((failureDiv) => failureDiv)}      
+      <div className="testHistoryBar" ref={(div) => this.historyBarDiv = div}>
+        {this.state.failureDivs.map((failureDiv) => failureDiv)}      
       </div>
     );
   }

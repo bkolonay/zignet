@@ -1,5 +1,5 @@
 import moment from 'moment';
-import HistoryBarProvider from '../HistoryBarProvider'
+import * as HistoryBarProvider from '../HistoryBarProvider'
 
 // getErrorDivAttributes()
 it('gets a failure duration with a start and end time', () => {
@@ -11,8 +11,7 @@ it('gets a failure duration with a start and end time', () => {
     FailureEnd: failureEnd.utc().format()
   };
 
-  let historyBarProvider = new HistoryBarProvider();
-  let errorDivAttributes = historyBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
+  let errorDivAttributes = HistoryBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
 
   expect(errorDivAttributes.left).toEqual(25);
   expect(errorDivAttributes.width).toEqual(12);
@@ -27,8 +26,7 @@ it('gets a failure with a duration of 1 second', () => {
     FailureEnd: failureEnd.utc().format()
   };
 
-  let historyBarProvider = new HistoryBarProvider();
-  let errorDivAttributes = historyBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
+  let errorDivAttributes = HistoryBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
 
   expect(errorDivAttributes.left).toEqual(25);
   expect(errorDivAttributes.width).toEqual(1);
@@ -41,8 +39,7 @@ it('gets a failure duration with no end time', () => {
     FailureStart: failureStart.utc().format()
   };
 
-  let historyBarProvider = new HistoryBarProvider();
-  let errorDivAttributes = historyBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
+  let errorDivAttributes = HistoryBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
 
   expect(errorDivAttributes.left).toEqual(283);
   expect(errorDivAttributes.width).toEqual(26);
@@ -58,8 +55,7 @@ it('gets a failure duration with end time 1 second before now', () => {
     FailureEnd: failureEnd.utc().format()
   };
 
-  let historyBarProvider = new HistoryBarProvider();
-  let errorDivAttributes = historyBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
+  let errorDivAttributes = HistoryBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
 
   expect(errorDivAttributes.left).toEqual(296);
   expect(errorDivAttributes.width).toEqual(12);
@@ -75,8 +71,7 @@ it('gets a failure duration with a start time before 24 hours ago and end time w
     FailureEnd: failureEnd.utc().format()
   };
 
-  let historyBarProvider = new HistoryBarProvider();
-  let errorDivAttributes = historyBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
+  let errorDivAttributes = HistoryBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
 
   expect(errorDivAttributes.left).toEqual(0);
   expect(errorDivAttributes.width).toEqual(12);
@@ -89,8 +84,7 @@ it('gets a failure duration with a start time before 24 hours ago and no end tim
     FailureStart: failureStart.utc().format()
   };
 
-  let historyBarProvider = new HistoryBarProvider();
-  let errorDivAttributes = historyBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
+  let errorDivAttributes = HistoryBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
 
   expect(errorDivAttributes.left).toEqual(0);
   expect(errorDivAttributes.width).toEqual(309);
@@ -105,8 +99,7 @@ it('gets a failure duration with a start time 1 second before 24 hours ago and e
     FailureEnd: failureEnd.utc().format()
   };
 
-  let historyBarProvider = new HistoryBarProvider();
-  let errorDivAttributes = historyBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
+  let errorDivAttributes = HistoryBarProvider.getErrorDivAttributes(309, now, testFailureDuration);
 
   expect(errorDivAttributes.left).toEqual(0);
   expect(errorDivAttributes.width).toEqual(1);
@@ -121,8 +114,7 @@ it('get title when failure has a start and end time', () => {
     FailureEnd: failureEnd.utc().format()
   };
 
-  let historyBarProvider = new HistoryBarProvider();
-  let errorDivTitle = historyBarProvider.getDivTitle(testFailureDuration);
+  let errorDivTitle = HistoryBarProvider.getDivTitle(testFailureDuration);
 
   expect(errorDivTitle).toEqual('an hour from 5/6/2018 3:00am - 5/6/2018 4:00am');
 });
@@ -135,8 +127,7 @@ it('get title when dates have double digits', () => {
     FailureEnd: failureEnd.utc().format()
   };
 
-  let historyBarProvider = new HistoryBarProvider();
-  let errorDivTitle = historyBarProvider.getDivTitle(testFailureDuration);
+  let errorDivTitle = HistoryBarProvider.getDivTitle(testFailureDuration);
 
   expect(errorDivTitle).toEqual('12 days from 11/12/2018 11:29am - 11/24/2018 1:40pm');
 });
@@ -148,8 +139,7 @@ it('get title when end date is null', () => {
     FailureEnd: null
   };
 
-  let historyBarProvider = new HistoryBarProvider();
-  let errorDivTitle = historyBarProvider.getDivTitle(testFailureDuration);
+  let errorDivTitle = HistoryBarProvider.getDivTitle(testFailureDuration);
 
   expect(errorDivTitle).toMatch(new RegExp('5/6/2018 3:00am - now'));
 });
@@ -160,8 +150,7 @@ it('does not throw when dates empty', () => {
     FailureEnd: null
   };
 
-  let historyBarProvider = new HistoryBarProvider();
-  let errorDivTitle = historyBarProvider.getDivTitle(testFailureDuration);
+  let errorDivTitle = HistoryBarProvider.getDivTitle(testFailureDuration);
 
   expect(errorDivTitle).toBeDefined();
   expect(errorDivTitle).toBeTruthy();
