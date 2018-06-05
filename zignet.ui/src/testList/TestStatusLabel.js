@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import UtcDate from '../common/UtcDate'
+import TestStatusBadge from './TestStatusBadge'
 
 class TestStatusLabel extends Component {
-
-  _getBadge() {
-    if (this.props.failingFromDate)
-      return <span className='badge badge-danger'>Down</span>
-    else
-      return <span className='badge badge-success'>Up</span>
-  }
 
   _getText() {
     if (this.props.failingFromDate)
@@ -20,7 +14,7 @@ class TestStatusLabel extends Component {
   render() {
     return (
       <span>
-        {this._getBadge()} {this._getText()}
+        <TestStatusBadge failingFromDate={this.props.failingFromDate}/> {this._getText()}
       </span>
     );
   }

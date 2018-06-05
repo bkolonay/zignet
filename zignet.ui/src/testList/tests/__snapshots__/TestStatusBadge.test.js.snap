@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot when does not have failing from date 1`] = `
+<span
+  className="badge badge-success"
+>
+  Up
+</span>
+`;
+
+exports[`snapshot when has failing from date 1`] = `
+<span
+  className="badge badge-danger"
+>
+  Down
+</span>
+`;
