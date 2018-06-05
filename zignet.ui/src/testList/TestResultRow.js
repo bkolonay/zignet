@@ -3,7 +3,7 @@ import TestStatusBadge from './TestStatusBadge'
 import TestStatusLabel from './TestStatusLabel'
 import TestHistoryBar from './TestHistoryBar'
 
-class SuiteResults extends Component {
+class TestResultRow extends Component {
 
   render() {
     const grouped = this.props.grouped;
@@ -22,4 +22,4 @@ class SuiteResults extends Component {
   }
 }
 
-export default SuiteResults;
+export default TestResultRow;
