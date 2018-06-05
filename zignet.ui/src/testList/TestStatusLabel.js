@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import TestStatusBadge from './TestStatusBadge'
-import TestStatusLabelNew from './TestStatusLabelNew'
+import { getTimeFromNow } from '../common/UtcDateProvider'
 
 class TestStatusLabel extends Component {
 
   render() {
+    const label = this.props.failingFromDate ? 
+      <span className='text-danger'>{'for ' + getTimeFromNow(this.props.failingFromDate)}</span> :
+      <span className='text-success'>{'for ' + getTimeFromNow(this.props.passingFromDate)}</span>;
+
     return (
-      <span>
-        <TestStatusBadge failingFromDate={this.props.failingFromDate}/>
-        <TestStatusLabelNew failingFromDate={this.props.failingFromDate} passingFromDate={this.props.passingFromDate}/>
-      </span>
+      label
     );
   }
 }
