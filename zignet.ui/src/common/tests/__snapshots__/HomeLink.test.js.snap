@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot when grouped 1`] = `
+<a
+  href="/?group=true"
+>
+  ZigNet
+</a>
+`;
+
+exports[`snapshot when not grouped 1`] = `
+<a
+  href="/"
+>
+  ZigNet
+</a>
+`;

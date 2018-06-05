@@ -38,7 +38,7 @@ class TestList extends Component {
           suiteName={this.state.suiteName}
           suiteId={this.props.suiteId}
           testResults={this.state.latestTestResults}
-          testResultsGrouped={this.props.grouped} />
+          grouped={this.props.grouped} />
       </div>
     );
   }
