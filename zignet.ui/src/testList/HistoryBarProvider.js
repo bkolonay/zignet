@@ -61,4 +61,4 @@ function getDivTitle(testFailureDuration) {
   }      
 }
 
-export { getFailureDivs };
+export { getFailureDivs, getErrorDivAttributes, getDivTitle };
