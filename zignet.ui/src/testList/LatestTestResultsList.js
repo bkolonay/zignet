@@ -5,15 +5,8 @@ import GroupSuitesButton from './GroupSuitesButton'
 
 class LatestTestResultsList extends Component {
 
-  _getTypeHeader(grouped)
-  {
-    if (grouped)
-      return <th scope="col">Type</th>;
-  }
-
   render() {
     const grouped = this.props.grouped;
-
     return (
       <div className="container">
         <h4><HomeLink grouped={grouped}/></h4>
@@ -30,7 +23,7 @@ class LatestTestResultsList extends Component {
           <thead>
             <tr>
               <th scope="col">Name</th>
-              {this._getTypeHeader(grouped)}
+              {grouped && <th scope="col">Type</th>}
               <th scope="col">Status</th>
               <th scope="col">History</th>
             </tr>
