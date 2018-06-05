@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`returns 1 div when 1 failure 1`] = `
+<div
+  style={
+    Object {
+      "left": 25,
+      "width": 12,
+    }
+  }
+  title="an hour from 5/6/2018 3:00am - 5/6/2018 4:00am"
+/>
+`;
+
+exports[`returns 2 divs when 2 failures 1`] = `
+Array [
+  <div
+    style={
+        Object {
+            "left": 25,
+            "width": 12,
+          }
+    }
+    title="an hour from 5/6/2018 3:00am - 5/6/2018 4:00am"
+/>,
+  <div
+    style={
+        Object {
+            "left": 45,
+            "width": 6,
+          }
+    }
+    title="30 minutes from 5/6/2018 4:30am - 5/6/2018 5:00am"
+/>,
+]
+`;
+
+exports[`returns zero divs when no failures 1`] = `null`;

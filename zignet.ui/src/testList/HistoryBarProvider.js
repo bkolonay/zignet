@@ -1,9 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
-function getFailureDivs(testFailureDurations, historyBarDiv) {
+function getFailureDivs(testFailureDurations, historyBarDiv, now) {
   const historyBarWidth = historyBarDiv.offsetWidth;
-  let now = moment();
   var failureDivs = [];
   for (var i = 0; i < testFailureDurations.length; i++) {
     let failureDivAttributes = getErrorDivAttributes(historyBarWidth, now, testFailureDurations[i]);

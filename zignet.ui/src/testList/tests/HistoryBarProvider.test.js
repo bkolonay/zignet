@@ -1,5 +1,46 @@
+import renderer from 'react-test-renderer';
 import moment from 'moment';
 import * as HistoryBarProvider from '../HistoryBarProvider'
+
+// getFailureDivs
+it('returns zero divs when no failures', () => {
+  let historyBarDiv = {offsetWidth: 309}
+  const testFailureDurations = [];
+
+  let failureDivs = HistoryBarProvider.getFailureDivs(testFailureDurations, historyBarDiv);
+  const tree = renderer.create(failureDivs).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it('returns 1 div when 1 failure', () => {
+  let historyBarDiv = { offsetWidth: 309 }
+  let now = moment("2018-05-07T01:00:00-07:00");
+  const testFailureDurations = [{
+    FailureStart: moment("2018-05-06T03:00:00-07:00").utc().format(),
+    FailureEnd: moment("2018-05-06T04:00:00-07:00").utc().format()
+  }];
+
+  let failureDivs = HistoryBarProvider.getFailureDivs(testFailureDurations, historyBarDiv, now);
+  const tree = renderer.create(failureDivs).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it('returns 2 divs when 2 failures', () => {
+  let historyBarDiv = { offsetWidth: 309 }
+  let now = moment("2018-05-07T01:00:00-07:00");
+  const testFailureDurations = [{
+    FailureStart: moment("2018-05-06T03:00:00-07:00").utc().format(),
+    FailureEnd: moment("2018-05-06T04:00:00-07:00").utc().format()
+  },
+  {
+    FailureStart: moment("2018-05-06T04:30:00-07:00").utc().format(),
+    FailureEnd: moment("2018-05-06T05:00:00-07:00").utc().format()    
+  }];
+
+  let failureDivs = HistoryBarProvider.getFailureDivs(testFailureDurations, historyBarDiv, now);
+  const tree = renderer.create(failureDivs).toJSON();
+  expect(tree).toMatchSnapshot();
+});
 
 // getErrorDivAttributes()
 it('gets a failure duration with a start and end time', () => {

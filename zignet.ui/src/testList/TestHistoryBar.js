@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getFailureDivs } from './HistoryBarProvider'
+import { now } from '../common/DateProvider'
 import './css/testHistory.css';
 
 class TestHistoryBar extends Component {
@@ -12,13 +13,13 @@ class TestHistoryBar extends Component {
 
   componentDidMount() {
     this.setState({
-      failureDivs: getFailureDivs(this.props.testFailureDurations, this.historyBarDiv)
+      failureDivs: getFailureDivs(this.props.testFailureDurations, this.historyBarDiv, now())
     });
   }
 
   componentWillReceiveProps(props) {
     this.setState({
-      failureDivs: getFailureDivs(this.props.testFailureDurations, this.historyBarDiv)
+      failureDivs: getFailureDivs(this.props.testFailureDurations, this.historyBarDiv, now())
     });
   }
 
