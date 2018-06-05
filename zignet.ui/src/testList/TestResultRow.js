@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TestStatusBadge from './TestStatusBadge'
 import TestStatusLabel from './TestStatusLabel'
-import TestHistory from './TestHistory'
+import TestHistoryBar from './TestHistoryBar'
 
 class SuiteResults extends Component {
 
@@ -16,7 +16,7 @@ class SuiteResults extends Component {
           <TestStatusBadge failingFromDate={testResult.FailingFromDate}/>&nbsp;
           <TestStatusLabel failingFromDate={testResult.FailingFromDate} passingFromDate={testResult.PassingFromDate}/>
         </td>
-        <td style={{"width": "30%"}}><TestHistory testFailureDurations={testResult.TestFailureDurations}/></td>
+        <td style={{"width": "30%"}}><TestHistoryBar testFailureDurations={testResult.TestFailureDurations}/></td>
       </tr>
     );
   }

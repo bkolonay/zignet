@@ -1,4 +1,16 @@
+import React from 'react';
 import moment from 'moment';
+
+function getFailureDivs(testFailureDurations, historyBarDiv) {
+  const historyBarWidth = this.historyBarDiv.offsetWidth;
+  let now = moment();
+  var failureDivs = [];
+  for (var i = 0; i < testFailureDurations.length; i++) {
+    let failureDivAttributes = getErrorDivAttributes(historyBarWidth, now, testFailureDurations[i]);
+    failureDivs.push(<div key={i} style={failureDivAttributes} title={getDivTitle(testFailureDurations[i])}/>);
+  }
+  return failureDivs;
+}
 
   /* 
     helped with percentage calculations:
@@ -49,4 +61,4 @@ function getDivTitle(testFailureDuration) {
   }      
 }
 
-export { getErrorDivAttributes, getDivTitle };
+export { getFailureDivs };
