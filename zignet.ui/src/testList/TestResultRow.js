@@ -13,8 +13,8 @@ class SuiteResults extends Component {
         <td style={{"width": "52%"}}>{testResult.TestName}</td>
         {grouped && <td><small className="text-muted">{testResult.SuiteName}</small></td>}
         <td style={{"width": "18%"}}>
-          <TestStatusBadge failingFromDate={this.props.failingFromDate}/>
-          <TestStatusLabel failingFromDate={this.props.failingFromDate} passingFromDate={this.props.passingFromDate}/>
+          <TestStatusBadge failingFromDate={testResult.FailingFromDate}/>&nbsp;
+          <TestStatusLabel failingFromDate={testResult.FailingFromDate} passingFromDate={testResult.PassingFromDate}/>
         </td>
         <td style={{"width": "30%"}}><TestHistory testFailureDurations={testResult.TestFailureDurations}/></td>
       </tr>
