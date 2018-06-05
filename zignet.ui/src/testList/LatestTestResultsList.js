@@ -30,10 +30,8 @@ class LatestTestResultsList extends Component {
           </thead>
           <tbody>
             {this.props.testResults.map((testResult) =>
-              <TestResultRow key={testResult.TestResultID}
-                                testResult={testResult}
-                                testResultsGrouped={grouped} />
-            )}        
+              <TestResultRow key={testResult.TestResultID} testResult={testResult} grouped={grouped} />
+            )}
           </tbody>
         </table>
       </div>
