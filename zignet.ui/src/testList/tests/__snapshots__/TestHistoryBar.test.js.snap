@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot with a multiple failure durations 1`] = `
+<div
+  className="testHistoryBar"
+>
+  <div
+    id="div0"
+  />
+  <div
+    id="div1"
+  />
+</div>
+`;
+
+exports[`snapshot with no failures 1`] = `
+<div
+  className="testHistoryBar"
+/>
+`;
+
+exports[`snapshot with single failure duration 1`] = `
+<div
+  className="testHistoryBar"
+>
+  <div
+    id="div0"
+  />
+</div>
+`;
