@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
 import TestHistoryBar from '../TestHistoryBar';
-import { getFailureDivs } from '../../common/HistoryBarProvider'
+import { getFailureDivs } from '../HistoryBarProvider'
 
-jest.mock('../../common/HistoryBarProvider');
+jest.mock('../HistoryBarProvider');
 
 it('renders with no failures', () => {
   getFailureDivs.mockReturnValue([]);

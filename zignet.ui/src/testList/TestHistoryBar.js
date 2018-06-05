@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getFailureDivs } from '../common/HistoryBarProvider'
+import { getFailureDivs } from './HistoryBarProvider'
 import './css/testHistory.css';
 
 class TestHistoryBar extends Component {
