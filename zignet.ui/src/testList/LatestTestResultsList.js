@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import TestResultRow from './TestResultRow'
 import HomeLink from '../common/HomeLink'
+import GroupSuitesButton from './GroupSuitesButton'
 
 class LatestTestResultsList extends Component {
-
-  _getGroupButton() {
-    var suiteId = this.props.suiteId;
-    if (this.props.grouped)
-      return <a href={"/" + suiteId} className="btn btn-outline-primary float-right" role="button" title="Click to ungroup results">Ungroup</a>
-    else
-      return <a href={"/" + suiteId + "?group=true"} className="btn btn-primary float-right" role="button" title="Click to group tests by environment">Group</a>
-  }
 
   _getTypeHeader(grouped)
   {
@@ -19,23 +12,25 @@ class LatestTestResultsList extends Component {
   }
 
   render() {
+    const grouped = this.props.grouped;
+
     return (
       <div className="container">
-        <h4><HomeLink grouped={this.props.grouped}/></h4>
+        <h4><HomeLink grouped={grouped}/></h4>
         <div className="row">
           <div className="col-4"/>
           <div className="col-4">
             <h2 className="text-center">{this.props.suiteName}</h2>
           </div>
           <div className="col-4">
-            {this._getGroupButton()}
+            <GroupSuitesButton grouped={grouped} suiteId={this.props.suiteId}/>
           </div>
         </div>
         <table className="table">
           <thead>
             <tr>
               <th scope="col">Name</th>
-              {this._getTypeHeader(this.props.grouped)}
+              {this._getTypeHeader(grouped)}
               <th scope="col">Status</th>
               <th scope="col">History</th>
             </tr>
@@ -44,7 +39,7 @@ class LatestTestResultsList extends Component {
             {this.props.testResults.map((testResult) =>
               <TestResultRow key={testResult.TestResultID}
                                 testResult={testResult}
-                                testResultsGrouped={this.props.grouped} />
+                                testResultsGrouped={grouped} />
             )}        
           </tbody>
         </table>
