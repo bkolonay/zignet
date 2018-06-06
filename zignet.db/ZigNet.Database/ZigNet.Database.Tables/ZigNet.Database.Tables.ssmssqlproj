@@ -80,8 +80,8 @@
           <FullPath>create-test-results-table.sql</FullPath>
         </FileNode>
         <FileNode Name="create-test-results-table-suiteResultId-index.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:JERRY-WIN10\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>JERRY-WIN10\SQLEXPRESS</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>create-test-results-table-suiteResultId-index.sql</FullPath>
         </FileNode>
