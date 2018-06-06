@@ -5,13 +5,25 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Utility", "ZigNet.Database.Utility\ZigNet.Database.Utility.ssmssqlproj", "{DB9342DD-07D8-4FC4-81A4-57AC7E7C0388}"
 EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Tables", "ZigNet.Database.Tables\ZigNet.Database.Tables.ssmssqlproj", "{95F4F075-0C51-4694-B388-4FA0C5219E06}"
+EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Maintenance", "ZigNet.Database.Maintenance\ZigNet.Database.Maintenance.ssmssqlproj", "{FFEE0607-D782-4691-AA1D-732A2FB24B80}"
+EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Analytics", "ZigNet.Database.Analytics\ZigNet.Database.Analytics.ssmssqlproj", "{CC5340B3-3047-461D-911D-95FCFE34FA7F}"
+EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Data", "ZigNet.Database.Data\ZigNet.Database.Data.ssmssqlproj", "{5AE99365-60EE-4574-B2AE-E009B0843269}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Default|Default = Default|Default
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DB9342DD-07D8-4FC4-81A4-57AC7E7C0388}.Default|Default.ActiveCfg = Default
-		{8E15CBF1-2B20-4E8E-8AE8-8D3EDF05176F}.Default|Default.ActiveCfg = Default
+		{95F4F075-0C51-4694-B388-4FA0C5219E06}.Default|Default.ActiveCfg = Default
+		{E5C68C4D-3DD7-43EA-BAEC-BBCC950497C6}.Default|Default.ActiveCfg = Default
+		{FFEE0607-D782-4691-AA1D-732A2FB24B80}.Default|Default.ActiveCfg = Default
+		{CC5340B3-3047-461D-911D-95FCFE34FA7F}.Default|Default.ActiveCfg = Default
+		{5AE99365-60EE-4574-B2AE-E009B0843269}.Default|Default.ActiveCfg = Default
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

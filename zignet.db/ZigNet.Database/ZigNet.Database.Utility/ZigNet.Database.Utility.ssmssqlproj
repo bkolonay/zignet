@@ -25,6 +25,66 @@
           <AssociatedConnUserName />
           <FullPath>backup-database.sql</FullPath>
         </FileNode>
+        <FileNode Name="insert-dummy-suite-data.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>insert-dummy-suite-data.sql</FullPath>
+        </FileNode>
+        <FileNode Name="insert-dummy-suite-result-data.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>insert-dummy-suite-result-data.sql</FullPath>
+        </FileNode>
+        <FileNode Name="insert-dummy-suite-test-data.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>insert-dummy-suite-test-data.sql</FullPath>
+        </FileNode>
+        <FileNode Name="insert-dummy-test-data.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>insert-dummy-test-data.sql</FullPath>
+        </FileNode>
+        <FileNode Name="insert-dummy-test-result-data.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>insert-dummy-test-result-data.sql</FullPath>
+        </FileNode>
+        <FileNode Name="reset-database.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>reset-database.sql</FullPath>
+        </FileNode>
+        <FileNode Name="reset-suite-and-category-dummy-data.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>reset-suite-and-category-dummy-data.sql</FullPath>
+        </FileNode>
+        <FileNode Name="reset-suite-results-dummy-data.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>reset-suite-results-dummy-data.sql</FullPath>
+        </FileNode>
+        <FileNode Name="reset-test-results-dummy-data.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>reset-test-results-dummy-data.sql</FullPath>
+        </FileNode>
+        <FileNode Name="update-duplicated-test-failure-types.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:JERRY-WIN10\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>JERRY-WIN10\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>update-duplicated-test-failure-types.sql</FullPath>
+        </FileNode>
       </Items>
     </LogicalFolder>
     <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">

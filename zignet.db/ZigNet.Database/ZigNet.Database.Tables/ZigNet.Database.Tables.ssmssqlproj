@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="ZigNet.Database.Tables">
+  <Items>
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items>
+        <ConnectionNode Name="JERRY-WIN10\SQLEXPRESS:JERRY-WIN10\bmkol">
+          <Created>2018-06-06T09:13:48.343319-07:00</Created>
+          <Type>SQL</Type>
+          <Server>JERRY-WIN10\SQLEXPRESS</Server>
+          <UserName />
+          <Authentication>Windows Authentication</Authentication>
+          <InitialDB>master</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="alter-latest-test-results-table-add-suite-name-column.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>alter-latest-test-results-table-add-suite-name-column.sql</FullPath>
+        </FileNode>
+        <FileNode Name="alter-suite-results-make-end-date-nullable.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>alter-suite-results-make-end-date-nullable.sql</FullPath>
+        </FileNode>
+        <FileNode Name="alter-suites-table-add-application-id-column.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>alter-suites-table-add-application-id-column.sql</FullPath>
+        </FileNode>
+        <FileNode Name="alter-suites-table-add-environment-id-column.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>alter-suites-table-add-environment-id-column.sql</FullPath>
+        </FileNode>
+        <FileNode Name="alter-suites-table-remove-app-and-env-strings.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:JERRY-WIN10\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>JERRY-WIN10\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>alter-suites-table-remove-app-and-env-strings.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-applications-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-applications-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-environments-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-environments-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-latest-test-result-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-latest-test-result-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-suite-categories-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-suite-categories-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-suite-results-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-suite-results-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-suite-result-types-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-suite-result-types-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-suite-suite-categories-flex-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-suite-suite-categories-flex-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-suite-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-suite-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-suite-test-flex-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-suite-test-flex-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-temp-test-results-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-temp-test-results-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-test-categories-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-test-categories-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-test-failure-details-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-test-failure-details-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-test-failure-duration-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-test-failure-duration-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-test-failure-types-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-test-failure-types-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-test-results-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-test-results-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-test-results-table-suiteResultId-index.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-test-results-table-suiteResultId-index.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-test-result-test-failure-details-flex-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-test-result-test-failure-details-flex-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-test-result-test-failure-type-flex-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-test-result-test-failure-type-flex-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-test-result-types-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-test-result-types-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-test-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-test-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-test-test-categories-flex-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-test-test-categories-flex-table.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>
