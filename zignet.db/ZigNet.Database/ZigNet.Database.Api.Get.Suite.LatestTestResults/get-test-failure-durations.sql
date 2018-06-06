@@ -1,5 +1,11 @@
 USE ZigNet
 
+--DROP INDEX IX_TestFailureDurations_SuiteId_TestId_FailureEndDateTime
+--    ON TestFailureDurations
+
+CREATE NONCLUSTERED INDEX IX_TestFailureDurations_SuiteId_TestId_FailureEndDateTime
+    ON TestFailureDurations (SuiteId, TestId, FailureEndDateTime)
+
 SELECT 
     [Extent1].[TestFailureDurationID] AS [TestFailureDurationID], 
     [Extent1].[SuiteId] AS [SuiteId], 
