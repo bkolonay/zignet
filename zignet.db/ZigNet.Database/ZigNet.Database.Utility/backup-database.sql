@@ -1,7 +1,7 @@
 USE ZigNet
 
-BACKUP DATABASE ZigNetTestResults
-TO DISK = 'C:\zignet\db-backups\ZigNet-baseline--1-0-0--12-17-2017-12-30-pm.bak' WITH FORMAT
+BACKUP DATABASE ZigNet
+TO DISK = 'C:\code\db-backups\zignet-jerry-backup-06-06-2018-10-45am.bak' WITH FORMAT
 
 -- https://docs.microsoft.com/en-us/sql/relational-databases/backup-restore/create-a-full-database-backup-sql-server
 -- By default, BACKUP appends the backup to an existing media set, preserving existing backup sets
