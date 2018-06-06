@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="ZigNet.Database.Release-01-01-00">
+  <Items>
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items />
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="alter-latest-test-results-table-add-suite-name-column.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>alter-latest-test-results-table-add-suite-name-column.sql</FullPath>
+        </FileNode>
+        <FileNode Name="alter-suite-results-make-end-date-nullable.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>alter-suite-results-make-end-date-nullable.sql</FullPath>
+        </FileNode>
+        <FileNode Name="alter-suites-table-add-application-id-column.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>alter-suites-table-add-application-id-column.sql</FullPath>
+        </FileNode>
+        <FileNode Name="alter-suites-table-add-environment-id-column.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>alter-suites-table-add-environment-id-column.sql</FullPath>
+        </FileNode>
+        <FileNode Name="alter-suites-table-remove-app-and-env-strings.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>alter-suites-table-remove-app-and-env-strings.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-applications-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-applications-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-environments-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-environments-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-latest-test-result-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-latest-test-result-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-temp-test-results-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-temp-test-results-table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="create-test-failure-duration-table.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>create-test-failure-duration-table.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>
