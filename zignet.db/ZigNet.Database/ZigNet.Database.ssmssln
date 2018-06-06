@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{59A5901A-039
 EndProject
 Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Api.Get.Suite.LatestTestResults", "ZigNet.Database.Api.Get.Suite.LatestTestResults\ZigNet.Database.Api.Get.Suite.LatestTestResults.ssmssqlproj", "{EB9021D1-AFD6-4201-89B9-1FE32BB0C9E9}"
 EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Api.Get.LatestSuiteResults", "ZigNet.Database.Api.Get.LatestSuiteResults\ZigNet.Database.Api.Get.LatestSuiteResults.ssmssqlproj", "{6F3A683F-65EE-41BB-9F47-4E24FFE8D40D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Default|Default = Default|Default
@@ -34,6 +36,7 @@ Global
 		{502D7D93-43EB-4EAE-9DD9-8400B86B8522}.Default|Default.ActiveCfg = Default
 		{4E67C0CA-9891-4189-A9B1-7436D4789409}.Default|Default.ActiveCfg = Default
 		{EB9021D1-AFD6-4201-89B9-1FE32BB0C9E9}.Default|Default.ActiveCfg = Default
+		{6F3A683F-65EE-41BB-9F47-4E24FFE8D40D}.Default|Default.ActiveCfg = Default
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,5 +44,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{502D7D93-43EB-4EAE-9DD9-8400B86B8522} = {7D3086B2-CBFC-4C3E-B5CD-473EA72426EF}
 		{EB9021D1-AFD6-4201-89B9-1FE32BB0C9E9} = {59A5901A-0399-40A7-BB4B-C6044EBA0431}
+		{6F3A683F-65EE-41BB-9F47-4E24FFE8D40D} = {59A5901A-0399-40A7-BB4B-C6044EBA0431}
 	EndGlobalSection
 EndGlobal
