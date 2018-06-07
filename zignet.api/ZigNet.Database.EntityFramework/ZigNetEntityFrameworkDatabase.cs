@@ -57,6 +57,7 @@ namespace ZigNet.Database.EntityFramework
         public IEnumerable<LatestTestResultDto> GetLatestTestResults(int suiteId, bool groupResultsByApplicationAndEnvironment)
         {
             var latestTestResults = new List<LatestTestResult>();
+
             if (groupResultsByApplicationAndEnvironment)
             {
                 var suite = _zigNetEntitiesReadOnly.GetSuite(suiteId);
@@ -68,18 +69,20 @@ namespace ZigNet.Database.EntityFramework
             else
                 latestTestResults = _zigNetEntitiesReadOnly.GetLatestTestResults().Where(ltr => ltr.SuiteId == suiteId).ToList();
 
+            var allDatabaseTestFailureDurations = _zigNetEntitiesReadOnly.GetTestFailureDurations().ToList();
+
             var latestTestResultDtos = new List<LatestTestResultDto>();
             var utcNow = DateTime.UtcNow;
             foreach (var latestTestResult in latestTestResults)
             {
                 var testFailureDurationLimit = utcNow.AddHours(-24);
-                var databaseTestFailureDurations = _zigNetEntitiesReadOnly.GetTestFailureDurations().Where(tfd =>
+                var databaseTestFailureDurationsForTestResult = allDatabaseTestFailureDurations.Where(tfd =>
                     (tfd.SuiteId == latestTestResult.SuiteId && tfd.TestId == latestTestResult.TestId) &&
                     (tfd.FailureEndDateTime > testFailureDurationLimit || tfd.FailureEndDateTime == null)
                 );
 
                 var testFailureDurations = new List<TestFailureDurationDto>();
-                foreach (var databaseTestFailureDuration in databaseTestFailureDurations)
+                foreach (var databaseTestFailureDuration in databaseTestFailureDurationsForTestResult)
                     testFailureDurations.Add(new TestFailureDurationDto
                     {
                         FailureStart = databaseTestFailureDuration.FailureStartDateTime,

@@ -106,14 +106,15 @@ namespace ZigNet.Database.EntityFramework
                     s.Environment.EnvironmentNameAbbreviation
                 });
 
+            var allTemporaryTestResults = _zigNetEntities.TemporaryTestResults.AsNoTracking().ToList();
+
             var suiteSummaries = new List<SuiteSummary>();
             foreach (var suite in suites)
             {
-                var temporaryTestResults = _zigNetEntities.TemporaryTestResults
-                    .AsNoTracking()
+                var temporaryTestResultsForSuite = allTemporaryTestResults
                     .Where(ttr => ttr.SuiteId == suite.SuiteID);
 
-                var firstTemporaryTestResult = temporaryTestResults.FirstOrDefault();
+                var firstTemporaryTestResult = temporaryTestResultsForSuite.FirstOrDefault();
                 var suiteEndTime = firstTemporaryTestResult == null ? null : firstTemporaryTestResult.SuiteResult.SuiteResultEndDateTime;
 
                 suiteSummaries.Add(
@@ -122,9 +123,9 @@ namespace ZigNet.Database.EntityFramework
                         SuiteIds = new List<int> { suite.SuiteID },
                         SuiteName = string.Format("{0} {1} ({2})",
                             suite.ApplicationNameAbbreviation, suite.SuiteName, suite.EnvironmentNameAbbreviation),
-                        TotalFailedTests = temporaryTestResults.Where(t => t.TestResultTypeId == 1).Count(),
-                        TotalInconclusiveTests = temporaryTestResults.Where(t => t.TestResultTypeId == 2).Count(),
-                        TotalPassedTests = temporaryTestResults.Where(t => t.TestResultTypeId == 3).Count(),
+                        TotalFailedTests = temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 1).Count(),
+                        TotalInconclusiveTests = temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 2).Count(),
+                        TotalPassedTests = temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 3).Count(),
                         SuiteEndTime = suiteEndTime
                     }
                 );
