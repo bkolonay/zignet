@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# SQL Server Management Studio Solution File, Format Version 14.00
-VisualStudioVersion = 14.0.23107.0
+# SQL Server Management Studio Solution File, Format Version 13.00
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Utility", "ZigNet.Database.Utility\ZigNet.Database.Utility.ssmssqlproj", "{DB9342DD-07D8-4FC4-81A4-57AC7E7C0388}"
 EndProject
@@ -34,9 +34,9 @@ Global
 		{CC5340B3-3047-461D-911D-95FCFE34FA7F}.Default|Default.ActiveCfg = Default
 		{5AE99365-60EE-4574-B2AE-E009B0843269}.Default|Default.ActiveCfg = Default
 		{502D7D93-43EB-4EAE-9DD9-8400B86B8522}.Default|Default.ActiveCfg = Default
-		{4E67C0CA-9891-4189-A9B1-7436D4789409}.Default|Default.ActiveCfg = Default
 		{EB9021D1-AFD6-4201-89B9-1FE32BB0C9E9}.Default|Default.ActiveCfg = Default
 		{6F3A683F-65EE-41BB-9F47-4E24FFE8D40D}.Default|Default.ActiveCfg = Default
+		{5D8322E7-33C3-42C2-BF28-BB80E6E49B7B}.Default|Default.ActiveCfg = Default
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
