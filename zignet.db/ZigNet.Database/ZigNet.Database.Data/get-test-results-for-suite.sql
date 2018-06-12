@@ -4,12 +4,12 @@ JOIN TestResults
 	ON TestResults.SuiteResultId = SuiteResults.SuiteResultID
 JOIN Tests
 	ON TestResults.TestId = Tests.TestID
-WHERE SuiteResults.SuiteId = 26
+WHERE SuiteResults.SuiteId = 40
 ORDER BY TestId ASC
 
 SELECT TestResults.TestResultTypeId, COUNT(TestResults.TestResultTypeId) as RecordCount
 	FROM SuiteResults
 JOIN TestResults
 	ON TestResults.SuiteResultId = SuiteResults.SuiteResultID
-WHERE SuiteResults.SuiteId = 26
+WHERE SuiteResults.SuiteId = 36
 GROUP BY TestResults.TestResultTypeId
