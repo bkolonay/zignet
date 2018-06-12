@@ -6,4 +6,4 @@ JOIN Suites
 	ON SuiteResults.SuiteId = Suites.SuiteID
 JOIN SuiteResultTypes
 	ON SuiteResults.SuiteResultTypeId = SuiteResultTypes.SuiteResultTypeID
-WHERE SuiteResults.SuiteId = 40
+WHERE SuiteResults.SuiteId = 47
