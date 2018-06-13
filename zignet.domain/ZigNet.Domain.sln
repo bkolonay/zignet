@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZigNet.Domain", "ZigNet.Domain.csproj", "{A2C0F0D7-F8F8-42FC-A57B-74DF6B5312F7}"
 EndProject
@@ -21,5 +21,13 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA31CD9D-2AB4-4EB5-9271-34D181A74CC7}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.prd.costargroup.com/tfs/costarcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ZigNet.Domain.csproj
+		SccLocalPath1 = .
 	EndGlobalSection
 EndGlobal

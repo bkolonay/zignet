@@ -76,4 +76,40 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCF5F878-FB81-45EC-8F0B-A9D616D199E1}
 	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 11
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.prd.costargroup.com/tfs/costarcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ZigNet.Api\\ZigNet.Api.csproj
+		SccProjectName1 = ZigNet.Api
+		SccLocalPath1 = ZigNet.Api
+		SccProjectUniqueName2 = ZigNet.Database\\ZigNet.Database.csproj
+		SccProjectName2 = ZigNet.Database
+		SccLocalPath2 = ZigNet.Database
+		SccProjectUniqueName3 = ZigNet.Database.EntityFramework\\ZigNet.Database.EntityFramework.csproj
+		SccProjectName3 = ZigNet.Database.EntityFramework
+		SccLocalPath3 = ZigNet.Database.EntityFramework
+		SccProjectUniqueName4 = ZigNet.Business\\ZigNet.Business.csproj
+		SccProjectName4 = ZigNet.Business
+		SccLocalPath4 = ZigNet.Business
+		SccProjectUniqueName5 = ZigNet.Business.Tests\\ZigNet.Business.Tests.csproj
+		SccProjectName5 = ZigNet.Business.Tests
+		SccLocalPath5 = ZigNet.Business.Tests
+		SccProjectUniqueName6 = ZigNet.Api.Mapping\\ZigNet.Api.Mapping.csproj
+		SccProjectName6 = ZigNet.Api.Mapping
+		SccLocalPath6 = ZigNet.Api.Mapping
+		SccProjectUniqueName7 = ZigNet.Api.Mapping.Tests\\ZigNet.Api.Mapping.Tests.csproj
+		SccProjectName7 = ZigNet.Api.Mapping.Tests
+		SccLocalPath7 = ZigNet.Api.Mapping.Tests
+		SccProjectUniqueName8 = ZigNet.Database.EntityFramework.Tests\\ZigNet.Database.EntityFramework.Tests.csproj
+		SccProjectName8 = ZigNet.Database.EntityFramework.Tests
+		SccLocalPath8 = ZigNet.Database.EntityFramework.Tests
+		SccProjectUniqueName9 = ZigNet.Api.Model\\ZigNet.Api.Model.csproj
+		SccProjectName9 = ZigNet.Api.Model
+		SccLocalPath9 = ZigNet.Api.Model
+		SccProjectUniqueName10 = ZigNet.Database.DataGenerator\\ZigNet.Database.DataGenerator.csproj
+		SccProjectName10 = ZigNet.Database.DataGenerator
+		SccLocalPath10 = ZigNet.Database.DataGenerator
+	EndGlobalSection
 EndGlobal
