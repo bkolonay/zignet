@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using ZigNet.Domain.Test;
 using ZigNetTestResult = ZigNet.Domain.Test.TestResult;
 using ZigNet.Database.DTOs;
+using ZigNet.Services;
 
 namespace ZigNet.Business.Tests
 {

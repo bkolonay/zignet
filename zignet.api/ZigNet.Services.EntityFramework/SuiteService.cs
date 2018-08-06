@@ -1,6 +1,7 @@
 ﻿using System.Linq;
+using ZigNet.Database.EntityFramework;
 
-namespace ZigNet.Database.EntityFramework
+namespace ZigNet.Services.EntityFramework
 {
     public class SuiteService : ISuiteService
     {

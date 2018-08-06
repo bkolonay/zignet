@@ -1,4 +1,4 @@
-﻿namespace ZigNet.Database
+﻿namespace ZigNet.Services
 {
     public interface ISuiteService
     {

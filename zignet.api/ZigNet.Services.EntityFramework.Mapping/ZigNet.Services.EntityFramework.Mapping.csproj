@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{26B84886-3E8D-442D-A4EF-5E89D5B5F11D}</ProjectGuid>
+    <ProjectGuid>{E53EF582-5EAE-4016-82F8-05C5B6FDF4D4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ZigNet.Database</RootNamespace>
-    <AssemblyName>ZigNet.Database</AssemblyName>
+    <RootNamespace>ZigNet.Services.EntityFramework.Mapping</RootNamespace>
+    <AssemblyName>ZigNet.Services.EntityFramework.Mapping</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -48,14 +48,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\SuiteSummary.cs" />
-    <Compile Include="DTOs\LatestTestResult.cs" />
-    <Compile Include="DTOs\TestFailureDuration.cs" />
-    <Compile Include="IZigNetDatabase.cs" />
+    <Compile Include="ISuiteResultMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SuiteResultMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZigNet.Database.EntityFramework\ZigNet.Database.EntityFramework.csproj">
+      <Project>{CC3DA63B-D39A-41A9-8941-2203A92E250A}</Project>
+      <Name>ZigNet.Database.EntityFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

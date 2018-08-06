@@ -1,6 +1,7 @@
-﻿using ZigNet.Database.EntityFramework.Mapping;
+﻿using ZigNet.Database.EntityFramework;
+using ZigNet.Services.EntityFramework.Mapping;
 
-namespace ZigNet.Database.EntityFramework
+namespace ZigNet.Services.EntityFramework
 {
     public class SuiteResultService : ISuiteResultService
     {

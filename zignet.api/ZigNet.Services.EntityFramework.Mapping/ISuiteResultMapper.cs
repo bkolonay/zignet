@@ -1,4 +1,6 @@
-﻿namespace ZigNet.Database.EntityFramework.Mapping
+﻿using ZigNet.Database.EntityFramework;
+
+namespace ZigNet.Services.EntityFramework.Mapping
 {
     public interface ISuiteResultMapper
     {

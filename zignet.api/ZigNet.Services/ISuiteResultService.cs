@@ -1,6 +1,6 @@
 ﻿using ZigNet.Domain.Suite;
 
-namespace ZigNet.Database
+namespace ZigNet.Services
 {
     public interface ISuiteResultService
     {

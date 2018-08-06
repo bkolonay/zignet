@@ -1,6 +1,7 @@
 ﻿using System;
+using ZigNet.Database.EntityFramework;
 
-namespace ZigNet.Database.EntityFramework.Mapping
+namespace ZigNet.Services.EntityFramework.Mapping
 {
     public class SuiteResultMapper : ISuiteResultMapper
     {

@@ -7,7 +7,9 @@ using ZigNet.Api.Mapping;
 using ZigNet.Business;
 using ZigNet.Database;
 using ZigNet.Database.EntityFramework;
-using ZigNet.Database.EntityFramework.Mapping;
+using ZigNet.Services;
+using ZigNet.Services.EntityFramework;
+using ZigNet.Services.EntityFramework.Mapping;
 
 namespace ZigNet.Api
 {
