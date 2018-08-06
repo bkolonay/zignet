@@ -23,10 +23,12 @@ namespace ZigNet.Api
             container.Register<ISuiteResultMapper, SuiteResultMapper>(Lifestyle.Scoped);
             container.Register<ITemporaryTestResultsService, TemporaryTestResultsService>(Lifestyle.Scoped);
             container.Register<ISuiteResultService, SuiteResultService>(Lifestyle.Scoped);
+            container.Register<ISuiteService, SuiteService>(Lifestyle.Scoped);
 
             container.Register<IZigNetEntitiesWriter, ZigNetEntitiesWriter>(Lifestyle.Scoped);
             container.Register<IZigNetEntitiesReadOnly, ZigNetEntitiesReadOnly>(Lifestyle.Scoped);
             container.Register<IZigNetDatabase, ZigNetEntityFrameworkDatabase>(Lifestyle.Scoped);
+
             container.Register<IZigNetBusiness, ZigNetBusiness>(Lifestyle.Scoped);
             container.Register<IZigNetApiMapper, ZigNetApiMapper>(Lifestyle.Scoped);
 

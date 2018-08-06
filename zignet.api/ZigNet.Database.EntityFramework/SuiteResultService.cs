@@ -17,10 +17,10 @@ namespace ZigNet.Database.EntityFramework
         {
             var dbSuiteResult = _suiteResultMapper.Map(suiteResult);
 
-            if (suiteResult.SuiteResultID == 0)
+            if (dbSuiteResult.SuiteResultID == 0)
                 _zigNetEntities.SuiteResults.Add(dbSuiteResult);
             _zigNetEntities.SaveChanges();
-            return suiteResult.SuiteResultID;
+            return dbSuiteResult.SuiteResultID;
         }
     }
 }

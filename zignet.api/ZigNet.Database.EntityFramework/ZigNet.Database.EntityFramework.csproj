@@ -86,6 +86,7 @@
     <Compile Include="SuiteResultType.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SuiteService.cs" />
     <Compile Include="TemporaryTestResult.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>

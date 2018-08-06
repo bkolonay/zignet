@@ -13,14 +13,15 @@ namespace ZigNet.Business
         private IZigNetDatabase _zignetDatabase;
         private ITemporaryTestResultsService _temporaryTestResultsService;
         private ISuiteResultService _suiteResultService;
+        private ISuiteService _suiteService;
 
-        public ZigNetBusiness(IZigNetDatabase zigNetDatabase,
-            ITemporaryTestResultsService temporaryTestResultsService,
-            ISuiteResultService suiteResultService)
+        public ZigNetBusiness(IZigNetDatabase zigNetDatabase, ITemporaryTestResultsService temporaryTestResultsService,
+            ISuiteResultService suiteResultService, ISuiteService suiteService)
         {
             _zignetDatabase = zigNetDatabase;
             _temporaryTestResultsService = temporaryTestResultsService;
             _suiteResultService = suiteResultService;
+            _suiteService = suiteService;
         }
 
         public int StartSuite(int suiteId)
@@ -36,7 +37,8 @@ namespace ZigNet.Business
         }
         public int StartSuite(string applicationName, string suiteName, string environmentName)
         {
-            return _zignetDatabase.StartSuite(applicationName, suiteName, environmentName);
+            var suiteId = _suiteService.GetSuiteId(applicationName, suiteName, environmentName);
+            return StartSuite(suiteId);
         }
         public void StopSuite(int suiteResultId, SuiteResultType suiteResultType)
         {
