@@ -3,7 +3,7 @@
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
-        <ConnectionNode Name="JERRY-WIN10\SQLEXPRESS:JERRY-WIN10\bmkol">
+        <ConnectionNode Name="JERRY-WIN10\SQLEXPRESS:US\bkolonay">
           <Created>2018-06-06T13:27:43.6291977-07:00</Created>
           <Type>SQL</Type>
           <Server>JERRY-WIN10\SQLEXPRESS</Server>
@@ -11,6 +11,18 @@
           <Authentication>Windows Authentication</Authentication>
           <InitialDB>ZigNet</InitialDB>
           <LoginTimeout>30</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+        <ConnectionNode Name="LABKOLONAY:US\bkolonay">
+          <Created>2018-08-06T10:13:42.4880287-07:00</Created>
+          <Type>SQL</Type>
+          <Server>LABKOLONAY</Server>
+          <UserName />
+          <Authentication>Windows Authentication</Authentication>
+          <InitialDB>ZigNet</InitialDB>
+          <LoginTimeout>15</LoginTimeout>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
@@ -30,6 +42,12 @@
           <AssociatedConnSrvName>JERRY-WIN10\SQLEXPRESS</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>delete-old-test-failure-durations.sql</FullPath>
+        </FileNode>
+        <FileNode Name="update-failing-test-to-passing.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:LABKOLONAY:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>LABKOLONAY</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>update-failing-test-to-passing.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>
