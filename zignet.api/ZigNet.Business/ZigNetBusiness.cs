@@ -14,7 +14,7 @@ namespace ZigNet.Business
         private ITemporaryTestResultsService _temporaryTestResultsService;
         private ISuiteResultService _suiteResultService;
 
-        public ZigNetBusiness(IZigNetDatabase zigNetDatabase, 
+        public ZigNetBusiness(IZigNetDatabase zigNetDatabase,
             ITemporaryTestResultsService temporaryTestResultsService,
             ISuiteResultService suiteResultService)
         {

@@ -7,6 +7,7 @@ using ZigNet.Api.Mapping;
 using ZigNet.Business;
 using ZigNet.Database;
 using ZigNet.Database.EntityFramework;
+using ZigNet.Database.EntityFramework.Mapping;
 
 namespace ZigNet.Api
 {
@@ -18,6 +19,11 @@ namespace ZigNet.Api
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
 
             container.Register<IZigNetEntitiesWrapper, ZigNetEntitiesWrapper>(Lifestyle.Scoped);
+
+            container.Register<ISuiteResultMapper, SuiteResultMapper>(Lifestyle.Scoped);
+            container.Register<ITemporaryTestResultsService, TemporaryTestResultsService>(Lifestyle.Scoped);
+            container.Register<ISuiteResultService, SuiteResultService>(Lifestyle.Scoped);
+
             container.Register<IZigNetEntitiesWriter, ZigNetEntitiesWriter>(Lifestyle.Scoped);
             container.Register<IZigNetEntitiesReadOnly, ZigNetEntitiesReadOnly>(Lifestyle.Scoped);
             container.Register<IZigNetDatabase, ZigNetEntityFrameworkDatabase>(Lifestyle.Scoped);
