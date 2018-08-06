@@ -21,8 +21,10 @@ namespace ZigNet.Business.Tests
             {
                 var zignetDatabase = new Mock<IZigNetDatabase>();
                 zignetDatabase.Setup(zd => zd.SaveSuite(It.IsAny<Suite>())).Returns(1);
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 var suiteId = zigNetBusiness.CreateSuite(new Suite());
 
                 Assert.AreEqual(1, suiteId);
@@ -34,13 +36,15 @@ namespace ZigNet.Business.Tests
             {
                 var zignetDatabase = new Mock<IZigNetDatabase>();
                 zignetDatabase.Setup(zd => zd.GetMappedSuites()).Returns(new List<Suite> { new Suite { Name = "suite 1" } });
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
 
                 var suite = new Suite
                 {
                     Name = "suite 1"
                 };
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 var suiteId = zigNetBusiness.CreateSuite(suite);
             }
         }
@@ -55,8 +59,10 @@ namespace ZigNet.Business.Tests
                 zignetDatabase.Setup(zd => zd.GetSuiteCategoriesForSuite(1)).Returns(new List<SuiteCategory> {
                     new SuiteCategory { Name = "suite category 1" }
                 });
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 zigNetBusiness.AddSuiteCategory(1, "suite category 1");
             }
 
@@ -67,8 +73,10 @@ namespace ZigNet.Business.Tests
                 zignetDatabase.Setup(zd => zd.GetMappedSuites()).Returns(new List<Suite> {
                     new Suite { SuiteID = 1, Categories = new List<SuiteCategory>() }
                 });
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 zigNetBusiness.AddSuiteCategory(1, "suite category 2");
             }
 
@@ -77,8 +85,10 @@ namespace ZigNet.Business.Tests
             public void ThrowsWhenSuiteIdDoesNotExist()
             {
                 var zignetDatabase = new Mock<IZigNetDatabase>();
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 zigNetBusiness.AddSuiteCategory(99, "suite category 1");
             }
 
@@ -87,8 +97,10 @@ namespace ZigNet.Business.Tests
             public void ThrowsWhenSuiteCategoryNull()
             {
                 var zignetDatabase = new Mock<IZigNetDatabase>();
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 zigNetBusiness.AddSuiteCategory(1, null);
             }
         }
@@ -103,8 +115,10 @@ namespace ZigNet.Business.Tests
                 zignetDatabase.Setup(zd => zd.GetSuiteCategoriesForSuite(1)).Returns(new List<SuiteCategory> {
                     new SuiteCategory { Name = "suite category 1" }
                 });
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 zigNetBusiness.DeleteSuiteCategory(1, "suite category 2");
             }
 
@@ -124,8 +138,10 @@ namespace ZigNet.Business.Tests
 
                     }
                 });
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 zigNetBusiness.DeleteSuiteCategory(1, "suite category 1");
             }
 
@@ -137,8 +153,10 @@ namespace ZigNet.Business.Tests
                 zignetDatabase.Setup(zd => zd.GetSuiteCategoriesForSuite(99)).Returns(new List<SuiteCategory> {
                     new SuiteCategory { Name = "suite category 1" }
                 });
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 zigNetBusiness.DeleteSuiteCategory(99, "suite category 1");
             }
 
@@ -147,8 +165,10 @@ namespace ZigNet.Business.Tests
             public void ThrowsWhenSuiteCategoryNull()
             {
                 var zignetDatabase = new Mock<IZigNetDatabase>();
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 zigNetBusiness.DeleteSuiteCategory(1, null);
             }
         }
@@ -161,10 +181,12 @@ namespace ZigNet.Business.Tests
             public void ThrowsWhenTestNameNull()
             {
                 var zignetDatabase = new Mock<IZigNetDatabase>();
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
 
                 var testResult = new ZigNetTestResult { Test = new Test() };
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 zigNetBusiness.SaveTestResult(testResult);
             }
         }
@@ -177,14 +199,16 @@ namespace ZigNet.Business.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var zignetDatabaseMock = new Mock<IZigNetDatabase>();
-                zignetDatabaseMock.Setup(zdm => zdm.GetLatestTestResults(1, false)).Returns(
+                var zignetDatabase = new Mock<IZigNetDatabase>();
+                zignetDatabase.Setup(zdm => zdm.GetLatestTestResults(1, false)).Returns(
                     new List<LatestTestResult>{ 
                         new LatestTestResult { TestName = "test1", FailingFromDate = utcNow, TestResultID = 2 } 
                     }
                 );
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
 
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabaseMock.Object);
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 var latestTestResults = zigNetBusiness.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -199,9 +223,12 @@ namespace ZigNet.Business.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var zignetDatabaseMock = new Mock<IZigNetDatabase>();
-                zignetDatabaseMock.Setup(zdm => zdm.GetLatestTestResults(1, false)).Returns(new List<LatestTestResult>());
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabaseMock.Object);
+                var zignetDatabase = new Mock<IZigNetDatabase>();
+                zignetDatabase.Setup(zdm => zdm.GetLatestTestResults(1, false)).Returns(new List<LatestTestResult>());
+                var temporaryTestResultsService = new Mock<ITemporaryTestResultsService>();
+                var suiteResultService = new Mock<ISuiteResultService>();
+
+                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object, temporaryTestResultsService.Object, suiteResultService.Object);
                 var latestTestResults = zigNetBusiness.GetLatestTestResults(1, false).ToList();
 
                 Assert.AreEqual(0, latestTestResults.Count);

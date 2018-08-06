@@ -51,6 +51,8 @@
     <Compile Include="DTOs\SuiteSummary.cs" />
     <Compile Include="DTOs\LatestTestResult.cs" />
     <Compile Include="DTOs\TestFailureDuration.cs" />
+    <Compile Include="ISuiteResultService.cs" />
+    <Compile Include="ITemporaryTestResultsService.cs" />
     <Compile Include="IZigNetDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

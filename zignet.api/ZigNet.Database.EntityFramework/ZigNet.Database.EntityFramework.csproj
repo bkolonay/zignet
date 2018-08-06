@@ -70,6 +70,8 @@
     <Compile Include="LatestTestResult.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Mapping\ISuiteResultMapper.cs" />
+    <Compile Include="Mapping\SuiteResultMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Suite.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
@@ -80,12 +82,14 @@
     <Compile Include="SuiteResult.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SuiteResultService.cs" />
     <Compile Include="SuiteResultType.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TemporaryTestResult.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TemporaryTestResultsService.cs" />
     <Compile Include="Test.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>

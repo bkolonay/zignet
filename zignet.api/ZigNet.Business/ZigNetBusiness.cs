@@ -11,15 +11,28 @@ namespace ZigNet.Business
     public class ZigNetBusiness : IZigNetBusiness
     {
         private IZigNetDatabase _zignetDatabase;
+        private ITemporaryTestResultsService _temporaryTestResultsService;
+        private ISuiteResultService _suiteResultService;
 
-        public ZigNetBusiness(IZigNetDatabase zigNetDatabase)
+        public ZigNetBusiness(IZigNetDatabase zigNetDatabase, 
+            ITemporaryTestResultsService temporaryTestResultsService,
+            ISuiteResultService suiteResultService)
         {
             _zignetDatabase = zigNetDatabase;
+            _temporaryTestResultsService = temporaryTestResultsService;
+            _suiteResultService = suiteResultService;
         }
 
         public int StartSuite(int suiteId)
         {
-            return _zignetDatabase.StartSuite(suiteId);
+            _temporaryTestResultsService.DeleteAll(suiteId);
+            return _suiteResultService.SaveSuiteResult(
+                new SuiteResult
+                {
+                    Suite = new Suite { SuiteID = suiteId },
+                    StartTime = DateTime.UtcNow,
+                    ResultType = SuiteResultType.Inconclusive
+                });
         }
         public int StartSuite(string applicationName, string suiteName, string environmentName)
         {
