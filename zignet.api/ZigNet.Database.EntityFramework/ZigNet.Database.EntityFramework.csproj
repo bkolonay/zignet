@@ -82,15 +82,15 @@
     <Compile Include="SuiteResult.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="SuiteResultService.cs" />
+    <Compile Include="Services\SuiteResultService.cs" />
     <Compile Include="SuiteResultType.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="SuiteService.cs" />
+    <Compile Include="Services\SuiteService.cs" />
     <Compile Include="TemporaryTestResult.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="TemporaryTestResultsService.cs" />
+    <Compile Include="Services\TemporaryTestResultsService.cs" />
     <Compile Include="Test.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
