@@ -24,22 +24,6 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntitiesReadOnly = zigNetEntitiesReadOnly;
         }
 
-        public int StartSuite(int suiteId)
-        {
-            _zigNetEntitiesWriter.DeleteAllTemporaryTestResultsForSuite(suiteId);
-            return _zigNetEntitiesWriter.SaveSuiteResult(
-                new SuiteResult
-                {
-                    SuiteId = suiteId,
-                    SuiteResultStartDateTime = DateTime.UtcNow,
-                    SuiteResultTypeId = MapSuiteResultType(ZigNetSuiteResultType.Inconclusive)
-                });
-        }
-        public int StartSuite(string applicationName, string suiteName, string environmentName)
-        {
-            var suiteId = _zigNetEntitiesReadOnly.GetSuiteId(applicationName, suiteName, environmentName);
-            return StartSuite(suiteId);
-        }
         public void StopSuite(int suiteResultId, ZigNetSuiteResultType suiteResultType)
         {
             var databaseSuiteResult = _zigNetEntitiesWriter.GetSuiteResult(suiteResultId);

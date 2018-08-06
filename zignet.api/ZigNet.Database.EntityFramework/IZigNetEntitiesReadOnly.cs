@@ -7,7 +7,6 @@ namespace ZigNet.Database.EntityFramework
 {
     public interface IZigNetEntitiesReadOnly
     {
-        int GetSuiteId(string applicationName, string suiteName, string environmentName);
         string GetSuiteName(int suiteId);
         string GetSuiteNameGroupedByApplicationAndEnvironment(int suiteId);
         Suite GetSuite(int suiteId);

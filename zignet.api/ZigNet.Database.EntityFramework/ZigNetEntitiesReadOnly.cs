@@ -16,16 +16,6 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntities = zigNetEntitiesWrapper.Get();
         }
 
-        public int GetSuiteId(string applicationName, string suiteName, string environmentName)
-        {
-            return _zigNetEntities.Suites
-                .AsNoTracking()
-                .Single(s => 
-                    s.Application.ApplicationName == applicationName &&
-                    s.SuiteName == suiteName &&
-                    s.Environment.EnvironmentName == environmentName)
-                .SuiteID;
-        }
         public string GetSuiteName(int suiteId)
         {
             var suite = _zigNetEntities.Suites
