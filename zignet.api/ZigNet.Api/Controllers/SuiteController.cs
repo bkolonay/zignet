@@ -11,11 +11,13 @@ namespace ZigNet.Api.Controllers
     {
         private IZigNetBusiness _zigNetBusiness;
         private IZigNetApiMapper _zigNetApiMapper;
+        private ISuiteBusinessProvider _suiteBusinessProvider;
 
-        public SuiteController(IZigNetBusiness zignetBusiness, IZigNetApiMapper zigNetApiMapper)
+        public SuiteController(IZigNetBusiness zignetBusiness, IZigNetApiMapper zigNetApiMapper, ISuiteBusinessProvider suiteBusinessProvider)
         {
             _zigNetBusiness = zignetBusiness;
             _zigNetApiMapper = zigNetApiMapper;
+            _suiteBusinessProvider = suiteBusinessProvider;
         }
 
         public int Post([FromBody]CreateSuiteModel createSuiteModel)
@@ -26,13 +28,13 @@ namespace ZigNet.Api.Controllers
         [Route("api/Suite/StartById")]
         public int StartById([FromBody]int suiteId)
         {
-            return _zigNetBusiness.StartSuite(suiteId);
+            return _suiteBusinessProvider.StartSuite(suiteId);
         }
 
         [Route("api/Suite/Start")]
         public int Start([FromBody]StartSuiteByNameModel startSuiteByNameModel)
         {
-            return _zigNetBusiness.StartSuite(startSuiteByNameModel.ApplicationName,
+            return _suiteBusinessProvider.StartSuite(startSuiteByNameModel.ApplicationName,
                 startSuiteByNameModel.SuiteName, startSuiteByNameModel.EnvironmentName);
         }
 

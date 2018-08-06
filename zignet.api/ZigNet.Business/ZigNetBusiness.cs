@@ -5,42 +5,18 @@ using ZigNet.Database;
 using ZigNet.Database.DTOs;
 using ZigNet.Domain.Suite;
 using ZigNet.Domain.Test;
-using ZigNet.Services;
 
 namespace ZigNet.Business
 {
     public class ZigNetBusiness : IZigNetBusiness
     {
         private IZigNetDatabase _zignetDatabase;
-        private ITemporaryTestResultsService _temporaryTestResultsService;
-        private ISuiteResultService _suiteResultService;
-        private ISuiteService _suiteService;
 
-        public ZigNetBusiness(IZigNetDatabase zigNetDatabase, ITemporaryTestResultsService temporaryTestResultsService,
-            ISuiteResultService suiteResultService, ISuiteService suiteService)
+        public ZigNetBusiness(IZigNetDatabase zigNetDatabase)
         {
             _zignetDatabase = zigNetDatabase;
-            _temporaryTestResultsService = temporaryTestResultsService;
-            _suiteResultService = suiteResultService;
-            _suiteService = suiteService;
         }
 
-        public int StartSuite(int suiteId)
-        {
-            _temporaryTestResultsService.DeleteAll(suiteId);
-            return _suiteResultService.SaveSuiteResult(
-                new SuiteResult
-                {
-                    Suite = new Suite { SuiteID = suiteId },
-                    StartTime = DateTime.UtcNow,
-                    ResultType = SuiteResultType.Inconclusive
-                });
-        }
-        public int StartSuite(string applicationName, string suiteName, string environmentName)
-        {
-            var suiteId = _suiteService.GetSuiteId(applicationName, suiteName, environmentName);
-            return StartSuite(suiteId);
-        }
         public void StopSuite(int suiteResultId, SuiteResultType suiteResultType)
         {
             _zignetDatabase.StopSuite(suiteResultId, suiteResultType);

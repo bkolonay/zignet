@@ -48,8 +48,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISuiteBusinessProvider.cs" />
     <Compile Include="IZigNetBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SuiteBusinessProvider.cs" />
     <Compile Include="ZigNetBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
