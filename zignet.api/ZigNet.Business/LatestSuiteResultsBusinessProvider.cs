@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ZigNet.Database.DTOs;
 using ZigNet.Services;
 
@@ -13,12 +14,10 @@ namespace ZigNet.Business
             _latestSuiteResultsService = latestSuiteResultsService;
         }
 
-        public IEnumerable<SuiteSummary> GetLatest(bool group)
+        public IEnumerable<SuiteSummary> GetLatest(bool group, bool includeDebug)
         {
-            if (group)
-                return _latestSuiteResultsService.GetLatestGrouped();
-            else
-                return _latestSuiteResultsService.GetLatest();
+            var suiteSummaries = group ? _latestSuiteResultsService.GetLatestGrouped() : _latestSuiteResultsService.GetLatest();
+            return includeDebug ? suiteSummaries : suiteSummaries.Where(s => !s.SuiteName.Contains("(D)"));
         }
     }
 }

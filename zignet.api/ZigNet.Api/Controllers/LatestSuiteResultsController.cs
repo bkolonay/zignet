@@ -17,8 +17,7 @@ namespace ZigNet.Api.Controllers
 
         public IEnumerable<SuiteSummary> Get(bool group = false, bool debug = false)
         {
-            var latestSuiteResults = _latestSuiteResultsBusinessProvider.GetLatest(group);
-            return debug ? latestSuiteResults : latestSuiteResults.Where(lsr => !lsr.SuiteName.Contains("(D)"));
+            return _latestSuiteResultsBusinessProvider.GetLatest(group, debug);
         }
     }
 }

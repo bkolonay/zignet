@@ -5,6 +5,6 @@ namespace ZigNet.Business
 {
     public interface ILatestSuiteResultsBusinessProvider
     {
-        IEnumerable<SuiteSummary> GetLatest(bool group);
+        IEnumerable<SuiteSummary> GetLatest(bool group, bool includeDebug);
     }
 }
