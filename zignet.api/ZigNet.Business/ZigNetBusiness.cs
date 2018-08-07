@@ -24,10 +24,6 @@ namespace ZigNet.Business
 
             _zignetDatabase.SaveTestResult(testResult);
         }
-        public string GetSuiteName(int suiteId, bool groupSuiteNameByApplicationAndEnvironment)
-        {
-            return _zignetDatabase.GetSuiteName(suiteId, groupSuiteNameByApplicationAndEnvironment);
-        }
         public IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId, bool groupResultsByApplicationAndEnvironment)
         {
             return _zignetDatabase.GetLatestTestResults(suiteId, groupResultsByApplicationAndEnvironment);

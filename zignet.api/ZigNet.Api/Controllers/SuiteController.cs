@@ -50,7 +50,7 @@ namespace ZigNet.Api.Controllers
         {
             return new GetLatestTestResultsModel
             {
-                 SuiteName = _zigNetBusiness.GetSuiteName(suiteId, group),
+                 SuiteName = _suiteBusinessProvider.GetSuiteName(suiteId, group),
                  LatestTestResults = _zigNetBusiness.GetLatestTestResults(suiteId, group)
             };
         }

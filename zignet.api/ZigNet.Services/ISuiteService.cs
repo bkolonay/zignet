@@ -2,6 +2,8 @@
 {
     public interface ISuiteService
     {
-        int GetSuiteId(string applicationName, string suiteName, string environmentName);
+        int GetId(string applicationName, string suiteName, string environmentName);
+        string GetName(int suiteId);
+        string GetNameGrouped(int suiteId);
     }
 }

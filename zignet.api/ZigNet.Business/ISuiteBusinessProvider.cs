@@ -7,5 +7,6 @@ namespace ZigNet.Business
         int StartSuite(int suiteId);
         int StartSuite(string applicationName, string suiteName, string environmentName);
         void StopSuite(int suiteResultId, SuiteResultType suiteResultType);
+        string GetSuiteName(int suiteId, bool group);
     }
 }

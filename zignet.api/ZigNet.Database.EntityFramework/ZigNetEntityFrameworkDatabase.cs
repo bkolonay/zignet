@@ -24,13 +24,6 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntitiesReadOnly = zigNetEntitiesReadOnly;
         }
 
-        public string GetSuiteName(int suiteId, bool groupSuiteNameByApplicationAndEnvironment)
-        {
-            if (groupSuiteNameByApplicationAndEnvironment)
-                return _zigNetEntitiesReadOnly.GetSuiteNameGroupedByApplicationAndEnvironment(suiteId);
-            else
-                return _zigNetEntitiesReadOnly.GetSuiteName(suiteId);
-        }
         public IEnumerable<LatestTestResultDto> GetLatestTestResults(int suiteId, bool groupResultsByApplicationAndEnvironment)
         {
             var latestTestResults = new List<LatestTestResult>();
