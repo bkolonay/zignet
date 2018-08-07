@@ -1,9 +1,11 @@
-﻿namespace ZigNet.Services
+﻿using ZigNet.Database.DTOs;
+
+namespace ZigNet.Services
 {
     public interface ISuiteService
     {
         int GetId(string applicationName, string suiteName, string environmentName);
-        string GetName(int suiteId);
-        string GetNameGrouped(int suiteId);
+        SuiteName GetName(int suiteId);
+        SuiteName GetNameGrouped(int suiteId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Data.Entity;
 using ZigNet.Database.EntityFramework;
+using ZigNet.Database.DTOs;
 
 namespace ZigNet.Services.EntityFramework
 {
@@ -24,7 +25,7 @@ namespace ZigNet.Services.EntityFramework
                 .SuiteID;
         }
 
-        public string GetName(int suiteId)
+        public SuiteName GetName(int suiteId)
         {
             var suite = _zigNetEntities.Suites
                 .AsNoTracking()
@@ -39,18 +40,26 @@ namespace ZigNet.Services.EntityFramework
                 })
                 .Single(s => s.SuiteID == suiteId);
 
-            return string.Format("{0} {1} ({2})",
-                            suite.ApplicationNameAbbreviation, suite.SuiteName, suite.EnvironmentNameAbbreviation);
+            return new SuiteName
+            {
+                ApplicationNameAbbreviation = suite.ApplicationNameAbbreviation,
+                Name = suite.SuiteName,
+                EnvironmentNameAbbreviation = suite.EnvironmentNameAbbreviation
+            };
         }
 
-        public string GetNameGrouped(int suiteId)
+        public SuiteName GetNameGrouped(int suiteId)
         {
             var suite = _zigNetEntities.Suites
                 .AsNoTracking()
                 .Select(s => new { s.SuiteID, s.Application.ApplicationNameAbbreviation, s.Environment.EnvironmentNameAbbreviation })
                 .Single(s => s.SuiteID == suiteId);
 
-            return suite.ApplicationNameAbbreviation + " " + suite.EnvironmentNameAbbreviation;
+            return new SuiteName
+            {
+                ApplicationNameAbbreviation = suite.ApplicationNameAbbreviation,
+                EnvironmentNameAbbreviation = suite.EnvironmentNameAbbreviation
+            };
         }
     }
 }

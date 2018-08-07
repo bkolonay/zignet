@@ -105,10 +105,12 @@ namespace ZigNet.Services.EntityFramework.Tests
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
-                var actualSuiteName = suiteService.GetName(1);
+                var suiteNameDto = suiteService.GetName(1);
 
-                var expectedSuiteName = string.Format("{0} {1} ({2})", appNameAbbreviation, suiteName, envNameAbbreviation);
-                Assert.AreEqual(expectedSuiteName, actualSuiteName);
+                //var expectedSuiteName = string.Format("{0} {1} ({2})", appNameAbbreviation, suiteName, envNameAbbreviation);
+                Assert.AreEqual(suiteName, suiteNameDto.Name);
+                Assert.AreEqual(appNameAbbreviation, suiteNameDto.ApplicationNameAbbreviation);
+                Assert.AreEqual(envNameAbbreviation, suiteNameDto.EnvironmentNameAbbreviation);
             }
 
             [TestMethod]
@@ -140,7 +142,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
-                var actualSuiteName = suiteService.GetName(1);
+                suiteService.GetName(1);
             }
         }
 
@@ -172,10 +174,12 @@ namespace ZigNet.Services.EntityFramework.Tests
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
-                var actualSuiteName = suiteService.GetNameGrouped(1);
+                var suiteNameDto = suiteService.GetNameGrouped(1);
 
-                var expectedSuiteName = string.Format("{0} {1}", appNameAbbreviation, envNameAbbreviation);
-                Assert.AreEqual(expectedSuiteName, actualSuiteName);
+                //var expectedSuiteName = string.Format("{0} {1}", appNameAbbreviation, envNameAbbreviation);
+                Assert.IsNull(suiteNameDto.Name);
+                Assert.AreEqual(appNameAbbreviation, suiteNameDto.ApplicationNameAbbreviation);
+                Assert.AreEqual(envNameAbbreviation, suiteNameDto.EnvironmentNameAbbreviation);
             }
 
             [TestMethod]
@@ -204,7 +208,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
-                var actualSuiteName = suiteService.GetNameGrouped(1);
+                suiteService.GetNameGrouped(1);
             }
         }
     }

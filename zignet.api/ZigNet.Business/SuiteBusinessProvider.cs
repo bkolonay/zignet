@@ -1,4 +1,5 @@
 ﻿using System;
+using ZigNet.Database.DTOs;
 using ZigNet.Domain.Suite;
 using ZigNet.Services;
 
@@ -47,9 +48,9 @@ namespace ZigNet.Business
         public string GetSuiteName(int suiteId, bool group)
         {
             if (group)
-                return _suiteService.GetNameGrouped(suiteId);
+                return _suiteService.GetNameGrouped(suiteId).GetNameGrouped();
             else
-                return _suiteService.GetName(suiteId);
+                return _suiteService.GetName(suiteId).GetName();
         }
     }
 }
