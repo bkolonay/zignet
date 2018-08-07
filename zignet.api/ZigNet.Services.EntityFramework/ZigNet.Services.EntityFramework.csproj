@@ -62,6 +62,7 @@
     <Compile Include="SuiteResultService.cs" />
     <Compile Include="SuiteService.cs" />
     <Compile Include="TemporaryTestResultsService.cs" />
+    <Compile Include="TestResultService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZigNet.Database.EntityFramework\ZigNet.Database.EntityFramework.csproj">

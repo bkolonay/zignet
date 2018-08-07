@@ -52,6 +52,7 @@
     <Compile Include="ISuiteResultService.cs" />
     <Compile Include="ISuiteService.cs" />
     <Compile Include="ITemporaryTestResultsService.cs" />
+    <Compile Include="ITestResultService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

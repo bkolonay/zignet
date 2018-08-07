@@ -12,12 +12,15 @@ namespace ZigNet.Api.Controllers
         private IZigNetBusiness _zigNetBusiness;
         private IZigNetApiMapper _zigNetApiMapper;
         private ISuiteBusinessProvider _suiteBusinessProvider;
+        private ITestResultBusinessProvider _testResultBusinessProvider;
 
-        public SuiteController(IZigNetBusiness zignetBusiness, IZigNetApiMapper zigNetApiMapper, ISuiteBusinessProvider suiteBusinessProvider)
+        public SuiteController(IZigNetBusiness zignetBusiness, IZigNetApiMapper zigNetApiMapper,
+            ISuiteBusinessProvider suiteBusinessProvider, ITestResultBusinessProvider testResultBusinessProvider)
         {
             _zigNetBusiness = zignetBusiness;
             _zigNetApiMapper = zigNetApiMapper;
             _suiteBusinessProvider = suiteBusinessProvider;
+            _testResultBusinessProvider = testResultBusinessProvider;
         }
 
         public int Post([FromBody]CreateSuiteModel createSuiteModel)
@@ -51,7 +54,7 @@ namespace ZigNet.Api.Controllers
             return new GetLatestTestResultsModel
             {
                  SuiteName = _suiteBusinessProvider.GetSuiteName(suiteId, group),
-                 LatestTestResults = _zigNetBusiness.GetLatestTestResults(suiteId, group)
+                 LatestTestResults = _testResultBusinessProvider.GetLatestResults(suiteId, group)
             };
         }
 

@@ -50,10 +50,12 @@
   <ItemGroup>
     <Compile Include="ILatestSuiteResultsBusinessProvider.cs" />
     <Compile Include="ISuiteBusinessProvider.cs" />
+    <Compile Include="ITestResultBusinessProvider.cs" />
     <Compile Include="IZigNetBusiness.cs" />
     <Compile Include="LatestSuiteResultsBusinessProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SuiteBusinessProvider.cs" />
+    <Compile Include="TestResultBusinessProvider.cs" />
     <Compile Include="ZigNetBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
