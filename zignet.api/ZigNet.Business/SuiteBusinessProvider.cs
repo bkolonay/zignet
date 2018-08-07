@@ -35,5 +35,13 @@ namespace ZigNet.Business
             var suiteId = _suiteService.GetSuiteId(applicationName, suiteName, environmentName);
             return StartSuite(suiteId);
         }
+
+        public void StopSuite(int suiteResultId, SuiteResultType suiteResultType)
+        {
+            var suiteResult = _suiteResultService.Get(suiteResultId);
+            suiteResult.EndTime = DateTime.UtcNow;
+            suiteResult.ResultType = suiteResultType;
+            _suiteResultService.SaveSuiteResult(suiteResult);
+        }
     }
 }

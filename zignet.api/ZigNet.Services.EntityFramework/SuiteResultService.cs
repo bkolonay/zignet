@@ -1,5 +1,8 @@
-﻿using ZigNet.Database.EntityFramework;
+﻿using System.Linq;
+using DbSuiteResult = ZigNet.Database.EntityFramework.SuiteResult;
+using DomainSuiteResult = ZigNet.Domain.Suite.SuiteResult;
 using ZigNet.Services.EntityFramework.Mapping;
+using ZigNet.Database.EntityFramework;
 
 namespace ZigNet.Services.EntityFramework
 {
@@ -14,12 +17,26 @@ namespace ZigNet.Services.EntityFramework
             _suiteResultMapper = suiteResultMapper;
         }
 
-        public int SaveSuiteResult(Domain.Suite.SuiteResult suiteResult)
+        public DomainSuiteResult Get(int suiteResultId)
         {
-            var dbSuiteResult = _suiteResultMapper.Map(suiteResult);
+            var dbSuite = _zigNetEntities.SuiteResults.Single(sr => sr.SuiteResultID == suiteResultId);
+            return _suiteResultMapper.Map(dbSuite);
+        }
 
-            if (dbSuiteResult.SuiteResultID == 0)
+        public int SaveSuiteResult(DomainSuiteResult domainSuiteResult)
+        {
+            DbSuiteResult dbSuiteResult = null;
+            if (domainSuiteResult.SuiteResultID == 0)
+            {
+                dbSuiteResult = _suiteResultMapper.Map(domainSuiteResult);
                 _zigNetEntities.SuiteResults.Add(dbSuiteResult);
+            }
+            else
+            {
+                dbSuiteResult = _zigNetEntities.SuiteResults.Single(s => s.SuiteResultID == domainSuiteResult.SuiteResultID);
+                _suiteResultMapper.Map(dbSuiteResult, domainSuiteResult);
+            }
+                
             _zigNetEntities.SaveChanges();
             return dbSuiteResult.SuiteResultID;
         }

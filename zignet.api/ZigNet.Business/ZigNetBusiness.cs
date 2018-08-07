@@ -17,10 +17,6 @@ namespace ZigNet.Business
             _zignetDatabase = zigNetDatabase;
         }
 
-        public void StopSuite(int suiteResultId, SuiteResultType suiteResultType)
-        {
-            _zignetDatabase.StopSuite(suiteResultId, suiteResultType);
-        }
         public void SaveTestResult(TestResult testResult)
         {
             if (string.IsNullOrWhiteSpace(testResult.Test.Name))

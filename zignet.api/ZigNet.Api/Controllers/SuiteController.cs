@@ -41,7 +41,7 @@ namespace ZigNet.Api.Controllers
         [Route("api/Suite/End")]
         public HttpResponseMessage End([FromBody]EndSuiteModel endSuiteModel)
         {
-            _zigNetBusiness.StopSuite(endSuiteModel.SuiteResultId, endSuiteModel.SuiteResultType);
+            _suiteBusinessProvider.StopSuite(endSuiteModel.SuiteResultId, endSuiteModel.SuiteResultType);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
