@@ -7,6 +7,8 @@ namespace ZigNet.Database.EntityFramework
 {
     public interface IZigNetEntitiesReadOnly
     {
+        IEnumerable<SuiteSummary> GetLatestSuiteResults();
+        IEnumerable<SuiteSummary> GetLatestSuiteResultsGroupedByApplicationAndEnvironment();
         string GetSuiteName(int suiteId);
         string GetSuiteNameGroupedByApplicationAndEnvironment(int suiteId);
         Suite GetSuite(int suiteId);
@@ -15,7 +17,5 @@ namespace ZigNet.Database.EntityFramework
         IQueryable<Suite> GetSuites();
         IQueryable<LatestTestResult> GetLatestTestResults();
         IQueryable<TestFailureDuration> GetTestFailureDurations();
-        IEnumerable<SuiteSummary> GetLatestSuiteResults();
-        IEnumerable<SuiteSummary> GetLatestSuiteResultsGroupedByApplicationAndEnvironment();
     }
 }

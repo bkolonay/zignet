@@ -1,22 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Data.Entity;
-using ZigNetTest = ZigNet.Domain.Test.Test;
-using ZigNetTestCategory = ZigNet.Domain.Test.TestCategory;
+﻿using System.Data.Entity;
+using System.Collections.Generic;
 using ZigNet.Database.DTOs;
+using ZigNet.Database.EntityFramework;
+using System.Linq;
 
-namespace ZigNet.Database.EntityFramework
+namespace ZigNet.Services.EntityFramework
 {
-    public class ZigNetEntitiesReadOnly : IZigNetEntitiesReadOnly
+    public class LatestSuiteResultsService : ILatestSuiteResultsService
     {
         private ZigNetEntities _zigNetEntities;
 
-        public ZigNetEntitiesReadOnly(IZigNetEntitiesWrapper zigNetEntitiesWrapper)
+        public LatestSuiteResultsService(IZigNetEntitiesWrapper zigNetEntitiesWrapper)
         {
             _zigNetEntities = zigNetEntitiesWrapper.Get();
         }
 
-        public IEnumerable<SuiteSummary> GetLatestSuiteResults()
+        public IEnumerable<SuiteSummary> GetLatest()
         {
             var suites = _zigNetEntities.Suites
                 .AsNoTracking()
@@ -57,7 +56,8 @@ namespace ZigNet.Database.EntityFramework
 
             return suiteSummaries;
         }
-        public IEnumerable<SuiteSummary> GetLatestSuiteResultsGroupedByApplicationAndEnvironment()
+
+        public IEnumerable<SuiteSummary> GetLatestGrouped()
         {
             var suites = _zigNetEntities.Suites
                 .Include(s => s.Application)
@@ -104,73 +104,5 @@ namespace ZigNet.Database.EntityFramework
 
             return suiteSummaries;
         }
-
-        public string GetSuiteName(int suiteId)
-        {
-            var suite = _zigNetEntities.Suites
-                .AsNoTracking()
-                .Include(s => s.Application.ApplicationName)
-                .Include(s => s.Environment.EnvironmentName)
-                .Select(s => new
-                {
-                    s.SuiteID,
-                    s.SuiteName,
-                    s.Application.ApplicationNameAbbreviation,
-                    s.Environment.EnvironmentNameAbbreviation
-                })
-                .Single(s => s.SuiteID == suiteId);
-
-            return string.Format("{0} {1} ({2})",
-                            suite.ApplicationNameAbbreviation, suite.SuiteName, suite.EnvironmentNameAbbreviation);
-        }
-        public string GetSuiteNameGroupedByApplicationAndEnvironment(int suiteId)
-        {
-            var suite = _zigNetEntities.Suites
-                .AsNoTracking()
-                .Select(s => new { s.SuiteID, s.Application.ApplicationNameAbbreviation, s.Environment.EnvironmentNameAbbreviation })
-                .Single(s => s.SuiteID == suiteId);
-
-            return suite.ApplicationNameAbbreviation + " " + suite.EnvironmentNameAbbreviation;
-        }
-        public Suite GetSuite(int suiteId)
-        {
-            return _zigNetEntities.Suites
-                .AsNoTracking()
-                .Single(s => s.SuiteID == suiteId);
-        }
-        public SuiteResult GetSuiteResult(int suiteResultId)
-        {
-            return _zigNetEntities.SuiteResults
-                .AsNoTracking()
-                .Single(sr => sr.SuiteResultID == suiteResultId);
-        }
-        public ZigNetTest GetMappedTestWithCategoriesOrDefault(string testName)
-        {
-            return _zigNetEntities.Tests
-                .AsNoTracking()
-                .Include(t => t.TestCategories)
-                .Select(t =>
-                    new ZigNetTest
-                    {
-                        TestID = t.TestID,
-                        Name = t.TestName,
-                        Categories = t.TestCategories.Select(tc => new ZigNetTestCategory { TestCategoryID = tc.TestCategoryID, Name = tc.CategoryName }).ToList()
-                    }
-                )
-                .SingleOrDefault(t => t.Name == testName);
-        }
-        public IQueryable<Suite> GetSuites()
-        {
-            return _zigNetEntities.Suites.AsNoTracking();
-        }
-        public IQueryable<LatestTestResult> GetLatestTestResults()
-        {
-            return _zigNetEntities.LatestTestResults.AsNoTracking();
-        }
-        public IQueryable<TestFailureDuration> GetTestFailureDurations()
-        {
-            return _zigNetEntities.TestFailureDurations.AsNoTracking();
-        }
-
     }
 }

@@ -8,7 +8,6 @@ namespace ZigNet.Database
     public interface IZigNetDatabase
     {
         IEnumerable<LatestTestResult> GetLatestTestResults(int suiteId, bool groupResultsByApplicationAndEnvironment);
-        IEnumerable<SuiteSummary> GetLatestSuiteResults(bool groupResultsByApplicationAndEnvironment);
         void SaveTestResult(TestResult testResult);
 
         IEnumerable<Suite> GetMappedSuites();

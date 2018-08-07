@@ -75,14 +75,6 @@ namespace ZigNet.Database.EntityFramework
 
             return failingLatestTestResultDtos;
         }
-        public IEnumerable<SuiteSummary> GetLatestSuiteResults(bool groupResultsByApplicationAndEnvironment)
-        {
-            if (groupResultsByApplicationAndEnvironment)
-                return _zigNetEntitiesReadOnly.GetLatestSuiteResultsGroupedByApplicationAndEnvironment();
-            else
-                return _zigNetEntitiesReadOnly.GetLatestSuiteResults();
-
-        }
         public void SaveTestResult(ZigNetTestResult testResult)
         {
             var existingTestWithSameName = _zigNetEntitiesReadOnly.GetMappedTestWithCategoriesOrDefault(testResult.Test.Name);

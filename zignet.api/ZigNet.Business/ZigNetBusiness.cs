@@ -28,10 +28,6 @@ namespace ZigNet.Business
         {
             return _zignetDatabase.GetLatestTestResults(suiteId, groupResultsByApplicationAndEnvironment);
         }
-        public IEnumerable<SuiteSummary> GetLatestSuiteResults(bool groupResultsByApplicationAndEnvironment)
-        {
-            return _zignetDatabase.GetLatestSuiteResults(groupResultsByApplicationAndEnvironment);
-        }
 
         public int CreateSuite(Suite suite)
         {

@@ -8,16 +8,16 @@ namespace ZigNet.Api.Controllers
 {
     public class LatestSuiteResultsController : ApiController
     {
-        private IZigNetBusiness _zigNetBusiness;
+        private ILatestSuiteResultsBusinessProvider _latestSuiteResultsBusinessProvider;
 
-        public LatestSuiteResultsController(IZigNetBusiness zignetBusiness)
+        public LatestSuiteResultsController(ILatestSuiteResultsBusinessProvider latestSuiteResultsBusinessProvider)
         {
-            _zigNetBusiness = zignetBusiness;
+            _latestSuiteResultsBusinessProvider = latestSuiteResultsBusinessProvider;
         }
 
         public IEnumerable<SuiteSummary> Get(bool group = false, bool debug = false)
         {
-            var latestSuiteResults = _zigNetBusiness.GetLatestSuiteResults(group);
+            var latestSuiteResults = _latestSuiteResultsBusinessProvider.GetLatest(group);
             return debug ? latestSuiteResults : latestSuiteResults.Where(lsr => !lsr.SuiteName.Contains("(D)"));
         }
     }
