@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZigNet.Services.EntityFrame
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZigNet.Services.EntityFramework.Mapping", "ZigNet.Services.EntityFramework.Mapping\ZigNet.Services.EntityFramework.Mapping.csproj", "{E53EF582-5EAE-4016-82F8-05C5B6FDF4D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZigNet.Services.EntityFramework.Tests", "ZigNet.Services.EntityFramework.Tests\ZigNet.Services.EntityFramework.Tests.csproj", "{70B0A313-E035-4565-ADB8-8913342980DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{E53EF582-5EAE-4016-82F8-05C5B6FDF4D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E53EF582-5EAE-4016-82F8-05C5B6FDF4D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E53EF582-5EAE-4016-82F8-05C5B6FDF4D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70B0A313-E035-4565-ADB8-8913342980DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70B0A313-E035-4565-ADB8-8913342980DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70B0A313-E035-4565-ADB8-8913342980DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70B0A313-E035-4565-ADB8-8913342980DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,7 +101,7 @@ Global
 		SolutionGuid = {DCF5F878-FB81-45EC-8F0B-A9D616D199E1}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 14
+		SccNumberOfProjects = 15
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.prd.costargroup.com/tfs/costarcollection
 		SccLocalPath0 = .
@@ -138,5 +144,8 @@ Global
 		SccProjectUniqueName13 = ZigNet.Services.EntityFramework.Mapping\\ZigNet.Services.EntityFramework.Mapping.csproj
 		SccProjectName13 = ZigNet.Services.EntityFramework.Mapping
 		SccLocalPath13 = ZigNet.Services.EntityFramework.Mapping
+		SccProjectUniqueName14 = ZigNet.Services.EntityFramework.Tests\\ZigNet.Services.EntityFramework.Tests.csproj
+		SccProjectName14 = ZigNet.Services.EntityFramework.Tests
+		SccLocalPath14 = ZigNet.Services.EntityFramework.Tests
 	EndGlobalSection
 EndGlobal
