@@ -107,7 +107,6 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
                 var suiteNameDto = suiteService.GetName(1);
 
-                //var expectedSuiteName = string.Format("{0} {1} ({2})", appNameAbbreviation, suiteName, envNameAbbreviation);
                 Assert.AreEqual(suiteName, suiteNameDto.Name);
                 Assert.AreEqual(appNameAbbreviation, suiteNameDto.ApplicationNameAbbreviation);
                 Assert.AreEqual(envNameAbbreviation, suiteNameDto.EnvironmentNameAbbreviation);
@@ -176,7 +175,6 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
                 var suiteNameDto = suiteService.GetNameGrouped(1);
 
-                //var expectedSuiteName = string.Format("{0} {1}", appNameAbbreviation, envNameAbbreviation);
                 Assert.IsNull(suiteNameDto.Name);
                 Assert.AreEqual(appNameAbbreviation, suiteNameDto.ApplicationNameAbbreviation);
                 Assert.AreEqual(envNameAbbreviation, suiteNameDto.EnvironmentNameAbbreviation);

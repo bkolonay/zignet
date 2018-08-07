@@ -34,8 +34,7 @@ namespace ZigNet.Services.EntityFramework
             var suiteSummaries = new List<SuiteSummary>();
             foreach (var suite in suites)
             {
-                var temporaryTestResultsForSuite = allTemporaryTestResults
-                    .Where(ttr => ttr.SuiteId == suite.SuiteID);
+                var temporaryTestResultsForSuite = allTemporaryTestResults.Where(t => t.SuiteId == suite.SuiteID);
 
                 var firstTemporaryTestResult = temporaryTestResultsForSuite.FirstOrDefault();
                 var suiteEndTime = firstTemporaryTestResult == null ? null : firstTemporaryTestResult.SuiteResult.SuiteResultEndDateTime;
@@ -44,8 +43,13 @@ namespace ZigNet.Services.EntityFramework
                     new SuiteSummary
                     {
                         SuiteIds = new List<int> { suite.SuiteID },
-                        SuiteName = string.Format("{0} {1} ({2})",
-                            suite.ApplicationNameAbbreviation, suite.SuiteName, suite.EnvironmentNameAbbreviation),
+                        SuiteName = 
+                            new SuiteName
+                            {
+                                ApplicationNameAbbreviation = suite.ApplicationNameAbbreviation,
+                                Name = suite.SuiteName,
+                                EnvironmentNameAbbreviation = suite.EnvironmentNameAbbreviation 
+                            }.GetName(),
                         TotalFailedTests = temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 1).Count(),
                         TotalInconclusiveTests = temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 2).Count(),
                         TotalPassedTests = temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 3).Count(),
@@ -67,9 +71,7 @@ namespace ZigNet.Services.EntityFramework
             var suiteSummaryDictionary = new Dictionary<string, SuiteSummary>();
             foreach (var suite in suites)
             {
-                var temporaryTestResults = _zigNetEntities.TemporaryTestResults
-                    .AsNoTracking()
-                    .Where(ttr => ttr.SuiteId == suite.SuiteID);
+                var temporaryTestResults = _zigNetEntities.TemporaryTestResults.AsNoTracking().Where(t => t.SuiteId == suite.SuiteID);
 
                 var key = suite.Application.ApplicationNameAbbreviation + " " + suite.Environment.EnvironmentNameAbbreviation;
                 if (suiteSummaryDictionary.ContainsKey(key))

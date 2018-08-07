@@ -9,7 +9,6 @@ using ZigNetTestResultType = ZigNet.Domain.Test.TestResultType;
 using ZigNetTestFailureType = ZigNet.Domain.Test.TestFailureType;
 using LatestTestResultDto = ZigNet.Database.DTOs.LatestTestResult;
 using TestFailureDurationDto = ZigNet.Database.DTOs.TestFailureDuration;
-using ZigNet.Database.DTOs;
 
 namespace ZigNet.Database.EntityFramework
 {
