@@ -7,7 +7,7 @@ using ZigNet.Services.EntityFramework.Tests.Helpers;
 
 namespace ZigNet.Services.EntityFramework.Tests
 {
-    class TemporaryTestResultsServiceTests
+    public class TemporaryTestResultsServiceTests
     {
         [TestClass]
         public class DeleteAllWithSuiteIdMethod
