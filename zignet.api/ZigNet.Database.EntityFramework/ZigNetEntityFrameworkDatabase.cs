@@ -23,57 +23,6 @@ namespace ZigNet.Database.EntityFramework
             _zigNetEntitiesReadOnly = zigNetEntitiesReadOnly;
         }
 
-        public IEnumerable<LatestTestResultDto> GetLatestTestResults(int suiteId, bool groupResultsByApplicationAndEnvironment)
-        {
-            var latestTestResults = new List<LatestTestResult>();
-
-            if (groupResultsByApplicationAndEnvironment)
-            {
-                var suite = _zigNetEntitiesReadOnly.GetSuite(suiteId);
-                var suites = _zigNetEntitiesReadOnly.GetSuites()
-                    .Where(s => s.EnvironmentId == suite.EnvironmentId && s.ApplicationId == suite.ApplicationId);
-                foreach (var localSuite in suites)
-                    latestTestResults.AddRange(_zigNetEntitiesReadOnly.GetLatestTestResults().Where(ltr => ltr.SuiteId == localSuite.SuiteID));
-            }
-            else
-                latestTestResults = _zigNetEntitiesReadOnly.GetLatestTestResults().Where(ltr => ltr.SuiteId == suiteId).ToList();
-
-            var allDatabaseTestFailureDurations = _zigNetEntitiesReadOnly.GetTestFailureDurations().ToList();
-
-            var latestTestResultDtos = new List<LatestTestResultDto>();
-            var utcNow = DateTime.UtcNow;
-            foreach (var latestTestResult in latestTestResults)
-            {
-                var testFailureDurationLimit = utcNow.AddHours(-24);
-                var databaseTestFailureDurationsForTestResult = allDatabaseTestFailureDurations.Where(tfd =>
-                    (tfd.SuiteId == latestTestResult.SuiteId && tfd.TestId == latestTestResult.TestId) &&
-                    (tfd.FailureEndDateTime > testFailureDurationLimit || tfd.FailureEndDateTime == null)
-                );
-
-                var testFailureDurations = new List<TestFailureDurationDto>();
-                foreach (var databaseTestFailureDuration in databaseTestFailureDurationsForTestResult)
-                    testFailureDurations.Add(new TestFailureDurationDto
-                    {
-                        FailureStart = databaseTestFailureDuration.FailureStartDateTime,
-                        FailureEnd = databaseTestFailureDuration.FailureEndDateTime
-                    });
-
-                latestTestResultDtos.Add(new LatestTestResultDto
-                {
-                    TestResultID = latestTestResult.TestResultId,
-                    TestName = latestTestResult.TestName,
-                    SuiteName = latestTestResult.SuiteName,
-                    FailingFromDate = latestTestResult.FailingFromDateTime,
-                    PassingFromDate = latestTestResult.PassingFromDateTime,
-                    TestFailureDurations = testFailureDurations
-                });
-            }
-            var passingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.PassingFromDate != null).OrderByDescending(ltr => ltr.PassingFromDate);
-            var failingLatestTestResultDtos = latestTestResultDtos.Where(ltr => ltr.FailingFromDate != null).OrderBy(ltr => ltr.FailingFromDate).ToList();
-            failingLatestTestResultDtos.AddRange(passingLatestTestResultDtos);
-
-            return failingLatestTestResultDtos;
-        }
         public void SaveTestResult(ZigNetTestResult testResult)
         {
             var existingTestWithSameName = _zigNetEntitiesReadOnly.GetMappedTestWithCategoriesOrDefault(testResult.Test.Name);

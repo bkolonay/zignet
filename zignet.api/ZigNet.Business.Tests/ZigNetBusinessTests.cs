@@ -168,45 +168,5 @@ namespace ZigNet.Business.Tests
                 zigNetBusiness.SaveTestResult(testResult);
             }
         }
-
-        [TestClass]
-        public class GetLatestTestResultsMethod
-        {
-            [TestMethod]
-            public void MapsLatestTestResults()
-            {
-                var utcNow = DateTime.UtcNow;
-
-                var zignetDatabase = new Mock<IZigNetDatabase>();
-                zignetDatabase.Setup(zdm => zdm.GetLatestTestResults(1, false)).Returns(
-                    new List<LatestTestResult>{ 
-                        new LatestTestResult { TestName = "test1", FailingFromDate = utcNow, TestResultID = 2 } 
-                    }
-                );
-
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
-                var latestTestResults = zigNetBusiness.GetLatestTestResults(1, false).ToList();
-
-                Assert.AreEqual(1, latestTestResults.Count);
-                Assert.AreEqual("test1", latestTestResults[0].TestName);
-                Assert.AreEqual(utcNow, latestTestResults[0].FailingFromDate);
-                Assert.AreEqual(2, latestTestResults[0].TestResultID);
-                Assert.IsNull(latestTestResults[0].PassingFromDate);
-            }
-
-            [TestMethod]
-            public void DoesNotThrowWhenZeroLatestTestResults()
-            {
-                var utcNow = DateTime.UtcNow;
-
-                var zignetDatabase = new Mock<IZigNetDatabase>();
-                zignetDatabase.Setup(zdm => zdm.GetLatestTestResults(1, false)).Returns(new List<LatestTestResult>());
-
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
-                var latestTestResults = zigNetBusiness.GetLatestTestResults(1, false).ToList();
-
-                Assert.AreEqual(0, latestTestResults.Count);
-            }
-        }
     }
 }

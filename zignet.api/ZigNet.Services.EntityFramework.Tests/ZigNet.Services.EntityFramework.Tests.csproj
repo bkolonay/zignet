@@ -82,6 +82,7 @@
     <Compile Include="SuiteResultServiceTests.cs" />
     <Compile Include="SuiteServiceTests.cs" />
     <Compile Include="TemporaryTestResultsServiceTests.cs" />
+    <Compile Include="TestResultsServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
