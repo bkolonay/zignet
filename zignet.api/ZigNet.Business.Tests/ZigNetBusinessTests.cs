@@ -4,8 +4,6 @@ using Moq;
 using ZigNet.Database;
 using ZigNet.Domain.Suite;
 using System.Collections.Generic;
-using ZigNet.Domain.Test;
-using ZigNetTestResult = ZigNet.Domain.Test.TestResult;
 
 namespace ZigNet.Business.Tests
 {
@@ -148,22 +146,6 @@ namespace ZigNet.Business.Tests
 
                 var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
                 zigNetBusiness.DeleteSuiteCategory(1, null);
-            }
-        }
-
-        [TestClass]
-        public class SaveTestResultMethod
-        {
-            [TestMethod]
-            [ExpectedException(typeof(ArgumentNullException))]
-            public void ThrowsWhenTestNameNull()
-            {
-                var zignetDatabase = new Mock<IZigNetDatabase>();
-
-                var testResult = new ZigNetTestResult { Test = new Test() };
-
-                var zigNetBusiness = new ZigNetBusiness(zignetDatabase.Object);
-                zigNetBusiness.SaveTestResult(testResult);
             }
         }
     }

@@ -2,7 +2,6 @@
 using System.Linq;
 using ZigNet.Database;
 using ZigNet.Domain.Suite;
-using ZigNet.Domain.Test;
 
 namespace ZigNet.Business
 {
@@ -13,14 +12,6 @@ namespace ZigNet.Business
         public ZigNetBusiness(IZigNetDatabase zigNetDatabase)
         {
             _zignetDatabase = zigNetDatabase;
-        }
-
-        public void SaveTestResult(TestResult testResult)
-        {
-            if (string.IsNullOrWhiteSpace(testResult.Test.Name))
-                throw new ArgumentNullException("TestName", "Test name cannot be null");
-
-            _zignetDatabase.SaveTestResult(testResult);
         }
 
         public int CreateSuite(Suite suite)

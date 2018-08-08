@@ -8,8 +8,5 @@ namespace ZigNet.Services
     {
         IEnumerable<LatestTestResult> GetLatestResults(int suiteId, bool group);
         void SaveTestResult(TestResult testResult);
-
-
-        Test GetMappedTestWithCategoriesOrDefault(string testName);
     }
 }
