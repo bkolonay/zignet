@@ -37,7 +37,6 @@ namespace ZigNet.Api
             container.Register<IZigNetEntitiesReadOnly, ZigNetEntitiesReadOnly>(Lifestyle.Scoped);
             container.Register<IZigNetDatabase, ZigNetEntityFrameworkDatabase>(Lifestyle.Scoped);
 
-            container.Register<IZigNetBusiness, ZigNetBusiness>(Lifestyle.Scoped);
             container.Register<IZigNetApiMapper, ZigNetApiMapper>(Lifestyle.Scoped);
 
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
