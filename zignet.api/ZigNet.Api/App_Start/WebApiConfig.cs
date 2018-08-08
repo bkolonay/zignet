@@ -33,9 +33,6 @@ namespace ZigNet.Api
             container.Register<ILatestSuiteResultsBusinessProvider, LatestSuiteResultsBusinessProvider>(Lifestyle.Scoped);
             container.Register<ITestResultBusinessProvider, TestResultBusinessProvider>(Lifestyle.Scoped);
 
-            container.Register<IZigNetEntitiesWriter, ZigNetEntitiesWriter>(Lifestyle.Scoped);
-            container.Register<IZigNetEntitiesReadOnly, ZigNetEntitiesReadOnly>(Lifestyle.Scoped);
-
             container.Register<IZigNetApiMapper, ZigNetApiMapper>(Lifestyle.Scoped);
 
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);

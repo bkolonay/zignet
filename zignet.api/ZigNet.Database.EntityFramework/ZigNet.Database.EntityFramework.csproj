@@ -64,9 +64,7 @@
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Fix.cs" />
-    <Compile Include="IZigNetEntitiesReadOnly.cs" />
     <Compile Include="IZigNetEntitiesWrapper.cs" />
-    <Compile Include="IZigNetEntitiesWriter.cs" />
     <Compile Include="LatestTestResult.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
@@ -122,9 +120,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ZigNetDataModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="ZigNetEntitiesReadOnly.cs" />
     <Compile Include="ZigNetEntitiesWrapper.cs" />
-    <Compile Include="ZigNetEntitiesWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="ZigNetDataModel.edmx">
