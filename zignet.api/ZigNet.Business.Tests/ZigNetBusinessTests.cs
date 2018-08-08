@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ZigNet.Database;
@@ -7,7 +6,6 @@ using ZigNet.Domain.Suite;
 using System.Collections.Generic;
 using ZigNet.Domain.Test;
 using ZigNetTestResult = ZigNet.Domain.Test.TestResult;
-using ZigNet.Database.DTOs;
 
 namespace ZigNet.Business.Tests
 {

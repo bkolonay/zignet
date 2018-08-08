@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using ZigNet.Database.DTOs;
-using ZigNet.Domain.Suite;
+﻿using ZigNet.Domain.Suite;
 using ZigNet.Domain.Test;
 
 namespace ZigNet.Business
