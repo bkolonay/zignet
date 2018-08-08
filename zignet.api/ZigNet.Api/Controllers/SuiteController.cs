@@ -9,23 +9,16 @@ namespace ZigNet.Api.Controllers
 {
     public class SuiteController : ApiController
     {
-        private IZigNetBusiness _zigNetBusiness;
-        private IZigNetApiMapper _zigNetApiMapper;
         private ISuiteBusinessProvider _suiteBusinessProvider;
         private ITestResultBusinessProvider _testResultBusinessProvider;
+        private IZigNetApiMapper _zigNetApiMapper;
 
-        public SuiteController(IZigNetBusiness zignetBusiness, IZigNetApiMapper zigNetApiMapper,
-            ISuiteBusinessProvider suiteBusinessProvider, ITestResultBusinessProvider testResultBusinessProvider)
+        public SuiteController(ISuiteBusinessProvider suiteBusinessProvider, ITestResultBusinessProvider testResultBusinessProvider,
+            IZigNetApiMapper zigNetApiMapper)
         {
-            _zigNetBusiness = zignetBusiness;
-            _zigNetApiMapper = zigNetApiMapper;
             _suiteBusinessProvider = suiteBusinessProvider;
             _testResultBusinessProvider = testResultBusinessProvider;
-        }
-
-        public int Post([FromBody]CreateSuiteModel createSuiteModel)
-        {
-            return _zigNetBusiness.CreateSuite(_zigNetApiMapper.MapCreateSuiteModel(createSuiteModel));
+            _zigNetApiMapper = zigNetApiMapper;
         }
 
         [Route("api/Suite/StartById")]
@@ -56,21 +49,6 @@ namespace ZigNet.Api.Controllers
                  SuiteName = _suiteBusinessProvider.GetSuiteName(suiteId, group),
                  LatestTestResults = _testResultBusinessProvider.GetLatestResults(suiteId, group)
             };
-        }
-
-        [Route("api/Suite/AddCategory")]
-        public HttpResponseMessage AddCategory([FromBody]AddDeleteSuiteCategoryModel addSuiteCategoryModel)
-        {
-            _zigNetBusiness.AddSuiteCategory(addSuiteCategoryModel.SuiteID, addSuiteCategoryModel.SuiteCategoryName);
-            return Request.CreateResponse(HttpStatusCode.OK);
-        }
-
-        [Route("api/Suite/DeleteCategory")]
-        [HttpPost]
-        public HttpResponseMessage DeleteCategory([FromBody]AddDeleteSuiteCategoryModel deleteSuiteCategoryModel)
-        {
-            _zigNetBusiness.DeleteSuiteCategory(deleteSuiteCategoryModel.SuiteID, deleteSuiteCategoryModel.SuiteCategoryName);
-            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

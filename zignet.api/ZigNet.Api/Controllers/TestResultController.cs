@@ -14,15 +14,14 @@ namespace ZigNet.Api.Controllers
 
         public TestResultController(ITestResultBusinessProvider testResultBusinessProvider, IZigNetApiMapper zigNetApiMapper)
         {
-            _zigNetApiMapper = zigNetApiMapper;
             _testResultBusinessProvider = testResultBusinessProvider;
+            _zigNetApiMapper = zigNetApiMapper;
         }
 
         public HttpResponseMessage Post([FromBody]CreateTestResultModel createTestResultModel)
         {
             _testResultBusinessProvider.SaveTestResult(
-                _zigNetApiMapper.MapCreateTestResultModel(createTestResultModel)
-            );
+                _zigNetApiMapper.MapCreateTestResultModel(createTestResultModel));
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
