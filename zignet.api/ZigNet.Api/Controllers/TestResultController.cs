@@ -9,18 +9,20 @@ namespace ZigNet.Api.Controllers
 {
     public class TestResultController : ApiController
     {
-        private IZigNetBusiness _zigNetBusiness;
-        private IZigNetApiMapper _zigNetApiMapper;
+        private ITestResultBusinessProvider _testResultBusinessProvider;
+        private IZigNetApiMapper _zigNetApiMapper;        
 
-        public TestResultController(IZigNetBusiness zignetBusiness, IZigNetApiMapper zigNetApiMapper)
+        public TestResultController(ITestResultBusinessProvider testResultBusinessProvider, IZigNetApiMapper zigNetApiMapper)
         {
-            _zigNetBusiness = zignetBusiness;
             _zigNetApiMapper = zigNetApiMapper;
+            _testResultBusinessProvider = testResultBusinessProvider;
         }
 
         public HttpResponseMessage Post([FromBody]CreateTestResultModel createTestResultModel)
         {
-            _zigNetBusiness.SaveTestResult(_zigNetApiMapper.MapCreateTestResultModel(createTestResultModel));
+            _testResultBusinessProvider.SaveTestResult(
+                _zigNetApiMapper.MapCreateTestResultModel(createTestResultModel)
+            );
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
