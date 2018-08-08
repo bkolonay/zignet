@@ -35,7 +35,6 @@ namespace ZigNet.Api
 
             container.Register<IZigNetEntitiesWriter, ZigNetEntitiesWriter>(Lifestyle.Scoped);
             container.Register<IZigNetEntitiesReadOnly, ZigNetEntitiesReadOnly>(Lifestyle.Scoped);
-            container.Register<IZigNetDatabase, ZigNetEntityFrameworkDatabase>(Lifestyle.Scoped);
 
             container.Register<IZigNetApiMapper, ZigNetApiMapper>(Lifestyle.Scoped);
 

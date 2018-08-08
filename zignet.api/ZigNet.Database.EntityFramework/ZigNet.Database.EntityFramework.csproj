@@ -125,7 +125,6 @@
     <Compile Include="ZigNetEntitiesReadOnly.cs" />
     <Compile Include="ZigNetEntitiesWrapper.cs" />
     <Compile Include="ZigNetEntitiesWriter.cs" />
-    <Compile Include="ZigNetEntityFrameworkDatabase.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="ZigNetDataModel.edmx">
