@@ -43,6 +43,12 @@
           <AssociatedConnUserName />
           <FullPath>delete-old-test-failure-durations.sql</FullPath>
         </FileNode>
+        <FileNode Name="delete-old-test-results.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:LABKOLONAY:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>LABKOLONAY</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>delete-old-test-results.sql</FullPath>
+        </FileNode>
         <FileNode Name="update-failing-test-to-passing.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:LABKOLONAY:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>LABKOLONAY</AssociatedConnSrvName>
