@@ -15,18 +15,6 @@
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
         </ConnectionNode>
-        <ConnectionNode Name="LN01SQLTTSM501\XCHANGE:US\bkolonay">
-          <Created>2018-06-11T21:19:14.3430372-07:00</Created>
-          <Type>SQL</Type>
-          <Server>LN01SQLTTSM501\XCHANGE</Server>
-          <UserName />
-          <Authentication>Windows Authentication</Authentication>
-          <InitialDB>ZigNet</InitialDB>
-          <LoginTimeout>15</LoginTimeout>
-          <ExecutionTimeout>0</ExecutionTimeout>
-          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
-          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
-        </ConnectionNode>
       </Items>
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
@@ -74,8 +62,8 @@
           <FullPath>get-test-failure-types.sql</FullPath>
         </FileNode>
         <FileNode Name="get-test-results.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:LN01SQLTTSM501\XCHANGE:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>LN01SQLTTSM501\XCHANGE</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>get-test-results.sql</FullPath>
         </FileNode>
