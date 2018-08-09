@@ -5,6 +5,10 @@ USE ZigNet
 DECLARE @thirtyDaysAgoUtc DateTime = '2018-07-10 18:46:34.893'
 --SELECT @thirtyDaysAgoUtc
 
+--SELECT COUNT(SuiteResults.SuiteResultID) from SuiteResults
+SELECT * FROM SuiteResults
+WHERE SuiteResultEndDateTime < @thirtyDaysAgoUtc
+
 -- get count of TestResults older than 30 days old
 --SELECT COUNT(TestResults.TestResultID) FROM TestResults
 --WHERE TestResultEndDateTime < @thirtyDaysAgoUtc
