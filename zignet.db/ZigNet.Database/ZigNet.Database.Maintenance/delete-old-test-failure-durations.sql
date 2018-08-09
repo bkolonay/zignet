@@ -2,7 +2,10 @@
 
 SELECT GETUTCDATE() AS UtcDate, DATEADD(day, -2, GETUTCDATE()) AS TwoDaysAgoUtc
 
-SELECT * FROM TestFailureDurations
+--SELECT * FROM TestFailureDurations
+--WHERE FailureEndDateTime < DATEADD(day, -2, GETUTCDATE())
+
+SELECT COUNT(TestFailureDurationID) AS StaleTestFailureDurations FROM TestFailureDurations
 WHERE FailureEndDateTime < DATEADD(day, -2, GETUTCDATE())
 
 --DELETE FROM TestFailureDurations
