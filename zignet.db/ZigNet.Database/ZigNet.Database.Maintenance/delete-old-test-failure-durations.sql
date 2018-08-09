@@ -1,6 +1,6 @@
 -- only delete records that have an _end date_ greater than 48 hours ago
 
-SELECT GETUTCDATE() AS UtcDate, DATEADD(day, -2, GETUTCDATE()) AS TwoDaysAgoUtc
+--SELECT GETUTCDATE() AS UtcDate, DATEADD(day, -2, GETUTCDATE()) AS TwoDaysAgoUtc
 
 --SELECT * FROM TestFailureDurations
 --WHERE FailureEndDateTime < DATEADD(day, -2, GETUTCDATE())
