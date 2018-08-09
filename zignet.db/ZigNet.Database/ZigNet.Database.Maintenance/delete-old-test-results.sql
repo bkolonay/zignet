@@ -1,11 +1,14 @@
 USE ZigNet
 
-DECLARE @thirtyDaysAgoUtc DateTime = DATEADD(day, -30, GETUTCDATE())
+-- need to use a consistent date through the whole query because test result times can vary by milliseconds
+--SELECT DATEADD(day, -30, GETUTCDATE())
+DECLARE @thirtyDaysAgoUtc DateTime = '2018-07-10 18:46:34.893'
 --SELECT @thirtyDaysAgoUtc
 
 -- get count of TestResults older than 30 days old
 --SELECT COUNT(TestResults.TestResultID) FROM TestResults
---WHERE TestResultStartDateTime < @thirtyDaysAgoUtc
+--WHERE TestResultEndDateTime < @thirtyDaysAgoUtc
+-- count: 7641934
 
 -- get count of TestResults older than 30 days old _and_ have result type as "Fail"
 --   the count of this query should match how many
@@ -17,17 +20,18 @@ DECLARE @thirtyDaysAgoUtc DateTime = DATEADD(day, -30, GETUTCDATE())
 --		FROM TestResultTypes
 --		WHERE TestResultTypes.TestResultTypeName = 'Fail'
 --	)
+-- count: 308331
 
 --DELETE TestResult_TestFailureDetails
---SELECT COUNT(TestResult_TestFailureDetails.TestResultId)
+----SELECT COUNT(TestResult_TestFailureDetails.TestResultId)
 --FROM TestResult_TestFailureDetails
 --JOIN TestResults
 --	ON TestResults.TestResultID = TestResult_TestFailureDetails.TestResultId
---WHERE TestResults.TestResultStartDateTime < @thirtyDaysAgoUtc
+--WHERE TestResults.TestResultEndDateTime < @thirtyDaysAgoUtc
 
 -- delete orphaned TestFailureDetails that no longer have a TestResult_TestFailureDetails record
 --DELETE TestFailureDetails
---SELECT COUNT(TestFailureDetails.TestFailureDetailID)
+----SELECT COUNT(TestFailureDetails.TestFailureDetailID)
 --FROM TestFailureDetails
 --WHERE NOT EXISTS (
 --	SELECT TestResult_TestFailureDetails.TestFailureDetailId 
@@ -42,19 +46,19 @@ DECLARE @thirtyDaysAgoUtc DateTime = DATEADD(day, -30, GETUTCDATE())
 --	ON TestResults.TestResultID = TestResult_TestFailureType.TestResultId
 --WHERE TestResults.TestResultEndDateTime < @thirtyDaysAgoUtc
 
--- query can be used to determine which suites haven't been run in over 30 days
+---- query can be used to determine which suites have run before, but haven't been run in over 30 days
 --SELECT TemporaryTestResults.TemporaryTestResultID, TemporaryTestResults.TestResultId,
 -- Suites.SuiteName, Environments.EnvironmentName, Applications.ApplicationName
---SELECT COUNT(TemporaryTestResultID)
+----SELECT COUNT(TemporaryTestResultID)
 --FROM TemporaryTestResults
 --JOIN TestResults
 --	ON TestResults.TestResultID = TemporaryTestResults.TestResultId
-----JOIN Suites
-----	ON Suites.SuiteID = TemporaryTestResults.SuiteId
-----JOIN Environments
-----	ON Environments.EnvironmentID = Suites.EnvironmentId
-----JOIN Applications
-----	ON Applications.ApplicationID = Suites.ApplicationId
+--JOIN Suites
+--	ON Suites.SuiteID = TemporaryTestResults.SuiteId
+--JOIN Environments
+--	ON Environments.EnvironmentID = Suites.EnvironmentId
+--JOIN Applications
+--	ON Applications.ApplicationID = Suites.ApplicationId
 --WHERE TestResults.TestResultEndDateTime < @thirtyDaysAgoUtc
 
 -- note: deleting stale TemporaryTestResults causes dashboard page to no longer show data
