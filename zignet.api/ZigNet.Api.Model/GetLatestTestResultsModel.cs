@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ZigNet.Database.DTOs;
+using ZigNet.Services.DTOs;
 
 namespace ZigNet.Api.Model
 {

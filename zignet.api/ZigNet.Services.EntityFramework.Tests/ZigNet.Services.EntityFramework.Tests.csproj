@@ -105,6 +105,10 @@
       <Project>{ADAD78FC-F0E6-47FE-8816-2DC408797F36}</Project>
       <Name>ZigNet.Services.EntityFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ZigNet.Services\ZigNet.Services.csproj">
+      <Project>{93772535-6350-46DC-9041-CAEAC4A6B943}</Project>
+      <Name>ZigNet.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

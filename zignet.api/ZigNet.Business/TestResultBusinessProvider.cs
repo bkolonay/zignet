@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ZigNet.Database.DTOs;
+using ZigNet.Services.DTOs;
 using ZigNet.Domain.Test;
 using ZigNet.Services;
 

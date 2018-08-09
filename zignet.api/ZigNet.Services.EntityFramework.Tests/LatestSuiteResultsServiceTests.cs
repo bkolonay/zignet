@@ -3,7 +3,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ZigNet.Database.DTOs;
+using ZigNet.Services.DTOs;
 using ZigNet.Database.EntityFramework;
 using ZigNet.Services.EntityFramework.Tests.Helpers;
 

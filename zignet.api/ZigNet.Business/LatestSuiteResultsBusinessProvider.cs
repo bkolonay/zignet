@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ZigNet.Database.DTOs;
+using ZigNet.Services.DTOs;
 using ZigNet.Services;
 
 namespace ZigNet.Business

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ZigNet.Database.DTOs
+namespace ZigNet.Services.DTOs
 {
     public class SuiteSummary
     {

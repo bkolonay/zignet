@@ -48,6 +48,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\LatestTestResult.cs" />
+    <Compile Include="DTOs\SuiteName.cs" />
+    <Compile Include="DTOs\SuiteSummary.cs" />
+    <Compile Include="DTOs\TestFailureDuration.cs" />
     <Compile Include="ILatestSuiteResultsService.cs" />
     <Compile Include="ISuiteResultService.cs" />
     <Compile Include="ISuiteService.cs" />

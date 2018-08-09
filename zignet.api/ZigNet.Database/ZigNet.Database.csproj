@@ -48,10 +48,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\SuiteName.cs" />
-    <Compile Include="DTOs\SuiteSummary.cs" />
-    <Compile Include="DTOs\LatestTestResult.cs" />
-    <Compile Include="DTOs\TestFailureDuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

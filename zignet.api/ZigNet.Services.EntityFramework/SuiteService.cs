@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Data.Entity;
 using ZigNet.Database.EntityFramework;
-using ZigNet.Database.DTOs;
+using ZigNet.Services.DTOs;
 
 namespace ZigNet.Services.EntityFramework
 {

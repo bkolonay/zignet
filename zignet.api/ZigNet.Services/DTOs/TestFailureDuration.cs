@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ZigNet.Database.DTOs
+namespace ZigNet.Services.DTOs
 {
     public class TestFailureDuration
     {

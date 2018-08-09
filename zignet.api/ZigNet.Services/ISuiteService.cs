@@ -1,4 +1,4 @@
-﻿using ZigNet.Database.DTOs;
+﻿using ZigNet.Services.DTOs;
 
 namespace ZigNet.Services
 {
