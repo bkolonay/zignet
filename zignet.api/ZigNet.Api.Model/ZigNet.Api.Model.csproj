@@ -60,10 +60,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ZigNet.Database\ZigNet.Database.csproj">
-      <Project>{26B84886-3E8D-442D-A4EF-5E89D5B5F11D}</Project>
-      <Name>ZigNet.Database</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ZigNet.Services\ZigNet.Services.csproj">
       <Project>{93772535-6350-46DC-9041-CAEAC4A6B943}</Project>
       <Name>ZigNet.Services</Name>

@@ -150,11 +150,5 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ZigNet.Database\ZigNet.Database.csproj">
-      <Project>{26b84886-3e8d-442d-a4ef-5e89d5b5f11d}</Project>
-      <Name>ZigNet.Database</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

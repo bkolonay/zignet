@@ -300,10 +300,6 @@
       <Project>{cc3da63b-d39a-41a9-8941-2203a92e250a}</Project>
       <Name>ZigNet.Database.EntityFramework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ZigNet.Database\ZigNet.Database.csproj">
-      <Project>{26b84886-3e8d-442d-a4ef-5e89d5b5f11d}</Project>
-      <Name>ZigNet.Database</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ZigNet.Services.EntityFramework.Mapping\ZigNet.Services.EntityFramework.Mapping.csproj">
       <Project>{E53EF582-5EAE-4016-82F8-05C5B6FDF4D4}</Project>
       <Name>ZigNet.Services.EntityFramework.Mapping</Name>

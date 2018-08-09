@@ -57,10 +57,6 @@
     <Compile Include="TestResultBusinessProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ZigNet.Database\ZigNet.Database.csproj">
-      <Project>{26b84886-3e8d-442d-a4ef-5e89d5b5f11d}</Project>
-      <Name>ZigNet.Database</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ZigNet.Services\ZigNet.Services.csproj">
       <Project>{93772535-6350-46DC-9041-CAEAC4A6B943}</Project>
       <Name>ZigNet.Services</Name>
