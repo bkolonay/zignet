@@ -5,7 +5,6 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using ZigNet.Api.Mapping;
 using ZigNet.Business;
-using ZigNet.Database;
 using ZigNet.Database.EntityFramework;
 using ZigNet.Services;
 using ZigNet.Services.EntityFramework;
