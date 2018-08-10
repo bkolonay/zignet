@@ -68,10 +68,12 @@ namespace ZigNet.Services.EntityFramework
                 .Include(s => s.Environment)
                 .AsNoTracking();
 
+            var allTemporaryTestResults = _zigNetEntities.TemporaryTestResults.AsNoTracking().ToList();
+
             var suiteSummaryDictionary = new Dictionary<string, SuiteSummary>();
             foreach (var suite in suites)
             {
-                var temporaryTestResults = _zigNetEntities.TemporaryTestResults.AsNoTracking().Where(t => t.SuiteId == suite.SuiteID);
+                var temporaryTestResultsForSuite = allTemporaryTestResults.Where(t => t.SuiteId == suite.SuiteID);
 
                 var key = suite.Application.ApplicationNameAbbreviation + " " + suite.Environment.EnvironmentNameAbbreviation;
                 if (suiteSummaryDictionary.ContainsKey(key))
@@ -79,11 +81,11 @@ namespace ZigNet.Services.EntityFramework
                     var existingSuiteSummary = suiteSummaryDictionary[key];
                     existingSuiteSummary.SuiteIds.Add(suite.SuiteID);
                     existingSuiteSummary.TotalFailedTests = existingSuiteSummary.TotalFailedTests +
-                        temporaryTestResults.Where(t => t.TestResultTypeId == 1).Count();
+                        temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 1).Count();
                     existingSuiteSummary.TotalInconclusiveTests = existingSuiteSummary.TotalInconclusiveTests +
-                        temporaryTestResults.Where(t => t.TestResultTypeId == 2).Count();
+                        temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 2).Count();
                     existingSuiteSummary.TotalPassedTests = existingSuiteSummary.TotalPassedTests +
-                        temporaryTestResults.Where(t => t.TestResultTypeId == 3).Count();
+                        temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 3).Count();
                     suiteSummaryDictionary[key] = existingSuiteSummary;
                 }
                 else
@@ -92,9 +94,9 @@ namespace ZigNet.Services.EntityFramework
                         {
                             SuiteIds = new List<int> { suite.SuiteID },
                             SuiteName = key,
-                            TotalFailedTests = temporaryTestResults.Where(t => t.TestResultTypeId == 1).Count(),
-                            TotalInconclusiveTests = temporaryTestResults.Where(t => t.TestResultTypeId == 2).Count(),
-                            TotalPassedTests = temporaryTestResults.Where(t => t.TestResultTypeId == 3).Count()
+                            TotalFailedTests = temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 1).Count(),
+                            TotalInconclusiveTests = temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 2).Count(),
+                            TotalPassedTests = temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 3).Count()
                         }
                     );
             }
