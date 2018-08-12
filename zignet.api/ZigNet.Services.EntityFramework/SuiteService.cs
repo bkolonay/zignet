@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using ZigNet.Database.EntityFramework;
 using ZigNet.Services.DTOs;
+using System.Collections.Generic;
 
 namespace ZigNet.Services.EntityFramework
 {
@@ -25,27 +26,24 @@ namespace ZigNet.Services.EntityFramework
                 .SuiteID;
         }
 
-        public SuiteName GetName(int suiteId)
+        public IEnumerable<SuiteName> GetNames()
         {
-            var suite = _zigNetEntities.Suites
+            return _zigNetEntities.Suites
                 .AsNoTracking()
                 .Include(s => s.Application.ApplicationName)
                 .Include(s => s.Environment.EnvironmentName)
-                .Select(s => new
+                .Select(s => new SuiteName
                 {
-                    s.SuiteID,
-                    s.SuiteName,
-                    s.Application.ApplicationNameAbbreviation,
-                    s.Environment.EnvironmentNameAbbreviation
-                })
-                .Single(s => s.SuiteID == suiteId);
+                    SuiteID = s.SuiteID,
+                    Name = s.SuiteName,
+                    ApplicationNameAbbreviation = s.Application.ApplicationNameAbbreviation,
+                    EnvironmentNameAbbreviation = s.Environment.EnvironmentNameAbbreviation
+                });
+        }
 
-            return new SuiteName
-            {
-                ApplicationNameAbbreviation = suite.ApplicationNameAbbreviation,
-                Name = suite.SuiteName,
-                EnvironmentNameAbbreviation = suite.EnvironmentNameAbbreviation
-            };
+        public SuiteName GetName(int suiteId)
+        {
+            return GetNames().Single(s => s.SuiteID == suiteId);
         }
 
         public SuiteName GetNameGrouped(int suiteId)

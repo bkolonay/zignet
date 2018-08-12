@@ -2,6 +2,7 @@
 {
     public class SuiteName
     {
+        public int SuiteID { get; set; }
         public string Name { get; set; }
         public string ApplicationNameAbbreviation { get; set; }
         public string EnvironmentNameAbbreviation { get; set; }
