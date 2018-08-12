@@ -9,26 +9,19 @@ namespace ZigNet.Services.EntityFramework
     public class LatestSuiteResultsService : ILatestSuiteResultsService
     {
         private ZigNetEntities _zigNetEntities;
+        private ISuiteService _suiteService;
 
-        public LatestSuiteResultsService(IZigNetEntitiesWrapper zigNetEntitiesWrapper)
+        public LatestSuiteResultsService(IZigNetEntitiesWrapper zigNetEntitiesWrapper, ISuiteService suiteService)
         {
             _zigNetEntities = zigNetEntitiesWrapper.Get();
+            _suiteService = suiteService;
         }
 
         public IEnumerable<SuiteSummary> GetLatest()
         {
-            var suites = _zigNetEntities.Suites
-                .AsNoTracking()
-                .Include(s => s.Application.ApplicationName)
-                .Include(s => s.Environment.EnvironmentName)
-                .Select(s => new
-                {
-                    s.SuiteID,
-                    s.SuiteName,
-                    s.Application.ApplicationNameAbbreviation,
-                    s.Environment.EnvironmentNameAbbreviation
-                });
+            var suites = _suiteService.GetAll();
 
+            // todo: try querying this into DTO and see is there is a performance difference
             var allTemporaryTestResults = _zigNetEntities.TemporaryTestResults.AsNoTracking().ToList();
 
             var suiteSummaries = new List<SuiteSummary>();
@@ -43,13 +36,7 @@ namespace ZigNet.Services.EntityFramework
                     new SuiteSummary
                     {
                         SuiteIds = new List<int> { suite.SuiteID },
-                        SuiteName = 
-                            new SuiteName
-                            {
-                                ApplicationNameAbbreviation = suite.ApplicationNameAbbreviation,
-                                Name = suite.SuiteName,
-                                EnvironmentNameAbbreviation = suite.EnvironmentNameAbbreviation 
-                            }.GetName(),
+                        SuiteName = suite.GetName(),
                         TotalFailedTests = temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 1).Count(),
                         TotalInconclusiveTests = temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 2).Count(),
                         TotalPassedTests = temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 3).Count(),

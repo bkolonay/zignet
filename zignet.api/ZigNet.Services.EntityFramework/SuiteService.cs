@@ -26,13 +26,13 @@ namespace ZigNet.Services.EntityFramework
                 .SuiteID;
         }
 
-        public IEnumerable<SuiteName> GetNames()
+        public IEnumerable<SuiteDto> GetAll()
         {
             return _zigNetEntities.Suites
                 .AsNoTracking()
                 .Include(s => s.Application.ApplicationName)
                 .Include(s => s.Environment.EnvironmentName)
-                .Select(s => new SuiteName
+                .Select(s => new SuiteDto
                 {
                     SuiteID = s.SuiteID,
                     Name = s.SuiteName,
@@ -41,23 +41,9 @@ namespace ZigNet.Services.EntityFramework
                 });
         }
 
-        public SuiteName GetName(int suiteId)
+        public SuiteDto Get(int suiteId)
         {
-            return GetNames().Single(s => s.SuiteID == suiteId);
-        }
-
-        public SuiteName GetNameGrouped(int suiteId)
-        {
-            var suite = _zigNetEntities.Suites
-                .AsNoTracking()
-                .Select(s => new { s.SuiteID, s.Application.ApplicationNameAbbreviation, s.Environment.EnvironmentNameAbbreviation })
-                .Single(s => s.SuiteID == suiteId);
-
-            return new SuiteName
-            {
-                ApplicationNameAbbreviation = suite.ApplicationNameAbbreviation,
-                EnvironmentNameAbbreviation = suite.EnvironmentNameAbbreviation
-            };
+            return GetAll().Single(s => s.SuiteID == suiteId);
         }
     }
 }

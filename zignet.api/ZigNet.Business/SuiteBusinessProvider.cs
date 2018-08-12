@@ -44,12 +44,12 @@ namespace ZigNet.Business
             _suiteResultService.SaveSuiteResult(suiteResult);
         }
 
+        // todo: unit test this logic (not tested anywhere any more)
         public string GetSuiteName(int suiteId, bool group)
         {
-            if (group)
-                return _suiteService.GetNameGrouped(suiteId).GetNameGrouped();
-            else
-                return _suiteService.GetName(suiteId).GetName();
+            var suite = _suiteService.Get(suiteId);
+
+            return group ? suite.GetNameGrouped() : suite.GetName();
         }
     }
 }

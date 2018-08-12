@@ -1,6 +1,6 @@
 ﻿namespace ZigNet.Services.DTOs
 {
-    public class SuiteName
+    public class SuiteDto
     {
         public int SuiteID { get; set; }
         public string Name { get; set; }

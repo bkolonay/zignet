@@ -105,7 +105,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
-                var suiteNameDto = suiteService.GetName(1);
+                var suiteNameDto = suiteService.Get(1);
 
                 Assert.AreEqual(suiteName, suiteNameDto.Name);
                 Assert.AreEqual(appNameAbbreviation, suiteNameDto.ApplicationNameAbbreviation);
@@ -141,72 +141,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
-                suiteService.GetName(1);
-            }
-        }
-
-        [TestClass]
-        public class GetNameGrouped
-        {
-            [TestMethod]
-            public void GetsWithName()
-            {
-                const string appNameAbbreviation = "LN";
-                const string envNameAbbreviation = "TSM";
-
-                var suites = new List<Suite>
-                {
-                    new Suite {
-                        SuiteID = 1,
-                        Application = new Application { ApplicationNameAbbreviation = appNameAbbreviation },
-                        Environment = new Database.EntityFramework.Environment { EnvironmentNameAbbreviation = envNameAbbreviation }
-
-                    }
-                };
-                var mockSuites = suites.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-
-                var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
-
-                var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
-                var suiteNameDto = suiteService.GetNameGrouped(1);
-
-                Assert.IsNull(suiteNameDto.Name);
-                Assert.AreEqual(appNameAbbreviation, suiteNameDto.ApplicationNameAbbreviation);
-                Assert.AreEqual(envNameAbbreviation, suiteNameDto.EnvironmentNameAbbreviation);
-            }
-
-            [TestMethod]
-            [ExpectedException(typeof(InvalidOperationException))]
-            public void ThrowsWithoutMatch()
-            {
-                const string appNameAbbreviation = "LN";
-                const string envNameAbbreviation = "TSM";
-
-                var suites = new List<Suite>
-                {
-                    new Suite {
-                        SuiteID = 2,
-                        Application = new Application { ApplicationNameAbbreviation = appNameAbbreviation },
-                        Environment = new Database.EntityFramework.Environment { EnvironmentNameAbbreviation = envNameAbbreviation }
-
-                    }
-                };
-                var mockSuites = suites.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-
-                var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
-
-                var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
-                suiteService.GetNameGrouped(1);
+                suiteService.Get(1);
             }
         }
     }
