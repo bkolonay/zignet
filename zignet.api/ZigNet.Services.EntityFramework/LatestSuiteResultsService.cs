@@ -20,8 +20,6 @@ namespace ZigNet.Services.EntityFramework
         public IEnumerable<SuiteSummary> GetLatest()
         {
             var suites = _suiteService.GetAll();
-
-            // todo: try querying this into DTO and see is there is a performance difference
             var allTemporaryTestResults = _zigNetEntities.TemporaryTestResults.AsNoTracking().ToList();
 
             var suiteSummaries = new List<SuiteSummary>();
