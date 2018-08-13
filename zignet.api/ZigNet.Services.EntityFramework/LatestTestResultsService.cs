@@ -14,7 +14,7 @@ namespace ZigNet.Services.EntityFramework
             _zigNetEntities = zigNetEntitiesWrapper.Get();
         }
 
-        // todo: unit test 2 public methods
+        // note: class is not unit tested (change with caution)
         public IEnumerable<LatestTestResultDto> Get(int[] suiteIds)
         {
             var latestTestResultsForSuites = _zigNetEntities.LatestTestResults

@@ -14,7 +14,7 @@ namespace ZigNet.Services.EntityFramework
             _zigNetEntities = zigNetEntitiesWrapper.Get();
         }
 
-        // todo: unit test
+        // note: class is not unit tested (change with caution)
         public IEnumerable<TestFailureDurationDto> GetAll()
         {
             return _zigNetEntities.TestFailureDurations
