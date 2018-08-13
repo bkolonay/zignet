@@ -48,11 +48,7 @@ namespace ZigNet.Services.EntityFramework
 
         public IEnumerable<SuiteSummary> GetLatestGrouped()
         {
-            var suites = _zigNetEntities.Suites
-                .Include(s => s.Application)
-                .Include(s => s.Environment)
-                .AsNoTracking();
-
+            var suites = _suiteService.GetAll();
             var allTemporaryTestResults = _zigNetEntities.TemporaryTestResults.AsNoTracking().ToList();
 
             var suiteSummaryDictionary = new Dictionary<string, SuiteSummary>();
@@ -60,7 +56,7 @@ namespace ZigNet.Services.EntityFramework
             {
                 var temporaryTestResultsForSuite = allTemporaryTestResults.Where(t => t.SuiteId == suite.SuiteID);
 
-                var key = suite.Application.ApplicationNameAbbreviation + " " + suite.Environment.EnvironmentNameAbbreviation;
+                var key = suite.GetNameGrouped();
                 if (suiteSummaryDictionary.ContainsKey(key))
                 {
                     var existingSuiteSummary = suiteSummaryDictionary[key];

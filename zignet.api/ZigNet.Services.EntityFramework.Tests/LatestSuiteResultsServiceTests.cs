@@ -262,20 +262,13 @@ namespace ZigNet.Services.EntityFramework.Tests
             [TestMethod]
             public void SingleSuite()
             {
-                var suiteDto = new SuiteDto { ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" };
                 var now = DateTime.Now;
 
-                var suites = new List<Suite>
-                {
-                    new Suite {
-                        SuiteID = 1,
-                        Application = new Application { ApplicationNameAbbreviation = suiteDto.ApplicationNameAbbreviation },
-                        Environment = new Database.EntityFramework.Environment { EnvironmentNameAbbreviation = suiteDto.EnvironmentNameAbbreviation }
-                    }
+                var suiteDtos = new List<SuiteDto> {
+                    new SuiteDto { SuiteID = 1, ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" }
                 };
-                var mockSuites = suites.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
 
                 var temporaryTestResults = new List<TemporaryTestResult>
                 {
@@ -287,17 +280,16 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTemporaryTestResults.Setup(m => m.AsNoTracking()).Returns(mockTemporaryTestResults.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object);
+                var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
                 var suiteSummaries = latestSuiteResultsService.GetLatestGrouped().ToList();
 
                 Assert.AreEqual(1, suiteSummaries.Count);
-                Assert.AreEqual(suiteDto.GetNameGrouped(), suiteSummaries[0].SuiteName);
+                Assert.AreEqual("LN TSM", suiteSummaries[0].SuiteName);
                 Assert.AreEqual(1, suiteSummaries[0].SuiteIds.Count);
                 Assert.AreEqual(1, suiteSummaries[0].SuiteIds[0]);
                 Assert.IsNull(suiteSummaries[0].SuiteEndTime);
@@ -309,26 +301,14 @@ namespace ZigNet.Services.EntityFramework.Tests
             [TestMethod]
             public void MultipleSuitesInSameAppAndEnvironment()
             {
-                var servicesSuiteDto = new SuiteDto { ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" };
-                var uiSuiteDto = new SuiteDto { ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" };
                 var now = DateTime.Now;
 
-                var suites = new List<Suite>
-                {
-                    new Suite {
-                        SuiteID = 1,
-                        Application = new Application { ApplicationNameAbbreviation = servicesSuiteDto.ApplicationNameAbbreviation },
-                        Environment = new Database.EntityFramework.Environment { EnvironmentNameAbbreviation = servicesSuiteDto.EnvironmentNameAbbreviation }
-                    },
-                    new Suite {
-                        SuiteID = 2,
-                        Application = new Application { ApplicationNameAbbreviation = uiSuiteDto.ApplicationNameAbbreviation },
-                        Environment = new Database.EntityFramework.Environment { EnvironmentNameAbbreviation = uiSuiteDto.EnvironmentNameAbbreviation }
-                    }
+                var suiteDtos = new List<SuiteDto> {
+                    new SuiteDto { SuiteID = 1, ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" },
+                    new SuiteDto { SuiteID = 2, ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" }
                 };
-                var mockSuites = suites.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
 
                 var temporaryTestResults = new List<TemporaryTestResult>
                 {
@@ -344,17 +324,16 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTemporaryTestResults.Setup(m => m.AsNoTracking()).Returns(mockTemporaryTestResults.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object);
+                var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
                 var suiteSummaries = latestSuiteResultsService.GetLatestGrouped().ToList();
 
                 Assert.AreEqual(1, suiteSummaries.Count);
-                Assert.AreEqual(servicesSuiteDto.GetNameGrouped(), suiteSummaries[0].SuiteName);
+                Assert.AreEqual("LN TSM", suiteSummaries[0].SuiteName);
                 Assert.AreEqual(2, suiteSummaries[0].SuiteIds.Count);
                 var suiteIds = suiteSummaries[0].SuiteIds.OrderBy(s => s).ToList();
                 Assert.AreEqual(1, suiteIds[0]);
@@ -368,26 +347,14 @@ namespace ZigNet.Services.EntityFramework.Tests
             [TestMethod]
             public void MultipleSuitesInDifferentAppAndEnvironment()
             {
-                var servicesSuiteDto = new SuiteDto { ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" };
-                var uiSuiteDto = new SuiteDto { ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSR" };
                 var now = DateTime.Now;
 
-                var suites = new List<Suite>
-                {
-                    new Suite {
-                        SuiteID = 1,
-                        Application = new Application { ApplicationNameAbbreviation = servicesSuiteDto.ApplicationNameAbbreviation },
-                        Environment = new Database.EntityFramework.Environment { EnvironmentNameAbbreviation = servicesSuiteDto.EnvironmentNameAbbreviation }
-                    },
-                    new Suite {
-                        SuiteID = 2,
-                        Application = new Application { ApplicationNameAbbreviation = uiSuiteDto.ApplicationNameAbbreviation },
-                        Environment = new Database.EntityFramework.Environment { EnvironmentNameAbbreviation = uiSuiteDto.EnvironmentNameAbbreviation }
-                    }
+                var suiteDtos = new List<SuiteDto> {
+                    new SuiteDto { SuiteID = 1, ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" },
+                    new SuiteDto { SuiteID = 2, ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSR" }
                 };
-                var mockSuites = suites.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
 
                 var temporaryTestResults = new List<TemporaryTestResult>
                 {
@@ -403,18 +370,17 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTemporaryTestResults.Setup(m => m.AsNoTracking()).Returns(mockTemporaryTestResults.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object);
+                var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
                 var suiteSummaries = latestSuiteResultsService.GetLatestGrouped().OrderBy(l => l.SuiteName).ToList();
 
                 Assert.AreEqual(2, suiteSummaries.Count);
 
-                Assert.AreEqual(servicesSuiteDto.GetNameGrouped(), suiteSummaries[0].SuiteName);
+                Assert.AreEqual("LN TSM", suiteSummaries[0].SuiteName);
                 Assert.AreEqual(1, suiteSummaries[0].SuiteIds.Count);
                 Assert.AreEqual(1, suiteSummaries[0].SuiteIds[0]);
                 Assert.IsNull(suiteSummaries[0].SuiteEndTime);
@@ -422,7 +388,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 Assert.AreEqual(0, suiteSummaries[0].TotalInconclusiveTests);
                 Assert.AreEqual(3, suiteSummaries[0].TotalPassedTests);
 
-                Assert.AreEqual(uiSuiteDto.GetNameGrouped(), suiteSummaries[1].SuiteName);
+                Assert.AreEqual("LN TSR", suiteSummaries[1].SuiteName);
                 Assert.AreEqual(1, suiteSummaries[1].SuiteIds.Count);
                 Assert.AreEqual(2, suiteSummaries[1].SuiteIds[0]);
                 Assert.IsNull(suiteSummaries[1].SuiteEndTime);
@@ -436,23 +402,21 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var now = DateTime.Now;
 
-                var suites = new List<Suite>();
-                var mockSuites = suites.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
+                var suiteDtos = new List<SuiteDto>();
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
 
                 var temporaryTestResults = new List<TemporaryTestResult>();
                 var mockTemporaryTestResults = temporaryTestResults.ToDbSetMock();
                 mockTemporaryTestResults.Setup(m => m.AsNoTracking()).Returns(mockTemporaryTestResults.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object);
+                var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
                 var suiteSummaries = latestSuiteResultsService.GetLatestGrouped().ToList();
 
                 Assert.AreEqual(0, suiteSummaries.Count);
@@ -461,26 +425,14 @@ namespace ZigNet.Services.EntityFramework.Tests
             [TestMethod]
             public void ZeroTestsInSuite()
             {
-                var servicesSuiteDto = new SuiteDto { ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" };
-                var uiSuiteDto = new SuiteDto { ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" };
                 var now = DateTime.Now;
 
-                var suites = new List<Suite>
-                {
-                    new Suite {
-                        SuiteID = 1,
-                        Application = new Application { ApplicationNameAbbreviation = servicesSuiteDto.ApplicationNameAbbreviation },
-                        Environment = new Database.EntityFramework.Environment { EnvironmentNameAbbreviation = servicesSuiteDto.EnvironmentNameAbbreviation }
-                    },
-                    new Suite {
-                        SuiteID = 2,
-                        Application = new Application { ApplicationNameAbbreviation = uiSuiteDto.ApplicationNameAbbreviation },
-                        Environment = new Database.EntityFramework.Environment { EnvironmentNameAbbreviation = uiSuiteDto.EnvironmentNameAbbreviation }
-                    }
+                var suiteDtos = new List<SuiteDto> {
+                    new SuiteDto { SuiteID = 1, ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" },
+                    new SuiteDto { SuiteID = 2, ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" }
                 };
-                var mockSuites = suites.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
 
                 var temporaryTestResults = new List<TemporaryTestResult>
                 {
@@ -492,17 +444,16 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTemporaryTestResults.Setup(m => m.AsNoTracking()).Returns(mockTemporaryTestResults.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object);
+                var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
                 var suiteSummaries = latestSuiteResultsService.GetLatestGrouped().ToList();
 
                 Assert.AreEqual(1, suiteSummaries.Count);
-                Assert.AreEqual(servicesSuiteDto.GetNameGrouped(), suiteSummaries[0].SuiteName);
+                Assert.AreEqual("LN TSM", suiteSummaries[0].SuiteName);
                 Assert.AreEqual(2, suiteSummaries[0].SuiteIds.Count);
                 var suiteIds = suiteSummaries[0].SuiteIds.OrderBy(s => s).ToList();
                 Assert.AreEqual(1, suiteIds[0]);
