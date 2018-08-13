@@ -48,11 +48,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\LatestTestResult.cs" />
+    <Compile Include="DTOs\LatestTestResultDto.cs" />
     <Compile Include="DTOs\SuiteDto.cs" />
     <Compile Include="DTOs\SuiteSummary.cs" />
     <Compile Include="DTOs\TestFailureDuration.cs" />
     <Compile Include="ILatestSuiteResultsService.cs" />
+    <Compile Include="ILatestTestResultsService.cs" />
     <Compile Include="ISuiteResultService.cs" />
     <Compile Include="ISuiteService.cs" />
     <Compile Include="ITemporaryTestResultsService.cs" />

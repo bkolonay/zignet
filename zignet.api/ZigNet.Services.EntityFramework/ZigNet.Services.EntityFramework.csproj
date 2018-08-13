@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LatestSuiteResultsService.cs" />
+    <Compile Include="LatestTestResultsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SuiteResultService.cs" />
     <Compile Include="SuiteService.cs" />

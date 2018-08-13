@@ -22,7 +22,6 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var suiteDtos = new List<SuiteDto> {
                     new SuiteDto { SuiteID = 1, Name = "Services", ApplicationNameAbbreviation = "LN", EnvironmentNameAbbreviation = "TSM" }
                 };
-
                 var mockSuiteService = new Mock<ISuiteService>();
                 mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
 

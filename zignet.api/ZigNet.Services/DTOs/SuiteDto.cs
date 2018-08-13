@@ -4,7 +4,9 @@
     {
         public int SuiteID { get; set; }
         public string Name { get; set; }
+        public int ApplicationId { get; set; }
         public string ApplicationNameAbbreviation { get; set; }
+        public int EnvironmentId { get; set; }
         public string EnvironmentNameAbbreviation { get; set; }
 
         public string GetName()

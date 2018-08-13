@@ -12,6 +12,8 @@ using DomainSuiteResult = ZigNet.Domain.Suite.SuiteResult;
 using DomainTestResultType = ZigNet.Domain.Test.TestResultType;
 using DomainTestFailureType = ZigNet.Domain.Test.TestFailureType;
 using DomainTestFailureDetails = ZigNet.Domain.Test.TestFailureDetails;
+using TestFailureDuration = ZigNet.Database.EntityFramework.TestFailureDuration;
+using ZigNet.Services.DTOs;
 
 namespace ZigNet.Services.EntityFramework.Tests
 {
@@ -25,30 +27,29 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var latestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
-                        TestResultId = 2,
+                        TestResultID = 2,
                         TestName = "test1",
                         SuiteName = "suite-name",
-                        PassingFromDateTime = utcNow,
+                        PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResults = latestTestResults.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>().ToDbSetMock();
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1, false).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -63,21 +64,21 @@ namespace ZigNet.Services.EntityFramework.Tests
             [TestMethod]
             public void ZeroTestResults()
             {
-                var latestTestResults = new List<LatestTestResult>();
-                var mockLatestTestResults = latestTestResults.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                var latestTestResultDtos = new List<LatestTestResultDto>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>().ToDbSetMock();
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1, false).ToList();
 
                 Assert.AreEqual(0, actualLatestTestResults.Count);
@@ -88,51 +89,49 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var latestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult
-                    {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
-                        TestResultId = 2,
+                        TestResultID = 2,
                         TestName = "test passing the longest",
-                        PassingFromDateTime = new DateTime(2018, 3, 1, 1, 00, 00),
+                        PassingFromDate = new DateTime(2018, 3, 1, 1, 00, 00),
                     },
-                    new LatestTestResult
+                    new LatestTestResultDto
                     {
                         SuiteId = 1,
-                        TestResultId = 3,
+                        TestResultID = 3,
                         TestName = "test failing the longest",
-                        FailingFromDateTime = new DateTime(2018, 3, 1, 1, 00, 00),
+                        FailingFromDate = new DateTime(2018, 3, 1, 1, 00, 00),
                     },
-                    new LatestTestResult
+                    new LatestTestResultDto
                     {
                         SuiteId = 1,
-                        TestResultId = 4,
+                        TestResultID = 4,
                         TestName = "test passing the shortest",
-                        PassingFromDateTime = new DateTime(2018, 3, 1, 1, 01, 00),
+                        PassingFromDate = new DateTime(2018, 3, 1, 1, 01, 00),
                     },
-                    new LatestTestResult
+                    new LatestTestResultDto
                     {
                         SuiteId = 1,
-                        TestResultId = 5,
+                        TestResultID = 5,
                         TestName = "test failing the shortest",
-                        FailingFromDateTime = new DateTime(2018, 3, 1, 1, 01, 00),
+                        FailingFromDate = new DateTime(2018, 3, 1, 1, 01, 00),
                     }
                 };
-                var mockLatestTestResults = latestTestResults.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>().ToDbSetMock();
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1, false).ToList();
 
                 Assert.AreEqual(4, actualLatestTestResults.Count);
@@ -147,38 +146,34 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var suites = new List<Suite>
-                {
-                    new Suite { SuiteID = 1, ApplicationId = 4, EnvironmentId = 3 }
-                };
-                var mockSuites = suites.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
+                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 4, EnvironmentId = 3 };
+                var suiteDtos = new List<SuiteDto> { suiteDto };
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
 
-                var latestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
-                        TestResultId = 2,
+                        TestResultID = 2,
                         TestName = "test1",
-                        PassingFromDateTime = utcNow,
+                        PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResults = latestTestResults.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>().ToDbSetMock();
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    mockSuiteService.Object, mockLatestTestResultsService.Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1, true).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -194,44 +189,43 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var suites = new List<Suite> {
-                    new Suite { SuiteID = 1, ApplicationId = 4, EnvironmentId = 3 },
-                    new Suite { SuiteID = 5, ApplicationId = 4, EnvironmentId = 3 }
+                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 4, EnvironmentId = 3 };
+                var suiteDtos = new List<SuiteDto> {
+                    suiteDto,
+                    new SuiteDto { SuiteID = 5, ApplicationId = 4, EnvironmentId = 3 }
                 };
-                var mockSuites = suites.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
 
-                var latestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
-                        TestResultId = 2,
+                        TestResultID = 2,
                         TestName = "test1",
-                        PassingFromDateTime = utcNow,
+                        PassingFromDate = utcNow,
                     },
-                    new LatestTestResult {
+                    new LatestTestResultDto {
                         SuiteId = 5,
-                        TestResultId = 6,
+                        TestResultID = 6,
                         TestName = "test2",
-                        FailingFromDateTime = utcNow,
+                        FailingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResults = latestTestResults.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1, 5 })).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>().ToDbSetMock();
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    mockSuiteService.Object, mockLatestTestResultsService.Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1, true).OrderBy(l => l.TestResultID).ToList();
 
                 Assert.AreEqual(2, actualLatestTestResults.Count);
@@ -254,44 +248,37 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var suites = new List<Suite> {
-                    new Suite { SuiteID = 1, ApplicationId = 4, EnvironmentId = 3 },
-                    new Suite { SuiteID = 5, EnvironmentId = 4, ApplicationId = 4 }
+                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 4, EnvironmentId = 3 };
+                var suiteDtos = new List<SuiteDto> {
+                    suiteDto,
+                    new SuiteDto { SuiteID = 5, EnvironmentId = 4, ApplicationId = 4 }
                 };
-                var mockSuites = suites.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
 
-                var latestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
-                        TestResultId = 2,
+                        TestResultID = 2,
                         TestName = "test1",
-                        PassingFromDateTime = utcNow,
-                    },
-                    new LatestTestResult {
-                        SuiteId = 5,
-                        TestResultId = 6,
-                        TestName = "test2",
-                        FailingFromDateTime = utcNow,
+                        PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResults = latestTestResults.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>().ToDbSetMock();
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    mockSuiteService.Object, mockLatestTestResultsService.Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1, true).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -306,44 +293,37 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var suites = new List<Suite> {
-                    new Suite { SuiteID = 1, ApplicationId = 3, EnvironmentId = 4 },
-                    new Suite { SuiteID = 5, EnvironmentId = 3, ApplicationId = 5 }
+                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 3, EnvironmentId = 4 };
+                var suiteDtos = new List<SuiteDto> {
+                    suiteDto,
+                    new SuiteDto { SuiteID = 5, EnvironmentId = 3, ApplicationId = 5 }
                 };
-                var mockSuites = suites.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
 
-                var latestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
-                        TestResultId = 2,
+                        TestResultID = 2,
                         TestName = "test1",
-                        PassingFromDateTime = utcNow,
-                    },
-                    new LatestTestResult {
-                        SuiteId = 5,
-                        TestResultId = 6,
-                        TestName = "test2",
-                        FailingFromDateTime = utcNow,
+                        PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResults = latestTestResults.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>().ToDbSetMock();
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    mockSuiteService.Object, mockLatestTestResultsService.Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1, true).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -358,30 +338,30 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var suites = new List<Suite> {
-                    new Suite { SuiteID = 1, ApplicationId = 3, EnvironmentId = 4 },
-                    new Suite { SuiteID = 5, ApplicationId = 3, EnvironmentId = 4 }
+                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 3, EnvironmentId = 4 };
+                var suiteDtos = new List<SuiteDto> {
+                    suiteDto,
+                    new SuiteDto { SuiteID = 5, EnvironmentId = 3, ApplicationId = 4 }
                 };
-                var mockSuites = suites.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
 
-                var latestTestResults = new List<LatestTestResult>();
-                var mockLatestTestResults = latestTestResults.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                var latestTestResultDtos = new List<LatestTestResultDto>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>().ToDbSetMock();
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    mockSuiteService.Object, mockLatestTestResultsService.Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1, true).ToList();
 
                 Assert.AreEqual(0, actualLatestTestResults.Count);
@@ -392,15 +372,15 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var mockLatestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
                         TestId = 2,
-                        PassingFromDateTime = utcNow,
+                        PassingFromDate = utcNow,
                     }
-                }.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>
                 {
@@ -409,13 +389,13 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1, false).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -428,15 +408,15 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var mockLatestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
                         TestId = 2,
-                        PassingFromDateTime = utcNow,
+                        PassingFromDate = utcNow,
                     }
-                }.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>
                 {
@@ -445,13 +425,13 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1, false).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -464,15 +444,15 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var mockLatestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
                         TestId = 2,
-                        PassingFromDateTime = utcNow
+                        PassingFromDate = utcNow,
                     }
-                }.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>
                 {
@@ -482,13 +462,13 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1, false).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -504,15 +484,15 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var mockLatestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
                         TestId = 2,
-                        PassingFromDateTime = utcNow
+                        PassingFromDate = utcNow,
                     }
-                }.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>
                 {
@@ -523,13 +503,13 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object);
                 var latestTestResults = testResultService.GetLatestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -543,15 +523,15 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var mockLatestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
                         TestId = 2,
-                        PassingFromDateTime = utcNow
+                        PassingFromDate = utcNow,
                     }
-                }.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>
                 {
@@ -560,13 +540,13 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object);
                 var latestTestResults = testResultService.GetLatestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -578,15 +558,15 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var mockLatestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
                         TestId = 2,
-                        PassingFromDateTime = utcNow
+                        PassingFromDate = utcNow,
                     }
-                }.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>
                 {
@@ -595,13 +575,13 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object);
                 var latestTestResults = testResultService.GetLatestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -613,15 +593,15 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var mockLatestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
                         TestId = 2,
-                        PassingFromDateTime = utcNow
+                        PassingFromDate = utcNow,
                     }
-                }.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>
                 {
@@ -630,13 +610,13 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object);
                 var latestTestResults = testResultService.GetLatestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -650,15 +630,15 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var mockLatestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
                         TestId = 2,
-                        PassingFromDateTime = utcNow
+                        PassingFromDate = utcNow,
                     }
-                }.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>
                 {
@@ -668,13 +648,13 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object);
                 var latestTestResults = testResultService.GetLatestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -687,15 +667,15 @@ namespace ZigNet.Services.EntityFramework.Tests
             {
                 var utcNow = DateTime.UtcNow;
 
-                var mockLatestTestResults = new List<LatestTestResult>
-                {
-                    new LatestTestResult {
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
                         SuiteId = 1,
                         TestId = 2,
-                        PassingFromDateTime = utcNow
+                        PassingFromDate = utcNow,
                     }
-                }.ToDbSetMock();
-                mockLatestTestResults.Setup(m => m.AsNoTracking()).Returns(mockLatestTestResults.Object);
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurations = new List<TestFailureDuration>
                 {
@@ -705,13 +685,13 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTestFailureDurations.Setup(m => m.AsNoTracking()).Returns(mockTestFailureDurations.Object);
 
                 var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.LatestTestResults).Returns(mockLatestTestResults.Object);
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object);
                 var latestTestResults = testResultService.GetLatestResults(1, false).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -788,7 +768,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new DomainSuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -850,7 +830,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new DomainSuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -885,7 +865,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new DomainSuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -954,7 +934,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new DomainSuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1023,7 +1003,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new DomainSuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1094,7 +1074,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new DomainSuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1174,7 +1154,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1244,7 +1224,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = DomainTestResultType.Pass,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1320,7 +1300,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1385,7 +1365,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1459,7 +1439,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1533,7 +1513,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1607,7 +1587,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1679,7 +1659,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1753,7 +1733,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1826,7 +1806,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = DomainTestResultType.Pass,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1900,7 +1880,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1968,7 +1948,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = DomainTestResultType.Inconclusive,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2036,7 +2016,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = DomainTestResultType.Pass,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2110,7 +2090,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2178,7 +2158,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = DomainTestResultType.Inconclusive,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2246,7 +2226,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = DomainTestResultType.Pass,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2317,7 +2297,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = DomainTestResultType.Pass,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2388,7 +2368,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = DomainTestResultType.Pass,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2465,7 +2445,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2542,7 +2522,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2619,7 +2599,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2698,7 +2678,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2776,7 +2756,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2854,7 +2834,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new DomainTestFailureDetails { FailureType = DomainTestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
         }

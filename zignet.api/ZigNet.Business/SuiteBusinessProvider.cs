@@ -47,7 +47,6 @@ namespace ZigNet.Business
         public string GetSuiteName(int suiteId, bool group)
         {
             var suite = _suiteService.Get(suiteId);
-
             return group ? suite.GetNameGrouped() : suite.GetName();
         }
     }

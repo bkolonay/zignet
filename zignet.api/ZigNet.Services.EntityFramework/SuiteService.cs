@@ -36,6 +36,8 @@ namespace ZigNet.Services.EntityFramework
                 {
                     SuiteID = s.SuiteID,
                     Name = s.SuiteName,
+                    ApplicationId = s.ApplicationId,
+                    EnvironmentId = s.EnvironmentId,
                     ApplicationNameAbbreviation = s.Application.ApplicationNameAbbreviation,
                     EnvironmentNameAbbreviation = s.Environment.EnvironmentNameAbbreviation
                 });

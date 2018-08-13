@@ -4,45 +4,56 @@ using System.Linq;
 using System.Data.Entity;
 using ZigNet.Database.EntityFramework;
 using DbLatestTestResult = ZigNet.Database.EntityFramework.LatestTestResult;
-using DtoLatestTestResult = ZigNet.Services.DTOs.LatestTestResult;
+using DtoLatestTestResult = ZigNet.Services.DTOs.LatestTestResultDto;
 using DtoTestFailureDuration = ZigNet.Services.DTOs.TestFailureDuration;
 using DomainTestResult = ZigNet.Domain.Test.TestResult;
 using DomainTestResultType = ZigNet.Domain.Test.TestResultType;
 using DomainTest = ZigNet.Domain.Test.Test;
 using DomainTestCategory = ZigNet.Domain.Test.TestCategory;
 using DomainTestFailureType = ZigNet.Domain.Test.TestFailureType;
+using LatestTestResultDto = ZigNet.Services.DTOs.LatestTestResultDto;
 
 namespace ZigNet.Services.EntityFramework
 {
     public class TestResultService : ITestResultService
     {
         private ZigNetEntities _zigNetEntities;
+        private ISuiteService _suiteService;
+        private ILatestTestResultsService _latestTestResultsService;
 
-        public TestResultService(IZigNetEntitiesWrapper zigNetEntitiesWrapper)
+        public TestResultService(IZigNetEntitiesWrapper zigNetEntitiesWrapper, ISuiteService suiteService,
+            ILatestTestResultsService latestTestResultsService)
         {
             _zigNetEntities = zigNetEntitiesWrapper.Get();
+            _suiteService = suiteService;
+            _latestTestResultsService = latestTestResultsService;
         }
 
         public IEnumerable<DtoLatestTestResult> GetLatestResults(int suiteId, bool group)
         {
-            var dbLatestTestResults = new List<DbLatestTestResult>();
+            // todo: consider using private method for common code (or pull it into it's own service)
+            //   if this works, could put boolean logic in business layer instead of here (e.g. 2 functions)
+
+            var latestTestResults = new List<LatestTestResultDto>();
 
             if (group)
             {
-                var suite = _zigNetEntities.Suites.AsNoTracking().Single(s => s.SuiteID == suiteId);
-                var suites = _zigNetEntities.Suites.AsNoTracking()
-                    .Where(s => s.EnvironmentId == suite.EnvironmentId && s.ApplicationId == suite.ApplicationId);
-                foreach (var localSuite in suites)
-                    dbLatestTestResults.AddRange(_zigNetEntities.LatestTestResults.AsNoTracking().Where(l => l.SuiteId == localSuite.SuiteID));
+                var suite = _suiteService.Get(suiteId);
+                var suiteIds = _suiteService.GetAll()
+                    .Where(s => s.EnvironmentId == suite.EnvironmentId && s.ApplicationId == suite.ApplicationId)
+                    .Select(s => s.SuiteID)
+                    .ToArray();
+                latestTestResults = _latestTestResultsService.Get(suiteIds).ToList();
             }
             else
-                dbLatestTestResults = _zigNetEntities.LatestTestResults.AsNoTracking().Where(l => l.SuiteId == suiteId).ToList();
+                latestTestResults = _latestTestResultsService.Get(suiteId).ToList();
 
+            // todo: maybe wrap this and use DTO
             var dbTestFailureDurations = _zigNetEntities.TestFailureDurations.AsNoTracking().ToList();
 
             var dtoLatestTestResults = new List<DtoLatestTestResult>();
             var utcNow = DateTime.UtcNow;
-            foreach (var dbLatestTestResult in dbLatestTestResults)
+            foreach (var dbLatestTestResult in latestTestResults)
             {
                 var testFailureDurationLimit = utcNow.AddHours(-24);
                 var dbTestFailureDurationsForTestResult = 
@@ -61,11 +72,11 @@ namespace ZigNet.Services.EntityFramework
 
                 dtoLatestTestResults.Add(new DtoLatestTestResult
                 {
-                    TestResultID = dbLatestTestResult.TestResultId,
+                    TestResultID = dbLatestTestResult.TestResultID,
                     TestName = dbLatestTestResult.TestName,
                     SuiteName = dbLatestTestResult.SuiteName,
-                    FailingFromDate = dbLatestTestResult.FailingFromDateTime,
-                    PassingFromDate = dbLatestTestResult.PassingFromDateTime,
+                    FailingFromDate = dbLatestTestResult.FailingFromDate,
+                    PassingFromDate = dbLatestTestResult.PassingFromDate,
                     TestFailureDurations = dtoTestFailureDurations
                 });
             }

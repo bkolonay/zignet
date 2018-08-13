@@ -15,7 +15,7 @@ namespace ZigNet.Business
             _testResultService = testResultService;
         }
 
-        public IEnumerable<LatestTestResult> GetLatestResults(int suiteId, bool group)
+        public IEnumerable<LatestTestResultDto> GetLatestResults(int suiteId, bool group)
         {
             return _testResultService.GetLatestResults(suiteId, group);
         }
