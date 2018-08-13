@@ -6,7 +6,8 @@ namespace ZigNet.Services
 {
     public interface ITestResultService
     {
-        IEnumerable<LatestTestResultDto> GetLatestResults(int suiteId, bool group);
+        IEnumerable<LatestTestResultDto> GetLatestResults(int suiteId);
+        IEnumerable<LatestTestResultDto> GetLatestResultsGrouped(int suiteId);
         void SaveTestResult(TestResult testResult);
     }
 }

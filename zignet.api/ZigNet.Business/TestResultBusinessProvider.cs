@@ -17,7 +17,7 @@ namespace ZigNet.Business
 
         public IEnumerable<LatestTestResultDto> GetLatestResults(int suiteId, bool group)
         {
-            return _testResultService.GetLatestResults(suiteId, group);
+            return group ? _testResultService.GetLatestResultsGrouped(suiteId) : _testResultService.GetLatestResults(suiteId);
         }
 
         public void SaveTestResult(TestResult testResult)

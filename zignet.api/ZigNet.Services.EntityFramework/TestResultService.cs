@@ -31,25 +31,28 @@ namespace ZigNet.Services.EntityFramework
             _testFailureDurationService = testFailureDurationService;
         }
 
-        public IEnumerable<DtoLatestTestResult> GetLatestResults(int suiteId, bool group)
+        public IEnumerable<DtoLatestTestResult> GetLatestResults(int suiteId)
         {
-            // todo: consider using private method for common code (or pull it into it's own service)
-            //   if this works, could put boolean logic in business layer instead of here (e.g. 2 functions)
+            var latestTestResults = _latestTestResultsService.Get(suiteId).ToList();
+            latestTestResults = AssignTestFailureDurations(latestTestResults);
+            return Sort(latestTestResults);
+        }
 
-            var latestTestResults = new List<LatestTestResultDto>();
+        public IEnumerable<DtoLatestTestResult> GetLatestResultsGrouped(int suiteId)
+        {
+            var suite = _suiteService.Get(suiteId);
+            var suiteIds = _suiteService.GetAll()
+                .Where(s => s.EnvironmentId == suite.EnvironmentId && s.ApplicationId == suite.ApplicationId)
+                .Select(s => s.SuiteID)
+                .ToArray();
 
-            if (group)
-            {
-                var suite = _suiteService.Get(suiteId);
-                var suiteIds = _suiteService.GetAll()
-                    .Where(s => s.EnvironmentId == suite.EnvironmentId && s.ApplicationId == suite.ApplicationId)
-                    .Select(s => s.SuiteID)
-                    .ToArray();
-                latestTestResults = _latestTestResultsService.Get(suiteIds).ToList();
-            }
-            else
-                latestTestResults = _latestTestResultsService.Get(suiteId).ToList();
+            var latestTestResults = _latestTestResultsService.Get(suiteIds).ToList();
+            latestTestResults = AssignTestFailureDurations(latestTestResults);
+            return Sort(latestTestResults);
+        }
 
+        private List<LatestTestResultDto> AssignTestFailureDurations(List<LatestTestResultDto> latestTestResults)
+        {
             var testFailureDurations = _testFailureDurationService.GetAll().ToList();
             var utcNow = DateTime.UtcNow;
             for (var i = 0; i < latestTestResults.Count; i++)
@@ -62,11 +65,14 @@ namespace ZigNet.Services.EntityFramework
                     .ToList();
             }
 
-            var passingDtoLatestTestResults = latestTestResults.Where(t => t.PassingFromDate != null).OrderByDescending(t => t.PassingFromDate);
-            var failingDtoLatestTestResults = latestTestResults.Where(t => t.FailingFromDate != null).OrderBy(t => t.FailingFromDate).ToList();
-            failingDtoLatestTestResults.AddRange(passingDtoLatestTestResults);
-
-            return failingDtoLatestTestResults;
+            return latestTestResults;
+        }
+        private List<LatestTestResultDto> Sort(List<LatestTestResultDto> latestTestResults)
+        {
+            var passingLatestTestResults = latestTestResults.Where(t => t.PassingFromDate != null).OrderByDescending(t => t.PassingFromDate);
+            var failingLatestTestResults = latestTestResults.Where(t => t.FailingFromDate != null).OrderBy(t => t.FailingFromDate).ToList();
+            failingLatestTestResults.AddRange(passingLatestTestResults);
+            return failingLatestTestResults;
         }
 
         public void SaveTestResult(DomainTestResult testResult)
