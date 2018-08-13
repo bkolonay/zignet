@@ -11,7 +11,6 @@ using DomainTest = ZigNet.Domain.Test.Test;
 using DomainTestCategory = ZigNet.Domain.Test.TestCategory;
 using DomainTestFailureType = ZigNet.Domain.Test.TestFailureType;
 using LatestTestResultDto = ZigNet.Services.DTOs.LatestTestResultDto;
-using ZigNet.Services.DTOs;
 
 namespace ZigNet.Services.EntityFramework
 {
