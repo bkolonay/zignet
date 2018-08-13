@@ -127,207 +127,6 @@ namespace ZigNet.Services.EntityFramework.Tests
             }
 
             [TestMethod]
-            public void GroupsSingleSuite()
-            {
-                var utcNow = DateTime.UtcNow;
-
-                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 4, EnvironmentId = 3 };
-                var suiteDtos = new List<SuiteDto> { suiteDto };
-                var mockSuiteService = new Mock<ISuiteService>();
-                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
-                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
-
-                var latestTestResultDtos = new List<LatestTestResultDto> {
-                    new LatestTestResultDto {
-                        SuiteId = 1,
-                        TestResultID = 2,
-                        TestName = "test1",
-                        PassingFromDate = utcNow,
-                    }
-                };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
-                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
-
-                var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
-                mockTestFailureDurationService.Setup(f => f.GetAll()).Returns(new List<TestFailureDurationDto>());
-
-                var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
-                    mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
-                var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).ToList();
-
-                Assert.AreEqual(1, actualLatestTestResults.Count);
-                Assert.AreEqual(2, actualLatestTestResults[0].TestResultID);
-                Assert.AreEqual("test1", actualLatestTestResults[0].TestName);
-                Assert.AreEqual(utcNow, actualLatestTestResults[0].PassingFromDate);
-                Assert.IsNull(actualLatestTestResults[0].FailingFromDate);
-                Assert.AreEqual(0, actualLatestTestResults[0].TestFailureDurations.ToList().Count);
-            }
-
-            [TestMethod]
-            public void GroupsMultipleSuites()
-            {
-                var utcNow = DateTime.UtcNow;
-
-                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 4, EnvironmentId = 3 };
-                var suiteDtos = new List<SuiteDto> {
-                    suiteDto,
-                    new SuiteDto { SuiteID = 5, ApplicationId = 4, EnvironmentId = 3 }
-                };
-                var mockSuiteService = new Mock<ISuiteService>();
-                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
-                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
-
-                var latestTestResultDtos = new List<LatestTestResultDto> {
-                    new LatestTestResultDto {
-                        SuiteId = 1,
-                        TestResultID = 2,
-                        TestName = "test1",
-                        PassingFromDate = utcNow,
-                    },
-                    new LatestTestResultDto {
-                        SuiteId = 5,
-                        TestResultID = 6,
-                        TestName = "test2",
-                        FailingFromDate = utcNow,
-                    }
-                };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
-                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1, 5 })).Returns(latestTestResultDtos);
-
-                var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
-                mockTestFailureDurationService.Setup(f => f.GetAll()).Returns(new List<TestFailureDurationDto>());
-
-                var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
-                    mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
-                var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).OrderBy(l => l.TestResultID).ToList();
-
-                Assert.AreEqual(2, actualLatestTestResults.Count);
-
-                Assert.AreEqual(2, actualLatestTestResults[0].TestResultID);
-                Assert.AreEqual("test1", actualLatestTestResults[0].TestName);
-                Assert.AreEqual(utcNow, actualLatestTestResults[0].PassingFromDate);
-                Assert.IsNull(actualLatestTestResults[0].FailingFromDate);
-                Assert.AreEqual(0, actualLatestTestResults[0].TestFailureDurations.ToList().Count);
-
-                Assert.AreEqual(6, actualLatestTestResults[1].TestResultID);
-                Assert.AreEqual("test2", actualLatestTestResults[1].TestName);
-                Assert.AreEqual(utcNow, actualLatestTestResults[1].FailingFromDate);
-                Assert.IsNull(actualLatestTestResults[1].PassingFromDate);
-                Assert.AreEqual(0, actualLatestTestResults[1].TestFailureDurations.ToList().Count);
-            }
-
-            [TestMethod]
-            public void IgnoresSuitesWithoutEnvironmentIdWhenGrouped()
-            {
-                var utcNow = DateTime.UtcNow;
-
-                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 4, EnvironmentId = 3 };
-                var suiteDtos = new List<SuiteDto> {
-                    suiteDto,
-                    new SuiteDto { SuiteID = 5, EnvironmentId = 4, ApplicationId = 4 }
-                };
-                var mockSuiteService = new Mock<ISuiteService>();
-                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
-                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
-
-                var latestTestResultDtos = new List<LatestTestResultDto> {
-                    new LatestTestResultDto {
-                        SuiteId = 1,
-                        TestResultID = 2,
-                        TestName = "test1",
-                        PassingFromDate = utcNow,
-                    }
-                };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
-                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
-
-                var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
-                mockTestFailureDurationService.Setup(f => f.GetAll()).Returns(new List<TestFailureDurationDto>());
-
-                var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
-                    mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
-                var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).ToList();
-
-                Assert.AreEqual(1, actualLatestTestResults.Count);
-                Assert.AreEqual(2, actualLatestTestResults[0].TestResultID);
-                Assert.AreEqual("test1", actualLatestTestResults[0].TestName);
-                Assert.AreEqual(utcNow, actualLatestTestResults[0].PassingFromDate);
-                Assert.IsNull(actualLatestTestResults[0].FailingFromDate);
-            }
-
-            [TestMethod]
-            public void IgnoresSuitesWithoutApplicationIdWhenGrouped()
-            {
-                var utcNow = DateTime.UtcNow;
-
-                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 3, EnvironmentId = 4 };
-                var suiteDtos = new List<SuiteDto> {
-                    suiteDto,
-                    new SuiteDto { SuiteID = 5, EnvironmentId = 3, ApplicationId = 5 }
-                };
-                var mockSuiteService = new Mock<ISuiteService>();
-                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
-                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
-
-                var latestTestResultDtos = new List<LatestTestResultDto> {
-                    new LatestTestResultDto {
-                        SuiteId = 1,
-                        TestResultID = 2,
-                        TestName = "test1",
-                        PassingFromDate = utcNow,
-                    }
-                };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
-                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
-
-                var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
-                mockTestFailureDurationService.Setup(f => f.GetAll()).Returns(new List<TestFailureDurationDto>());
-
-                var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
-                    mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
-                var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).ToList();
-
-                Assert.AreEqual(1, actualLatestTestResults.Count);
-                Assert.AreEqual(2, actualLatestTestResults[0].TestResultID);
-                Assert.AreEqual("test1", actualLatestTestResults[0].TestName);
-                Assert.AreEqual(utcNow, actualLatestTestResults[0].PassingFromDate);
-                Assert.IsNull(actualLatestTestResults[0].FailingFromDate);
-            }
-
-            [TestMethod]
-            public void GroupedAndZeroTestResults()
-            {
-                var utcNow = DateTime.UtcNow;
-
-                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 3, EnvironmentId = 4 };
-                var suiteDtos = new List<SuiteDto> {
-                    suiteDto,
-                    new SuiteDto { SuiteID = 5, EnvironmentId = 3, ApplicationId = 4 }
-                };
-                var mockSuiteService = new Mock<ISuiteService>();
-                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
-                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
-
-                var latestTestResultDtos = new List<LatestTestResultDto>();
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
-                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
-
-                var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
-                mockTestFailureDurationService.Setup(f => f.GetAll()).Returns(new List<TestFailureDurationDto>());
-
-                var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
-                    mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
-                var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).ToList();
-
-                Assert.AreEqual(0, actualLatestTestResults.Count);
-            }
-
-            [TestMethod]
             public void SingleTestFailureDurationWithEndDate()
             {
                 var utcNow = DateTime.UtcNow;
@@ -621,6 +420,211 @@ namespace ZigNet.Services.EntityFramework.Tests
                 Assert.AreEqual(1, latestTestResults.Count);
                 Assert.AreEqual(1, latestTestResults[0].TestFailureDurations.Count());
                 Assert.IsNull(latestTestResults[0].TestFailureDurations.ToList()[0].FailureEnd);
+            }
+        }
+
+        [TestClass]
+        public class GetLatestResultsGrouped
+        {
+            [TestMethod]
+            public void GroupsSingleSuite()
+            {
+                var utcNow = DateTime.UtcNow;
+
+                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 4, EnvironmentId = 3 };
+                var suiteDtos = new List<SuiteDto> { suiteDto };
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
+
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
+                        SuiteId = 1,
+                        TestResultID = 2,
+                        TestName = "test1",
+                        PassingFromDate = utcNow,
+                    }
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
+
+                var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
+                mockTestFailureDurationService.Setup(f => f.GetAll()).Returns(new List<TestFailureDurationDto>());
+
+                var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
+                    mockSuiteService.Object, mockLatestTestResultsService.Object,
+                    mockTestFailureDurationService.Object);
+                var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).ToList();
+
+                Assert.AreEqual(1, actualLatestTestResults.Count);
+                Assert.AreEqual(2, actualLatestTestResults[0].TestResultID);
+                Assert.AreEqual("test1", actualLatestTestResults[0].TestName);
+                Assert.AreEqual(utcNow, actualLatestTestResults[0].PassingFromDate);
+                Assert.IsNull(actualLatestTestResults[0].FailingFromDate);
+                Assert.AreEqual(0, actualLatestTestResults[0].TestFailureDurations.ToList().Count);
+            }
+
+            [TestMethod]
+            public void GroupsMultipleSuites()
+            {
+                var utcNow = DateTime.UtcNow;
+
+                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 4, EnvironmentId = 3 };
+                var suiteDtos = new List<SuiteDto> {
+                    suiteDto,
+                    new SuiteDto { SuiteID = 5, ApplicationId = 4, EnvironmentId = 3 }
+                };
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
+
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
+                        SuiteId = 1,
+                        TestResultID = 2,
+                        TestName = "test1",
+                        PassingFromDate = utcNow,
+                    },
+                    new LatestTestResultDto {
+                        SuiteId = 5,
+                        TestResultID = 6,
+                        TestName = "test2",
+                        FailingFromDate = utcNow,
+                    }
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1, 5 })).Returns(latestTestResultDtos);
+
+                var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
+                mockTestFailureDurationService.Setup(f => f.GetAll()).Returns(new List<TestFailureDurationDto>());
+
+                var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
+                    mockSuiteService.Object, mockLatestTestResultsService.Object,
+                    mockTestFailureDurationService.Object);
+                var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).OrderBy(l => l.TestResultID).ToList();
+
+                Assert.AreEqual(2, actualLatestTestResults.Count);
+
+                Assert.AreEqual(2, actualLatestTestResults[0].TestResultID);
+                Assert.AreEqual("test1", actualLatestTestResults[0].TestName);
+                Assert.AreEqual(utcNow, actualLatestTestResults[0].PassingFromDate);
+                Assert.IsNull(actualLatestTestResults[0].FailingFromDate);
+                Assert.AreEqual(0, actualLatestTestResults[0].TestFailureDurations.ToList().Count);
+
+                Assert.AreEqual(6, actualLatestTestResults[1].TestResultID);
+                Assert.AreEqual("test2", actualLatestTestResults[1].TestName);
+                Assert.AreEqual(utcNow, actualLatestTestResults[1].FailingFromDate);
+                Assert.IsNull(actualLatestTestResults[1].PassingFromDate);
+                Assert.AreEqual(0, actualLatestTestResults[1].TestFailureDurations.ToList().Count);
+            }
+
+            [TestMethod]
+            public void IgnoresSuitesWithoutEnvironmentIdWhenGrouped()
+            {
+                var utcNow = DateTime.UtcNow;
+
+                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 4, EnvironmentId = 3 };
+                var suiteDtos = new List<SuiteDto> {
+                    suiteDto,
+                    new SuiteDto { SuiteID = 5, EnvironmentId = 4, ApplicationId = 4 }
+                };
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
+
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
+                        SuiteId = 1,
+                        TestResultID = 2,
+                        TestName = "test1",
+                        PassingFromDate = utcNow,
+                    }
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
+
+                var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
+                mockTestFailureDurationService.Setup(f => f.GetAll()).Returns(new List<TestFailureDurationDto>());
+
+                var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
+                    mockSuiteService.Object, mockLatestTestResultsService.Object,
+                    mockTestFailureDurationService.Object);
+                var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).ToList();
+
+                Assert.AreEqual(1, actualLatestTestResults.Count);
+                Assert.AreEqual(2, actualLatestTestResults[0].TestResultID);
+                Assert.AreEqual("test1", actualLatestTestResults[0].TestName);
+                Assert.AreEqual(utcNow, actualLatestTestResults[0].PassingFromDate);
+                Assert.IsNull(actualLatestTestResults[0].FailingFromDate);
+            }
+
+            [TestMethod]
+            public void IgnoresSuitesWithoutApplicationIdWhenGrouped()
+            {
+                var utcNow = DateTime.UtcNow;
+
+                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 3, EnvironmentId = 4 };
+                var suiteDtos = new List<SuiteDto> {
+                    suiteDto,
+                    new SuiteDto { SuiteID = 5, EnvironmentId = 3, ApplicationId = 5 }
+                };
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
+
+                var latestTestResultDtos = new List<LatestTestResultDto> {
+                    new LatestTestResultDto {
+                        SuiteId = 1,
+                        TestResultID = 2,
+                        TestName = "test1",
+                        PassingFromDate = utcNow,
+                    }
+                };
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
+
+                var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
+                mockTestFailureDurationService.Setup(f => f.GetAll()).Returns(new List<TestFailureDurationDto>());
+
+                var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
+                    mockSuiteService.Object, mockLatestTestResultsService.Object,
+                    mockTestFailureDurationService.Object);
+                var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).ToList();
+
+                Assert.AreEqual(1, actualLatestTestResults.Count);
+                Assert.AreEqual(2, actualLatestTestResults[0].TestResultID);
+                Assert.AreEqual("test1", actualLatestTestResults[0].TestName);
+                Assert.AreEqual(utcNow, actualLatestTestResults[0].PassingFromDate);
+                Assert.IsNull(actualLatestTestResults[0].FailingFromDate);
+            }
+
+            [TestMethod]
+            public void GroupedAndZeroTestResults()
+            {
+                var utcNow = DateTime.UtcNow;
+
+                var suiteDto = new SuiteDto { SuiteID = 1, ApplicationId = 3, EnvironmentId = 4 };
+                var suiteDtos = new List<SuiteDto> {
+                    suiteDto,
+                    new SuiteDto { SuiteID = 5, EnvironmentId = 3, ApplicationId = 4 }
+                };
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(s => s.Get(1)).Returns(suiteDto);
+                mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
+
+                var latestTestResultDtos = new List<LatestTestResultDto>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
+
+                var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
+                mockTestFailureDurationService.Setup(f => f.GetAll()).Returns(new List<TestFailureDurationDto>());
+
+                var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
+                    mockSuiteService.Object, mockLatestTestResultsService.Object,
+                    mockTestFailureDurationService.Object);
+                var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).ToList();
+
+                Assert.AreEqual(0, actualLatestTestResults.Count);
             }
         }
 
