@@ -4,13 +4,12 @@ using System.Linq;
 using System.Data.Entity;
 using ZigNet.Database.EntityFramework;
 using DbLatestTestResult = ZigNet.Database.EntityFramework.LatestTestResult;
-using DtoLatestTestResult = ZigNet.Services.DTOs.LatestTestResultDto;
 using DomainTestResult = ZigNet.Domain.Test.TestResult;
 using DomainTestResultType = ZigNet.Domain.Test.TestResultType;
 using DomainTest = ZigNet.Domain.Test.Test;
 using DomainTestCategory = ZigNet.Domain.Test.TestCategory;
 using DomainTestFailureType = ZigNet.Domain.Test.TestFailureType;
-using LatestTestResultDto = ZigNet.Services.DTOs.LatestTestResultDto;
+using ZigNet.Services.DTOs;
 
 namespace ZigNet.Services.EntityFramework
 {
@@ -30,14 +29,14 @@ namespace ZigNet.Services.EntityFramework
             _testFailureDurationService = testFailureDurationService;
         }
 
-        public IEnumerable<DtoLatestTestResult> GetLatestResults(int suiteId)
+        public IEnumerable<LatestTestResultDto> GetLatestResults(int suiteId)
         {
             var latestTestResults = _latestTestResultsService.Get(suiteId).ToList();
             latestTestResults = AssignTestFailureDurations(latestTestResults);
             return Sort(latestTestResults);
         }
 
-        public IEnumerable<DtoLatestTestResult> GetLatestResultsGrouped(int suiteId)
+        public IEnumerable<LatestTestResultDto> GetLatestResultsGrouped(int suiteId)
         {
             var suite = _suiteService.Get(suiteId);
             var suiteIds = _suiteService.GetAll()
