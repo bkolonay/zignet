@@ -51,40 +51,19 @@ namespace ZigNet.Services.EntityFramework
                 latestTestResults = _latestTestResultsService.Get(suiteId).ToList();
 
             var testFailureDurations = _testFailureDurationService.GetAll().ToList();
-
-            // todo: any dto mapping should most likely be removed
-            var latestTestResultDtos = new List<LatestTestResultDto>();
             var utcNow = DateTime.UtcNow;
-            foreach (var latestTestResult in latestTestResults)
+            for (var i = 0; i < latestTestResults.Count; i++)
             {
                 var testFailureDurationLimit = utcNow.AddHours(-24);
-                var testFailureDurationsForTestResult = 
-                    testFailureDurations.Where(t =>
-                        (t.SuiteId == latestTestResult.SuiteId && t.TestId == latestTestResult.TestId) &&
-                        (t.FailureEnd > testFailureDurationLimit || t.FailureEnd == null)
-                );
-
-                var testFailureDurationDtos = new List<TestFailureDurationDto>();
-                foreach (var testFailureDuration in testFailureDurationsForTestResult)
-                    testFailureDurationDtos.Add(new TestFailureDurationDto
-                    {
-                        FailureStart = testFailureDuration.FailureStart,
-                        FailureEnd = testFailureDuration.FailureEnd
-                    });
-
-                latestTestResultDtos.Add(new DtoLatestTestResult
-                {
-                    TestResultID = latestTestResult.TestResultID,
-                    TestName = latestTestResult.TestName,
-                    SuiteName = latestTestResult.SuiteName,
-                    FailingFromDate = latestTestResult.FailingFromDate,
-                    PassingFromDate = latestTestResult.PassingFromDate,
-                    TestFailureDurations = testFailureDurationDtos
-                });
+                latestTestResults[i].TestFailureDurations = testFailureDurations
+                    .Where(t =>
+                            (t.SuiteId == latestTestResults[i].SuiteId && t.TestId == latestTestResults[i].TestId) &&
+                            (t.FailureEnd > testFailureDurationLimit || t.FailureEnd == null))
+                    .ToList();
             }
 
-            var passingDtoLatestTestResults = latestTestResultDtos.Where(ltr => ltr.PassingFromDate != null).OrderByDescending(ltr => ltr.PassingFromDate);
-            var failingDtoLatestTestResults = latestTestResultDtos.Where(ltr => ltr.FailingFromDate != null).OrderBy(ltr => ltr.FailingFromDate).ToList();
+            var passingDtoLatestTestResults = latestTestResults.Where(t => t.PassingFromDate != null).OrderByDescending(t => t.PassingFromDate);
+            var failingDtoLatestTestResults = latestTestResults.Where(t => t.FailingFromDate != null).OrderBy(t => t.FailingFromDate).ToList();
             failingDtoLatestTestResults.AddRange(passingDtoLatestTestResults);
 
             return failingDtoLatestTestResults;
