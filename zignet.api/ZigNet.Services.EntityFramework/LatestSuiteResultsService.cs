@@ -1,5 +1,4 @@
-﻿using System.Data.Entity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ZigNet.Services.DTOs;
 using ZigNet.Database.EntityFramework;
 using System.Linq;

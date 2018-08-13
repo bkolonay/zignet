@@ -44,7 +44,6 @@ namespace ZigNet.Business
             _suiteResultService.SaveSuiteResult(suiteResult);
         }
 
-        // todo: unit test this logic (not tested anywhere any more)
         public string GetSuiteName(int suiteId, bool group)
         {
             var suite = _suiteService.Get(suiteId);
