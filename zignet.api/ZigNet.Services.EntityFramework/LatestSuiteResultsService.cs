@@ -60,13 +60,15 @@ namespace ZigNet.Services.EntityFramework
                 if (suiteSummaryDictionary.ContainsKey(key))
                 {
                     var existingSuiteSummary = suiteSummaryDictionary[key];
+
                     existingSuiteSummary.SuiteIds.Add(suite.SuiteID);
-                    existingSuiteSummary.TotalFailedTests = existingSuiteSummary.TotalFailedTests +
-                        temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 1).Count();
-                    existingSuiteSummary.TotalInconclusiveTests = existingSuiteSummary.TotalInconclusiveTests +
-                        temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 2).Count();
-                    existingSuiteSummary.TotalPassedTests = existingSuiteSummary.TotalPassedTests +
-                        temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 3).Count();
+                    existingSuiteSummary.TotalFailedTests = 
+                        existingSuiteSummary.TotalFailedTests + temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 1).Count();
+                    existingSuiteSummary.TotalInconclusiveTests = 
+                        existingSuiteSummary.TotalInconclusiveTests + temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 2).Count();
+                    existingSuiteSummary.TotalPassedTests =
+                        existingSuiteSummary.TotalPassedTests + temporaryTestResultsForSuite.Where(t => t.TestResultTypeId == 3).Count();
+
                     suiteSummaryDictionary[key] = existingSuiteSummary;
                 }
                 else
@@ -83,8 +85,7 @@ namespace ZigNet.Services.EntityFramework
             }
 
             var suiteSummaries = new List<SuiteSummary>();
-            var keys = suiteSummaryDictionary.Keys;
-            foreach (var key in keys)
+            foreach (var key in suiteSummaryDictionary.Keys)
                 suiteSummaries.Add(suiteSummaryDictionary[key]);
 
             return suiteSummaries;
