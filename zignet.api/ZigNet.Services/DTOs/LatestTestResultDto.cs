@@ -12,6 +12,6 @@ namespace ZigNet.Services.DTOs
         public string SuiteName { get; set; }
         public DateTime? FailingFromDate { get; set; }
         public DateTime? PassingFromDate { get; set; }
-        public IEnumerable<TestFailureDuration> TestFailureDurations { get; set; }
+        public IEnumerable<TestFailureDurationDto> TestFailureDurations { get; set; }
     }
 }

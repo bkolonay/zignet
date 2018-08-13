@@ -63,6 +63,7 @@
     <Compile Include="SuiteResultService.cs" />
     <Compile Include="SuiteService.cs" />
     <Compile Include="TemporaryTestResultsService.cs" />
+    <Compile Include="TestFailureDurationService.cs" />
     <Compile Include="TestResultService.cs" />
   </ItemGroup>
   <ItemGroup>

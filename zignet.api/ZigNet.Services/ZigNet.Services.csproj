@@ -51,12 +51,13 @@
     <Compile Include="DTOs\LatestTestResultDto.cs" />
     <Compile Include="DTOs\SuiteDto.cs" />
     <Compile Include="DTOs\SuiteSummary.cs" />
-    <Compile Include="DTOs\TestFailureDuration.cs" />
+    <Compile Include="DTOs\TestFailureDurationDto.cs" />
     <Compile Include="ILatestSuiteResultsService.cs" />
     <Compile Include="ILatestTestResultsService.cs" />
     <Compile Include="ISuiteResultService.cs" />
     <Compile Include="ISuiteService.cs" />
     <Compile Include="ITemporaryTestResultsService.cs" />
+    <Compile Include="ITestFailureDurationService.cs" />
     <Compile Include="ITestResultService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
