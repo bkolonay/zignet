@@ -17,6 +17,9 @@ using TestResultType = ZigNet.Domain.Test.TestResultType;
 using Test = ZigNet.Domain.Test.Test;
 using TestCategory = ZigNet.Domain.Test.TestCategory;
 using TestFailureType = ZigNet.Domain.Test.TestFailureType;
+using TestFailureDetails = ZigNet.Domain.Test.TestFailureDetails;
+using SuiteResult = ZigNet.Domain.Suite.SuiteResult;
+using Suite = ZigNet.Domain.Suite.Suite;
 
 namespace ZigNet.Services.EntityFramework
 {
@@ -80,7 +83,7 @@ namespace ZigNet.Services.EntityFramework
             return failingLatestTestResults;
         }
 
-        public void SaveTestResult(TestResult testResult)
+        public TestResult SaveTestResult(TestResult testResult)
         {
             var existingTest = GetMappedTestWithCategoriesOrDefault(testResult.Test.Name);
             if (existingTest != null)
@@ -89,6 +92,7 @@ namespace ZigNet.Services.EntityFramework
                 testResult.Test.Categories = testResult.Test.Categories.Concat(existingTest.Categories).ToList();
             }
 
+            // todo: pull out to mapping class/function (and unit test it there)
             var dbTestResult = new DbTestResult
             {
                 SuiteResultId = testResult.SuiteResult.SuiteResultID,
@@ -97,6 +101,7 @@ namespace ZigNet.Services.EntityFramework
                 TestResultTypeId = MapTestResultType(testResult.ResultType)
             };
 
+            // not sure how to refactor this out (or unit test it)
             if (testResult.ResultType == TestResultType.Fail)
             {
                 dbTestResult.TestFailureTypes.Add(GetTestFailureType(testResult.TestFailureDetails.FailureType));
@@ -104,6 +109,7 @@ namespace ZigNet.Services.EntityFramework
                     dbTestResult.TestFailureDetails.Add(new DbTestFailureDetail { TestFailureDetail1 = testResult.TestFailureDetails.FailureDetailMessage });
             }
 
+            // not sure how to refactor this out (or unit test it)
             if (testResult.Test.TestID != 0)
                 dbTestResult.Test = _zigNetEntities.Tests
                     .Include(t => t.Suites)
@@ -136,7 +142,33 @@ namespace ZigNet.Services.EntityFramework
 
             _zigNetEntities.TestResults.Add(dbTestResult);
             _zigNetEntities.SaveChanges();
-            
+
+            var savedTestResult = new TestResult
+            {
+                TestResultID = dbTestResult.TestResultID,
+                Test = new Test {
+                    TestID = dbTestResult.Test.TestID,
+                    Name = dbTestResult.Test.TestName,
+                    Suites = new List<Suite>(),
+                    Categories = new List<TestCategory>()
+                },
+                SuiteResult = new SuiteResult { SuiteResultID = dbTestResult.SuiteResultId },
+                ResultType = MapTestResultType(dbTestResult.TestResultTypeId),
+                StartTime = dbTestResult.TestResultStartDateTime,
+                EndTime = dbTestResult.TestResultEndDateTime
+            };
+            if (savedTestResult.ResultType == TestResultType.Fail)
+                savedTestResult.TestFailureDetails = new TestFailureDetails
+                {
+                    FailureDetailMessage = dbTestResult.TestFailureDetails.Count == 0 ? null : dbTestResult.TestFailureDetails.First().TestFailureDetail1,
+                    FailureType = MapTestFailureType(dbTestResult.TestFailureTypes.First().TestFailureTypeID)
+                };
+            foreach (var dbSuite in dbTestResult.Test.Suites)
+                savedTestResult.Test.Suites.Add(new Suite { SuiteID = dbSuite.SuiteID });
+            foreach (var dbTestCategory in dbTestResult.Test.TestCategories)
+                savedTestResult.Test.Categories.Add(new TestCategory { TestCategoryID = dbTestCategory.TestCategoryID, Name = dbTestCategory.CategoryName });
+
+            // todo: pull out and make it save TestResult (needs mapping for test result type)
             _zigNetEntities.TemporaryTestResults.Add(new DbTemporaryTestResult
             {
                 TestResultId = dbTestResult.TestResultID,
@@ -146,6 +178,7 @@ namespace ZigNet.Services.EntityFramework
             });
             _zigNetEntities.SaveChanges();
 
+            // todo: pull out and make it save TestResult (saved result probably needs mapped back to DTO)
             var dbLatestTestResult = _zigNetEntities.LatestTestResults
                 .SingleOrDefault(t =>
                     t.SuiteId == suiteResult.SuiteId &&
@@ -216,6 +249,8 @@ namespace ZigNet.Services.EntityFramework
                     SaveTestFailedDuration(newTestFailedDuration);
                 }
             }
+
+            return savedTestResult;
         }
 
         private Test GetMappedTestWithCategoriesOrDefault(string testName)
@@ -247,6 +282,20 @@ namespace ZigNet.Services.EntityFramework
                     throw new InvalidOperationException("Test result type not recognized");
             }
         }
+        private TestResultType MapTestResultType(int dbTestResultTypeId)
+        {
+            switch (dbTestResultTypeId)
+            {
+                case 1:
+                    return TestResultType.Fail;
+                case 2:
+                    return TestResultType.Inconclusive;
+                case 3:
+                    return TestResultType.Pass;
+                default:
+                    throw new InvalidOperationException("DB test result type ID not recognized");
+            }
+        }
         private DbTestFailureType GetTestFailureType(TestFailureType zigNetTestFailureType)
         {
             switch (zigNetTestFailureType)
@@ -257,6 +306,18 @@ namespace ZigNet.Services.EntityFramework
                     return _zigNetEntities.TestFailureTypes.Single(t => t.TestFailureTypeID == 1);
                 default:
                     throw new InvalidOperationException("Test failure type not recognized");
+            }
+        }
+        private TestFailureType MapTestFailureType(int dbTestFailureTypeId)
+        {
+            switch (dbTestFailureTypeId)
+            {
+                case 1:
+                    return TestFailureType.Assertion;
+                case 2:
+                    return TestFailureType.Exception;
+                default:
+                    throw new InvalidOperationException("DB test failure type ID not recognized");
             }
         }
         private void SaveLatestTestResult(DbLatestTestResult latestTestResult)

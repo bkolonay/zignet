@@ -8,6 +8,6 @@ namespace ZigNet.Services
     {
         IEnumerable<LatestTestResultDto> GetLatestResults(int suiteId);
         IEnumerable<LatestTestResultDto> GetLatestResultsGrouped(int suiteId);
-        void SaveTestResult(TestResult testResult);
+        TestResult SaveTestResult(TestResult testResult);
     }
 }

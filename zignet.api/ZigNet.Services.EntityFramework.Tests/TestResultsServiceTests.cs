@@ -12,7 +12,6 @@ using DbTestResult = ZigNet.Database.EntityFramework.TestResult;
 using DbTestCategory = ZigNet.Database.EntityFramework.TestCategory;
 using DbTemporaryTestResult = ZigNet.Database.EntityFramework.TemporaryTestResult;
 using DbTestFailureDuration = ZigNet.Database.EntityFramework.TestFailureDuration;
-using DbTestFailureDetail = ZigNet.Database.EntityFramework.TestFailureDetail;
 using DbTestFailureType = ZigNet.Database.EntityFramework.TestFailureType;
 using DbSuiteResult = ZigNet.Database.EntityFramework.SuiteResult;
 using TestResult = ZigNet.Domain.Test.TestResult;
@@ -642,10 +641,12 @@ namespace ZigNet.Services.EntityFramework.Tests
             [TestMethod]
             public void AssignsTestIdWhenTestWithSameNameExists()
             {
+                var now = DateTime.Now;
+
                 var mockTests = new List<DbTest>
                 {
                     new DbTest {
-                        TestName = "test 1", TestID = 1,
+                        TestName = "existing test", TestID = 1,
                         TestCategories = new List<DbTestCategory>(),
                         Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
@@ -698,14 +699,26 @@ namespace ZigNet.Services.EntityFramework.Tests
                 {
                     Test = new Test
                     {
-                        Name = "test 1",
-                        Categories = new List<TestCategory>()
+                        Name = "existing test",
+                        Categories = new List<TestCategory>(),
                     },
-                    SuiteResult = new SuiteResult { SuiteResultID = 3 }
+                    SuiteResult = new SuiteResult { SuiteResultID = 3 },
                 };
 
                 var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
-                testResultService.SaveTestResult(testResult);
+                var savedTestResult = testResultService.SaveTestResult(testResult);
+
+                Assert.AreEqual(0, savedTestResult.TestResultID);
+                Assert.AreEqual(1, savedTestResult.Test.TestID);
+                Assert.AreEqual("existing test", savedTestResult.Test.Name);
+                Assert.AreEqual(3, savedTestResult.SuiteResult.SuiteResultID);
+                Assert.AreEqual(TestResultType.Inconclusive, savedTestResult.ResultType);
+                Assert.AreEqual(new DateTime(), savedTestResult.StartTime);
+                Assert.AreEqual(new DateTime(), savedTestResult.EndTime);
+                Assert.IsNull(savedTestResult.TestFailureDetails);
+                Assert.AreEqual(1, savedTestResult.Test.Suites.Count);
+                Assert.AreEqual(2, savedTestResult.Test.Suites.ToList()[0].SuiteID);
+                Assert.AreEqual(0, savedTestResult.Test.Categories.Count);
             }
 
             [TestMethod]
@@ -760,14 +773,26 @@ namespace ZigNet.Services.EntityFramework.Tests
                 {
                     Test = new Test
                     {
-                        Name = "test 1",
+                        Name = "new test",
                         Categories = new List<TestCategory>()
                     },
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
                 var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
-                testResultService.SaveTestResult(testResult);
+                var savedTestResult = testResultService.SaveTestResult(testResult);
+
+                Assert.AreEqual(0, savedTestResult.TestResultID);
+                Assert.AreEqual(0, savedTestResult.Test.TestID);
+                Assert.AreEqual("new test", savedTestResult.Test.Name);
+                Assert.AreEqual(3, savedTestResult.SuiteResult.SuiteResultID);
+                Assert.AreEqual(TestResultType.Inconclusive, savedTestResult.ResultType);
+                Assert.AreEqual(new DateTime(), savedTestResult.StartTime);
+                Assert.AreEqual(new DateTime(), savedTestResult.EndTime);
+                Assert.IsNull(savedTestResult.TestFailureDetails);
+                Assert.AreEqual(1, savedTestResult.Test.Suites.Count);
+                Assert.AreEqual(2, savedTestResult.Test.Suites.ToList()[0].SuiteID);
+                Assert.AreEqual(0, savedTestResult.Test.Categories.Count);
             }
 
             [TestMethod]
@@ -811,15 +836,17 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockTests = new List<DbTest>
                 {
                     new DbTest {
-                        TestName = "test 1", TestID = 1,
-                        TestCategories = new List<DbTestCategory> { new DbTestCategory { TestCategoryID = 1, CategoryName = "test category 1" } },
+                        TestName = "existing test", TestID = 1,
+                        TestCategories = new List<DbTestCategory> { new DbTestCategory { TestCategoryID = 4, CategoryName = "existing test category" } },
                         Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
-                var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
+                var mockTestCategories = new List<DbTestCategory> {
+                    new DbTestCategory { TestCategoryID = 4, CategoryName = "existing test category" }
+                }.ToDbSetMock();
 
                 var mockSuiteResults = new List<DbSuiteResult>
                 {
@@ -864,14 +891,28 @@ namespace ZigNet.Services.EntityFramework.Tests
                 {
                     Test = new Test
                     {
-                        Name = "test 1",
+                        Name = "existing test",
                         Categories = new List<TestCategory>()
                     },
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
                 var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
-                testResultService.SaveTestResult(testResult);
+                var savedTestResult = testResultService.SaveTestResult(testResult);
+
+                Assert.AreEqual(0, savedTestResult.TestResultID);
+                Assert.AreEqual(1, savedTestResult.Test.TestID);
+                Assert.AreEqual("existing test", savedTestResult.Test.Name);
+                Assert.AreEqual(3, savedTestResult.SuiteResult.SuiteResultID);
+                Assert.AreEqual(TestResultType.Inconclusive, savedTestResult.ResultType);
+                Assert.AreEqual(new DateTime(), savedTestResult.StartTime);
+                Assert.AreEqual(new DateTime(), savedTestResult.EndTime);
+                Assert.IsNull(savedTestResult.TestFailureDetails);
+                Assert.AreEqual(1, savedTestResult.Test.Suites.Count);
+                Assert.AreEqual(2, savedTestResult.Test.Suites.ToList()[0].SuiteID);
+                Assert.AreEqual(1, savedTestResult.Test.Categories.Count);
+                Assert.AreEqual(4, savedTestResult.Test.Categories.ToList()[0].TestCategoryID);
+                Assert.AreEqual("existing test category", savedTestResult.Test.Categories.ToList()[0].Name);
             }
 
             [TestMethod]
@@ -880,15 +921,15 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockTests = new List<DbTest>
                 {
                     new DbTest {
-                        TestName = "test 1", TestID = 1,
-                        TestCategories = new List<DbTestCategory> { new DbTestCategory { TestCategoryID = 1, CategoryName = "test category 1" } },
+                        TestName = "existing test", TestID = 1,
+                        TestCategories = new List<DbTestCategory> { new DbTestCategory { TestCategoryID = 4, CategoryName = "existing test category" } },
                         Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
-                var mockTestCategories = new List<DbTestCategory> { new DbTestCategory { TestCategoryID = 1, CategoryName = "test category 1" } }.ToDbSetMock();
+                var mockTestCategories = new List<DbTestCategory> { new DbTestCategory { TestCategoryID = 4, CategoryName = "existing test category" } }.ToDbSetMock();
 
                 var mockSuiteResults = new List<DbSuiteResult>
                 {
@@ -933,14 +974,32 @@ namespace ZigNet.Services.EntityFramework.Tests
                 {
                     Test = new Test
                     {
-                        Name = "test 1",
-                        Categories = new List<TestCategory> { new TestCategory { Name = "test category 2" } }
+                        Name = "existing test",
+                        Categories = new List<TestCategory> { new TestCategory { Name = "new test category" } }
                     },
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
                 var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
-                testResultService.SaveTestResult(testResult);
+                var savedTestResult = testResultService.SaveTestResult(testResult);
+
+                Assert.AreEqual(0, savedTestResult.TestResultID);
+                Assert.AreEqual(1, savedTestResult.Test.TestID);
+                Assert.AreEqual("existing test", savedTestResult.Test.Name);
+                Assert.AreEqual(3, savedTestResult.SuiteResult.SuiteResultID);
+                Assert.AreEqual(TestResultType.Inconclusive, savedTestResult.ResultType);
+                Assert.AreEqual(new DateTime(), savedTestResult.StartTime);
+                Assert.AreEqual(new DateTime(), savedTestResult.EndTime);
+                Assert.IsNull(savedTestResult.TestFailureDetails);
+                Assert.AreEqual(1, savedTestResult.Test.Suites.Count);
+                Assert.AreEqual(2, savedTestResult.Test.Suites.ToList()[0].SuiteID);
+
+                var testCategories = savedTestResult.Test.Categories.OrderBy(c => c.Name).ToList();
+                Assert.AreEqual(2, testCategories.Count);
+                Assert.AreEqual(4, testCategories[0].TestCategoryID);
+                Assert.AreEqual("existing test category", testCategories[0].Name);
+                Assert.AreEqual(0, testCategories[1].TestCategoryID);
+                Assert.AreEqual("new test category", testCategories[1].Name);
             }
 
             [TestMethod]
@@ -951,15 +1010,17 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockTests = new List<DbTest>
                 {
                     new DbTest {
-                        TestName = "test 1", TestID = 1,
-                        TestCategories = new List<DbTestCategory> { new DbTestCategory { TestCategoryID = 1, CategoryName = "test category 1" } },
+                        TestName = "existing test", TestID = 1,
+                        TestCategories = new List<DbTestCategory> { new DbTestCategory { TestCategoryID = 4, CategoryName = "existing test category" } },
                         Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
-                var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
+                var mockTestCategories = new List<DbTestCategory> {
+                    new DbTestCategory { TestCategoryID = 4, CategoryName = "existing test category" }
+                }.ToDbSetMock();
 
                 var mockSuiteResults = new List<DbSuiteResult>
                 {
@@ -1004,14 +1065,27 @@ namespace ZigNet.Services.EntityFramework.Tests
                 {
                     Test = new Test
                     {
-                        Name = "test 1",
+                        Name = "existing test",
                         Categories = new List<TestCategory>()
                     },
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
                 var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
-                testResultService.SaveTestResult(testResult);
+                var savedTestResult = testResultService.SaveTestResult(testResult);
+
+                Assert.AreEqual(0, savedTestResult.TestResultID);
+                Assert.AreEqual(1, savedTestResult.Test.TestID);
+                Assert.AreEqual("existing test", savedTestResult.Test.Name);
+                Assert.AreEqual(3, savedTestResult.SuiteResult.SuiteResultID);
+                Assert.AreEqual(TestResultType.Inconclusive, savedTestResult.ResultType);
+                Assert.AreEqual(new DateTime(), savedTestResult.StartTime);
+                Assert.AreEqual(new DateTime(), savedTestResult.EndTime);
+                Assert.IsNull(savedTestResult.TestFailureDetails);
+                Assert.AreEqual(1, savedTestResult.Test.Suites.Count);
+                Assert.AreEqual(2, savedTestResult.Test.Suites.ToList()[0].SuiteID);
+                // fails
+                //Assert.AreEqual(0, testCategories.Count);
             }
 
             [TestMethod]
@@ -1020,7 +1094,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockTests = new List<DbTest>
                 {
                     new DbTest {
-                        TestName = "test 1", TestID = 1,
+                        TestName = "existing test", TestID = 1,
                         TestCategories = new List<DbTestCategory>(),
                         Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
@@ -1078,7 +1152,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 {
                     Test = new Test
                     {
-                        Name = "test 1",
+                        Name = "existing test",
                         Categories = new List<TestCategory>()
                     },
                     SuiteResult = new SuiteResult { SuiteResultID = 3 },
@@ -1086,12 +1160,25 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails
                     {
                         FailureType = TestFailureType.Exception,
-                        FailureDetailMessage = "failed by exception at line 5"
+                        FailureDetailMessage = "failed by exception"
                     }
                 };
 
                 var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
-                testResultService.SaveTestResult(testResult);
+                var savedTestResult = testResultService.SaveTestResult(testResult);
+
+                Assert.AreEqual(0, savedTestResult.TestResultID);
+                Assert.AreEqual(1, savedTestResult.Test.TestID);
+                Assert.AreEqual("existing test", savedTestResult.Test.Name);
+                Assert.AreEqual(3, savedTestResult.SuiteResult.SuiteResultID);
+                Assert.AreEqual(TestResultType.Fail, savedTestResult.ResultType);
+                Assert.AreEqual(new DateTime(), savedTestResult.StartTime);
+                Assert.AreEqual(new DateTime(), savedTestResult.EndTime);
+                Assert.AreEqual(TestFailureType.Exception, savedTestResult.TestFailureDetails.FailureType);
+                Assert.AreEqual("failed by exception", savedTestResult.TestFailureDetails.FailureDetailMessage);
+                Assert.AreEqual(1, savedTestResult.Test.Suites.Count);
+                Assert.AreEqual(2, savedTestResult.Test.Suites.ToList()[0].SuiteID);
+                Assert.AreEqual(0, savedTestResult.Test.Categories.Count);
             }
 
             [TestMethod]
@@ -1100,7 +1187,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockTests = new List<DbTest>
                 {
                     new DbTest {
-                        TestName = "test 1", TestID = 1,
+                        TestName = "existing test", TestID = 1,
                         TestCategories = new List<DbTestCategory>(),
                         Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
@@ -1149,19 +1236,34 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
+                var now = DateTime.Now;
                 var testResult = new TestResult
                 {
                     Test = new Test
                     {
-                        Name = "test 1",
+                        Name = "existing test",
                         Categories = new List<TestCategory>()
                     },
                     SuiteResult = new SuiteResult { SuiteResultID = 3 },
                     ResultType = TestResultType.Pass,
+                    StartTime = now,
+                    EndTime = now.AddHours(1)
                 };
 
                 var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
-                testResultService.SaveTestResult(testResult);
+                var savedTestResult = testResultService.SaveTestResult(testResult);
+
+                Assert.AreEqual(0, savedTestResult.TestResultID);
+                Assert.AreEqual(1, savedTestResult.Test.TestID);
+                Assert.AreEqual("existing test", savedTestResult.Test.Name);
+                Assert.AreEqual(3, savedTestResult.SuiteResult.SuiteResultID);
+                Assert.AreEqual(TestResultType.Pass, savedTestResult.ResultType);
+                Assert.AreEqual(now, savedTestResult.StartTime);
+                Assert.AreEqual(now.AddHours(1), savedTestResult.EndTime);
+                Assert.IsNull(savedTestResult.TestFailureDetails);
+                Assert.AreEqual(1, savedTestResult.Test.Suites.Count);
+                Assert.AreEqual(2, savedTestResult.Test.Suites.ToList()[0].SuiteID);
+                Assert.AreEqual(0, savedTestResult.Test.Categories.Count);
             }
 
             [TestMethod]
@@ -1170,7 +1272,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockTests = new List<DbTest>
                 {
                     new DbTest {
-                        TestName = "test 1", TestID = 1,
+                        TestName = "existing test", TestID = 1,
                         TestCategories = new List<DbTestCategory>(),
                         Suites = new List<Suite> { new Suite { SuiteID = 2 } }
                     }
@@ -1224,20 +1326,36 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
+                var now = DateTime.UtcNow;
                 var testResult = new TestResult
                 {
                     Test = new Test
                     {
-                        Name = "test 1",
+                        Name = "existing test",
                         Categories = new List<TestCategory>()
                     },
                     SuiteResult = new SuiteResult { SuiteResultID = 3 },
                     ResultType = TestResultType.Fail,
-                    TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
+                    TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion },
+                    StartTime = now,
+                    EndTime = now.AddSeconds(1)
                 };
 
                 var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
-                testResultService.SaveTestResult(testResult);
+                var savedTestResult = testResultService.SaveTestResult(testResult);
+
+                Assert.AreEqual(0, savedTestResult.TestResultID);
+                Assert.AreEqual(1, savedTestResult.Test.TestID);
+                Assert.AreEqual("existing test", savedTestResult.Test.Name);
+                Assert.AreEqual(3, savedTestResult.SuiteResult.SuiteResultID);
+                Assert.AreEqual(TestResultType.Fail, savedTestResult.ResultType);
+                Assert.AreEqual(now, savedTestResult.StartTime);
+                Assert.AreEqual(now.AddSeconds(1), savedTestResult.EndTime);
+                Assert.AreEqual(TestFailureType.Assertion, savedTestResult.TestFailureDetails.FailureType);
+                Assert.IsNull(savedTestResult.TestFailureDetails.FailureDetailMessage);
+                Assert.AreEqual(1, savedTestResult.Test.Suites.Count);
+                Assert.AreEqual(2, savedTestResult.Test.Suites.ToList()[0].SuiteID);
+                Assert.AreEqual(0, savedTestResult.Test.Categories.Count);
             }
 
             [TestMethod]
@@ -2773,6 +2891,8 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
                 testResultService.SaveTestResult(testResult);
             }
+
+            // todo: verify saving of actual test result start/end times
         }
     }
 }
