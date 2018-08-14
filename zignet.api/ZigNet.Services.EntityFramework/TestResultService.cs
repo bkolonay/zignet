@@ -8,7 +8,6 @@ using DbLatestTestResult = ZigNet.Database.EntityFramework.LatestTestResult;
 using DbTest = ZigNet.Database.EntityFramework.Test;
 using DbTestResult = ZigNet.Database.EntityFramework.TestResult;
 using DbTestCategory = ZigNet.Database.EntityFramework.TestCategory;
-using DbTemporaryTestResult = ZigNet.Database.EntityFramework.TemporaryTestResult;
 using DbTestFailureDuration = ZigNet.Database.EntityFramework.TestFailureDuration;
 using DbTestFailureDetail = ZigNet.Database.EntityFramework.TestFailureDetail;
 using DbTestFailureType = ZigNet.Database.EntityFramework.TestFailureType;
@@ -91,6 +90,8 @@ namespace ZigNet.Services.EntityFramework
 
         public TestResult SaveTestResult(TestResult testResult)
         {
+            // todo: move entire function to new service (there are too many dependencies)
+
             var existingTest = GetMappedTestWithCategoriesOrDefault(testResult.Test.Name);
             if (existingTest != null)
             {
@@ -98,7 +99,6 @@ namespace ZigNet.Services.EntityFramework
                 testResult.Test.Categories = testResult.Test.Categories.Concat(existingTest.Categories).ToList();
             }
 
-            // todo: pull out to mapping class/function (and unit test it there)
             var dbTestResult = new DbTestResult
             {
                 SuiteResultId = testResult.SuiteResult.SuiteResultID,
@@ -107,7 +107,6 @@ namespace ZigNet.Services.EntityFramework
                 TestResultTypeId = _testResultMapper.Map(testResult.ResultType)
             };
 
-            // not sure how to refactor this out (or unit test it)
             if (testResult.ResultType == TestResultType.Fail)
             {
                 dbTestResult.TestFailureTypes.Add(GetTestFailureType(testResult.TestFailureDetails.FailureType));
@@ -115,7 +114,6 @@ namespace ZigNet.Services.EntityFramework
                     dbTestResult.TestFailureDetails.Add(new DbTestFailureDetail { TestFailureDetail1 = testResult.TestFailureDetails.FailureDetailMessage });
             }
 
-            // not sure how to refactor this out (or unit test it)
             if (testResult.Test.TestID != 0)
                 dbTestResult.Test = _zigNetEntities.Tests
                     .Include(t => t.Suites)
@@ -179,49 +177,21 @@ namespace ZigNet.Services.EntityFramework
 
             _temporaryTestResultsService.Save(_testResultMapper.Map(savedTestResult));
 
-            // todo: pull out and make it save TestResult (saved result probably needs mapped back to DTO)
-            var dbLatestTestResult = _zigNetEntities.LatestTestResults
-                .SingleOrDefault(t =>
-                    t.SuiteId == suiteResult.SuiteId &&
-                    t.TestId == dbTestResult.Test.TestID
-                );
-            var suite = _zigNetEntities.Suites
-                .AsNoTracking()
-                .Single(s => s.SuiteID == suiteResult.SuiteId);
+            savedTestResult.SuiteResult.Suite.Name = _zigNetEntities.Suites.AsNoTracking().Single(s => s.SuiteID == suiteResult.SuiteId).SuiteName;
 
-            var suiteNameChanged = false;
-            if (dbLatestTestResult == null)
-                dbLatestTestResult = new DbLatestTestResult
-                {
-                    SuiteId = suiteResult.SuiteId,
-                    TestId = dbTestResult.Test.TestID,
-                    TestName = testResult.Test.Name,
-                    SuiteName = suite.SuiteName
-                };
-            else if (dbLatestTestResult.SuiteName != suite.SuiteName)
+            // todo: wrap this in a mapping class
+            var latestTestResultDto = new LatestTestResultDto
             {
-                dbLatestTestResult.SuiteName = suite.SuiteName;
-                suiteNameChanged = true;
-            }
+                TestResultID = savedTestResult.TestResultID,
+                SuiteId = savedTestResult.SuiteResult.Suite.SuiteID,
+                TestId = savedTestResult.Test.TestID,
+                TestName = savedTestResult.Test.Name,
+                SuiteName = savedTestResult.SuiteResult.Suite.Name
+            };
 
             var utcNow = DateTime.UtcNow;
-            if (testResult.ResultType == TestResultType.Pass && dbLatestTestResult.PassingFromDateTime == null)
-            {
-                dbLatestTestResult.TestResultId = dbTestResult.TestResultID;
-                dbLatestTestResult.PassingFromDateTime = utcNow;
-                dbLatestTestResult.FailingFromDateTime = null;
-                SaveLatestTestResult(dbLatestTestResult);
-            }
-            else if ((testResult.ResultType == TestResultType.Fail || testResult.ResultType == TestResultType.Inconclusive)
-                      && dbLatestTestResult.FailingFromDateTime == null)
-            {
-                dbLatestTestResult.TestResultId = dbTestResult.TestResultID;
-                dbLatestTestResult.FailingFromDateTime = utcNow;
-                dbLatestTestResult.PassingFromDateTime = null;
-                SaveLatestTestResult(dbLatestTestResult);
-            }
-            else if (suiteNameChanged)
-                SaveLatestTestResult(dbLatestTestResult);
+
+            _latestTestResultsService.Save(latestTestResultDto, savedTestResult.ResultType, utcNow);
 
             var latestDatabaseTestFailedDuration = _zigNetEntities.TestFailureDurations
                 .OrderByDescending(f => f.FailureStartDateTime)

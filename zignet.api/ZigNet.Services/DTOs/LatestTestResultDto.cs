@@ -5,6 +5,7 @@ namespace ZigNet.Services.DTOs
 {
     public class LatestTestResultDto
     {
+        public int LatestTestResultID { get; set; }
         public int TestResultID { get; set; }
         public int TestId { get; set; }
         public string TestName { get; set; }
