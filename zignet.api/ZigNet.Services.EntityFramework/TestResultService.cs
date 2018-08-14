@@ -31,15 +31,17 @@ namespace ZigNet.Services.EntityFramework
         private ILatestTestResultsService _latestTestResultsService;
         private ITestFailureDurationService _testFailureDurationService;
         private ITestResultMapper _testResultMapper;
+        private ITemporaryTestResultsService _temporaryTestResultsService;
 
         public TestResultService(IZigNetEntitiesWrapper zigNetEntitiesWrapper, ISuiteService suiteService,
             ILatestTestResultsService latestTestResultsService, ITestFailureDurationService testFailureDurationService,
-            ITestResultMapper testResultMapper)
+            ITestResultMapper testResultMapper, ITemporaryTestResultsService temporaryTestResultsService)
         {
             _zigNetEntities = zigNetEntitiesWrapper.Get();
             _suiteService = suiteService;
             _latestTestResultsService = latestTestResultsService;
             _testFailureDurationService = testFailureDurationService;
+            _temporaryTestResultsService = temporaryTestResultsService;
             _testResultMapper = testResultMapper;
         }
 
@@ -156,7 +158,10 @@ namespace ZigNet.Services.EntityFramework
                     Suites = new List<Suite>(),
                     Categories = new List<TestCategory>()
                 },
-                SuiteResult = new SuiteResult { SuiteResultID = dbTestResult.SuiteResultId },
+                SuiteResult = new SuiteResult {
+                    SuiteResultID = dbTestResult.SuiteResultId,
+                    Suite = new Suite { SuiteID = suiteResult.SuiteId }
+                },
                 ResultType = MapTestResultType(dbTestResult.TestResultTypeId),
                 StartTime = dbTestResult.TestResultStartDateTime,
                 EndTime = dbTestResult.TestResultEndDateTime
@@ -172,15 +177,7 @@ namespace ZigNet.Services.EntityFramework
             foreach (var dbTestCategory in dbTestResult.Test.TestCategories)
                 savedTestResult.Test.Categories.Add(new TestCategory { TestCategoryID = dbTestCategory.TestCategoryID, Name = dbTestCategory.CategoryName });
 
-            // todo: pull out and make it save TestResult (needs mapping for test result type)
-            _zigNetEntities.TemporaryTestResults.Add(new DbTemporaryTestResult
-            {
-                TestResultId = dbTestResult.TestResultID,
-                SuiteResultId = testResult.SuiteResult.SuiteResultID,
-                SuiteId = suiteResult.SuiteId,
-                TestResultTypeId = dbTestResult.TestResultTypeId
-            });
-            _zigNetEntities.SaveChanges();
+            _temporaryTestResultsService.Save(_testResultMapper.Map(savedTestResult));
 
             // todo: pull out and make it save TestResult (saved result probably needs mapped back to DTO)
             var dbLatestTestResult = _zigNetEntities.LatestTestResults

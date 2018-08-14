@@ -1,11 +1,24 @@
 ﻿using System;
 using ZigNet.Domain.Test;
+using ZigNet.Services.DTOs;
 
 namespace ZigNet.Services.EntityFramework.Mapping
 {
     public class TestResultMapper : ITestResultMapper
     {
-        // todo: could unit test this
+        // todo: unit test public interface
+
+        public TemporaryTestResultDto Map(TestResult testResult)
+        {
+            return new TemporaryTestResultDto
+            {
+                TestResultId = testResult.TestResultID,
+                SuiteResultId = testResult.SuiteResult.SuiteResultID,
+                SuiteId = testResult.SuiteResult.Suite.SuiteID,
+                TestResultTypeId = Map(testResult.ResultType)
+            };
+        }
+
         public int Map(TestResultType testResultType)
         {
             switch (testResultType)

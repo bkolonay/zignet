@@ -62,6 +62,10 @@
       <Project>{CC3DA63B-D39A-41A9-8941-2203A92E250A}</Project>
       <Name>ZigNet.Database.EntityFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ZigNet.Services\ZigNet.Services.csproj">
+      <Project>{93772535-6350-46DC-9041-CAEAC4A6B943}</Project>
+      <Name>ZigNet.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
