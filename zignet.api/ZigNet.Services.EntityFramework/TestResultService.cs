@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using ZigNet.Database.EntityFramework;
-using DbLatestTestResult = ZigNet.Database.EntityFramework.LatestTestResult;
-using DomainTestResult = ZigNet.Domain.Test.TestResult;
-using DomainTestResultType = ZigNet.Domain.Test.TestResultType;
-using DomainTest = ZigNet.Domain.Test.Test;
-using DomainTestCategory = ZigNet.Domain.Test.TestCategory;
-using DomainTestFailureType = ZigNet.Domain.Test.TestFailureType;
 using ZigNet.Services.DTOs;
+using DbLatestTestResult = ZigNet.Database.EntityFramework.LatestTestResult;
+using DbTest = ZigNet.Database.EntityFramework.Test;
+using DbTestResult = ZigNet.Database.EntityFramework.TestResult;
+using DbTestCategory = ZigNet.Database.EntityFramework.TestCategory;
+using DbTemporaryTestResult = ZigNet.Database.EntityFramework.TemporaryTestResult;
+using DbTestFailureDuration = ZigNet.Database.EntityFramework.TestFailureDuration;
+using DbTestFailureDetail = ZigNet.Database.EntityFramework.TestFailureDetail;
+using DbTestFailureType = ZigNet.Database.EntityFramework.TestFailureType;
+using TestResult = ZigNet.Domain.Test.TestResult;
+using TestResultType = ZigNet.Domain.Test.TestResultType;
+using Test = ZigNet.Domain.Test.Test;
+using TestCategory = ZigNet.Domain.Test.TestCategory;
+using TestFailureType = ZigNet.Domain.Test.TestFailureType;
 
 namespace ZigNet.Services.EntityFramework
 {
@@ -73,7 +80,7 @@ namespace ZigNet.Services.EntityFramework
             return failingLatestTestResults;
         }
 
-        public void SaveTestResult(DomainTestResult testResult)
+        public void SaveTestResult(TestResult testResult)
         {
             var existingTest = GetMappedTestWithCategoriesOrDefault(testResult.Test.Name);
             if (existingTest != null)
@@ -82,7 +89,7 @@ namespace ZigNet.Services.EntityFramework
                 testResult.Test.Categories = testResult.Test.Categories.Concat(existingTest.Categories).ToList();
             }
 
-            var dbTestResult = new TestResult
+            var dbTestResult = new DbTestResult
             {
                 SuiteResultId = testResult.SuiteResult.SuiteResultID,
                 TestResultStartDateTime = testResult.StartTime,
@@ -90,11 +97,11 @@ namespace ZigNet.Services.EntityFramework
                 TestResultTypeId = MapTestResultType(testResult.ResultType)
             };
 
-            if (testResult.ResultType == DomainTestResultType.Fail)
+            if (testResult.ResultType == TestResultType.Fail)
             {
                 dbTestResult.TestFailureTypes.Add(GetTestFailureType(testResult.TestFailureDetails.FailureType));
                 if (!string.IsNullOrWhiteSpace(testResult.TestFailureDetails.FailureDetailMessage))
-                    dbTestResult.TestFailureDetails.Add(new TestFailureDetail { TestFailureDetail1 = testResult.TestFailureDetails.FailureDetailMessage });
+                    dbTestResult.TestFailureDetails.Add(new DbTestFailureDetail { TestFailureDetail1 = testResult.TestFailureDetails.FailureDetailMessage });
             }
 
             if (testResult.Test.TestID != 0)
@@ -102,7 +109,7 @@ namespace ZigNet.Services.EntityFramework
                     .Include(t => t.Suites)
                     .Single(t => t.TestID == testResult.Test.TestID);
             else
-                dbTestResult.Test = new Test { TestName = testResult.Test.Name, TestCategories = new List<TestCategory>() };
+                dbTestResult.Test = new DbTest { TestName = testResult.Test.Name, TestCategories = new List<DbTestCategory>() };
 
             dbTestResult.Test.TestCategories.Clear();
             var dbTestCategories = _zigNetEntities.TestCategories.OrderBy(c => c.TestCategoryID).ToList();
@@ -115,7 +122,7 @@ namespace ZigNet.Services.EntityFramework
                 if (existingDbTestCategory != null)
                     dbTestResult.Test.TestCategories.Add(existingDbTestCategory);
                 else
-                    dbTestResult.Test.TestCategories.Add(new TestCategory { CategoryName = testCategory.Name });
+                    dbTestResult.Test.TestCategories.Add(new DbTestCategory { CategoryName = testCategory.Name });
             }
 
             var suiteResult = _zigNetEntities.SuiteResults
@@ -130,7 +137,7 @@ namespace ZigNet.Services.EntityFramework
             _zigNetEntities.TestResults.Add(dbTestResult);
             _zigNetEntities.SaveChanges();
             
-            _zigNetEntities.TemporaryTestResults.Add(new TemporaryTestResult
+            _zigNetEntities.TemporaryTestResults.Add(new DbTemporaryTestResult
             {
                 TestResultId = dbTestResult.TestResultID,
                 SuiteResultId = testResult.SuiteResult.SuiteResultID,
@@ -164,14 +171,14 @@ namespace ZigNet.Services.EntityFramework
             }
 
             var utcNow = DateTime.UtcNow;
-            if (testResult.ResultType == DomainTestResultType.Pass && dbLatestTestResult.PassingFromDateTime == null)
+            if (testResult.ResultType == TestResultType.Pass && dbLatestTestResult.PassingFromDateTime == null)
             {
                 dbLatestTestResult.TestResultId = dbTestResult.TestResultID;
                 dbLatestTestResult.PassingFromDateTime = utcNow;
                 dbLatestTestResult.FailingFromDateTime = null;
                 SaveLatestTestResult(dbLatestTestResult);
             }
-            else if ((testResult.ResultType == DomainTestResultType.Fail || testResult.ResultType == DomainTestResultType.Inconclusive)
+            else if ((testResult.ResultType == TestResultType.Fail || testResult.ResultType == TestResultType.Inconclusive)
                       && dbLatestTestResult.FailingFromDateTime == null)
             {
                 dbLatestTestResult.TestResultId = dbTestResult.TestResultID;
@@ -188,18 +195,18 @@ namespace ZigNet.Services.EntityFramework
                     f.SuiteId == suiteResult.SuiteId &&
                     f.TestId == dbTestResult.Test.TestID
                 );
-            if (testResult.ResultType == DomainTestResultType.Pass
+            if (testResult.ResultType == TestResultType.Pass
                 && latestDatabaseTestFailedDuration != null
                 && latestDatabaseTestFailedDuration.FailureStartDateTime != null && latestDatabaseTestFailedDuration.FailureEndDateTime == null)
             {
                 latestDatabaseTestFailedDuration.FailureEndDateTime = utcNow;
                 SaveTestFailedDuration(latestDatabaseTestFailedDuration);
             }
-            else if (testResult.ResultType == DomainTestResultType.Fail || testResult.ResultType == DomainTestResultType.Inconclusive)
+            else if (testResult.ResultType == TestResultType.Fail || testResult.ResultType == TestResultType.Inconclusive)
             {
                 if (latestDatabaseTestFailedDuration == null || latestDatabaseTestFailedDuration.FailureEndDateTime != null)
                 {
-                    var newTestFailedDuration = new TestFailureDuration
+                    var newTestFailedDuration = new DbTestFailureDuration
                     {
                         SuiteId = suiteResult.SuiteId,
                         TestId = dbTestResult.Test.TestID,
@@ -211,42 +218,42 @@ namespace ZigNet.Services.EntityFramework
             }
         }
 
-        private DomainTest GetMappedTestWithCategoriesOrDefault(string testName)
+        private Test GetMappedTestWithCategoriesOrDefault(string testName)
         {
             return _zigNetEntities.Tests
                 .AsNoTracking()
                 .Include(t => t.TestCategories)
                 .Select(t =>
-                    new DomainTest
+                    new Test
                     {
                         TestID = t.TestID,
                         Name = t.TestName,
-                        Categories = t.TestCategories.Select(tc => new DomainTestCategory { TestCategoryID = tc.TestCategoryID, Name = tc.CategoryName }).ToList()
+                        Categories = t.TestCategories.Select(tc => new TestCategory { TestCategoryID = tc.TestCategoryID, Name = tc.CategoryName }).ToList()
                     }
                 )
                 .SingleOrDefault(t => t.Name == testName);
         }
-        private int MapTestResultType(DomainTestResultType domainTestResultType)
+        private int MapTestResultType(TestResultType testResultType)
         {
-            switch (domainTestResultType)
+            switch (testResultType)
             {
-                case DomainTestResultType.Fail:
+                case TestResultType.Fail:
                     return 1;
-                case DomainTestResultType.Inconclusive:
+                case TestResultType.Inconclusive:
                     return 2;
-                case DomainTestResultType.Pass:
+                case TestResultType.Pass:
                     return 3;
                 default:
                     throw new InvalidOperationException("Test result type not recognized");
             }
         }
-        private TestFailureType GetTestFailureType(DomainTestFailureType zigNetTestFailureType)
+        private DbTestFailureType GetTestFailureType(TestFailureType zigNetTestFailureType)
         {
             switch (zigNetTestFailureType)
             {
-                case DomainTestFailureType.Exception:
+                case TestFailureType.Exception:
                     return _zigNetEntities.TestFailureTypes.Single(t => t.TestFailureTypeID == 2);
-                case DomainTestFailureType.Assertion:
+                case TestFailureType.Assertion:
                     return _zigNetEntities.TestFailureTypes.Single(t => t.TestFailureTypeID == 1);
                 default:
                     throw new InvalidOperationException("Test failure type not recognized");
@@ -258,7 +265,7 @@ namespace ZigNet.Services.EntityFramework
                 _zigNetEntities.LatestTestResults.Add(latestTestResult);
             _zigNetEntities.SaveChanges();
         }
-        private void SaveTestFailedDuration(TestFailureDuration testFailedDuration)
+        private void SaveTestFailedDuration(DbTestFailureDuration testFailedDuration)
         {
             if (testFailedDuration.TestFailureDurationID == 0)
                 _zigNetEntities.TestFailureDurations.Add(testFailedDuration);
