@@ -21,6 +21,7 @@ using TestCategory = ZigNet.Domain.Test.TestCategory;
 using TestFailureType = ZigNet.Domain.Test.TestFailureType;
 using SuiteResult = ZigNet.Domain.Suite.SuiteResult;
 using TestFailureDetails = ZigNet.Domain.Test.TestFailureDetails;
+using ZigNet.Services.EntityFramework.Mapping;
 
 namespace ZigNet.Services.EntityFramework.Tests
 {
@@ -51,7 +52,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -75,7 +76,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1).ToList();
 
                 Assert.AreEqual(0, actualLatestTestResults.Count);
@@ -123,7 +124,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1).ToList();
 
                 Assert.AreEqual(4, actualLatestTestResults.Count);
@@ -157,7 +158,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -189,7 +190,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -222,7 +223,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var actualLatestTestResults = testResultService.GetLatestResults(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -259,7 +260,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var latestTestResults = testResultService.GetLatestResults(1).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -292,7 +293,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var latestTestResults = testResultService.GetLatestResults(1).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -323,7 +324,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var latestTestResults = testResultService.GetLatestResults(1).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -354,7 +355,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var latestTestResults = testResultService.GetLatestResults(1).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -388,7 +389,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var latestTestResults = testResultService.GetLatestResults(1).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -421,7 +422,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var latestTestResults = testResultService.GetLatestResults(1).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -460,7 +461,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -507,7 +508,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).OrderBy(l => l.TestResultID).ToList();
 
                 Assert.AreEqual(2, actualLatestTestResults.Count);
@@ -555,7 +556,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -595,7 +596,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -628,7 +629,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IZigNetEntitiesWrapper>().Object,
                     mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object);
                 var actualLatestTestResults = testResultService.GetLatestResultsGrouped(1).ToList();
 
                 Assert.AreEqual(0, actualLatestTestResults.Count);
@@ -653,6 +654,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -705,7 +709,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new SuiteResult { SuiteResultID = 3 },
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 var savedTestResult = testResultService.SaveTestResult(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -727,6 +733,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockTests = new List<DbTest>().ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -779,7 +788,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 var savedTestResult = testResultService.SaveTestResult(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -802,6 +813,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockTests = new List<DbTest>().ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -826,7 +840,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -843,6 +859,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory> {
                     new DbTestCategory { TestCategoryID = 4, CategoryName = "existing test category" }
@@ -897,7 +916,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 var savedTestResult = testResultService.SaveTestResult(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -928,6 +949,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory> { new DbTestCategory { TestCategoryID = 4, CategoryName = "existing test category" } }.ToDbSetMock();
 
@@ -980,7 +1004,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 var savedTestResult = testResultService.SaveTestResult(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -1017,6 +1043,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory> {
                     new DbTestCategory { TestCategoryID = 4, CategoryName = "existing test category" }
@@ -1071,7 +1100,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 var savedTestResult = testResultService.SaveTestResult(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -1101,6 +1132,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 2, TestFailureTypeName = "Exception" }
@@ -1164,7 +1198,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 var savedTestResult = testResultService.SaveTestResult(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -1194,6 +1230,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Pass)).Returns(3);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -1250,7 +1289,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     EndTime = now.AddHours(1)
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 var savedTestResult = testResultService.SaveTestResult(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -1279,6 +1320,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
@@ -1341,7 +1385,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     EndTime = now.AddSeconds(1)
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 var savedTestResult = testResultService.SaveTestResult(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -1364,6 +1410,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockTests = new List<DbTest>().ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
@@ -1419,7 +1468,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1436,6 +1487,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
@@ -1493,7 +1547,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1510,6 +1566,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
@@ -1567,7 +1626,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1584,6 +1645,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
@@ -1641,7 +1705,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1658,6 +1724,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
@@ -1713,7 +1782,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1730,6 +1801,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
@@ -1787,7 +1861,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1805,6 +1881,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Pass)).Returns(3);
+
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
                 }.ToDbSetMock();
@@ -1860,7 +1939,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = TestResultType.Pass,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1878,6 +1959,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
+
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
                 }.ToDbSetMock();
@@ -1934,7 +2018,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -1952,6 +2038,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
+
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
                 var mockSuiteResults = new List<DbSuiteResult>
@@ -2002,7 +2091,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = TestResultType.Inconclusive,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2019,6 +2110,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Pass)).Returns(3);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -2070,7 +2164,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = TestResultType.Pass,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2087,6 +2183,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
@@ -2144,7 +2243,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2161,6 +2262,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -2212,7 +2316,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = TestResultType.Inconclusive,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2229,6 +2335,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Pass)).Returns(3);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -2280,7 +2389,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = TestResultType.Pass,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2297,6 +2408,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Pass)).Returns(3);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -2351,7 +2465,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = TestResultType.Pass,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2368,6 +2484,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Pass)).Returns(3);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -2422,7 +2541,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     ResultType = TestResultType.Pass,
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2440,6 +2561,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
+
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
                 }.ToDbSetMock();
@@ -2499,7 +2623,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2517,6 +2643,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
+
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
                 }.ToDbSetMock();
@@ -2576,7 +2705,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2593,6 +2724,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
@@ -2653,7 +2787,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2670,6 +2806,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
@@ -2732,7 +2871,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2749,6 +2890,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
@@ -2810,7 +2954,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 
@@ -2827,6 +2973,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 }.ToDbSetMock();
                 mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
@@ -2888,7 +3037,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
                 };
 
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object, new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object);
+                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
+                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
+                    mockTestResultMapper.Object);
                 testResultService.SaveTestResult(testResult);
             }
 

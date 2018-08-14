@@ -22,6 +22,8 @@ namespace ZigNet.Api
             container.Register<IZigNetEntitiesWrapper, ZigNetEntitiesWrapper>(Lifestyle.Scoped);
 
             container.Register<ISuiteResultMapper, SuiteResultMapper>(Lifestyle.Scoped);
+            container.Register<ITestResultMapper, TestResultMapper>(Lifestyle.Scoped);
+
             container.Register<ITemporaryTestResultsService, TemporaryTestResultsService>(Lifestyle.Scoped);
             container.Register<ILatestTestResultsService, LatestTestResultsService>(Lifestyle.Scoped);
             container.Register<ITestFailureDurationService, TestFailureDurationService>(Lifestyle.Scoped);

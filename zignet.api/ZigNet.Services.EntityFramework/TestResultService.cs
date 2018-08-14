@@ -20,6 +20,7 @@ using TestFailureType = ZigNet.Domain.Test.TestFailureType;
 using TestFailureDetails = ZigNet.Domain.Test.TestFailureDetails;
 using SuiteResult = ZigNet.Domain.Suite.SuiteResult;
 using Suite = ZigNet.Domain.Suite.Suite;
+using ZigNet.Services.EntityFramework.Mapping;
 
 namespace ZigNet.Services.EntityFramework
 {
@@ -29,14 +30,17 @@ namespace ZigNet.Services.EntityFramework
         private ISuiteService _suiteService;
         private ILatestTestResultsService _latestTestResultsService;
         private ITestFailureDurationService _testFailureDurationService;
+        private ITestResultMapper _testResultMapper;
 
         public TestResultService(IZigNetEntitiesWrapper zigNetEntitiesWrapper, ISuiteService suiteService,
-            ILatestTestResultsService latestTestResultsService, ITestFailureDurationService testFailureDurationService)
+            ILatestTestResultsService latestTestResultsService, ITestFailureDurationService testFailureDurationService,
+            ITestResultMapper testResultMapper)
         {
             _zigNetEntities = zigNetEntitiesWrapper.Get();
             _suiteService = suiteService;
             _latestTestResultsService = latestTestResultsService;
             _testFailureDurationService = testFailureDurationService;
+            _testResultMapper = testResultMapper;
         }
 
         public IEnumerable<LatestTestResultDto> GetLatestResults(int suiteId)
@@ -98,7 +102,7 @@ namespace ZigNet.Services.EntityFramework
                 SuiteResultId = testResult.SuiteResult.SuiteResultID,
                 TestResultStartDateTime = testResult.StartTime,
                 TestResultEndDateTime = testResult.EndTime,
-                TestResultTypeId = MapTestResultType(testResult.ResultType)
+                TestResultTypeId = _testResultMapper.Map(testResult.ResultType)
             };
 
             // not sure how to refactor this out (or unit test it)
@@ -267,20 +271,6 @@ namespace ZigNet.Services.EntityFramework
                     }
                 )
                 .SingleOrDefault(t => t.Name == testName);
-        }
-        private int MapTestResultType(TestResultType testResultType)
-        {
-            switch (testResultType)
-            {
-                case TestResultType.Fail:
-                    return 1;
-                case TestResultType.Inconclusive:
-                    return 2;
-                case TestResultType.Pass:
-                    return 3;
-                default:
-                    throw new InvalidOperationException("Test result type not recognized");
-            }
         }
         private TestResultType MapTestResultType(int dbTestResultTypeId)
         {
