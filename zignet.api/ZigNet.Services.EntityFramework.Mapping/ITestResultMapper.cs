@@ -5,7 +5,8 @@ namespace ZigNet.Services.EntityFramework.Mapping
 {
     public interface ITestResultMapper
     {
-        TemporaryTestResultDto Map(TestResult testResult);
+        TemporaryTestResultDto ToTemporaryTestResult(TestResult testResult);
+        LatestTestResultDto ToLatestTestResult(TestResult testResult);
         int Map(TestResultType testResultType);
     }
 }

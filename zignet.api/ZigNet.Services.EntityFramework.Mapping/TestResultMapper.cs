@@ -8,7 +8,7 @@ namespace ZigNet.Services.EntityFramework.Mapping
     {
         // todo: unit test public interface
 
-        public TemporaryTestResultDto Map(TestResult testResult)
+        public TemporaryTestResultDto ToTemporaryTestResult(TestResult testResult)
         {
             return new TemporaryTestResultDto
             {
@@ -32,6 +32,18 @@ namespace ZigNet.Services.EntityFramework.Mapping
                 default:
                     throw new InvalidOperationException("Test Result Type not recognized");
             }
+        }
+
+        public LatestTestResultDto ToLatestTestResult(TestResult testResult)
+        {
+            return new LatestTestResultDto
+            {
+                TestResultID = testResult.TestResultID,
+                SuiteId = testResult.SuiteResult.Suite.SuiteID,
+                TestId = testResult.Test.TestID,
+                TestName = testResult.Test.Name,
+                SuiteName = testResult.SuiteResult.Suite.Name
+            };
         }
     }
 }

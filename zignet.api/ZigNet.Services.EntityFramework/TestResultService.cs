@@ -111,7 +111,10 @@ namespace ZigNet.Services.EntityFramework
             {
                 dbTestResult.TestFailureTypes.Add(GetTestFailureType(testResult.TestFailureDetails.FailureType));
                 if (!string.IsNullOrWhiteSpace(testResult.TestFailureDetails.FailureDetailMessage))
-                    dbTestResult.TestFailureDetails.Add(new DbTestFailureDetail { TestFailureDetail1 = testResult.TestFailureDetails.FailureDetailMessage });
+                    dbTestResult.TestFailureDetails.Add(
+                        new DbTestFailureDetail {
+                            TestFailureDetail1 = testResult.TestFailureDetails.FailureDetailMessage
+                        });
             }
 
             if (testResult.Test.TestID != 0)
@@ -119,10 +122,13 @@ namespace ZigNet.Services.EntityFramework
                     .Include(t => t.Suites)
                     .Single(t => t.TestID == testResult.Test.TestID);
             else
-                dbTestResult.Test = new DbTest { TestName = testResult.Test.Name, TestCategories = new List<DbTestCategory>() };
+                dbTestResult.Test = new DbTest {
+                    TestName = testResult.Test.Name,
+                    TestCategories = new List<DbTestCategory>()
+                };
 
             dbTestResult.Test.TestCategories.Clear();
-            var dbTestCategories = _zigNetEntities.TestCategories.OrderBy(c => c.TestCategoryID).ToList();
+            var dbTestCategories = _zigNetEntities.TestCategories.OrderBy(c => c.TestCategoryID).ToList(); // todo: remove ordering categories
             foreach (var testCategory in testResult.Test.Categories)
             {
                 // use FirstOrDefault instead of SingleOrDefault because first-run multi-threaded tests end up inserting duplicate categories
@@ -139,59 +145,25 @@ namespace ZigNet.Services.EntityFramework
                 .AsNoTracking()
                 .Single(sr => sr.SuiteResultID == testResult.SuiteResult.SuiteResultID);
             if (!dbTestResult.Test.Suites.Any(s => s.SuiteID == suiteResult.SuiteId))
-            {
-                var localSuite = _zigNetEntities.Suites.Single(s => s.SuiteID == suiteResult.SuiteId);                
-                dbTestResult.Test.Suites.Add(localSuite);
-            }
+                dbTestResult.Test.Suites.Add(
+                    _zigNetEntities.Suites
+                        .Single(s => s.SuiteID == suiteResult.SuiteId));
 
             _zigNetEntities.TestResults.Add(dbTestResult);
             _zigNetEntities.SaveChanges();
 
-            var savedTestResult = new TestResult
-            {
-                TestResultID = dbTestResult.TestResultID,
-                Test = new Test {
-                    TestID = dbTestResult.Test.TestID,
-                    Name = dbTestResult.Test.TestName,
-                    Suites = new List<Suite>(),
-                    Categories = new List<TestCategory>()
-                },
-                SuiteResult = new SuiteResult {
-                    SuiteResultID = dbTestResult.SuiteResultId,
-                    Suite = new Suite { SuiteID = suiteResult.SuiteId }
-                },
-                ResultType = MapTestResultType(dbTestResult.TestResultTypeId),
-                StartTime = dbTestResult.TestResultStartDateTime,
-                EndTime = dbTestResult.TestResultEndDateTime
-            };
-            if (savedTestResult.ResultType == TestResultType.Fail)
-                savedTestResult.TestFailureDetails = new TestFailureDetails
-                {
-                    FailureDetailMessage = dbTestResult.TestFailureDetails.Count == 0 ? null : dbTestResult.TestFailureDetails.First().TestFailureDetail1,
-                    FailureType = MapTestFailureType(dbTestResult.TestFailureTypes.First().TestFailureTypeID)
-                };
-            foreach (var dbSuite in dbTestResult.Test.Suites)
-                savedTestResult.Test.Suites.Add(new Suite { SuiteID = dbSuite.SuiteID });
-            foreach (var dbTestCategory in dbTestResult.Test.TestCategories)
-                savedTestResult.Test.Categories.Add(new TestCategory { TestCategoryID = dbTestCategory.TestCategoryID, Name = dbTestCategory.CategoryName });
+            var savedTestResult = Map(dbTestResult, suiteResult.SuiteId);
 
-            _temporaryTestResultsService.Save(_testResultMapper.Map(savedTestResult));
-
-            savedTestResult.SuiteResult.Suite.Name = _zigNetEntities.Suites.AsNoTracking().Single(s => s.SuiteID == suiteResult.SuiteId).SuiteName;
-
-            // todo: wrap this in a mapping class
-            var latestTestResultDto = new LatestTestResultDto
-            {
-                TestResultID = savedTestResult.TestResultID,
-                SuiteId = savedTestResult.SuiteResult.Suite.SuiteID,
-                TestId = savedTestResult.Test.TestID,
-                TestName = savedTestResult.Test.Name,
-                SuiteName = savedTestResult.SuiteResult.Suite.Name
-            };
+            _temporaryTestResultsService.Save(
+                _testResultMapper.ToTemporaryTestResult(savedTestResult));
 
             var utcNow = DateTime.UtcNow;
-
-            _latestTestResultsService.Save(latestTestResultDto, savedTestResult.ResultType, utcNow);
+            savedTestResult.SuiteResult.Suite.Name = _zigNetEntities.Suites
+                .AsNoTracking()
+                .Single(s => s.SuiteID == suiteResult.SuiteId)
+                .SuiteName;
+            _latestTestResultsService.Save(
+                _testResultMapper.ToLatestTestResult(savedTestResult), savedTestResult.ResultType, utcNow);
 
             var latestDatabaseTestFailedDuration = _zigNetEntities.TestFailureDurations
                 .OrderByDescending(f => f.FailureStartDateTime)
@@ -222,6 +194,41 @@ namespace ZigNet.Services.EntityFramework
             }
 
             return savedTestResult;
+        }
+
+        private TestResult Map(DbTestResult dbTestResult, int suiteId)
+        {
+            var testResult = new TestResult
+            {
+                TestResultID = dbTestResult.TestResultID,
+                Test = new Test
+                {
+                    TestID = dbTestResult.Test.TestID,
+                    Name = dbTestResult.Test.TestName,
+                    Suites = new List<Suite>(),
+                    Categories = new List<TestCategory>()
+                },
+                SuiteResult = new SuiteResult
+                {
+                    SuiteResultID = dbTestResult.SuiteResultId,
+                    Suite = new Suite { SuiteID = suiteId }
+                },
+                ResultType = MapTestResultType(dbTestResult.TestResultTypeId),
+                StartTime = dbTestResult.TestResultStartDateTime,
+                EndTime = dbTestResult.TestResultEndDateTime
+            };
+            if (testResult.ResultType == TestResultType.Fail)
+                testResult.TestFailureDetails = new TestFailureDetails
+                {
+                    FailureDetailMessage = dbTestResult.TestFailureDetails.Count == 0 ? null : dbTestResult.TestFailureDetails.First().TestFailureDetail1,
+                    FailureType = MapTestFailureType(dbTestResult.TestFailureTypes.First().TestFailureTypeID)
+                };
+            foreach (var dbSuite in dbTestResult.Test.Suites)
+                testResult.Test.Suites.Add(new Suite { SuiteID = dbSuite.SuiteID });
+            foreach (var dbTestCategory in dbTestResult.Test.TestCategories)
+                testResult.Test.Categories.Add(new TestCategory { TestCategoryID = dbTestCategory.TestCategoryID, Name = dbTestCategory.CategoryName });
+
+            return testResult;
         }
 
         private Test GetMappedTestWithCategoriesOrDefault(string testName)
@@ -276,12 +283,6 @@ namespace ZigNet.Services.EntityFramework
                 default:
                     throw new InvalidOperationException("DB test failure type ID not recognized");
             }
-        }
-        private void SaveLatestTestResult(DbLatestTestResult latestTestResult)
-        {
-            if (latestTestResult.LatestTestResultID == 0)
-                _zigNetEntities.LatestTestResults.Add(latestTestResult);
-            _zigNetEntities.SaveChanges();
         }
         private void SaveTestFailedDuration(DbTestFailureDuration testFailedDuration)
         {
