@@ -102,12 +102,14 @@ namespace ZigNet.Services.EntityFramework
                 SuiteResultId = testResult.SuiteResult.SuiteResultID,
                 TestResultStartDateTime = testResult.StartTime,
                 TestResultEndDateTime = testResult.EndTime,
-                TestResultTypeId = _testResultMapper.Map(testResult.ResultType)
+                TestResultTypeId = _testResultMapper.ToDbTestResultTypeId(testResult.ResultType)
             };
 
             if (testResult.ResultType == TestResultType.Fail)
             {
-                dbTestResult.TestFailureTypes.Add(GetTestFailureType(testResult.TestFailureDetails.FailureType));
+                var testFailureType = _zigNetEntities.TestFailureTypes
+                    .Single(t => t.TestFailureTypeID == _testResultMapper.ToDbTestFailureTypeId(testResult.TestFailureDetails.FailureType));
+                dbTestResult.TestFailureTypes.Add(testFailureType);
                 if (!string.IsNullOrWhiteSpace(testResult.TestFailureDetails.FailureDetailMessage))
                     dbTestResult.TestFailureDetails.Add(
                         new DbTestFailureDetail {
@@ -186,7 +188,7 @@ namespace ZigNet.Services.EntityFramework
                     SuiteResultID = dbTestResult.SuiteResultId,
                     Suite = new Suite { SuiteID = suiteId }
                 },
-                ResultType = _testResultMapper.Map(dbTestResult.TestResultTypeId),
+                ResultType = _testResultMapper.ToTestResultType(dbTestResult.TestResultTypeId),
                 StartTime = dbTestResult.TestResultStartDateTime,
                 EndTime = dbTestResult.TestResultEndDateTime
             };
@@ -204,6 +206,7 @@ namespace ZigNet.Services.EntityFramework
             return testResult;
         }
 
+        // todo: can this logic be factored out?
         private Test GetMappedTestWithCategoriesOrDefault(string testName)
         {
             return _zigNetEntities.Tests
@@ -218,18 +221,6 @@ namespace ZigNet.Services.EntityFramework
                     }
                 )
                 .SingleOrDefault(t => t.Name == testName);
-        }
-        private DbTestFailureType GetTestFailureType(TestFailureType zigNetTestFailureType)
-        {
-            switch (zigNetTestFailureType)
-            {
-                case TestFailureType.Exception:
-                    return _zigNetEntities.TestFailureTypes.Single(t => t.TestFailureTypeID == 2);
-                case TestFailureType.Assertion:
-                    return _zigNetEntities.TestFailureTypes.Single(t => t.TestFailureTypeID == 1);
-                default:
-                    throw new InvalidOperationException("Test failure type not recognized");
-            }
         }
     }
 }

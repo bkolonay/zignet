@@ -654,7 +654,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
+                mockTestResultMapper.Setup(t => t.ToDbTestResultTypeId(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -719,7 +719,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
+                mockTestResultMapper.Setup(t => t.ToDbTestResultTypeId(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -785,7 +785,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
+                mockTestResultMapper.Setup(t => t.ToDbTestResultTypeId(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -831,7 +831,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
+                mockTestResultMapper.Setup(t => t.ToDbTestResultTypeId(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory> {
                     new DbTestCategory { TestCategoryID = 4, CategoryName = "existing test category" }
@@ -907,7 +907,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
+                mockTestResultMapper.Setup(t => t.ToDbTestResultTypeId(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory> { new DbTestCategory { TestCategoryID = 4, CategoryName = "existing test category" } }.ToDbSetMock();
 
@@ -987,7 +987,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Inconclusive)).Returns(2);
+                mockTestResultMapper.Setup(t => t.ToDbTestResultTypeId(TestResultType.Inconclusive)).Returns(2);
 
                 var mockTestCategories = new List<DbTestCategory> {
                     new DbTestCategory { TestCategoryID = 4, CategoryName = "existing test category" }
@@ -1062,8 +1062,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
-                mockTestResultMapper.Setup(t => t.Map(1)).Returns(TestResultType.Fail);
+                mockTestResultMapper.Setup(t => t.ToDbTestResultTypeId(TestResultType.Fail)).Returns(1);
+                mockTestResultMapper.Setup(t => t.ToTestResultType(1)).Returns(TestResultType.Fail);
+                mockTestResultMapper.Setup(t => t.ToDbTestFailureTypeId(TestFailureType.Exception)).Returns(2);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 2, TestFailureTypeName = "Exception" }
@@ -1147,8 +1148,8 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Pass)).Returns(3);
-                mockTestResultMapper.Setup(t => t.Map(3)).Returns(TestResultType.Pass);
+                mockTestResultMapper.Setup(t => t.ToDbTestResultTypeId(TestResultType.Pass)).Returns(3);
+                mockTestResultMapper.Setup(t => t.ToTestResultType(3)).Returns(TestResultType.Pass);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -1224,8 +1225,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
 
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
-                mockTestResultMapper.Setup(t => t.Map(1)).Returns(TestResultType.Fail);
+                mockTestResultMapper.Setup(t => t.ToDbTestResultTypeId(TestResultType.Fail)).Returns(1);
+                mockTestResultMapper.Setup(t => t.ToTestResultType(1)).Returns(TestResultType.Fail);
+                mockTestResultMapper.Setup(t => t.ToDbTestFailureTypeId(TestFailureType.Assertion)).Returns(1);
                 mockTestResultMapper.Setup(t => t.ToTestFailureType(1)).Returns(TestFailureType.Assertion);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{

@@ -7,6 +7,19 @@ namespace ZigNet.Services.EntityFramework.Mapping
     public class TestResultMapper : ITestResultMapper
     {
         // todo: unit test public interface
+        // todo: after moving save test results to its own service, split these into separate classes (too confusing to look at all of them)
+
+        public LatestTestResultDto ToLatestTestResult(TestResult testResult)
+        {
+            return new LatestTestResultDto
+            {
+                TestResultID = testResult.TestResultID,
+                SuiteId = testResult.SuiteResult.Suite.SuiteID,
+                TestId = testResult.Test.TestID,
+                TestName = testResult.Test.Name,
+                SuiteName = testResult.SuiteResult.Suite.Name
+            };
+        }
 
         public TemporaryTestResultDto ToTemporaryTestResult(TestResult testResult)
         {
@@ -15,26 +28,21 @@ namespace ZigNet.Services.EntityFramework.Mapping
                 TestResultId = testResult.TestResultID,
                 SuiteResultId = testResult.SuiteResult.SuiteResultID,
                 SuiteId = testResult.SuiteResult.Suite.SuiteID,
-                TestResultTypeId = Map(testResult.ResultType)
+                TestResultTypeId = ToDbTestResultTypeId(testResult.ResultType)
             };
         }
 
-        public int Map(TestResultType testResultType)
+        public TestFailureDurationDto ToTestFailureDuration(TestResult testResult)
         {
-            switch (testResultType)
+            return new TestFailureDurationDto
             {
-                case TestResultType.Fail:
-                    return 1;
-                case TestResultType.Inconclusive:
-                    return 2;
-                case TestResultType.Pass:
-                    return 3;
-                default:
-                    throw new InvalidOperationException("Test Result Type not recognized");
-            }
+                SuiteId = testResult.SuiteResult.Suite.SuiteID,
+                TestId = testResult.Test.TestID,
+                TestResultId = testResult.TestResultID
+            };
         }
 
-        public TestResultType Map(int dbTestResultTypeId)
+        public TestResultType ToTestResultType(int dbTestResultTypeId)
         {
             switch (dbTestResultTypeId)
             {
@@ -46,6 +54,21 @@ namespace ZigNet.Services.EntityFramework.Mapping
                     return TestResultType.Pass;
                 default:
                     throw new InvalidOperationException("DB test result type ID not recognized");
+            }
+        }
+
+        public int ToDbTestResultTypeId(TestResultType testResultType)
+        {
+            switch (testResultType)
+            {
+                case TestResultType.Fail:
+                    return 1;
+                case TestResultType.Inconclusive:
+                    return 2;
+                case TestResultType.Pass:
+                    return 3;
+                default:
+                    throw new InvalidOperationException("Test Result Type not recognized");
             }
         }
 
@@ -62,26 +85,17 @@ namespace ZigNet.Services.EntityFramework.Mapping
             }
         }
 
-        public LatestTestResultDto ToLatestTestResult(TestResult testResult)
+        public int ToDbTestFailureTypeId(TestFailureType testFailureType)
         {
-            return new LatestTestResultDto
+            switch (testFailureType)
             {
-                TestResultID = testResult.TestResultID,
-                SuiteId = testResult.SuiteResult.Suite.SuiteID,
-                TestId = testResult.Test.TestID,
-                TestName = testResult.Test.Name,
-                SuiteName = testResult.SuiteResult.Suite.Name
-            };
-        }
-
-        public TestFailureDurationDto ToTestFailureDuration(TestResult testResult)
-        {
-            return new TestFailureDurationDto
-            {
-                SuiteId = testResult.SuiteResult.Suite.SuiteID,
-                TestId = testResult.Test.TestID,
-                TestResultId = testResult.TestResultID
-            };
+                case TestFailureType.Assertion:
+                    return 1;
+                case TestFailureType.Exception:
+                    return 2;
+                default:
+                    throw new InvalidOperationException("Test Failure Type not recognized");
+            }
         }
     }
 }
