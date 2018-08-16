@@ -58,11 +58,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Suite\LatestSuiteResultsService.cs" />
-    <Compile Include="Test\LatestTestResultsService.cs" />
+    <Compile Include="Test\LatestTestResultService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Suite\SuiteResultService.cs" />
     <Compile Include="Suite\SuiteService.cs" />
-    <Compile Include="Test\TemporaryTestResultsService.cs" />
+    <Compile Include="Test\TemporaryTestResultService.cs" />
     <Compile Include="Test\TestFailureDurationService.cs" />
     <Compile Include="Test\TestResultSaverService.cs" />
     <Compile Include="Test\TestResultService.cs" />

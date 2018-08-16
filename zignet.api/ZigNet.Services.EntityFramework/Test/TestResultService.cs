@@ -3,35 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using ZigNet.Database.EntityFramework;
 using ZigNet.Services.DTOs;
-using ZigNet.Services.EntityFramework.Mapping;
 
 namespace ZigNet.Services.EntityFramework
 {
     public class TestResultService : ITestResultService
     {
         private ZigNetEntities _db;
-        private ISuiteService _suiteService;
-        private ILatestTestResultService _latestTestResultsService;
+        private ILatestTestResultService _latestTestResultService;
         private ITestFailureDurationService _testFailureDurationService;
-        private ITestResultMapper _testResultMapper;
-        private ITemporaryTestResultService _temporaryTestResultsService;
+        private ISuiteService _suiteService;
 
-        // todo: rename class to LatestTestResultService
-        public TestResultService(IDbContext dbContext, ISuiteService suiteService,
-            ILatestTestResultService latestTestResultsService, ITestFailureDurationService testFailureDurationService,
-            ITestResultMapper testResultMapper, ITemporaryTestResultService temporaryTestResultsService)
+        public TestResultService(IDbContext dbContext, ILatestTestResultService latestTestResultsService,
+            ITestFailureDurationService testFailureDurationService, ISuiteService suiteService)
         {
             _db = dbContext.Get();
-            _suiteService = suiteService;
-            _latestTestResultsService = latestTestResultsService;
+            _latestTestResultService = latestTestResultsService;
             _testFailureDurationService = testFailureDurationService;
-            _temporaryTestResultsService = temporaryTestResultsService;
-            _testResultMapper = testResultMapper;
+            _suiteService = suiteService;
         }
 
         public IEnumerable<LatestTestResultDto> GetLatest(int suiteId)
         {
-            var latestTestResults = _latestTestResultsService.Get(suiteId).ToList();
+            var latestTestResults = _latestTestResultService.Get(suiteId).ToList();
             latestTestResults = AssignTestFailureDurations(latestTestResults);
             return Sort(latestTestResults);
         }
@@ -44,7 +37,7 @@ namespace ZigNet.Services.EntityFramework
                 .Select(s => s.SuiteID)
                 .ToArray();
 
-            var latestTestResults = _latestTestResultsService.Get(suiteIds).ToList();
+            var latestTestResults = _latestTestResultService.Get(suiteIds).ToList();
             latestTestResults = AssignTestFailureDurations(latestTestResults);
             return Sort(latestTestResults);
         }
