@@ -163,15 +163,8 @@ namespace ZigNet.Services.EntityFramework
             _latestTestResultsService.Save(
                 _testResultMapper.ToLatestTestResult(savedTestResult), savedTestResult.ResultType, utcNow);
 
-            // todo: move to mapping class
-            var testFailureDurationDto = new TestFailureDurationDto
-            {
-                SuiteId = savedTestResult.SuiteResult.Suite.SuiteID,
-                TestId = savedTestResult.Test.TestID,
-                TestResultId = savedTestResult.TestResultID
-            };
-
-            _testFailureDurationService.Save(testFailureDurationDto, savedTestResult.ResultType, utcNow);
+            _testFailureDurationService.Save(
+                _testResultMapper.ToTestFailureDuration(savedTestResult), savedTestResult.ResultType, utcNow);
 
             return savedTestResult;
         }

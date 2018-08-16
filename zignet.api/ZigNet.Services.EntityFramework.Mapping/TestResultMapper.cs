@@ -45,5 +45,15 @@ namespace ZigNet.Services.EntityFramework.Mapping
                 SuiteName = testResult.SuiteResult.Suite.Name
             };
         }
+
+        public TestFailureDurationDto ToTestFailureDuration(TestResult testResult)
+        {
+            return new TestFailureDurationDto
+            {
+                SuiteId = testResult.SuiteResult.Suite.SuiteID,
+                TestId = testResult.Test.TestID,
+                TestResultId = testResult.TestResultID
+            };
+        }
     }
 }
