@@ -11,7 +11,7 @@ namespace ZigNet.Services.EntityFramework
         private ZigNetEntities _zigNetEntities;
         private ISuiteResultMapper _suiteResultMapper;
 
-        public SuiteResultService(IZigNetEntitiesWrapper zigNetEntitiesWrapper, ISuiteResultMapper suiteResultMapper)
+        public SuiteResultService(IDbContext zigNetEntitiesWrapper, ISuiteResultMapper suiteResultMapper)
         {
             _zigNetEntities = zigNetEntitiesWrapper.Get();
             _suiteResultMapper = suiteResultMapper;

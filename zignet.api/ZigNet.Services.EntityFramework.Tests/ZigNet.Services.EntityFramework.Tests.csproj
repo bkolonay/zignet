@@ -77,15 +77,15 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Helpers\ExtensionMethods.cs" />
-    <Compile Include="LatestSuiteResultsServiceTests.cs" />
-    <Compile Include="LatestTestResultsServiceTests.cs" />
+    <Compile Include="Suite\LatestSuiteResultsServiceTests.cs" />
+    <Compile Include="Test\LatestTestResultsServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SuiteResultServiceTests.cs" />
-    <Compile Include="SuiteServiceTests.cs" />
-    <Compile Include="TemporaryTestResultsServiceTests.cs" />
-    <Compile Include="TestFailureDurationServiceTests.cs" />
-    <Compile Include="TestResultSaverServiceTests.cs" />
-    <Compile Include="TestResultsServiceTests.cs" />
+    <Compile Include="Suite\SuiteResultServiceTests.cs" />
+    <Compile Include="Suite\SuiteServiceTests.cs" />
+    <Compile Include="Test\TemporaryTestResultsServiceTests.cs" />
+    <Compile Include="Test\TestFailureDurationServiceTests.cs" />
+    <Compile Include="Test\TestResultSaverServiceTests.cs" />
+    <Compile Include="Test\TestResultsServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

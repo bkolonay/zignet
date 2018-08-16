@@ -25,7 +25,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
-                var mockZignetEntitiesWrapper = new Mock<IZigNetEntitiesWrapper>();
+                var mockZignetEntitiesWrapper = new Mock<IDbContext>();
                 mockZignetEntitiesWrapper.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var testFailureDurationDto = new TestFailureDurationDto
@@ -61,7 +61,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
-                var mockZignetEntitiesWrapper = new Mock<IZigNetEntitiesWrapper>();
+                var mockZignetEntitiesWrapper = new Mock<IDbContext>();
                 mockZignetEntitiesWrapper.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var testFailureDurationDto = new TestFailureDurationDto
@@ -96,7 +96,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
-                var mockZignetEntitiesWrapper = new Mock<IZigNetEntitiesWrapper>();
+                var mockZignetEntitiesWrapper = new Mock<IDbContext>();
                 mockZignetEntitiesWrapper.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var testFailureDurationDto = new TestFailureDurationDto
@@ -127,7 +127,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
-                var mockZignetEntitiesWrapper = new Mock<IZigNetEntitiesWrapper>();
+                var mockZignetEntitiesWrapper = new Mock<IDbContext>();
                 mockZignetEntitiesWrapper.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var testFailureDurationDto = new TestFailureDurationDto
@@ -168,7 +168,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
-                var mockZignetEntitiesWrapper = new Mock<IZigNetEntitiesWrapper>();
+                var mockZignetEntitiesWrapper = new Mock<IDbContext>();
                 mockZignetEntitiesWrapper.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var testFailureDurationDto = new TestFailureDurationDto
@@ -208,7 +208,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
-                var mockZignetEntitiesWrapper = new Mock<IZigNetEntitiesWrapper>();
+                var mockZignetEntitiesWrapper = new Mock<IDbContext>();
                 mockZignetEntitiesWrapper.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var testFailureDurationDto = new TestFailureDurationDto
@@ -257,7 +257,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
-                var mockZignetEntitiesWrapper = new Mock<IZigNetEntitiesWrapper>();
+                var mockZignetEntitiesWrapper = new Mock<IDbContext>();
                 mockZignetEntitiesWrapper.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var testFailureDurationDto = new TestFailureDurationDto
@@ -304,7 +304,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
-                var mockZignetEntitiesWrapper = new Mock<IZigNetEntitiesWrapper>();
+                var mockZignetEntitiesWrapper = new Mock<IDbContext>();
                 mockZignetEntitiesWrapper.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var testFailureDurationDto = new TestFailureDurationDto
@@ -351,7 +351,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
-                var mockZignetEntitiesWrapper = new Mock<IZigNetEntitiesWrapper>();
+                var mockZignetEntitiesWrapper = new Mock<IDbContext>();
                 mockZignetEntitiesWrapper.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var testFailureDurationDto = new TestFailureDurationDto

@@ -1,6 +1,6 @@
 ﻿namespace ZigNet.Database.EntityFramework
 {
-    public interface IZigNetEntitiesWrapper
+    public interface IDbContext
     {
         ZigNetEntities Get();
     }

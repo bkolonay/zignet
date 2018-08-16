@@ -64,7 +64,7 @@
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Fix.cs" />
-    <Compile Include="IZigNetEntitiesWrapper.cs" />
+    <Compile Include="IDbContext.cs" />
     <Compile Include="LatestTestResult.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>

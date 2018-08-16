@@ -24,7 +24,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zigNetEntitiesMock = new Mock<ZigNetEntities>();
                 zigNetEntitiesMock.Setup(z => z.SuiteResults).Returns(dbSuiteResults.Object);
 
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IDbContext>();
                 zigNetEntitiesWrapperMock.Setup(z => z.Get()).Returns(zigNetEntitiesMock.Object);
 
                 var suiteResultMapperMock = new Mock<ISuiteResultMapper>();
@@ -46,7 +46,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zigNetEntitiesMock = new Mock<ZigNetEntities>();
                 zigNetEntitiesMock.Setup(z => z.SuiteResults).Returns(dbSuiteResults.Object);
 
-                var zigNetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zigNetEntitiesWrapperMock = new Mock<IDbContext>();
                 zigNetEntitiesWrapperMock.Setup(z => z.Get()).Returns(zigNetEntitiesMock.Object);
 
                 var suiteResultMapperMock = new Mock<ISuiteResultMapper>();

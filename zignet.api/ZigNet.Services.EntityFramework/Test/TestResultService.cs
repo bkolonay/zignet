@@ -17,7 +17,7 @@ namespace ZigNet.Services.EntityFramework
         private ITemporaryTestResultsService _temporaryTestResultsService;
 
         // todo: rename class to LatestTestResultService
-        public TestResultService(IZigNetEntitiesWrapper zigNetEntitiesWrapper, ISuiteService suiteService,
+        public TestResultService(IDbContext zigNetEntitiesWrapper, ISuiteService suiteService,
             ILatestTestResultsService latestTestResultsService, ITestFailureDurationService testFailureDurationService,
             ITestResultMapper testResultMapper, ITemporaryTestResultsService temporaryTestResultsService)
         {

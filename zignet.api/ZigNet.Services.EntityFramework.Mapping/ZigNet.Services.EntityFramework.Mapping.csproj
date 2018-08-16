@@ -48,11 +48,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISuiteResultMapper.cs" />
-    <Compile Include="ITestResultMapper.cs" />
+    <Compile Include="Suite\ISuiteResultMapper.cs" />
+    <Compile Include="Test\ITestResultMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SuiteResultMapper.cs" />
-    <Compile Include="TestResultMapper.cs" />
+    <Compile Include="Suite\SuiteResultMapper.cs" />
+    <Compile Include="Test\TestResultMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

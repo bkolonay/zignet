@@ -38,7 +38,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
@@ -87,7 +87,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
@@ -129,7 +129,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
@@ -157,7 +157,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
@@ -197,7 +197,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
@@ -238,7 +238,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
@@ -281,7 +281,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
@@ -325,7 +325,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
@@ -371,7 +371,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
@@ -412,7 +412,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);
@@ -445,7 +445,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockTemporaryTestResults.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var latestSuiteResultsService = new LatestSuiteResultsService(zignetEntitiesWrapperMock.Object, mockSuiteService.Object);

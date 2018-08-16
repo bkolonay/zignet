@@ -53,19 +53,20 @@
     <Compile Include="DTOs\SuiteSummary.cs" />
     <Compile Include="DTOs\TemporaryTestResultDto.cs" />
     <Compile Include="DTOs\TestFailureDurationDto.cs" />
-    <Compile Include="ILatestSuiteResultsService.cs" />
-    <Compile Include="ILatestTestResultsService.cs" />
-    <Compile Include="ITestResultSaverService.cs" />
-    <Compile Include="ISuiteResultService.cs" />
-    <Compile Include="ISuiteService.cs" />
-    <Compile Include="ITemporaryTestResultsService.cs" />
-    <Compile Include="ITestFailureDurationService.cs" />
-    <Compile Include="ITestResultService.cs" />
+    <Compile Include="Suite\ILatestSuiteResultsService.cs" />
+    <Compile Include="Test\ILatestTestResultsService.cs" />
+    <Compile Include="Test\ITestResultSaverService.cs" />
+    <Compile Include="Suite\ISuiteResultService.cs" />
+    <Compile Include="Suite\ISuiteService.cs" />
+    <Compile Include="Test\ITemporaryTestResultsService.cs" />
+    <Compile Include="Test\ITestFailureDurationService.cs" />
+    <Compile Include="Test\ITestResultService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

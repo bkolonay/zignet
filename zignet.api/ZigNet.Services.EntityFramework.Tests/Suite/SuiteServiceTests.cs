@@ -34,7 +34,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
@@ -66,7 +66,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
@@ -101,7 +101,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);
@@ -137,7 +137,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var suiteService = new SuiteService(zignetEntitiesWrapperMock.Object);

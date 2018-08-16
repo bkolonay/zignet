@@ -8,7 +8,7 @@ namespace ZigNet.Services.EntityFramework
     {
         private ZigNetEntities _zigNetEntities;
 
-        public TemporaryTestResultsService(IZigNetEntitiesWrapper zigNetEntitiesWrapper)
+        public TemporaryTestResultsService(IDbContext zigNetEntitiesWrapper)
         {
             _zigNetEntities = zigNetEntitiesWrapper.Get();
         }

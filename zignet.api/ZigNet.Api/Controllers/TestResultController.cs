@@ -29,7 +29,7 @@ namespace ZigNet.Api.Controllers
         }
 
         [Route("api/TestResult/Latest")]
-        public GetLatestTestResultsModel GetLatest([FromBody] int suiteId, bool group = false)
+        public GetLatestTestResultsModel Latest([FromBody] int suiteId, bool group = false)
         {
             return new GetLatestTestResultsModel
             {

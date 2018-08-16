@@ -24,7 +24,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockDbSet.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var temporaryTestResultsService = new TemporaryTestResultsService(zignetEntitiesWrapperMock.Object);
@@ -46,7 +46,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockDbSet.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var temporaryTestResultsService = new TemporaryTestResultsService(zignetEntitiesWrapperMock.Object);
@@ -69,7 +69,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockDbSet.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var temporaryTestResultsService = new TemporaryTestResultsService(zignetEntitiesWrapperMock.Object);
@@ -92,7 +92,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.TemporaryTestResults).Returns(mockDbSet.Object);
 
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
                 var temporaryTestResultsService = new TemporaryTestResultsService(zignetEntitiesWrapperMock.Object);

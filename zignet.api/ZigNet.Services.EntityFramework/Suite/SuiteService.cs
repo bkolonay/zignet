@@ -10,7 +10,7 @@ namespace ZigNet.Services.EntityFramework
     {
         private ZigNetEntities _zigNetEntities;
 
-        public SuiteService(IZigNetEntitiesWrapper zigNetEntitiesWrapper)
+        public SuiteService(IDbContext zigNetEntitiesWrapper)
         {
             _zigNetEntities = zigNetEntitiesWrapper.Get();
         }

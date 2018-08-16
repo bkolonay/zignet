@@ -11,14 +11,11 @@ namespace ZigNet.Api.Controllers
 {
     public class SuiteController : ApiController
     {
-        private ILatestSuiteResultsBusinessProvider _latestSuiteResultsBusinessProvider;
         private ISuiteBusinessProvider _suiteBusinessProvider;
         private IZigNetApiMapper _zigNetApiMapper;
 
-        public SuiteController(ILatestSuiteResultsBusinessProvider latestSuiteResultsBusinessProvider, 
-            ISuiteBusinessProvider suiteBusinessProvider, IZigNetApiMapper zigNetApiMapper)
+        public SuiteController(ISuiteBusinessProvider suiteBusinessProvider, IZigNetApiMapper zigNetApiMapper)
         {
-            _latestSuiteResultsBusinessProvider = latestSuiteResultsBusinessProvider;
             _suiteBusinessProvider = suiteBusinessProvider;
             _zigNetApiMapper = zigNetApiMapper;
         }
@@ -46,7 +43,7 @@ namespace ZigNet.Api.Controllers
         [Route("api/Suite/Latest")]
         public IEnumerable<SuiteSummary> GetLatest(bool group = false, bool debug = false)
         {
-            return _latestSuiteResultsBusinessProvider.GetLatest(group, debug);
+            return _suiteBusinessProvider.GetLatest(group, debug);
         }
     }
 }

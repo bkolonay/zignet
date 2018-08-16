@@ -2,7 +2,7 @@
 
 namespace ZigNet.Database.EntityFramework
 {
-    public class ZigNetEntitiesWrapper : IZigNetEntitiesWrapper, IDisposable
+    public class ZigNetEntitiesWrapper : IDbContext, IDisposable
     {
         private ZigNetEntities _zigNetEntities = new ZigNetEntities();
 

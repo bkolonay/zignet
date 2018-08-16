@@ -11,7 +11,7 @@ namespace ZigNet.Services.EntityFramework
     {
         private ZigNetEntities _zigNetEntities;
 
-        public LatestTestResultsService(IZigNetEntitiesWrapper zigNetEntitiesWrapper)
+        public LatestTestResultsService(IDbContext zigNetEntitiesWrapper)
         {
             _zigNetEntities = zigNetEntitiesWrapper.Get();
         }

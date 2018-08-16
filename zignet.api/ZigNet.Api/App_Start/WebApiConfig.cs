@@ -19,7 +19,7 @@ namespace ZigNet.Api
             var container = new Container();
             container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
 
-            container.Register<IZigNetEntitiesWrapper, ZigNetEntitiesWrapper>(Lifestyle.Scoped);
+            container.Register<IDbContext, ZigNetEntitiesWrapper>(Lifestyle.Scoped);
 
             container.Register<ISuiteResultMapper, SuiteResultMapper>(Lifestyle.Scoped);
             container.Register<ITestResultMapper, TestResultMapper>(Lifestyle.Scoped);
@@ -34,7 +34,6 @@ namespace ZigNet.Api
             container.Register<ITestResultService, TestResultService>(Lifestyle.Scoped);
 
             container.Register<ISuiteBusinessProvider, SuiteBusinessProvider>(Lifestyle.Scoped);
-            container.Register<ILatestSuiteResultsBusinessProvider, LatestSuiteResultsBusinessProvider>(Lifestyle.Scoped);
             container.Register<ITestResultBusinessProvider, TestResultBusinessProvider>(Lifestyle.Scoped);
 
             container.Register<IZigNetApiMapper, ZigNetApiMapper>(Lifestyle.Scoped);

@@ -1,21 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ZigNet.Domain.Suite;
 using ZigNet.Services;
+using ZigNet.Services.DTOs;
 
 namespace ZigNet.Business
 {
     public class SuiteBusinessProvider : ISuiteBusinessProvider
     {
-        private ITemporaryTestResultsService _temporaryTestResultsService;
+        private ILatestSuiteResultsService _latestSuiteResultsService;
         private ISuiteResultService _suiteResultService;
         private ISuiteService _suiteService;
+        private ITemporaryTestResultsService _temporaryTestResultsService;        
 
-        public SuiteBusinessProvider(ISuiteService suiteService, ITemporaryTestResultsService temporaryTestResultsService,
-            ISuiteResultService suiteResultService)
+        public SuiteBusinessProvider(ILatestSuiteResultsService latestSuiteResultsService, ISuiteResultService suiteResultService,
+            ISuiteService suiteService, ITemporaryTestResultsService temporaryTestResultsService)
         {
+            _latestSuiteResultsService = latestSuiteResultsService;
+            _suiteResultService = suiteResultService;
             _suiteService = suiteService;
             _temporaryTestResultsService = temporaryTestResultsService;
-            _suiteResultService = suiteResultService;
         }
 
         public int StartSuite(int suiteId)
@@ -48,6 +53,12 @@ namespace ZigNet.Business
         {
             var suite = _suiteService.Get(suiteId);
             return group ? suite.GetNameGrouped() : suite.GetName();
+        }
+
+        public IEnumerable<SuiteSummary> GetLatest(bool group, bool includeDebug)
+        {
+            var suiteSummaries = group ? _latestSuiteResultsService.GetLatestGrouped() : _latestSuiteResultsService.GetLatest();
+            return includeDebug ? suiteSummaries : suiteSummaries.Where(s => !s.SuiteName.Contains("(D)"));
         }
     }
 }

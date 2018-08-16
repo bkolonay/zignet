@@ -12,7 +12,7 @@ namespace ZigNet.Services.EntityFramework
     {
         private ZigNetEntities _zigNetEntities;
 
-        public TestFailureDurationService(IZigNetEntitiesWrapper zigNetEntitiesWrapper)
+        public TestFailureDurationService(IDbContext zigNetEntitiesWrapper)
         {
             _zigNetEntities = zigNetEntitiesWrapper.Get();
         }

@@ -26,7 +26,7 @@ namespace ZigNet.Services.EntityFramework
         private ITestResultMapper _testResultMapper;
         private ITemporaryTestResultsService _temporaryTestResultsService;
 
-        public TestResultSaverService(IZigNetEntitiesWrapper zigNetEntitiesWrapper,  ILatestTestResultsService latestTestResultsService,
+        public TestResultSaverService(IDbContext zigNetEntitiesWrapper,  ILatestTestResultsService latestTestResultsService,
             ITestFailureDurationService testFailureDurationService, ITestResultMapper testResultMapper,
             ITemporaryTestResultsService temporaryTestResultsService)
         {
