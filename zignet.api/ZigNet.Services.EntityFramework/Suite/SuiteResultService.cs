@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using DbSuiteResult = ZigNet.Database.EntityFramework.SuiteResult;
-using DomainSuiteResult = ZigNet.Domain.Suite.SuiteResult;
+using SuiteResult = ZigNet.Domain.Suite.SuiteResult;
 using ZigNet.Services.EntityFramework.Mapping;
 using ZigNet.Database.EntityFramework;
 
@@ -17,13 +17,13 @@ namespace ZigNet.Services.EntityFramework
             _suiteResultMapper = suiteResultMapper;
         }
 
-        public DomainSuiteResult Get(int suiteResultId)
+        public SuiteResult Get(int suiteResultId)
         {
             var dbSuite = _db.SuiteResults.Single(sr => sr.SuiteResultID == suiteResultId);
             return _suiteResultMapper.Map(dbSuite);
         }
 
-        public int SaveSuiteResult(DomainSuiteResult domainSuiteResult)
+        public int SaveSuiteResult(SuiteResult domainSuiteResult)
         {
             DbSuiteResult dbSuiteResult = null;
             if (domainSuiteResult.SuiteResultID == 0)
