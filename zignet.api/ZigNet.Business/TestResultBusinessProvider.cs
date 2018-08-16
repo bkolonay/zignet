@@ -9,10 +9,12 @@ namespace ZigNet.Business
     public class TestResultBusinessProvider : ITestResultBusinessProvider
     {
         private ITestResultService _testResultService;
+        private ITestResultSaverService _testResultSaverService;
 
-        public TestResultBusinessProvider(ITestResultService testResultService)
+        public TestResultBusinessProvider(ITestResultService testResultService, ITestResultSaverService testResultSaverService)
         {
             _testResultService = testResultService;
+            _testResultSaverService = testResultSaverService;
         }
 
         public IEnumerable<LatestTestResultDto> GetLatestResults(int suiteId, bool group)
@@ -25,7 +27,7 @@ namespace ZigNet.Business
             if (string.IsNullOrWhiteSpace(testResult.Test.Name))
                 throw new ArgumentNullException("TestName", "Test name cannot be null");
 
-            _testResultService.SaveTestResult(testResult);
+            _testResultSaverService.Save(testResult);
         }
     }
 }

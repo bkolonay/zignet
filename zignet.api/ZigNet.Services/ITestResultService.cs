@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ZigNet.Services.DTOs;
-using ZigNet.Domain.Test;
 
 namespace ZigNet.Services
 {
@@ -8,6 +7,5 @@ namespace ZigNet.Services
     {
         IEnumerable<LatestTestResultDto> GetLatestResults(int suiteId);
         IEnumerable<LatestTestResultDto> GetLatestResultsGrouped(int suiteId);
-        TestResult SaveTestResult(TestResult testResult);
     }
 }

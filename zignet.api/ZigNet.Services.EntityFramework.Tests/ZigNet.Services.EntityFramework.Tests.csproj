@@ -84,6 +84,7 @@
     <Compile Include="SuiteServiceTests.cs" />
     <Compile Include="TemporaryTestResultsServiceTests.cs" />
     <Compile Include="TestFailureDurationServiceTests.cs" />
+    <Compile Include="TestResultSaverServiceTests.cs" />
     <Compile Include="TestResultsServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
