@@ -4,11 +4,9 @@ using System.Linq;
 using System.Data.Entity;
 using ZigNet.Database.EntityFramework;
 using ZigNet.Services.DTOs;
-using DbLatestTestResult = ZigNet.Database.EntityFramework.LatestTestResult;
 using DbTest = ZigNet.Database.EntityFramework.Test;
 using DbTestResult = ZigNet.Database.EntityFramework.TestResult;
 using DbTestCategory = ZigNet.Database.EntityFramework.TestCategory;
-using DbTestFailureDuration = ZigNet.Database.EntityFramework.TestFailureDuration;
 using DbTestFailureDetail = ZigNet.Database.EntityFramework.TestFailureDetail;
 using DbTestFailureType = ZigNet.Database.EntityFramework.TestFailureType;
 using TestResult = ZigNet.Domain.Test.TestResult;
@@ -165,33 +163,15 @@ namespace ZigNet.Services.EntityFramework
             _latestTestResultsService.Save(
                 _testResultMapper.ToLatestTestResult(savedTestResult), savedTestResult.ResultType, utcNow);
 
-            var latestDatabaseTestFailedDuration = _zigNetEntities.TestFailureDurations
-                .OrderByDescending(f => f.FailureStartDateTime)
-                .FirstOrDefault(f =>
-                    f.SuiteId == suiteResult.SuiteId &&
-                    f.TestId == dbTestResult.Test.TestID
-                );
-            if (testResult.ResultType == TestResultType.Pass
-                && latestDatabaseTestFailedDuration != null
-                && latestDatabaseTestFailedDuration.FailureStartDateTime != null && latestDatabaseTestFailedDuration.FailureEndDateTime == null)
+            // todo: move to mapping class
+            var testFailureDurationDto = new TestFailureDurationDto
             {
-                latestDatabaseTestFailedDuration.FailureEndDateTime = utcNow;
-                SaveTestFailedDuration(latestDatabaseTestFailedDuration);
-            }
-            else if (testResult.ResultType == TestResultType.Fail || testResult.ResultType == TestResultType.Inconclusive)
-            {
-                if (latestDatabaseTestFailedDuration == null || latestDatabaseTestFailedDuration.FailureEndDateTime != null)
-                {
-                    var newTestFailedDuration = new DbTestFailureDuration
-                    {
-                        SuiteId = suiteResult.SuiteId,
-                        TestId = dbTestResult.Test.TestID,
-                        TestResultId = dbTestResult.TestResultID,
-                        FailureStartDateTime = utcNow
-                    };
-                    SaveTestFailedDuration(newTestFailedDuration);
-                }
-            }
+                SuiteId = savedTestResult.SuiteResult.Suite.SuiteID,
+                TestId = savedTestResult.Test.TestID,
+                TestResultId = savedTestResult.TestResultID
+            };
+
+            _testFailureDurationService.Save(testFailureDurationDto, savedTestResult.ResultType, utcNow);
 
             return savedTestResult;
         }
@@ -246,6 +226,20 @@ namespace ZigNet.Services.EntityFramework
                 )
                 .SingleOrDefault(t => t.Name == testName);
         }
+        private DbTestFailureType GetTestFailureType(TestFailureType zigNetTestFailureType)
+        {
+            switch (zigNetTestFailureType)
+            {
+                case TestFailureType.Exception:
+                    return _zigNetEntities.TestFailureTypes.Single(t => t.TestFailureTypeID == 2);
+                case TestFailureType.Assertion:
+                    return _zigNetEntities.TestFailureTypes.Single(t => t.TestFailureTypeID == 1);
+                default:
+                    throw new InvalidOperationException("Test failure type not recognized");
+            }
+        }
+
+        // todo: move 2 below to mapping classes
         private TestResultType MapTestResultType(int dbTestResultTypeId)
         {
             switch (dbTestResultTypeId)
@@ -260,18 +254,6 @@ namespace ZigNet.Services.EntityFramework
                     throw new InvalidOperationException("DB test result type ID not recognized");
             }
         }
-        private DbTestFailureType GetTestFailureType(TestFailureType zigNetTestFailureType)
-        {
-            switch (zigNetTestFailureType)
-            {
-                case TestFailureType.Exception:
-                    return _zigNetEntities.TestFailureTypes.Single(t => t.TestFailureTypeID == 2);
-                case TestFailureType.Assertion:
-                    return _zigNetEntities.TestFailureTypes.Single(t => t.TestFailureTypeID == 1);
-                default:
-                    throw new InvalidOperationException("Test failure type not recognized");
-            }
-        }
         private TestFailureType MapTestFailureType(int dbTestFailureTypeId)
         {
             switch (dbTestFailureTypeId)
@@ -283,12 +265,6 @@ namespace ZigNet.Services.EntityFramework
                 default:
                     throw new InvalidOperationException("DB test failure type ID not recognized");
             }
-        }
-        private void SaveTestFailedDuration(DbTestFailureDuration testFailedDuration)
-        {
-            if (testFailedDuration.TestFailureDurationID == 0)
-                _zigNetEntities.TestFailureDurations.Add(testFailedDuration);
-            _zigNetEntities.SaveChanges();
         }
     }
 }

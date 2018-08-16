@@ -7,11 +7,9 @@ using ZigNet.Database.EntityFramework;
 using ZigNet.Services.EntityFramework.Tests.Helpers;
 using ZigNet.Services.DTOs;
 using ZigNet.Services.EntityFramework.Mapping;
-using DbLatestTestResult = ZigNet.Database.EntityFramework.LatestTestResult;
 using DbTest = ZigNet.Database.EntityFramework.Test;
 using DbTestResult = ZigNet.Database.EntityFramework.TestResult;
 using DbTestCategory = ZigNet.Database.EntityFramework.TestCategory;
-using DbTemporaryTestResult = ZigNet.Database.EntityFramework.TemporaryTestResult;
 using DbTestFailureDuration = ZigNet.Database.EntityFramework.TestFailureDuration;
 using DbTestFailureType = ZigNet.Database.EntityFramework.TestFailureType;
 using DbSuiteResult = ZigNet.Database.EntityFramework.SuiteResult;
@@ -675,17 +673,12 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var mockTestResults = new List<DbTestResult>().ToDbSetMock();
 
-                var mockTestFailureDurations = new List<DbTestFailureDuration> {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1 }
-                }.ToDbSetMock();
-
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
                 mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
                 mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
                 mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
@@ -745,17 +738,12 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var mockTestResults = new List<DbTestResult>().ToDbSetMock();
 
-                var mockTestFailureDurations = new List<DbTestFailureDuration> {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1 }
-                }.ToDbSetMock();
-
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
                 mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
                 mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
                 mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
@@ -864,17 +852,12 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var mockTestResults = new List<DbTestResult>().ToDbSetMock();
 
-                var mockTestFailureDurations = new List<DbTestFailureDuration> {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1 }
-                }.ToDbSetMock();
-
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
                 mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
                 mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
                 mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
@@ -943,17 +926,12 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var mockTestResults = new List<DbTestResult>().ToDbSetMock();
 
-                var mockTestFailureDurations = new List<DbTestFailureDuration> {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1 }
-                }.ToDbSetMock();
-
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
                 mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
                 mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
                 mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
@@ -1030,17 +1008,12 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var mockTestResults = new List<DbTestResult>().ToDbSetMock();
 
-                var mockTestFailureDurations = new List<DbTestFailureDuration> {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1 }
-                }.ToDbSetMock();
-
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
                 mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
                 mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
                 mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
@@ -1112,10 +1085,6 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var mockTestResults = new List<DbTestResult>().ToDbSetMock();
 
-                var mockTestFailureDurations = new List<DbTestFailureDuration> {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1 }
-                }.ToDbSetMock();
-
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
                 mockContext.Setup(m => m.TestFailureTypes).Returns(mockTestFailureTypes.Object);
@@ -1123,7 +1092,6 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
                 mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
@@ -1197,17 +1165,12 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var mockTestResults = new List<DbTestResult>().ToDbSetMock();
 
-                var mockTestFailureDurations = new List<DbTestFailureDuration> {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1 }
-                }.ToDbSetMock();
-
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
                 mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
                 mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
                 mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
@@ -1282,10 +1245,6 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var mockTestResults = new List<DbTestResult>().ToDbSetMock();
 
-                var mockTestFailureDurations = new List<DbTestFailureDuration> {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1 }
-                }.ToDbSetMock();
-
                 var mockContext = new Mock<ZigNetEntities>();
                 mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
                 mockContext.Setup(m => m.TestFailureTypes).Returns(mockTestFailureTypes.Object);
@@ -1293,7 +1252,6 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
                 mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
                 mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
 
                 var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
@@ -1330,655 +1288,6 @@ namespace ZigNet.Services.EntityFramework.Tests
                 Assert.AreEqual(1, savedTestResult.Test.Suites.Count);
                 Assert.AreEqual(2, savedTestResult.Test.Suites.ToList()[0].SuiteID);
                 Assert.AreEqual(0, savedTestResult.Test.Categories.Count);
-            }
-
-            [TestMethod]
-            public void IgnoresTestFailedDurationIfAlwaysPassed()
-            {
-                var mockTests = new List<DbTest>
-                {
-                    new DbTest {
-                        TestName = "test 1", TestID = 1,
-                        TestCategories = new List<DbTestCategory>(),
-                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
-                    }
-                }.ToDbSetMock();
-                mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
-                mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
-
-                var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Pass)).Returns(3);
-
-                var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
-
-                var mockSuiteResults = new List<DbSuiteResult>
-                {
-                    new DbSuiteResult { SuiteResultID = 3, SuiteId = 2 }
-                }.ToDbSetMock();
-                mockSuiteResults.Setup(m => m.AsNoTracking()).Returns(mockSuiteResults.Object);
-
-                var mockSuites = new List<Suite>
-                {
-                    new Suite { SuiteID = 2 }
-                }.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
-
-                var mockTestResults = new List<DbTestResult>().ToDbSetMock();
-
-                var mockTestFailureDurations = new List<DbTestFailureDuration>().ToDbSetMock();
-
-                var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
-                mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
-                mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
-
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
-
-                var testResult = new TestResult
-                {
-                    Test = new Test
-                    {
-                        TestID = 0,
-                        Name = "test 1",
-                        Categories = new List<TestCategory>()
-                    },
-                    SuiteResult = new SuiteResult { SuiteResultID = 3 },
-                    ResultType = TestResultType.Pass,
-                };
-
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
-                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultsService>().Object);
-                testResultService.SaveTestResult(testResult);
-            }
-
-            [TestMethod]
-            public void IgnoresTestFailedDurationIfPassedBefore()
-            {
-                var mockTests = new List<DbTest>
-                {
-                    new DbTest {
-                        TestName = "test 1", TestID = 1,
-                        TestCategories = new List<DbTestCategory>(),
-                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
-                    }
-                }.ToDbSetMock();
-                mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
-                mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
-
-                var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Pass)).Returns(3);
-
-                var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
-
-                var mockSuiteResults = new List<DbSuiteResult>
-                {
-                    new DbSuiteResult { SuiteResultID = 3, SuiteId = 2 }
-                }.ToDbSetMock();
-                mockSuiteResults.Setup(m => m.AsNoTracking()).Returns(mockSuiteResults.Object);
-
-                var mockSuites = new List<Suite>
-                {
-                    new Suite { SuiteID = 2 }
-                }.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
-
-                var mockTestResults = new List<DbTestResult>().ToDbSetMock();
-
-                var mockTestFailureDurations = new List<DbTestFailureDuration>
-                {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1, FailureStartDateTime = DateTime.UtcNow, FailureEndDateTime = DateTime.UtcNow }
-                }.ToDbSetMock();
-
-                var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
-                mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
-                mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
-
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
-
-                var testResult = new TestResult
-                {
-                    Test = new Test
-                    {
-                        TestID = 0,
-                        Name = "test 1",
-                        Categories = new List<TestCategory>()
-                    },
-                    SuiteResult = new SuiteResult { SuiteResultID = 3 },
-                    ResultType = TestResultType.Pass,
-                };
-
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
-                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultsService>().Object);
-                testResultService.SaveTestResult(testResult);
-            }
-
-            [TestMethod]
-            public void UpdatesTestFailedDurationEndTimeWhenNewlyPassing()
-            {
-                var mockTests = new List<DbTest>
-                {
-                    new DbTest {
-                        TestName = "test 1", TestID = 1,
-                        TestCategories = new List<DbTestCategory>(),
-                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
-                    }
-                }.ToDbSetMock();
-                mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
-                mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
-
-                var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Pass)).Returns(3);
-
-                var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
-
-                var mockSuiteResults = new List<DbSuiteResult>
-                {
-                    new DbSuiteResult { SuiteResultID = 3, SuiteId = 2 }
-                }.ToDbSetMock();
-                mockSuiteResults.Setup(m => m.AsNoTracking()).Returns(mockSuiteResults.Object);
-
-                var mockSuites = new List<Suite>
-                {
-                    new Suite { SuiteID = 2 }
-                }.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
-
-                var mockTestResults = new List<DbTestResult>().ToDbSetMock();
-
-                var mockTestFailureDurations = new List<DbTestFailureDuration>
-                {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1, FailureStartDateTime = DateTime.Now }
-                }.ToDbSetMock();
-
-                var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
-                mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
-                mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
-
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
-
-                var testResult = new TestResult
-                {
-                    Test = new Test
-                    {
-                        TestID = 0,
-                        Name = "test 1",
-                        Categories = new List<TestCategory>()
-                    },
-                    SuiteResult = new SuiteResult { SuiteResultID = 3 },
-                    ResultType = TestResultType.Pass,
-                };
-
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
-                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultsService>().Object);
-                testResultService.SaveTestResult(testResult);
-            }
-
-            [TestMethod]
-            public void CreatesTestFailedDurationIfFirstFailure()
-            {
-                var mockTests = new List<DbTest>
-                {
-                    new DbTest {
-                        TestName = "test 1", TestID = 1,
-                        TestCategories = new List<DbTestCategory>(),
-                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
-                    }
-                }.ToDbSetMock();
-                mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
-                mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
-
-                var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
-
-                var mockTestFailureTypes = new List<DbTestFailureType>{
-                    new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
-                }.ToDbSetMock();
-
-                var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
-
-                var mockSuiteResults = new List<DbSuiteResult>
-                {
-                    new DbSuiteResult { SuiteResultID = 3, SuiteId = 2 }
-                }.ToDbSetMock();
-                mockSuiteResults.Setup(m => m.AsNoTracking()).Returns(mockSuiteResults.Object);
-
-                var mockSuites = new List<Suite>
-                {
-                    new Suite { SuiteID = 2 }
-                }.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
-
-                var mockTestResults = new List<DbTestResult>().ToDbSetMock();
-
-                var mockTestFailureDurations = new List<DbTestFailureDuration>
-                {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1, FailureStartDateTime = DateTime.Now, FailureEndDateTime = DateTime.Now }
-                }.ToDbSetMock();
-
-                var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
-                mockContext.Setup(m => m.TestFailureTypes).Returns(mockTestFailureTypes.Object);
-                mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
-                mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
-
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
-
-                var testResult = new TestResult
-                {
-                    Test = new Test
-                    {
-                        TestID = 0,
-                        Name = "test 1",
-                        Categories = new List<TestCategory>()
-                    },
-                    SuiteResult = new SuiteResult { SuiteResultID = 3 },
-                    ResultType = TestResultType.Fail,
-                    TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
-                };
-
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
-                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultsService>().Object);
-                testResultService.SaveTestResult(testResult);
-            }
-
-            [TestMethod]
-            public void CreatesTestFailedDurationIfNewFailure()
-            {
-                var mockTests = new List<DbTest>
-                {
-                    new DbTest {
-                        TestName = "test 1", TestID = 1,
-                        TestCategories = new List<DbTestCategory>(),
-                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
-                    }
-                }.ToDbSetMock();
-                mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
-                mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
-
-                var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
-
-                var mockTestFailureTypes = new List<DbTestFailureType>{
-                    new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
-                }.ToDbSetMock();
-
-                var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
-
-                var mockSuiteResults = new List<DbSuiteResult>
-                {
-                    new DbSuiteResult { SuiteResultID = 3, SuiteId = 2 }
-                }.ToDbSetMock();
-                mockSuiteResults.Setup(m => m.AsNoTracking()).Returns(mockSuiteResults.Object);
-
-                var mockSuites = new List<Suite>
-                {
-                    new Suite { SuiteID = 2 }
-                }.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
-
-                var mockTestResults = new List<DbTestResult>().ToDbSetMock();
-
-                var mockTestFailureDurations = new List<DbTestFailureDuration>
-                {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1, FailureStartDateTime = DateTime.Now, FailureEndDateTime = DateTime.Now }
-                }.ToDbSetMock();
-
-                var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
-                mockContext.Setup(m => m.TestFailureTypes).Returns(mockTestFailureTypes.Object);
-                mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
-                mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
-
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
-
-                var testResult = new TestResult
-                {
-                    Test = new Test
-                    {
-                        TestID = 0,
-                        Name = "test 1",
-                        Categories = new List<TestCategory>()
-                    },
-                    SuiteResult = new SuiteResult { SuiteResultID = 3 },
-                    ResultType = TestResultType.Fail,
-                    TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
-                };
-
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
-                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultsService>().Object);
-                testResultService.SaveTestResult(testResult);
-            }
-
-            [TestMethod]
-            public void IgnoresTestFailedDurationIfSecondFailure()
-            {
-                var mockTests = new List<DbTest>
-                {
-                    new DbTest {
-                        TestName = "test 1", TestID = 1,
-                        TestCategories = new List<DbTestCategory>(),
-                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
-                    }
-                }.ToDbSetMock();
-                mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
-                mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
-
-                var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
-
-                var mockTestFailureTypes = new List<DbTestFailureType>{
-                    new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
-                }.ToDbSetMock();
-
-                var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
-
-                var mockSuiteResults = new List<DbSuiteResult>
-                {
-                    new DbSuiteResult { SuiteResultID = 3, SuiteId = 2 }
-                }.ToDbSetMock();
-                mockSuiteResults.Setup(m => m.AsNoTracking()).Returns(mockSuiteResults.Object);
-
-                var mockSuites = new List<Suite>
-                {
-                    new Suite { SuiteID = 2 }
-                }.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
-
-                var mockTestResults = new List<DbTestResult>().ToDbSetMock();
-
-                var mockTestFailureDurations = new List<DbTestFailureDuration>
-                {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1, FailureStartDateTime = DateTime.Now }
-                }.ToDbSetMock();
-
-                var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
-                mockContext.Setup(m => m.TestFailureTypes).Returns(mockTestFailureTypes.Object);
-                mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
-                mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
-
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
-
-                var testResult = new TestResult
-                {
-                    Test = new Test
-                    {
-                        TestID = 0,
-                        Name = "test 1",
-                        Categories = new List<TestCategory>()
-                    },
-                    SuiteResult = new SuiteResult { SuiteResultID = 3 },
-                    ResultType = TestResultType.Fail,
-                    TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
-                };
-
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
-                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultsService>().Object);
-                testResultService.SaveTestResult(testResult);
-            }
-
-            [TestMethod]
-            public void GetsLatestTestFailureDurationRecord()
-            {
-                var mockTests = new List<DbTest>
-                {
-                    new DbTest {
-                        TestName = "test 1", TestID = 1,
-                        TestCategories = new List<DbTestCategory>(),
-                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
-                    }
-                }.ToDbSetMock();
-                mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
-                mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
-
-                var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
-
-                var mockTestFailureTypes = new List<DbTestFailureType>{
-                    new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
-                }.ToDbSetMock();
-
-                var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
-
-                var mockSuiteResults = new List<DbSuiteResult>
-                {
-                    new DbSuiteResult { SuiteResultID = 3, SuiteId = 2 }
-                }.ToDbSetMock();
-                mockSuiteResults.Setup(m => m.AsNoTracking()).Returns(mockSuiteResults.Object);
-
-                var mockSuites = new List<Suite>
-                {
-                    new Suite { SuiteID = 2 }
-                }.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
-
-                var mockTestResults = new List<DbTestResult>().ToDbSetMock();
-
-                var mockTestFailureDurations = new List<DbTestFailureDuration>
-                {
-                    new DbTestFailureDuration { TestFailureDurationID = 2, SuiteId = 2, TestId = 1, FailureStartDateTime = DateTime.UtcNow.AddDays(5) },
-                    new DbTestFailureDuration { TestFailureDurationID = 3, SuiteId = 2, TestId = 1, FailureStartDateTime = DateTime.Now },
-                    new DbTestFailureDuration { TestFailureDurationID = 1, SuiteId = 2, TestId = 1, FailureStartDateTime = new DateTime(3000, 1, 1) }
-                }.ToDbSetMock();
-
-                var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
-                mockContext.Setup(m => m.TestFailureTypes).Returns(mockTestFailureTypes.Object);
-                mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
-                mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
-
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
-
-                var testResult = new TestResult
-                {
-                    Test = new Test
-                    {
-                        TestID = 0,
-                        Name = "test 1",
-                        Categories = new List<TestCategory>()
-                    },
-                    SuiteResult = new SuiteResult { SuiteResultID = 3 },
-                    ResultType = TestResultType.Fail,
-                    TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
-                };
-
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
-                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultsService>().Object);
-                testResultService.SaveTestResult(testResult);
-            }
-
-            [TestMethod]
-            public void IgnoresTestFailureDurationWithoutSuiteId()
-            {
-                var mockTests = new List<DbTest>
-                {
-                    new DbTest {
-                        TestName = "test 1", TestID = 1,
-                        TestCategories = new List<DbTestCategory>(),
-                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
-                    }
-                }.ToDbSetMock();
-                mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
-                mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
-
-                var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
-
-                var mockTestFailureTypes = new List<DbTestFailureType>{
-                    new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
-                }.ToDbSetMock();
-
-                var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
-
-                var mockSuiteResults = new List<DbSuiteResult>
-                {
-                    new DbSuiteResult { SuiteResultID = 3, SuiteId = 2 }
-                }.ToDbSetMock();
-                mockSuiteResults.Setup(m => m.AsNoTracking()).Returns(mockSuiteResults.Object);
-
-                var mockSuites = new List<Suite>
-                {
-                    new Suite { SuiteID = 2 }
-                }.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
-
-                var mockTestResults = new List<DbTestResult>().ToDbSetMock();
-
-                var mockTestFailureDurations = new List<DbTestFailureDuration>
-                {
-                    new DbTestFailureDuration { SuiteId = 99, TestId = 1, FailureStartDateTime = new DateTime(3000, 1, 1) },
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1, FailureStartDateTime = DateTime.Now }
-                }.ToDbSetMock();
-
-                var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
-                mockContext.Setup(m => m.TestFailureTypes).Returns(mockTestFailureTypes.Object);
-                mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
-                mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
-
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
-
-                var testResult = new TestResult
-                {
-                    Test = new Test
-                    {
-                        TestID = 0,
-                        Name = "test 1",
-                        Categories = new List<TestCategory>()
-                    },
-                    SuiteResult = new SuiteResult { SuiteResultID = 3 },
-                    ResultType = TestResultType.Fail,
-                    TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
-                };
-
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
-                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultsService>().Object);
-                testResultService.SaveTestResult(testResult);
-            }
-
-            [TestMethod]
-            public void IgnoresTestFailureDurationWithoutTestId()
-            {
-                var mockTests = new List<DbTest>
-                {
-                    new DbTest {
-                        TestName = "test 1", TestID = 1,
-                        TestCategories = new List<DbTestCategory>(),
-                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
-                    }
-                }.ToDbSetMock();
-                mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
-                mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
-
-                var mockTestResultMapper = new Mock<ITestResultMapper>();
-                mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
-
-                var mockTestFailureTypes = new List<DbTestFailureType>{
-                    new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }
-                }.ToDbSetMock();
-
-                var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
-
-                var mockSuiteResults = new List<DbSuiteResult>
-                {
-                    new DbSuiteResult { SuiteResultID = 3, SuiteId = 2 }
-                }.ToDbSetMock();
-                mockSuiteResults.Setup(m => m.AsNoTracking()).Returns(mockSuiteResults.Object);
-
-                var mockSuites = new List<Suite>
-                {
-                    new Suite { SuiteID = 2 }
-                }.ToDbSetMock();
-                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
-                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
-
-                var mockTestResults = new List<DbTestResult>().ToDbSetMock();
-
-                var mockTestFailureDurations = new List<DbTestFailureDuration>
-                {
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 99, FailureStartDateTime = new DateTime(3000, 1, 1) },
-                    new DbTestFailureDuration { SuiteId = 2, TestId = 1, FailureStartDateTime = DateTime.Now }
-                }.ToDbSetMock();
-
-                var mockContext = new Mock<ZigNetEntities>();
-                mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
-                mockContext.Setup(m => m.TestFailureTypes).Returns(mockTestFailureTypes.Object);
-                mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
-                mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
-                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
-                mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
-                mockContext.Setup(m => m.TestFailureDurations).Returns(mockTestFailureDurations.Object);
-
-                var zignetEntitiesWrapperMock = new Mock<IZigNetEntitiesWrapper>();
-                zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
-
-                var testResult = new TestResult
-                {
-                    Test = new Test
-                    {
-                        TestID = 0,
-                        Name = "test 1",
-                        Categories = new List<TestCategory>()
-                    },
-                    SuiteResult = new SuiteResult { SuiteResultID = 3 },
-                    ResultType = TestResultType.Fail,
-                    TestFailureDetails = new TestFailureDetails { FailureType = TestFailureType.Assertion }
-                };
-
-                var testResultService = new TestResultService(zignetEntitiesWrapperMock.Object, new Mock<ISuiteService>().Object,
-                    new Mock<ILatestTestResultsService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultsService>().Object);
-                testResultService.SaveTestResult(testResult);
             }
 
             // todo: verify saving of actual test result start/end times
