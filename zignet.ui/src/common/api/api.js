@@ -4,13 +4,13 @@ function url() {
 
 function getSuiteResults(grouped, debug) {
 	if (grouped && debug)
-	  return _get(url() + 'latestSuiteResults?group=true&debug=true');
+	  return _get(url() + 'suite/getLatestResults?group=true&debug=true');
 	else if (grouped)
-	  return _get(url() + 'latestSuiteResults?group=true');
+	  return _get(url() + 'suite/getLatestResults?group=true');
 	else if (debug)
-	  return _get(url() + 'latestSuiteResults?debug=true');
+	  return _get(url() + 'suite/getLatestResults?debug=true');
 	else
-	  return _get(url() + 'latestSuiteResults');
+	  return _get(url() + 'suite/getLatestResults');
 }
 
 function getTestResults(suiteId, grouped) {

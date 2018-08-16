@@ -1,23 +1,27 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ZigNet.Api.Mapping;
 using ZigNet.Api.Model;
 using ZigNet.Business;
+using ZigNet.Services.DTOs;
 
 namespace ZigNet.Api.Controllers
 {
     public class SuiteController : ApiController
     {
         private ISuiteBusinessProvider _suiteBusinessProvider;
+        private ILatestSuiteResultsBusinessProvider _latestSuiteResultsBusinessProvider;
         private ITestResultBusinessProvider _testResultBusinessProvider;
         private IZigNetApiMapper _zigNetApiMapper;
 
         public SuiteController(ISuiteBusinessProvider suiteBusinessProvider, ITestResultBusinessProvider testResultBusinessProvider,
-            IZigNetApiMapper zigNetApiMapper)
+            IZigNetApiMapper zigNetApiMapper, ILatestSuiteResultsBusinessProvider latestSuiteResultsBusinessProvider)
         {
             _suiteBusinessProvider = suiteBusinessProvider;
             _testResultBusinessProvider = testResultBusinessProvider;
+            _latestSuiteResultsBusinessProvider = latestSuiteResultsBusinessProvider;
             _zigNetApiMapper = zigNetApiMapper;
         }
 
@@ -39,6 +43,12 @@ namespace ZigNet.Api.Controllers
         {
             _suiteBusinessProvider.StopSuite(endSuiteModel.SuiteResultId, endSuiteModel.SuiteResultType);
             return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [Route("api/Suite/GetLatestResults")]
+        public IEnumerable<SuiteSummary> GetLatestResults(bool group = false, bool debug = false)
+        {
+            return _latestSuiteResultsBusinessProvider.GetLatest(group, debug);
         }
 
         [Route("api/Suite/LatestTestResults")]

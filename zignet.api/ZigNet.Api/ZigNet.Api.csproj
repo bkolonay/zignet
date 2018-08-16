@@ -202,7 +202,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LatestSuiteResultsController.cs" />
     <Compile Include="Controllers\TestResultController.cs" />
     <Compile Include="Controllers\SuiteController.cs" />
     <Compile Include="Global.asax.cs">
