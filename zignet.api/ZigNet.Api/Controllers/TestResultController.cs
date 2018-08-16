@@ -20,7 +20,7 @@ namespace ZigNet.Api.Controllers
 
         public HttpResponseMessage Post([FromBody]CreateTestResultModel createTestResultModel)
         {
-            _testResultBusinessProvider.SaveTestResult(
+            _testResultBusinessProvider.Save(
                 _zigNetApiMapper.MapCreateTestResultModel(createTestResultModel));
             return Request.CreateResponse(HttpStatusCode.OK);
         }

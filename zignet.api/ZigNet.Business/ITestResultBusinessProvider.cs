@@ -6,7 +6,7 @@ namespace ZigNet.Business
 {
     public interface ITestResultBusinessProvider
     {
-        IEnumerable<LatestTestResultDto> GetLatestResults(int suiteId, bool group);
-        void SaveTestResult(TestResult testResult);
+        IEnumerable<LatestTestResultDto> GetLatest(int suiteId, bool group);
+        void Save(TestResult testResult);
     }
 }

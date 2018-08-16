@@ -17,12 +17,12 @@ namespace ZigNet.Business
             _testResultSaverService = testResultSaverService;
         }
 
-        public IEnumerable<LatestTestResultDto> GetLatestResults(int suiteId, bool group)
+        public IEnumerable<LatestTestResultDto> GetLatest(int suiteId, bool group)
         {
             return group ? _testResultService.GetLatestResultsGrouped(suiteId) : _testResultService.GetLatestResults(suiteId);
         }
 
-        public void SaveTestResult(TestResult testResult)
+        public void Save(TestResult testResult)
         {
             if (string.IsNullOrWhiteSpace(testResult.Test.Name))
                 throw new ArgumentNullException("TestName", "Test name cannot be null");

@@ -47,7 +47,7 @@ namespace ZigNet.Api.Controllers
             return new GetLatestTestResultsModel
             {
                  SuiteName = _suiteBusinessProvider.GetSuiteName(suiteId, group),
-                 LatestTestResults = _testResultBusinessProvider.GetLatestResults(suiteId, group)
+                 LatestTestResults = _testResultBusinessProvider.GetLatest(suiteId, group)
             };
         }
     }
