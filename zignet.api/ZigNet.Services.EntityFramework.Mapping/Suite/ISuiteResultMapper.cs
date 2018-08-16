@@ -1,12 +1,12 @@
 ﻿using DbSuiteResult = ZigNet.Database.EntityFramework.SuiteResult;
-using DomainSuiteResult = ZigNet.Domain.Suite.SuiteResult;
+using SuiteResult = ZigNet.Domain.Suite.SuiteResult;
 
 namespace ZigNet.Services.EntityFramework.Mapping
 {
     public interface ISuiteResultMapper
     {
-        DbSuiteResult Map(DomainSuiteResult domainSuiteResult);
-        DomainSuiteResult Map(DbSuiteResult dbSuiteResult);
-        DbSuiteResult Map(DbSuiteResult dbSuiteResult, DomainSuiteResult domainSuiteResult);
+        DbSuiteResult Map(SuiteResult suiteResult);
+        SuiteResult Map(DbSuiteResult dbSuiteResult);
+        DbSuiteResult Map(DbSuiteResult dbSuiteResult, SuiteResult suiteResult);
     }
 }

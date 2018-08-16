@@ -1,46 +1,46 @@
 ﻿using System;
 using DbSuiteResult = ZigNet.Database.EntityFramework.SuiteResult;
-using DomainSuiteResult = ZigNet.Domain.Suite.SuiteResult;
-using DomainSuiteResultType = ZigNet.Domain.Suite.SuiteResultType;
+using SuiteResult = ZigNet.Domain.Suite.SuiteResult;
+using SuiteResultType = ZigNet.Domain.Suite.SuiteResultType;
 
 namespace ZigNet.Services.EntityFramework.Mapping
 {
     public class SuiteResultMapper : ISuiteResultMapper
     {
-        public DomainSuiteResult Map(DbSuiteResult dbSuiteResult)
+        public SuiteResult Map(DbSuiteResult dbSuiteResult)
         {
-            return new DomainSuiteResult
+            return new SuiteResult
             {
                 SuiteResultID = dbSuiteResult.SuiteResultID
             };
         }
 
-        public DbSuiteResult Map(DomainSuiteResult domainSuiteResult)
+        public DbSuiteResult Map(SuiteResult suiteResult)
         {
             return new DbSuiteResult
             {
-                SuiteId = domainSuiteResult.Suite.SuiteID,
-                SuiteResultStartDateTime = domainSuiteResult.StartTime,
-                SuiteResultTypeId = Map(domainSuiteResult.ResultType)
+                SuiteId = suiteResult.Suite.SuiteID,
+                SuiteResultStartDateTime = suiteResult.StartTime,
+                SuiteResultTypeId = Map(suiteResult.ResultType)
             };
         }
 
-        public DbSuiteResult Map(DbSuiteResult dbSuiteResult, DomainSuiteResult domainSuiteResult)
+        public DbSuiteResult Map(DbSuiteResult dbSuiteResult, SuiteResult suiteResult)
         {
-            dbSuiteResult.SuiteResultEndDateTime = domainSuiteResult.EndTime;
-            dbSuiteResult.SuiteResultTypeId = Map(domainSuiteResult.ResultType);
+            dbSuiteResult.SuiteResultEndDateTime = suiteResult.EndTime;
+            dbSuiteResult.SuiteResultTypeId = Map(suiteResult.ResultType);
             return dbSuiteResult;
         }
 
-        private int Map(DomainSuiteResultType suiteResultType)
+        private int Map(SuiteResultType suiteResultType)
         {
             switch (suiteResultType)
             {
-                case DomainSuiteResultType.Fail:
+                case SuiteResultType.Fail:
                     return 1;
-                case DomainSuiteResultType.Inconclusive:
+                case SuiteResultType.Inconclusive:
                     return 2;
-                case DomainSuiteResultType.Pass:
+                case SuiteResultType.Pass:
                     return 3;
                 default:
                     throw new InvalidOperationException("Suite result type not recognized");
