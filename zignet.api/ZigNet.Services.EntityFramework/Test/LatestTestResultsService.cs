@@ -9,17 +9,17 @@ namespace ZigNet.Services.EntityFramework
 {
     public class LatestTestResultsService : ILatestTestResultsService
     {
-        private ZigNetEntities _zigNetEntities;
+        private ZigNetEntities _db;
 
-        public LatestTestResultsService(IDbContext zigNetEntitiesWrapper)
+        public LatestTestResultsService(IDbContext dbContext)
         {
-            _zigNetEntities = zigNetEntitiesWrapper.Get();
+            _db = dbContext.Get();
         }
 
         // note: class is not unit tested (change with caution)
         public IEnumerable<LatestTestResultDto> Get(int[] suiteIds)
         {
-            var latestTestResultsForSuites = _zigNetEntities.LatestTestResults
+            var latestTestResultsForSuites = _db.LatestTestResults
                 .AsNoTracking()
                 .Where(l => suiteIds.Any(s => s == l.SuiteId));
             return Map(latestTestResultsForSuites);
@@ -27,7 +27,7 @@ namespace ZigNet.Services.EntityFramework
 
         public IEnumerable<LatestTestResultDto> Get(int suiteId)
         {
-            var latestTestResultsForSuite = _zigNetEntities.LatestTestResults
+            var latestTestResultsForSuite = _db.LatestTestResults
                 .AsNoTracking()
                 .Where(l => l.SuiteId == suiteId);
             return Map(latestTestResultsForSuite);
@@ -50,7 +50,7 @@ namespace ZigNet.Services.EntityFramework
 
         public LatestTestResultDto Save(LatestTestResultDto latestTestResultDto, TestResultType testResultType, DateTime utcNow)
         {
-            var dbLatestTestResult = _zigNetEntities.LatestTestResults
+            var dbLatestTestResult = _db.LatestTestResults
                 .SingleOrDefault(t =>
                     t.SuiteId == latestTestResultDto.SuiteId &&
                     t.TestId == latestTestResultDto.TestId
@@ -105,8 +105,8 @@ namespace ZigNet.Services.EntityFramework
         private void SaveLatestTestResult(LatestTestResult latestTestResult)
         {
             if (latestTestResult.LatestTestResultID == 0)
-                _zigNetEntities.LatestTestResults.Add(latestTestResult);
-            _zigNetEntities.SaveChanges();
+                _db.LatestTestResults.Add(latestTestResult);
+            _db.SaveChanges();
         }
     }
 }

@@ -8,16 +8,16 @@ namespace ZigNet.Services.EntityFramework
 {
     public class SuiteService : ISuiteService
     {
-        private ZigNetEntities _zigNetEntities;
+        private ZigNetEntities _db;
 
-        public SuiteService(IDbContext zigNetEntitiesWrapper)
+        public SuiteService(IDbContext dbContext)
         {
-            _zigNetEntities = zigNetEntitiesWrapper.Get();
+            _db = dbContext.Get();
         }
 
         public int GetId(string applicationName, string suiteName, string environmentName)
         {
-            return _zigNetEntities.Suites
+            return _db.Suites
                 .AsNoTracking()
                 .Single(s =>
                     s.Application.ApplicationName == applicationName &&
@@ -28,7 +28,7 @@ namespace ZigNet.Services.EntityFramework
 
         public IEnumerable<SuiteDto> GetAll()
         {
-            return _zigNetEntities.Suites
+            return _db.Suites
                 .AsNoTracking()
                 .Include(s => s.Application.ApplicationName)
                 .Include(s => s.Environment.EnvironmentName)

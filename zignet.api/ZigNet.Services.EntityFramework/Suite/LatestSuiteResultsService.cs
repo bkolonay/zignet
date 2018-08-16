@@ -7,19 +7,19 @@ namespace ZigNet.Services.EntityFramework
 {
     public class LatestSuiteResultsService : ILatestSuiteResultsService
     {
-        private ZigNetEntities _zigNetEntities;
+        private ZigNetEntities _db;
         private ISuiteService _suiteService;
 
-        public LatestSuiteResultsService(IDbContext zigNetEntitiesWrapper, ISuiteService suiteService)
+        public LatestSuiteResultsService(IDbContext dbContext, ISuiteService suiteService)
         {
-            _zigNetEntities = zigNetEntitiesWrapper.Get();
+            _db = dbContext.Get();
             _suiteService = suiteService;
         }
 
         public IEnumerable<SuiteSummary> GetLatest()
         {
             var suites = _suiteService.GetAll();
-            var allTemporaryTestResults = _zigNetEntities.TemporaryTestResults.AsNoTracking().ToList();
+            var allTemporaryTestResults = _db.TemporaryTestResults.AsNoTracking().ToList();
 
             var suiteSummaries = new List<SuiteSummary>();
             foreach (var suite in suites)
@@ -48,7 +48,7 @@ namespace ZigNet.Services.EntityFramework
         public IEnumerable<SuiteSummary> GetLatestGrouped()
         {
             var suites = _suiteService.GetAll();
-            var allTemporaryTestResults = _zigNetEntities.TemporaryTestResults.AsNoTracking().ToList();
+            var allTemporaryTestResults = _db.TemporaryTestResults.AsNoTracking().ToList();
 
             var suiteSummaryDictionary = new Dictionary<string, SuiteSummary>();
             foreach (var suite in suites)

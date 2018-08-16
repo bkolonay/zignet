@@ -6,31 +6,31 @@ namespace ZigNet.Services.EntityFramework
 {
     public class TemporaryTestResultsService : ITemporaryTestResultsService
     {
-        private ZigNetEntities _zigNetEntities;
+        private ZigNetEntities _db;
 
-        public TemporaryTestResultsService(IDbContext zigNetEntitiesWrapper)
+        public TemporaryTestResultsService(IDbContext dbContext)
         {
-            _zigNetEntities = zigNetEntitiesWrapper.Get();
+            _db = dbContext.Get();
         }
 
         // todo: unit test public interfaces
         public void DeleteAll(int suiteId)
         {
-            var temporaryTestResultsToDelete = _zigNetEntities.TemporaryTestResults.Where(ttr => ttr.SuiteId == suiteId);
-            _zigNetEntities.TemporaryTestResults.RemoveRange(temporaryTestResultsToDelete);
-            _zigNetEntities.SaveChanges();
+            var temporaryTestResultsToDelete = _db.TemporaryTestResults.Where(ttr => ttr.SuiteId == suiteId);
+            _db.TemporaryTestResults.RemoveRange(temporaryTestResultsToDelete);
+            _db.SaveChanges();
         }
 
         public TemporaryTestResultDto Save(TemporaryTestResultDto temporaryTestResultDto)
         {
-            _zigNetEntities.TemporaryTestResults.Add(new TemporaryTestResult
+            _db.TemporaryTestResults.Add(new TemporaryTestResult
             {
                 TestResultId = temporaryTestResultDto.TestResultId,
                 SuiteResultId = temporaryTestResultDto.SuiteResultId,
                 SuiteId = temporaryTestResultDto.SuiteId,
                 TestResultTypeId = temporaryTestResultDto.TestResultTypeId
             });
-            _zigNetEntities.SaveChanges();
+            _db.SaveChanges();
 
             // temporary, needs updated with data from saved record when unit tested
             return new TemporaryTestResultDto();

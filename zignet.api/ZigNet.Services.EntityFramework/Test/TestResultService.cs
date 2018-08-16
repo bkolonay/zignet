@@ -9,7 +9,7 @@ namespace ZigNet.Services.EntityFramework
 {
     public class TestResultService : ITestResultService
     {
-        private ZigNetEntities _zigNetEntities;
+        private ZigNetEntities _db;
         private ISuiteService _suiteService;
         private ILatestTestResultsService _latestTestResultsService;
         private ITestFailureDurationService _testFailureDurationService;
@@ -17,11 +17,11 @@ namespace ZigNet.Services.EntityFramework
         private ITemporaryTestResultsService _temporaryTestResultsService;
 
         // todo: rename class to LatestTestResultService
-        public TestResultService(IDbContext zigNetEntitiesWrapper, ISuiteService suiteService,
+        public TestResultService(IDbContext dbContext, ISuiteService suiteService,
             ILatestTestResultsService latestTestResultsService, ITestFailureDurationService testFailureDurationService,
             ITestResultMapper testResultMapper, ITemporaryTestResultsService temporaryTestResultsService)
         {
-            _zigNetEntities = zigNetEntitiesWrapper.Get();
+            _db = dbContext.Get();
             _suiteService = suiteService;
             _latestTestResultsService = latestTestResultsService;
             _testFailureDurationService = testFailureDurationService;

@@ -10,17 +10,17 @@ namespace ZigNet.Services.EntityFramework
 {
     public class TestFailureDurationService : ITestFailureDurationService
     {
-        private ZigNetEntities _zigNetEntities;
+        private ZigNetEntities _db;
 
-        public TestFailureDurationService(IDbContext zigNetEntitiesWrapper)
+        public TestFailureDurationService(IDbContext dbContext)
         {
-            _zigNetEntities = zigNetEntitiesWrapper.Get();
+            _db = dbContext.Get();
         }
 
         // note: function is not unit tested (change with caution)
         public IEnumerable<TestFailureDurationDto> GetAll()
         {
-            return _zigNetEntities.TestFailureDurations
+            return _db.TestFailureDurations
                 .AsNoTracking()
                 .Select(f => new TestFailureDurationDto
                 {
@@ -33,7 +33,7 @@ namespace ZigNet.Services.EntityFramework
 
         public TestFailureDurationDto Save(TestFailureDurationDto testFailureDurationDto, TestResultType testResultType, DateTime utcNow)
         {
-            var latestDbTestFailedDuration = _zigNetEntities.TestFailureDurations
+            var latestDbTestFailedDuration = _db.TestFailureDurations
                 .OrderByDescending(f => f.FailureStartDateTime)
                 .FirstOrDefault(f =>
                     f.SuiteId == testFailureDurationDto.SuiteId &&
@@ -71,8 +71,8 @@ namespace ZigNet.Services.EntityFramework
         private void SaveTestFailedDuration(DbTestFailureDuration testFailedDuration)
         {
             if (testFailedDuration.TestFailureDurationID == 0)
-                _zigNetEntities.TestFailureDurations.Add(testFailedDuration);
-            _zigNetEntities.SaveChanges();
+                _db.TestFailureDurations.Add(testFailedDuration);
+            _db.SaveChanges();
         }
         private TestFailureDurationDto Map(DbTestFailureDuration dbTestFailureDuration)
         {

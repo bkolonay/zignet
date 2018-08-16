@@ -8,18 +8,18 @@ namespace ZigNet.Services.EntityFramework
 {
     public class SuiteResultService : ISuiteResultService
     {
-        private ZigNetEntities _zigNetEntities;
+        private ZigNetEntities _db;
         private ISuiteResultMapper _suiteResultMapper;
 
-        public SuiteResultService(IDbContext zigNetEntitiesWrapper, ISuiteResultMapper suiteResultMapper)
+        public SuiteResultService(IDbContext dbContext, ISuiteResultMapper suiteResultMapper)
         {
-            _zigNetEntities = zigNetEntitiesWrapper.Get();
+            _db = dbContext.Get();
             _suiteResultMapper = suiteResultMapper;
         }
 
         public DomainSuiteResult Get(int suiteResultId)
         {
-            var dbSuite = _zigNetEntities.SuiteResults.Single(sr => sr.SuiteResultID == suiteResultId);
+            var dbSuite = _db.SuiteResults.Single(sr => sr.SuiteResultID == suiteResultId);
             return _suiteResultMapper.Map(dbSuite);
         }
 
@@ -29,15 +29,15 @@ namespace ZigNet.Services.EntityFramework
             if (domainSuiteResult.SuiteResultID == 0)
             {
                 dbSuiteResult = _suiteResultMapper.Map(domainSuiteResult);
-                _zigNetEntities.SuiteResults.Add(dbSuiteResult);
+                _db.SuiteResults.Add(dbSuiteResult);
             }
             else
             {
-                dbSuiteResult = _zigNetEntities.SuiteResults.Single(s => s.SuiteResultID == domainSuiteResult.SuiteResultID);
+                dbSuiteResult = _db.SuiteResults.Single(s => s.SuiteResultID == domainSuiteResult.SuiteResultID);
                 _suiteResultMapper.Map(dbSuiteResult, domainSuiteResult);
             }
                 
-            _zigNetEntities.SaveChanges();
+            _db.SaveChanges();
             return dbSuiteResult.SuiteResultID;
         }
     }
