@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ZigNet.Database.EntityFramework;
 using ZigNet.Services.DTOs;
+using DbLatestTestResult = ZigNet.Database.EntityFramework.LatestTestResult;
 using TestResultType = ZigNet.Domain.Test.TestResultType;
 
 namespace ZigNet.Services.EntityFramework
@@ -17,35 +18,20 @@ namespace ZigNet.Services.EntityFramework
         }
 
         // note: class is not unit tested (change with caution)
-        public IEnumerable<LatestTestResultDto> Get(int[] suiteIds)
-        {
-            var latestTestResultsForSuites = _db.LatestTestResults
-                .AsNoTracking()
-                .Where(l => suiteIds.Any(s => s == l.SuiteId));
-            return Map(latestTestResultsForSuites);
-        }
-
         public IEnumerable<LatestTestResultDto> Get(int suiteId)
         {
-            var latestTestResultsForSuite = _db.LatestTestResults
+            var dbLatestTestResultsForSuite = _db.LatestTestResults
                 .AsNoTracking()
                 .Where(l => l.SuiteId == suiteId);
-            return Map(latestTestResultsForSuite);
+            return Map(dbLatestTestResultsForSuite);
         }
 
-        private IQueryable<LatestTestResultDto> Map(IQueryable<LatestTestResult> dbLatestTestResults)
+        public IEnumerable<LatestTestResultDto> Get(int[] suiteIds)
         {
-            return dbLatestTestResults
-                .Select(l => new LatestTestResultDto
-                {
-                    SuiteId = l.SuiteId,
-                    TestId = l.TestId,
-                    TestResultID = l.TestResultId,
-                    TestName = l.TestName,
-                    SuiteName = l.SuiteName,
-                    FailingFromDate = l.FailingFromDateTime,
-                    PassingFromDate = l.PassingFromDateTime
-                });
+            var dbLatestTestResultsForSuites = _db.LatestTestResults
+                .AsNoTracking()
+                .Where(l => suiteIds.Any(s => s == l.SuiteId));
+            return Map(dbLatestTestResultsForSuites);
         }
 
         public LatestTestResultDto Save(LatestTestResultDto latestTestResultDto, TestResultType testResultType, DateTime utcNow)
@@ -58,7 +44,7 @@ namespace ZigNet.Services.EntityFramework
 
             var suiteNameChanged = false;
             if (dbLatestTestResult == null)
-                dbLatestTestResult = new LatestTestResult
+                dbLatestTestResult = new DbLatestTestResult
                 {
                     SuiteId = latestTestResultDto.SuiteId,
                     TestId = latestTestResultDto.TestId,
@@ -89,6 +75,7 @@ namespace ZigNet.Services.EntityFramework
             else if (suiteNameChanged)
                 SaveLatestTestResult(dbLatestTestResult);
 
+            // todo: move to mapping class
             return new LatestTestResultDto
             {
                 LatestTestResultID = dbLatestTestResult.LatestTestResultID,
@@ -102,11 +89,27 @@ namespace ZigNet.Services.EntityFramework
             };
         }
 
-        private void SaveLatestTestResult(LatestTestResult latestTestResult)
+        private void SaveLatestTestResult(DbLatestTestResult latestTestResult)
         {
             if (latestTestResult.LatestTestResultID == 0)
                 _db.LatestTestResults.Add(latestTestResult);
             _db.SaveChanges();
+        }
+
+        // todo: move to mapping class
+        private IQueryable<LatestTestResultDto> Map(IQueryable<DbLatestTestResult> dbLatestTestResults)
+        {
+            return dbLatestTestResults
+                .Select(l => new LatestTestResultDto
+                {
+                    SuiteId = l.SuiteId,
+                    TestId = l.TestId,
+                    TestResultID = l.TestResultId,
+                    TestName = l.TestName,
+                    SuiteName = l.SuiteName,
+                    FailingFromDate = l.FailingFromDateTime,
+                    PassingFromDate = l.PassingFromDateTime
+                });
         }
     }
 }
