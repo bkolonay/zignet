@@ -90,7 +90,20 @@ namespace ZigNet.Services.EntityFramework
         {
             // todo: move entire function to new service (there are too many dependencies)
 
-            var existingTest = GetMappedTestWithCategoriesOrDefault(testResult.Test.Name);
+            // todo: can this logic be factored out?
+            var existingTest = _zigNetEntities.Tests
+                .AsNoTracking()
+                .Include(t => t.TestCategories)
+                .Select(t =>
+                    new Test
+                    {
+                        TestID = t.TestID,
+                        Name = t.TestName,
+                        Categories = t.TestCategories.Select(tc => new TestCategory { TestCategoryID = tc.TestCategoryID, Name = tc.CategoryName }).ToList()
+                    }
+                )
+                .SingleOrDefault(t => t.Name == testResult.Test.Name);
+
             if (existingTest != null)
             {
                 testResult.Test.TestID = existingTest.TestID;
@@ -204,23 +217,6 @@ namespace ZigNet.Services.EntityFramework
                 testResult.Test.Categories.Add(new TestCategory { TestCategoryID = dbTestCategory.TestCategoryID, Name = dbTestCategory.CategoryName });
 
             return testResult;
-        }
-
-        // todo: can this logic be factored out?
-        private Test GetMappedTestWithCategoriesOrDefault(string testName)
-        {
-            return _zigNetEntities.Tests
-                .AsNoTracking()
-                .Include(t => t.TestCategories)
-                .Select(t =>
-                    new Test
-                    {
-                        TestID = t.TestID,
-                        Name = t.TestName,
-                        Categories = t.TestCategories.Select(tc => new TestCategory { TestCategoryID = tc.TestCategoryID, Name = tc.CategoryName }).ToList()
-                    }
-                )
-                .SingleOrDefault(t => t.Name == testName);
         }
     }
 }
