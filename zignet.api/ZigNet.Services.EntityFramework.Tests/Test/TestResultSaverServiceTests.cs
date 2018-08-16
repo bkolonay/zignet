@@ -684,8 +684,6 @@ namespace ZigNet.Services.EntityFramework.Tests
                 Assert.AreEqual(2, savedTestResult.Test.Suites.ToList()[0].SuiteID);
                 Assert.AreEqual(0, savedTestResult.Test.Categories.Count);
             }
-
-            // todo: verify saving of actual test result start/end times
         }
     }
 }
