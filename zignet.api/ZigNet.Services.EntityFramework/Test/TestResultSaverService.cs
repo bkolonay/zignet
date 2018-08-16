@@ -39,7 +39,6 @@ namespace ZigNet.Services.EntityFramework
 
         public TestResult Save(TestResult testResult)
         {
-            // todo: can this logic be factored out?
             var existingTest = _db.Tests
                 .AsNoTracking()
                 .Include(t => t.TestCategories)
@@ -74,10 +73,7 @@ namespace ZigNet.Services.EntityFramework
                 dbTestResult.TestFailureTypes.Add(testFailureType);
                 if (!string.IsNullOrWhiteSpace(testResult.TestFailureDetails.FailureDetailMessage))
                     dbTestResult.TestFailureDetails.Add(
-                        new DbTestFailureDetail
-                        {
-                            TestFailureDetail1 = testResult.TestFailureDetails.FailureDetailMessage
-                        });
+                        new DbTestFailureDetail { TestFailureDetail1 = testResult.TestFailureDetails.FailureDetailMessage });
             }
 
             if (testResult.Test.TestID != 0)
@@ -118,8 +114,7 @@ namespace ZigNet.Services.EntityFramework
 
             var savedTestResult = Map(dbTestResult, suiteResult.SuiteId);
 
-            _temporaryTestResultService.Save(
-                _testResultMapper.ToTemporaryTestResult(savedTestResult));
+            _temporaryTestResultService.Save(_testResultMapper.ToTemporaryTestResult(savedTestResult));
 
             var utcNow = DateTime.UtcNow;
             savedTestResult.SuiteResult.Suite.Name = _db.Suites
