@@ -19,7 +19,7 @@ namespace ZigNet.Business
 
         public IEnumerable<LatestTestResultDto> GetLatest(int suiteId, bool group)
         {
-            return group ? _testResultService.GetLatestResultsGrouped(suiteId) : _testResultService.GetLatestResults(suiteId);
+            return group ? _testResultService.GetLatestGrouped(suiteId) : _testResultService.GetLatest(suiteId);
         }
 
         public void Save(TestResult testResult)

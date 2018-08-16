@@ -29,14 +29,14 @@ namespace ZigNet.Services.EntityFramework
             _testResultMapper = testResultMapper;
         }
 
-        public IEnumerable<LatestTestResultDto> GetLatestResults(int suiteId)
+        public IEnumerable<LatestTestResultDto> GetLatest(int suiteId)
         {
             var latestTestResults = _latestTestResultsService.Get(suiteId).ToList();
             latestTestResults = AssignTestFailureDurations(latestTestResults);
             return Sort(latestTestResults);
         }
 
-        public IEnumerable<LatestTestResultDto> GetLatestResultsGrouped(int suiteId)
+        public IEnumerable<LatestTestResultDto> GetLatestGrouped(int suiteId)
         {
             var suite = _suiteService.Get(suiteId);
             var suiteIds = _suiteService.GetAll()
