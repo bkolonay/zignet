@@ -37,7 +37,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteName = "suite-name"
                 };
 
-                var latestTestResultsService = new LatestTestResultsService(mockZignetEntitiesWrapper.Object);
+                var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
                 var savedLatestTestResultDto = latestTestResultsService.Save(latestTestResultDto, TestResultType.Fail, utcNow);
 
                 Assert.AreEqual(2, savedLatestTestResultDto.SuiteId);
@@ -74,7 +74,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteName = "suite-name"
                 };
 
-                var latestTestResultsService = new LatestTestResultsService(mockZignetEntitiesWrapper.Object);
+                var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
                 var savedLatestTestResultDto = latestTestResultsService.Save(latestTestResultDto, TestResultType.Fail, utcNow);
 
                 Assert.AreEqual(2, savedLatestTestResultDto.SuiteId);
@@ -111,7 +111,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteName = "suite-name"
                 };
 
-                var latestTestResultsService = new LatestTestResultsService(mockZignetEntitiesWrapper.Object);
+                var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
                 var savedLatestTestResultDto = latestTestResultsService.Save(latestTestResultDto, TestResultType.Fail, utcNow);
 
                 Assert.AreEqual(2, savedLatestTestResultDto.SuiteId);
@@ -153,7 +153,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteName = "suite-name"
                 };
 
-                var latestTestResultsService = new LatestTestResultsService(mockZignetEntitiesWrapper.Object);
+                var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
                 var savedLatestTestResultDto = latestTestResultsService.Save(latestTestResultDto, TestResultType.Fail, utcNow);
 
                 Assert.AreEqual(2, savedLatestTestResultDto.SuiteId);
@@ -195,7 +195,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteName = "new suite name"
                 };
 
-                var latestTestResultsService = new LatestTestResultsService(mockZignetEntitiesWrapper.Object);
+                var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
                 var savedLatestTestResultDto = latestTestResultsService.Save(latestTestResultDto, TestResultType.Fail, utcNow);
 
                 Assert.AreEqual(2, savedLatestTestResultDto.SuiteId);
@@ -238,7 +238,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteName = "suite-name"
                 };
 
-                var latestTestResultsService = new LatestTestResultsService(mockZignetEntitiesWrapper.Object);
+                var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
                 var savedLatestTestResultDto = latestTestResultsService.Save(latestTestResultDto, TestResultType.Pass, utcNow);
 
                 Assert.AreEqual(2, savedLatestTestResultDto.SuiteId);
@@ -281,7 +281,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteName = "suite-name"
                 };
 
-                var latestTestResultsService = new LatestTestResultsService(mockZignetEntitiesWrapper.Object);
+                var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
                 var savedLatestTestResultDto = latestTestResultsService.Save(latestTestResultDto, TestResultType.Fail, utcNow);
 
                 Assert.AreEqual(2, savedLatestTestResultDto.SuiteId);
@@ -324,7 +324,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteName = "suite-name"
                 };
 
-                var latestTestResultsService = new LatestTestResultsService(mockZignetEntitiesWrapper.Object);
+                var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
                 var savedLatestTestResultDto = latestTestResultsService.Save(latestTestResultDto, TestResultType.Inconclusive, utcNow);
 
                 Assert.AreEqual(2, savedLatestTestResultDto.SuiteId);
@@ -367,7 +367,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteName = "suite-name"
                 };
 
-                var latestTestResultsService = new LatestTestResultsService(mockZignetEntitiesWrapper.Object);
+                var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
                 var savedLatestTestResultDto = latestTestResultsService.Save(latestTestResultDto, TestResultType.Pass, utcNow);
 
                 Assert.AreEqual(2, savedLatestTestResultDto.SuiteId);
@@ -410,7 +410,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteName = "suite-name"
                 };
 
-                var latestTestResultsService = new LatestTestResultsService(mockZignetEntitiesWrapper.Object);
+                var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
                 var savedLatestTestResultDto = latestTestResultsService.Save(latestTestResultDto, TestResultType.Fail, utcNow);
 
                 Assert.AreEqual(2, savedLatestTestResultDto.SuiteId);
@@ -453,7 +453,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteName = "suite-name"
                 };
 
-                var latestTestResultsService = new LatestTestResultsService(mockZignetEntitiesWrapper.Object);
+                var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
                 var savedLatestTestResultDto = latestTestResultsService.Save(latestTestResultDto, TestResultType.Inconclusive, utcNow);
 
                 Assert.AreEqual(2, savedLatestTestResultDto.SuiteId);

@@ -11,15 +11,15 @@ namespace ZigNet.Services.EntityFramework
     {
         private ZigNetEntities _db;
         private ISuiteService _suiteService;
-        private ILatestTestResultsService _latestTestResultsService;
+        private ILatestTestResultService _latestTestResultsService;
         private ITestFailureDurationService _testFailureDurationService;
         private ITestResultMapper _testResultMapper;
-        private ITemporaryTestResultsService _temporaryTestResultsService;
+        private ITemporaryTestResultService _temporaryTestResultsService;
 
         // todo: rename class to LatestTestResultService
         public TestResultService(IDbContext dbContext, ISuiteService suiteService,
-            ILatestTestResultsService latestTestResultsService, ITestFailureDurationService testFailureDurationService,
-            ITestResultMapper testResultMapper, ITemporaryTestResultsService temporaryTestResultsService)
+            ILatestTestResultService latestTestResultsService, ITestFailureDurationService testFailureDurationService,
+            ITestResultMapper testResultMapper, ITemporaryTestResultService temporaryTestResultsService)
         {
             _db = dbContext.Get();
             _suiteService = suiteService;

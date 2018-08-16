@@ -21,14 +21,14 @@ namespace ZigNet.Services.EntityFramework
     public class TestResultSaverService : ITestResultSaverService
     {
         private ZigNetEntities _db;
-        private ILatestTestResultsService _latestTestResultsService;
+        private ILatestTestResultService _latestTestResultsService;
         private ITestFailureDurationService _testFailureDurationService;
         private ITestResultMapper _testResultMapper;
-        private ITemporaryTestResultsService _temporaryTestResultsService;
+        private ITemporaryTestResultService _temporaryTestResultsService;
 
-        public TestResultSaverService(IDbContext dbContext,  ILatestTestResultsService latestTestResultsService,
+        public TestResultSaverService(IDbContext dbContext,  ILatestTestResultService latestTestResultsService,
             ITestFailureDurationService testFailureDurationService, ITestResultMapper testResultMapper,
-            ITemporaryTestResultsService temporaryTestResultsService)
+            ITemporaryTestResultService temporaryTestResultsService)
         {
             _db = dbContext.Get();
             _latestTestResultsService = latestTestResultsService;

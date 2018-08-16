@@ -5,7 +5,7 @@ using ZigNet.Services.DTOs;
 
 namespace ZigNet.Services
 {
-    public interface ILatestTestResultsService
+    public interface ILatestTestResultService
     {
         LatestTestResultDto Save(LatestTestResultDto latestTestResultDto, TestResultType testResultType, DateTime utcNow);
         IEnumerable<LatestTestResultDto> Get(int suiteId);

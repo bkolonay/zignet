@@ -28,7 +28,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
@@ -36,7 +36,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var actualLatestTestResults = testResultService.GetLatest(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -52,7 +52,7 @@ namespace ZigNet.Services.EntityFramework.Tests
             public void ZeroTestResults()
             {
                 var latestTestResultDtos = new List<LatestTestResultDto>();
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
@@ -60,7 +60,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var actualLatestTestResults = testResultService.GetLatest(1).ToList();
 
                 Assert.AreEqual(0, actualLatestTestResults.Count);
@@ -100,7 +100,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         FailingFromDate = new DateTime(2018, 3, 1, 1, 01, 00),
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
@@ -108,7 +108,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var actualLatestTestResults = testResultService.GetLatest(1).ToList();
 
                 Assert.AreEqual(4, actualLatestTestResults.Count);
@@ -130,7 +130,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var testFailureDurationDtos = new List<TestFailureDurationDto>
@@ -142,7 +142,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var actualLatestTestResults = testResultService.GetLatest(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -162,7 +162,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var testFailureDurationDtos = new List<TestFailureDurationDto>
@@ -174,7 +174,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var actualLatestTestResults = testResultService.GetLatest(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -194,7 +194,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var testFailureDurationDtos = new List<TestFailureDurationDto>
@@ -207,7 +207,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var actualLatestTestResults = testResultService.GetLatest(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -230,7 +230,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var testFailureDurationDtos = new List<TestFailureDurationDto>
@@ -244,7 +244,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var latestTestResults = testResultService.GetLatest(1).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -265,7 +265,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var testFailureDurationDtos = new List<TestFailureDurationDto>
@@ -277,7 +277,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var latestTestResults = testResultService.GetLatest(1).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -296,7 +296,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var testFailureDurationDtos = new List<TestFailureDurationDto>
@@ -308,7 +308,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var latestTestResults = testResultService.GetLatest(1).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -327,7 +327,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var testFailureDurationDtos = new List<TestFailureDurationDto>
@@ -339,7 +339,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var latestTestResults = testResultService.GetLatest(1).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -360,7 +360,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var testFailureDurationDtos = new List<TestFailureDurationDto>
@@ -373,7 +373,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var latestTestResults = testResultService.GetLatest(1).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -393,7 +393,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(1)).Returns(latestTestResultDtos);
 
                 var testFailureDurationDtos = new List<TestFailureDurationDto>
@@ -406,7 +406,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     new Mock<ISuiteService>().Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var latestTestResults = testResultService.GetLatest(1).ToList();
 
                 Assert.AreEqual(1, latestTestResults.Count);
@@ -437,7 +437,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
@@ -445,7 +445,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var actualLatestTestResults = testResultService.GetLatestGrouped(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -484,7 +484,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         FailingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1, 5 })).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
@@ -492,7 +492,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var actualLatestTestResults = testResultService.GetLatestGrouped(1).OrderBy(l => l.TestResultID).ToList();
 
                 Assert.AreEqual(2, actualLatestTestResults.Count);
@@ -532,7 +532,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
@@ -540,7 +540,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var actualLatestTestResults = testResultService.GetLatestGrouped(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -572,7 +572,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                         PassingFromDate = utcNow,
                     }
                 };
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
@@ -580,7 +580,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var actualLatestTestResults = testResultService.GetLatestGrouped(1).ToList();
 
                 Assert.AreEqual(1, actualLatestTestResults.Count);
@@ -605,7 +605,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 mockSuiteService.Setup(s => s.GetAll()).Returns(suiteDtos);
 
                 var latestTestResultDtos = new List<LatestTestResultDto>();
-                var mockLatestTestResultsService = new Mock<ILatestTestResultsService>();
+                var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
                 mockLatestTestResultsService.Setup(s => s.Get(new int[] { 1 })).Returns(latestTestResultDtos);
 
                 var mockTestFailureDurationService = new Mock<ITestFailureDurationService>();
@@ -613,7 +613,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var testResultService = new TestResultService(new Mock<IDbContext>().Object,
                     mockSuiteService.Object, mockLatestTestResultsService.Object,
-                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultsService>().Object);
+                    mockTestFailureDurationService.Object, new Mock<ITestResultMapper>().Object, new Mock<ITemporaryTestResultService>().Object);
                 var actualLatestTestResults = testResultService.GetLatestGrouped(1).ToList();
 
                 Assert.AreEqual(0, actualLatestTestResults.Count);

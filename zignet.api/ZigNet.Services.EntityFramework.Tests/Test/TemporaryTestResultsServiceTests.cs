@@ -27,7 +27,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var temporaryTestResultsService = new TemporaryTestResultsService(zignetEntitiesWrapperMock.Object);
+                var temporaryTestResultsService = new TemporaryTestResultService(zignetEntitiesWrapperMock.Object);
                 temporaryTestResultsService.DeleteAll(1);
 
                 mockDbSet.Verify(d => d.RemoveRange(temporaryTestResults), Times.Once);
@@ -49,7 +49,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var temporaryTestResultsService = new TemporaryTestResultsService(zignetEntitiesWrapperMock.Object);
+                var temporaryTestResultsService = new TemporaryTestResultService(zignetEntitiesWrapperMock.Object);
                 temporaryTestResultsService.DeleteAll(1);
 
                 mockDbSet.Verify(d => d.RemoveRange(temporaryTestResults), Times.Once);
@@ -72,7 +72,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var temporaryTestResultsService = new TemporaryTestResultsService(zignetEntitiesWrapperMock.Object);
+                var temporaryTestResultsService = new TemporaryTestResultService(zignetEntitiesWrapperMock.Object);
                 temporaryTestResultsService.DeleteAll(1);
 
                 var temporaryTestResultsExpectedToBeDeleted = temporaryTestResults.Where(t => t.SuiteId == 1);
@@ -95,7 +95,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
-                var temporaryTestResultsService = new TemporaryTestResultsService(zignetEntitiesWrapperMock.Object);
+                var temporaryTestResultsService = new TemporaryTestResultService(zignetEntitiesWrapperMock.Object);
                 temporaryTestResultsService.DeleteAll(1);
 
                 var temporaryTestResultsExpectedToBeDeleted = new List<TemporaryTestResult>();

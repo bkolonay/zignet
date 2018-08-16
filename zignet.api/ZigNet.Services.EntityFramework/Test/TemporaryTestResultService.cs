@@ -4,11 +4,11 @@ using ZigNet.Services.DTOs;
 
 namespace ZigNet.Services.EntityFramework
 {
-    public class TemporaryTestResultsService : ITemporaryTestResultsService
+    public class TemporaryTestResultService : ITemporaryTestResultService
     {
         private ZigNetEntities _db;
 
-        public TemporaryTestResultsService(IDbContext dbContext)
+        public TemporaryTestResultService(IDbContext dbContext)
         {
             _db = dbContext.Get();
         }

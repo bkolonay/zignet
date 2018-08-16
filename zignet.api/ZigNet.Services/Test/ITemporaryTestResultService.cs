@@ -2,7 +2,7 @@
 
 namespace ZigNet.Services
 {
-    public interface ITemporaryTestResultsService
+    public interface ITemporaryTestResultService
     {
         TemporaryTestResultDto Save(TemporaryTestResultDto temporaryTestResultDto);
         void DeleteAll(int suiteId);

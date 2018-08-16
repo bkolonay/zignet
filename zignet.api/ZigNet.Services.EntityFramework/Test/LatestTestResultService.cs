@@ -7,11 +7,11 @@ using TestResultType = ZigNet.Domain.Test.TestResultType;
 
 namespace ZigNet.Services.EntityFramework
 {
-    public class LatestTestResultsService : ILatestTestResultsService
+    public class LatestTestResultService : ILatestTestResultService
     {
         private ZigNetEntities _db;
 
-        public LatestTestResultsService(IDbContext dbContext)
+        public LatestTestResultService(IDbContext dbContext)
         {
             _db = dbContext.Get();
         }

@@ -12,10 +12,10 @@ namespace ZigNet.Business
         private ILatestSuiteResultsService _latestSuiteResultsService;
         private ISuiteResultService _suiteResultService;
         private ISuiteService _suiteService;
-        private ITemporaryTestResultsService _temporaryTestResultsService;        
+        private ITemporaryTestResultService _temporaryTestResultsService;        
 
         public SuiteBusinessProvider(ILatestSuiteResultsService latestSuiteResultsService, ISuiteResultService suiteResultService,
-            ISuiteService suiteService, ITemporaryTestResultsService temporaryTestResultsService)
+            ISuiteService suiteService, ITemporaryTestResultService temporaryTestResultsService)
         {
             _latestSuiteResultsService = latestSuiteResultsService;
             _suiteResultService = suiteResultService;
