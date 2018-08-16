@@ -11,17 +11,15 @@ namespace ZigNet.Api.Controllers
 {
     public class SuiteController : ApiController
     {
-        private ISuiteBusinessProvider _suiteBusinessProvider;
         private ILatestSuiteResultsBusinessProvider _latestSuiteResultsBusinessProvider;
-        private ITestResultBusinessProvider _testResultBusinessProvider;
+        private ISuiteBusinessProvider _suiteBusinessProvider;
         private IZigNetApiMapper _zigNetApiMapper;
 
-        public SuiteController(ISuiteBusinessProvider suiteBusinessProvider, ITestResultBusinessProvider testResultBusinessProvider,
-            IZigNetApiMapper zigNetApiMapper, ILatestSuiteResultsBusinessProvider latestSuiteResultsBusinessProvider)
+        public SuiteController(ILatestSuiteResultsBusinessProvider latestSuiteResultsBusinessProvider, 
+            ISuiteBusinessProvider suiteBusinessProvider, IZigNetApiMapper zigNetApiMapper)
         {
-            _suiteBusinessProvider = suiteBusinessProvider;
-            _testResultBusinessProvider = testResultBusinessProvider;
             _latestSuiteResultsBusinessProvider = latestSuiteResultsBusinessProvider;
+            _suiteBusinessProvider = suiteBusinessProvider;
             _zigNetApiMapper = zigNetApiMapper;
         }
 
@@ -45,20 +43,10 @@ namespace ZigNet.Api.Controllers
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        [Route("api/Suite/GetLatestResults")]
-        public IEnumerable<SuiteSummary> GetLatestResults(bool group = false, bool debug = false)
+        [Route("api/Suite/Latest")]
+        public IEnumerable<SuiteSummary> GetLatest(bool group = false, bool debug = false)
         {
             return _latestSuiteResultsBusinessProvider.GetLatest(group, debug);
-        }
-
-        [Route("api/Suite/LatestTestResults")]
-        public GetLatestTestResultsModel LatestTestResults([FromBody] int suiteId, bool group = false)
-        {
-            return new GetLatestTestResultsModel
-            {
-                 SuiteName = _suiteBusinessProvider.GetSuiteName(suiteId, group),
-                 LatestTestResults = _testResultBusinessProvider.GetLatest(suiteId, group)
-            };
         }
     }
 }

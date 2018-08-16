@@ -10,11 +10,14 @@ namespace ZigNet.Api.Controllers
     public class TestResultController : ApiController
     {
         private ITestResultBusinessProvider _testResultBusinessProvider;
+        private ISuiteBusinessProvider _suiteBusinessProvider;
         private IZigNetApiMapper _zigNetApiMapper;        
 
-        public TestResultController(ITestResultBusinessProvider testResultBusinessProvider, IZigNetApiMapper zigNetApiMapper)
+        public TestResultController(ITestResultBusinessProvider testResultBusinessProvider, ISuiteBusinessProvider suiteBusinessProvider,
+            IZigNetApiMapper zigNetApiMapper)
         {
             _testResultBusinessProvider = testResultBusinessProvider;
+            _suiteBusinessProvider = suiteBusinessProvider;
             _zigNetApiMapper = zigNetApiMapper;
         }
 
@@ -23,6 +26,16 @@ namespace ZigNet.Api.Controllers
             _testResultBusinessProvider.Save(
                 _zigNetApiMapper.MapCreateTestResultModel(createTestResultModel));
             return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [Route("api/TestResult/Latest")]
+        public GetLatestTestResultsModel GetLatest([FromBody] int suiteId, bool group = false)
+        {
+            return new GetLatestTestResultsModel
+            {
+                SuiteName = _suiteBusinessProvider.GetSuiteName(suiteId, group),
+                LatestTestResults = _testResultBusinessProvider.GetLatest(suiteId, group)
+            };
         }
     }
 }
