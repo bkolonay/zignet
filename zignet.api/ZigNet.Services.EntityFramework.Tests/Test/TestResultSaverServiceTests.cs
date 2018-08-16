@@ -82,9 +82,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new SuiteResult { SuiteResultID = 3 },
                 };
 
-                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object, 
-                    new Mock<ILatestTestResultService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultService>().Object);
+                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
+                    new Mock<ITestFailureDurationService>().Object, mockTestResultMapper.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -148,8 +148,8 @@ namespace ZigNet.Services.EntityFramework.Tests
                 };
 
                 var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
-                    new Mock<ILatestTestResultService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultService>().Object);
+                    new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
+                    new Mock<ITestFailureDurationService>().Object, mockTestResultMapper.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -199,9 +199,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object, 
-                    new Mock<ILatestTestResultService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultService>().Object);
+                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
+                    new Mock<ITestFailureDurationService>().Object, mockTestResultMapper.Object);
                 testResultSaverService.Save(testResult);
             }
 
@@ -261,9 +261,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object, 
-                    new Mock<ILatestTestResultService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultService>().Object);
+                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
+                    new Mock<ITestFailureDurationService>().Object, mockTestResultMapper.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -335,9 +335,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object, 
-                    new Mock<ILatestTestResultService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultService>().Object);
+                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
+                    new Mock<ITestFailureDurationService>().Object, mockTestResultMapper.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -417,9 +417,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteResult = new SuiteResult { SuiteResultID = 3 }
                 };
 
-                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object, 
-                    new Mock<ILatestTestResultService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultService>().Object);
+                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
+                    new Mock<ITestFailureDurationService>().Object, mockTestResultMapper.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -503,9 +503,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     }
                 };
 
-                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object, 
-                    new Mock<ILatestTestResultService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultService>().Object);
+                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
+                    new Mock<ITestFailureDurationService>().Object, mockTestResultMapper.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -581,9 +581,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     EndTime = now.AddHours(1)
                 };
 
-                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object, 
-                    new Mock<ILatestTestResultService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultService>().Object);
+                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
+                    new Mock<ITestFailureDurationService>().Object, mockTestResultMapper.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -666,9 +666,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     EndTime = now.AddSeconds(1)
                 };
 
-                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object, 
-                    new Mock<ILatestTestResultService>().Object, new Mock<ITestFailureDurationService>().Object,
-                    mockTestResultMapper.Object, new Mock<ITemporaryTestResultService>().Object);
+                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
+                    new Mock<ITestFailureDurationService>().Object, mockTestResultMapper.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);

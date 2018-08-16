@@ -21,22 +21,23 @@ namespace ZigNet.Services.EntityFramework
     public class TestResultSaverService : ITestResultSaverService
     {
         private ZigNetEntities _db;
-        private ILatestTestResultService _latestTestResultsService;
+        private ILatestTestResultService _latestTestResultService;
+        private ITemporaryTestResultService _temporaryTestResultService;
         private ITestFailureDurationService _testFailureDurationService;
         private ITestResultMapper _testResultMapper;
-        private ITemporaryTestResultService _temporaryTestResultsService;
 
-        public TestResultSaverService(IDbContext dbContext,  ILatestTestResultService latestTestResultsService,
-            ITestFailureDurationService testFailureDurationService, ITestResultMapper testResultMapper,
-            ITemporaryTestResultService temporaryTestResultsService)
+        public TestResultSaverService(IDbContext dbContext, ILatestTestResultService latestTestResultService,
+            ITemporaryTestResultService temporaryTestResultService, ITestFailureDurationService testFailureDurationService,
+            ITestResultMapper testResultMapper)
         {
             _db = dbContext.Get();
-            _latestTestResultsService = latestTestResultsService;
-            _testFailureDurationService = testFailureDurationService;
-            _temporaryTestResultsService = temporaryTestResultsService;
+            _latestTestResultService = latestTestResultService;
+            _temporaryTestResultService = temporaryTestResultService;
+            _testFailureDurationService = testFailureDurationService;            
             _testResultMapper = testResultMapper;
         }
 
+        // todo: review this method again (can anything else be taken out)
         public TestResult Save(TestResult testResult)
         {
             // todo: can this logic be factored out?
@@ -118,7 +119,7 @@ namespace ZigNet.Services.EntityFramework
 
             var savedTestResult = Map(dbTestResult, suiteResult.SuiteId);
 
-            _temporaryTestResultsService.Save(
+            _temporaryTestResultService.Save(
                 _testResultMapper.ToTemporaryTestResult(savedTestResult));
 
             var utcNow = DateTime.UtcNow;
@@ -126,7 +127,7 @@ namespace ZigNet.Services.EntityFramework
                 .AsNoTracking()
                 .Single(s => s.SuiteID == suiteResult.SuiteId)
                 .SuiteName;
-            _latestTestResultsService.Save(
+            _latestTestResultService.Save(
                 _testResultMapper.ToLatestTestResult(savedTestResult), savedTestResult.ResultType, utcNow);
 
             _testFailureDurationService.Save(
@@ -135,6 +136,8 @@ namespace ZigNet.Services.EntityFramework
             return savedTestResult;
         }
 
+        // todo: move to mapping class (might make unit tests useless if mocked, could pass in real instance)
+        // todo: general idea: remove mocking of mapping classes and pass in real instances (will this cause issues?)
         private TestResult Map(DbTestResult dbTestResult, int suiteId)
         {
             var testResult = new TestResult

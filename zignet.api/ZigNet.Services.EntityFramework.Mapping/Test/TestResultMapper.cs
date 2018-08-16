@@ -6,6 +6,7 @@ namespace ZigNet.Services.EntityFramework.Mapping
 {
     public class TestResultMapper : ITestResultMapper
     {
+        // todo: review code here (including interface)
         // todo: unit test public interface
         // todo: after moving save test results to its own service, split these into separate classes (too confusing to look at all of them)
 

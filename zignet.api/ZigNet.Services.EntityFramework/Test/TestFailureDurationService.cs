@@ -74,6 +74,8 @@ namespace ZigNet.Services.EntityFramework
                 _db.TestFailureDurations.Add(testFailedDuration);
             _db.SaveChanges();
         }
+
+        // todo: move to mapping class
         private TestFailureDurationDto Map(DbTestFailureDuration dbTestFailureDuration)
         {
             return new TestFailureDurationDto
