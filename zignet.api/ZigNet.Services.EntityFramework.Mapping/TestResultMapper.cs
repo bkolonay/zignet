@@ -34,6 +34,21 @@ namespace ZigNet.Services.EntityFramework.Mapping
             }
         }
 
+        public TestResultType Map(int dbTestResultTypeId)
+        {
+            switch (dbTestResultTypeId)
+            {
+                case 1:
+                    return TestResultType.Fail;
+                case 2:
+                    return TestResultType.Inconclusive;
+                case 3:
+                    return TestResultType.Pass;
+                default:
+                    throw new InvalidOperationException("DB test result type ID not recognized");
+            }
+        }
+
         public LatestTestResultDto ToLatestTestResult(TestResult testResult)
         {
             return new LatestTestResultDto

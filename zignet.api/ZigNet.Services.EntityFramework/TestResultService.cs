@@ -186,7 +186,7 @@ namespace ZigNet.Services.EntityFramework
                     SuiteResultID = dbTestResult.SuiteResultId,
                     Suite = new Suite { SuiteID = suiteId }
                 },
-                ResultType = MapTestResultType(dbTestResult.TestResultTypeId),
+                ResultType = _testResultMapper.Map(dbTestResult.TestResultTypeId),
                 StartTime = dbTestResult.TestResultStartDateTime,
                 EndTime = dbTestResult.TestResultEndDateTime
             };
@@ -233,20 +233,6 @@ namespace ZigNet.Services.EntityFramework
         }
 
         // todo: move 2 below to mapping classes
-        private TestResultType MapTestResultType(int dbTestResultTypeId)
-        {
-            switch (dbTestResultTypeId)
-            {
-                case 1:
-                    return TestResultType.Fail;
-                case 2:
-                    return TestResultType.Inconclusive;
-                case 3:
-                    return TestResultType.Pass;
-                default:
-                    throw new InvalidOperationException("DB test result type ID not recognized");
-            }
-        }
         private TestFailureType MapTestFailureType(int dbTestFailureTypeId)
         {
             switch (dbTestFailureTypeId)

@@ -1063,6 +1063,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
                 mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
+                mockTestResultMapper.Setup(t => t.Map(1)).Returns(TestResultType.Fail);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 2, TestFailureTypeName = "Exception" }
@@ -1147,6 +1148,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
                 mockTestResultMapper.Setup(t => t.Map(TestResultType.Pass)).Returns(3);
+                mockTestResultMapper.Setup(t => t.Map(3)).Returns(TestResultType.Pass);
 
                 var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
 
@@ -1223,6 +1225,7 @@ namespace ZigNet.Services.EntityFramework.Tests
 
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
                 mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
+                mockTestResultMapper.Setup(t => t.Map(1)).Returns(TestResultType.Fail);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }

@@ -9,5 +9,6 @@ namespace ZigNet.Services.EntityFramework.Mapping
         LatestTestResultDto ToLatestTestResult(TestResult testResult);
         TestFailureDurationDto ToTestFailureDuration(TestResult testResult);
         int Map(TestResultType testResultType);
+        TestResultType Map(int dbTestResultTypeId);
     }
 }
