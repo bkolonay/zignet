@@ -92,7 +92,7 @@ namespace ZigNet.Services.EntityFramework
                 };
 
             dbTestResult.Test.TestCategories.Clear();
-            var dbTestCategories = _db.TestCategories.OrderBy(c => c.TestCategoryID).ToList(); // todo: remove ordering categories
+            var dbTestCategories = _db.TestCategories.ToList();
             foreach (var testCategory in testResult.Test.Categories)
             {
                 // use FirstOrDefault instead of SingleOrDefault because first-run multi-threaded tests end up inserting duplicate categories
