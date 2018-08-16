@@ -37,7 +37,6 @@ namespace ZigNet.Services.EntityFramework
             _testResultMapper = testResultMapper;
         }
 
-        // todo: review this method again (can anything else be taken out)
         public TestResult Save(TestResult testResult)
         {
             // todo: can this logic be factored out?
@@ -136,8 +135,6 @@ namespace ZigNet.Services.EntityFramework
             return savedTestResult;
         }
 
-        // todo: move to mapping class (might make unit tests useless if mocked, could pass in real instance)
-        // todo: general idea: remove mocking of mapping classes and pass in real instances (will this cause issues?)
         private TestResult Map(DbTestResult dbTestResult, int suiteId)
         {
             var testResult = new TestResult
