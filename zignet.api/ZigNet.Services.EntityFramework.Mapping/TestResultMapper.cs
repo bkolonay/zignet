@@ -49,6 +49,19 @@ namespace ZigNet.Services.EntityFramework.Mapping
             }
         }
 
+        public TestFailureType ToTestFailureType(int dbTestFailureTypeId)
+        {
+            switch (dbTestFailureTypeId)
+            {
+                case 1:
+                    return TestFailureType.Assertion;
+                case 2:
+                    return TestFailureType.Exception;
+                default:
+                    throw new InvalidOperationException("DB test failure type ID not recognized");
+            }
+        }
+
         public LatestTestResultDto ToLatestTestResult(TestResult testResult)
         {
             return new LatestTestResultDto

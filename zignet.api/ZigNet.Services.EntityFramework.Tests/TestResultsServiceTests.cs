@@ -1226,6 +1226,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var mockTestResultMapper = new Mock<ITestResultMapper>();
                 mockTestResultMapper.Setup(t => t.Map(TestResultType.Fail)).Returns(1);
                 mockTestResultMapper.Setup(t => t.Map(1)).Returns(TestResultType.Fail);
+                mockTestResultMapper.Setup(t => t.ToTestFailureType(1)).Returns(TestFailureType.Assertion);
 
                 var mockTestFailureTypes = new List<DbTestFailureType>{
                     new DbTestFailureType { TestFailureTypeID = 1, TestFailureTypeName = "Assertion" }

@@ -194,7 +194,7 @@ namespace ZigNet.Services.EntityFramework
                 testResult.TestFailureDetails = new TestFailureDetails
                 {
                     FailureDetailMessage = dbTestResult.TestFailureDetails.Count == 0 ? null : dbTestResult.TestFailureDetails.First().TestFailureDetail1,
-                    FailureType = MapTestFailureType(dbTestResult.TestFailureTypes.First().TestFailureTypeID)
+                    FailureType = _testResultMapper.ToTestFailureType(dbTestResult.TestFailureTypes.First().TestFailureTypeID)
                 };
             foreach (var dbSuite in dbTestResult.Test.Suites)
                 testResult.Test.Suites.Add(new Suite { SuiteID = dbSuite.SuiteID });
@@ -229,20 +229,6 @@ namespace ZigNet.Services.EntityFramework
                     return _zigNetEntities.TestFailureTypes.Single(t => t.TestFailureTypeID == 1);
                 default:
                     throw new InvalidOperationException("Test failure type not recognized");
-            }
-        }
-
-        // todo: move 2 below to mapping classes
-        private TestFailureType MapTestFailureType(int dbTestFailureTypeId)
-        {
-            switch (dbTestFailureTypeId)
-            {
-                case 1:
-                    return TestFailureType.Assertion;
-                case 2:
-                    return TestFailureType.Exception;
-                default:
-                    throw new InvalidOperationException("DB test failure type ID not recognized");
             }
         }
     }
