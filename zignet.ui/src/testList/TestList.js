@@ -20,7 +20,7 @@ class TestList extends Component {
             latestTestResults: response.LatestTestResults
           })
         })
-        .catch(error => alert(error))
+        .catch(error => console.log('Failed to fetch latest test results: ' + error))
     }
 
     getData();

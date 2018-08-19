@@ -16,7 +16,7 @@ class Home extends Component {
             latestSuiteResults: response
           })
         })
-        .catch(error => alert(error))
+        .catch(error => console.log('Failed to fetch latest suite results: ' + error))
     }
 
     getData();
