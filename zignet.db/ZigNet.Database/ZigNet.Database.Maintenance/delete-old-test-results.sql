@@ -1,20 +1,22 @@
 USE ZigNet
 
--- need to use a consistent date through the whole query because test result times can vary by milliseconds
+-- 1. make sure the script is connected to the right db (e.g. LABKOLONAY or LN01SQLTTSM501\XCHANGE)
+
+-- 2. use a consistent date through the whole query because test result times can vary by milliseconds
 --SELECT DATEADD(day, -30, GETUTCDATE())
-DECLARE @thirtyDaysAgoUtc DateTime = '2018-07-10 18:46:34.893'
+DECLARE @thirtyDaysAgoUtc DateTime = '2018-08-21 17:22:56.380'
 --SELECT @thirtyDaysAgoUtc
 
 --SELECT COUNT(SuiteResults.SuiteResultID) from SuiteResults
-SELECT * FROM SuiteResults
-WHERE SuiteResultEndDateTime < @thirtyDaysAgoUtc
+--SELECT * FROM SuiteResults
+--WHERE SuiteResultEndDateTime < @thirtyDaysAgoUtc
 
--- get count of TestResults older than 30 days old
+-- 3. get count of TestResults older than 30 days old
 --SELECT COUNT(TestResults.TestResultID) FROM TestResults
 --WHERE TestResultEndDateTime < @thirtyDaysAgoUtc
--- count: 7641934
+-- count: 4625785
 
--- get count of TestResults older than 30 days old _and_ have result type as "Fail"
+-- 4. get count of TestResults older than 30 days old _and_ have result type as "Fail"
 --   the count of this query should match how many
 --   TestResult_TestFailureDetails and TestFailureDetails records are deleted
 --SELECT COUNT(TestResults.TestResultID) FROM TestResults
@@ -24,7 +26,9 @@ WHERE SuiteResultEndDateTime < @thirtyDaysAgoUtc
 --		FROM TestResultTypes
 --		WHERE TestResultTypes.TestResultTypeName = 'Fail'
 --	)
--- count: 308331
+-- count: 275982
+
+-- 5. delete records
 
 --DELETE TestResult_TestFailureDetails
 ----SELECT COUNT(TestResult_TestFailureDetails.TestResultId)
@@ -50,7 +54,7 @@ WHERE SuiteResultEndDateTime < @thirtyDaysAgoUtc
 --	ON TestResults.TestResultID = TestResult_TestFailureType.TestResultId
 --WHERE TestResults.TestResultEndDateTime < @thirtyDaysAgoUtc
 
----- query can be used to determine which suites have run before, but haven't been run in over 30 days
+------ query can be used to determine which suites have run before, but haven't been run in over 30 days
 --SELECT TemporaryTestResults.TemporaryTestResultID, TemporaryTestResults.TestResultId,
 -- Suites.SuiteName, Environments.EnvironmentName, Applications.ApplicationName
 ----SELECT COUNT(TemporaryTestResultID)
@@ -74,8 +78,8 @@ WHERE SuiteResultEndDateTime < @thirtyDaysAgoUtc
 --	ON TestResults.TestResultID = TemporaryTestResults.TestResultId
 --WHERE TestResults.TestResultEndDateTime < @thirtyDaysAgoUtc
 
--- note: deleting stale LatestTestResults causes list page to no longer show data
---   (because the tests haven't run in the last 30 days)
+---- note: deleting stale LatestTestResults causes list page to no longer show data
+----   (because the tests haven't run in the last 30 days)
 --DELETE LatestTestResults
 ----SELECT COUNT(LatestTestResults.LatestTestResultID)
 --FROM LatestTestResults
