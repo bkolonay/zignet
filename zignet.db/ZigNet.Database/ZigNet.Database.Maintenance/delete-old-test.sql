@@ -1,15 +1,28 @@
 USE ZigNet
 
-DECLARE @testName varchar(MAX) = 'Search for unlisted properties'
+-- 1. make sure the script is connected to the right db (e.g. LABKOLONAY or LN01SQLTTSM501\XCHANGE)
+-- 2. run this query to determine which Tests haven't run within x days (e.g. 30, 15, 5, or 1)
+
+--SELECT DATEADD(day, -5, GETUTCDATE())
+DECLARE @thirtyDaysAgoUtc DateTime = '2018-08-21 22:12:04.100'
+DECLARE @fifteenDaysAgoUtc DateTime = '2018-09-05 19:08:21.837'
+DECLARE @fiveDaysAgoUtc DateTime = '2018-09-15 22:40:10.587'
+DECLARE @oneDayAgoUtc DateTime = '2018-09-19 19:27:14.393'
+
+SELECT Tests.TestID, Tests.TestName,
+	(SELECT COUNT(TestResults.TestResultID)
+	 FROM TestResults
+	 WHERE TestResults.TestId = Tests.TestID
+		AND TestResults.TestResultEndDateTime > @fiveDaysAgoUtc) AS TestResultCount
+FROM Tests
+--WHERE TestName = 'Verify Company News page is shown correctly'
+ORDER BY TestResultCount
 
 -- get number of test results per test (those with low test result count _may_ have been renamed)
 --SELECT TestResults.TestId, COUNT(TestResults.TestResultID) AS TestResultCount
 --FROM TestResults
 --GROUP BY TestResults.TestId
 --ORDER BY TestResultCount
-
---SELECT * FROM Tests
---WHERE TestName = @testName
 
 -- get number of test results for the test
 --SELECT COUNT(TestResults.TestResultID) 
@@ -18,6 +31,9 @@ DECLARE @testName varchar(MAX) = 'Search for unlisted properties'
 --	ON Tests.TestID = TestResults.TestId
 --WHERE Tests.TestName = @testName
 ---- count: 144
+
+-- 3. paste the Test name here to delete the Test and all of its dependencies
+DECLARE @testName varchar(MAX) = 'Verify Company Awards page is shown correctly'
 
 DELETE Test_TestCategories
 --SELECT *
