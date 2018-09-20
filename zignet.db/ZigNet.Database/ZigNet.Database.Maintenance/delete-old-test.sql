@@ -1,7 +1,8 @@
 USE ZigNet
 
 -- 1. make sure the script is connected to the right db (e.g. LABKOLONAY or LN01SQLTTSM501\XCHANGE)
--- 2. run this query to determine which Tests haven't run within x days (e.g. 30, 15, 5, or 1)
+
+-- 2. run SELECT query to determine which Tests haven't run within x days (e.g. 30, 15, 5, or 1)
 
 --SELECT DATEADD(day, -5, GETUTCDATE())
 DECLARE @thirtyDaysAgoUtc DateTime = '2018-08-21 22:12:04.100'
