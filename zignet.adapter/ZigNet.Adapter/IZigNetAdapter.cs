@@ -7,6 +7,6 @@ namespace ZigNet.Adapter
     {
         int StartSuite(string applicationName, string suiteName, string environmentName);
         void SaveTestResult(DateTime testStartTime);
-        void StopSuite(int suiteResultId, SuiteResultType suiteResultType);
+        void StopSuite(SuiteResultType suiteResultType);
     }
 }

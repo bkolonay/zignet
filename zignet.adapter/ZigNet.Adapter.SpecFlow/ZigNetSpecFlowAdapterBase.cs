@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using ZigNet.Adapter.SpecFlow.Utility;
 using ZigNet.Api.Model;
 using ZigNet.Domain.Suite;
@@ -62,8 +60,9 @@ namespace ZigNet.Adapter.SpecFlow
             return suiteResultId;
         }
 
-        public void StopSuite(int suiteResultId, SuiteResultType suiteResultType)
+        public void StopSuite(SuiteResultType suiteResultType)
         {
+            var suiteResultId = int.Parse(_fileService.ReadStringFromFile(_suiteResultIdFilePath));
             _zigNetApiHandler.StopSuite(suiteResultId, suiteResultType);
         }
     }
