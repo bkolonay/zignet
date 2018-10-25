@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ZigNet.Adapter.SpecFlow.Utility;
 using ZigNet.Api.Model;
 using ZigNet.Domain.Suite;
 using ZigNet.Domain.Test;
+using ZigNet.Domain.Test.TestStep;
 
 namespace ZigNet.Adapter.SpecFlow
 {
@@ -12,7 +14,8 @@ namespace ZigNet.Adapter.SpecFlow
         private IZigNetApiHandler _zigNetApiHandler;
         private IFileService _fileService;
         private ISpecFlowContextWrapper _specFlowContext;
-        private string _suiteResultIdFilePath;
+        private Stack<TestStepResult> _testStepResults;
+        private readonly string _suiteResultIdFilePath;
 
         public ZigNetSpecFlowAdapterBase(IZigNetApiHandler zigNetApiHandler, IDirectoryService directoryService,
             IFileService fileService, ISpecFlowContextWrapper specFlowContext)
@@ -21,6 +24,14 @@ namespace ZigNet.Adapter.SpecFlow
             _fileService = fileService;
             _specFlowContext = specFlowContext;
             _suiteResultIdFilePath = Path.Combine(directoryService.GetExecutingDirectory(), "suiteResultId.txt");
+            _testStepResults = new Stack<TestStepResult>();
+        }
+
+        public int StartSuite(string applicationName, string suiteName, string environmentName)
+        {
+            var suiteResultId = _zigNetApiHandler.StartSuite(applicationName, suiteName, environmentName);
+            _fileService.WriteStringToFile(_suiteResultIdFilePath, suiteResultId.ToString());
+            return suiteResultId;
         }
 
         public void SaveTestResult(DateTime testStartTime)
@@ -33,7 +44,8 @@ namespace ZigNet.Adapter.SpecFlow
                 StartTime = testStartTime,
                 EndTime = DateTime.UtcNow,
                 TestName = _specFlowContext.GetScenarioTitle(),
-                TestCategories = _specFlowContext.GetScenarioAndFeatureTags()
+                TestCategories = _specFlowContext.GetScenarioAndFeatureTags(),
+                TestStepResults = _testStepResults.ToArray()
             };
 
             var specFlowException = _specFlowContext.GetScenarioTestError();
@@ -53,11 +65,23 @@ namespace ZigNet.Adapter.SpecFlow
             _zigNetApiHandler.SaveTestResult(createTestResultModel);
         }
 
-        public int StartSuite(string applicationName, string suiteName, string environmentName)
+        public void StartTestStep()
         {
-            var suiteResultId = _zigNetApiHandler.StartSuite(applicationName, suiteName, environmentName);
-            _fileService.WriteStringToFile(_suiteResultIdFilePath, suiteResultId.ToString());
-            return suiteResultId;
+            var utcNow = DateTime.UtcNow;
+
+            _testStepResults.Push(new TestStepResult
+            {
+                TestStep = new TestStep { Name = _specFlowContext.GetTestStepName() },
+                StartTime = utcNow
+            });
+        }
+
+        public void StopTestStep()
+        {
+            var utcNow = DateTime.UtcNow;
+
+            var testStepResult = _testStepResults.Peek();
+            testStepResult.EndTime = utcNow;
         }
 
         public void StopSuite(SuiteResultType suiteResultType)

@@ -25,5 +25,10 @@ namespace ZigNet.Adapter.SpecFlow
         {
             return ScenarioContext.Current.TestError;
         }
+
+        public string GetTestStepName()
+        {
+            return ScenarioStepContext.Current.StepInfo.Text;
+        }
     }
 }

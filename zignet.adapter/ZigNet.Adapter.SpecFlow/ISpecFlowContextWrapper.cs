@@ -6,6 +6,7 @@ namespace ZigNet.Adapter.SpecFlow
     {
         string[] GetScenarioAndFeatureTags();
         string GetScenarioTitle();
+        string GetTestStepName();
         Exception GetScenarioTestError();
     }
 }
