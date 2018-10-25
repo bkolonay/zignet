@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using ZigNet.Domain.Test;
+using ZigNet.Domain.Test.TestStep;
 
 namespace ZigNet.Api.Model
 {
@@ -13,5 +15,6 @@ namespace ZigNet.Api.Model
         public TestResultType TestResultType { get; set; }
         public TestFailureType TestFailureType { get; set; }
         public string TestFailureDetails { get; set; }
+        public ICollection<TestStepResult> TestStepResults { get; set; }
     }
 }

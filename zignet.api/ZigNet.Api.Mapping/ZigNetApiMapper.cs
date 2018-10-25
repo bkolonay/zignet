@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ZigNet.Api.Model;
 using ZigNet.Domain.Suite;
 using ZigNet.Domain.Test;
+using ZigNet.Domain.Test.TestStep;
 
 namespace ZigNet.Api.Mapping
 {
@@ -45,6 +47,11 @@ namespace ZigNet.Api.Mapping
             if (createTestResultModel.TestCategories != null)
                 foreach (var testCategoryName in createTestResultModel.TestCategories)
                     testResult.Test.Categories.Add(new TestCategory { Name = testCategoryName });
+
+            if (createTestResultModel.TestStepResults == null)
+                testResult.TestStepResults = new List<TestStepResult>();
+            else
+                testResult.TestStepResults = createTestResultModel.TestStepResults;
 
             return testResult;
         }

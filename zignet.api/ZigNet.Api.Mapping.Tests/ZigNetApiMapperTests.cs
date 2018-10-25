@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using ZigNet.Domain.Test;
 using ZigNet.Api.Model;
+using System.Collections.Generic;
+using ZigNet.Domain.Test.TestStep;
 
 namespace ZigNet.Api.Mapping.Tests
 {
@@ -79,7 +81,8 @@ namespace ZigNet.Api.Mapping.Tests
                     EndTime = endTime,
                     TestResultType = TestResultType.Pass,
                     TestFailureType = TestFailureType.Exception,
-                    TestFailureDetails = "failed because of exception at line 5"
+                    TestFailureDetails = "failed because of exception at line 5",
+                    TestStepResults = new List<TestStepResult> { new TestStepResult {  TestStepResultID = 3} }
                 };
 
                 var zigNetApiMapper = new ZigNetApiMapper();
@@ -94,6 +97,7 @@ namespace ZigNet.Api.Mapping.Tests
                 Assert.AreEqual(TestResultType.Pass, testResult.ResultType);
                 Assert.AreEqual(TestFailureType.Exception, testResult.TestFailureDetails.FailureType);
                 Assert.AreEqual("failed because of exception at line 5", testResult.TestFailureDetails.FailureDetailMessage);
+                Assert.AreEqual(3, testResult.TestStepResults.ToList()[0].TestStepResultID);
             }
 
             [TestMethod]
@@ -115,6 +119,7 @@ namespace ZigNet.Api.Mapping.Tests
                 Assert.AreEqual(TestResultType.Inconclusive, testResult.ResultType);
                 Assert.AreEqual(TestFailureType.Exception, testResult.TestFailureDetails.FailureType);
                 Assert.IsNull(testResult.TestFailureDetails.FailureDetailMessage);
+                Assert.AreEqual(0, testResult.TestStepResults.Count);
             }
 
             [TestMethod]
