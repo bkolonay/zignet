@@ -65,6 +65,7 @@
     <Compile Include="Test\TestFailureDurationService.cs" />
     <Compile Include="Test\TestResultSaverService.cs" />
     <Compile Include="Test\TestResultService.cs" />
+    <Compile Include="Test\TestStepService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZigNet.Database.EntityFramework\ZigNet.Database.EntityFramework.csproj">

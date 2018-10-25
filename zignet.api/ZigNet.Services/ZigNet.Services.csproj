@@ -61,6 +61,7 @@
     <Compile Include="Test\ITestFailureDurationService.cs" />
     <Compile Include="Test\ITestResultService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\ITestStepService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
