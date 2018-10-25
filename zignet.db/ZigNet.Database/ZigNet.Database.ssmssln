@@ -25,6 +25,8 @@ Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Api.Get.Lat
 EndProject
 Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Release-01-02-00", "ZigNet.Database.Release-01-02-00\ZigNet.Database.Release-01-02-00.ssmssqlproj", "{CDCA6972-8C56-4BB0-8F46-5060DB017FAA}"
 EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Release-01-03-00", "ZigNet.Database.Release-01-03-00\ZigNet.Database.Release-01-03-00.ssmssqlproj", "{41FDFC8A-8CCA-4919-AEE0-4A8E59289752}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Default|Default = Default|Default
@@ -39,7 +41,8 @@ Global
 		{EB9021D1-AFD6-4201-89B9-1FE32BB0C9E9}.Default|Default.ActiveCfg = Default
 		{6F3A683F-65EE-41BB-9F47-4E24FFE8D40D}.Default|Default.ActiveCfg = Default
 		{CDCA6972-8C56-4BB0-8F46-5060DB017FAA}.Default|Default.ActiveCfg = Default
-		{6CC56318-1492-4532-AE96-97B102F76FF5}.Default|Default.ActiveCfg = Default
+		{41FDFC8A-8CCA-4919-AEE0-4A8E59289752}.Default|Default.ActiveCfg = Default
+		{F2F0F466-B0E9-4041-B5B7-B013AA607131}.Default|Default.ActiveCfg = Default
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,5 +52,6 @@ Global
 		{EB9021D1-AFD6-4201-89B9-1FE32BB0C9E9} = {59A5901A-0399-40A7-BB4B-C6044EBA0431}
 		{6F3A683F-65EE-41BB-9F47-4E24FFE8D40D} = {59A5901A-0399-40A7-BB4B-C6044EBA0431}
 		{CDCA6972-8C56-4BB0-8F46-5060DB017FAA} = {7D3086B2-CBFC-4C3E-B5CD-473EA72426EF}
+		{41FDFC8A-8CCA-4919-AEE0-4A8E59289752} = {7D3086B2-CBFC-4C3E-B5CD-473EA72426EF}
 	EndGlobalSection
 EndGlobal

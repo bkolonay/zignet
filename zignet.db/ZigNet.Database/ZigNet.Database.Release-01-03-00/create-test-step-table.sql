@@ -1,0 +1,10 @@
+USE ZigNet
+
+DROP TABLE IF EXISTS TestSteps
+
+CREATE TABLE TestSteps (
+	TestStepID int NOT NULL PRIMARY KEY IDENTITY(1,1),
+	TestStepName NVARCHAR(MAX) NOT NULL
+)
+
+SELECT * FROM TestSteps
