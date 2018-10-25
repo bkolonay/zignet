@@ -53,8 +53,14 @@
     <Compile Include="Test\TestCategory.cs" />
     <Compile Include="Test\TestFailureDetails.cs" />
     <Compile Include="Test\TestFailureType.cs" />
+    <Compile Include="Test\TestStep\TestStepResultType.cs" />
+    <Compile Include="Test\TestStep\TestStepResult.cs" />
     <Compile Include="Test\TestResult.cs" />
     <Compile Include="Test\TestResultType.cs" />
+    <Compile Include="Test\TestStep\TestStep.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ZigNet.Domain.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

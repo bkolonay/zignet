@@ -58,9 +58,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
-    <Reference Include="ZigNet.Domain, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZigNet.Domain.1.0.6\lib\net45\ZigNet.Domain.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="ZigNet.Domain, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZigNet.Domain.1.0.8\lib\net45\ZigNet.Domain.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using ZigNet.Domain.Suite;
+using ZigNet.Domain.Test.TestStep;
 
 namespace ZigNet.Domain.Test
 {
@@ -12,5 +14,6 @@ namespace ZigNet.Domain.Test
         public TestResultType ResultType { get; set; }
         public TestFailureDetails TestFailureDetails { get; set; }
         public SuiteResult SuiteResult { get; set; }
+        public ICollection<TestStepResult> TestStepResults { get; set; }
     }
 }

@@ -9,5 +9,6 @@ namespace ZigNet.Domain.Test
         public ICollection<TestCategory> Categories { get; set; }
         public ICollection<TestResult> TestResults { get; set; }
         public ICollection<Suite.Suite> Suites { get; set; }
+        public ICollection<TestStep.TestStep> TestSteps { get; set; }
     }
 }

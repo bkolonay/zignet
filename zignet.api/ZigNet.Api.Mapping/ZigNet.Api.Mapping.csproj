@@ -42,9 +42,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="ZigNet.Domain, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZigNet.Domain.1.0.6\lib\net45\ZigNet.Domain.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="ZigNet.Domain, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZigNet.Domain.1.0.8\lib\net45\ZigNet.Domain.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -53,13 +52,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\ZigNet.Api.Model\ZigNet.Api.Model.csproj">
       <Project>{c2a50fe1-d26a-4dd4-abdd-31173386ccc2}</Project>
       <Name>ZigNet.Api.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
