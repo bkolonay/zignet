@@ -26,6 +26,9 @@ namespace ZigNet.Business
         {
             if (string.IsNullOrWhiteSpace(testResult.Test.Name))
                 throw new ArgumentNullException("TestName", "Test name cannot be null");
+            foreach (var testStepResult in testResult.TestStepResults)
+                if (string.IsNullOrWhiteSpace(testStepResult.TestStep.Name))
+                    throw new ArgumentNullException("TestStepName", "Test step name cannot be null");
 
             _testResultSaverService.Save(testResult);
         }
