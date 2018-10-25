@@ -9,9 +9,10 @@
 
 namespace ZigNet.Database.EntityFramework
 {
+    using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
+    
     public partial class ZigNetEntities : DbContext
     {
         public ZigNetEntities()
@@ -39,5 +40,8 @@ namespace ZigNet.Database.EntityFramework
         public virtual DbSet<TemporaryTestResult> TemporaryTestResults { get; set; }
         public virtual DbSet<Application> Applications { get; set; }
         public virtual DbSet<Environment> Environments { get; set; }
+        public virtual DbSet<TestStepResult> TestStepResults { get; set; }
+        public virtual DbSet<TestStepResultType> TestStepResultTypes { get; set; }
+        public virtual DbSet<TestStep> TestSteps { get; set; }
     }
 }

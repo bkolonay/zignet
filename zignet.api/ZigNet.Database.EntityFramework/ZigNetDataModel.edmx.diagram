@@ -42,6 +42,13 @@
         <EntityTypeShape EntityType="ZigNet.Database.EntityFramework.Model.Environment" Width="1.5" PointX="0.75" PointY="9.875" />
         <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_SuiteApplication" />
         <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_SuiteEnvironment" />
+        <EntityTypeShape EntityType="ZigNet.Database.EntityFramework.Model.TestStepResult" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ZigNet.Database.EntityFramework.Model.TestStepResultType" Width="1.5" PointX="7.5" PointY="11" />
+        <EntityTypeShape EntityType="ZigNet.Database.EntityFramework.Model.TestStep" Width="1.5" PointX="3" PointY="1.25" />
+        <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_TestStepResultTestResult" />
+        <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_TestStepResultTestStep" />
+        <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.FK_TestStepResultTestStepResultType" />
+        <AssociationConnector Association="ZigNet.Database.EntityFramework.Model.Tests_TestSteps" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ZigNet.Database.EntityFramework;
 using ZigNet.Services.DTOs;
-using ZigNet.Services.EntityFramework.Mapping;
 
 namespace ZigNet.Services.EntityFramework.Tests
 {

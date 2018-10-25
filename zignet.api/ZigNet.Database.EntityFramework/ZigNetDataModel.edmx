@@ -72,8 +72,8 @@
           </Key>
           <Property Name="SuiteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SuiteName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ApplicationId" Type="int" Nullable="false" />
           <Property Name="EnvironmentId" Type="int" Nullable="false" />
+          <Property Name="ApplicationId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Suites_Tests">
           <Key>
@@ -173,6 +173,39 @@
           </Key>
           <Property Name="TestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TestName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tests_TestSteps">
+          <Key>
+            <PropertyRef Name="TestId" />
+            <PropertyRef Name="TestStepId" />
+          </Key>
+          <Property Name="TestId" Type="int" Nullable="false" />
+          <Property Name="TestStepId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestStepResults">
+          <Key>
+            <PropertyRef Name="TestStepResultID" />
+          </Key>
+          <Property Name="TestStepResultID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestStepId" Type="int" Nullable="false" />
+          <Property Name="TestResultId" Type="int" Nullable="false" />
+          <Property Name="TestStepResultStartDateTime" Type="datetime" Nullable="false" />
+          <Property Name="TestStepResultEndDateTime" Type="datetime" Nullable="false" />
+          <Property Name="TestStepResultTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestStepResultTypes">
+          <Key>
+            <PropertyRef Name="TestStepResultTypeID" />
+          </Key>
+          <Property Name="TestStepResultTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestStepResultTypeName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestSteps">
+          <Key>
+            <PropertyRef Name="TestStepID" />
+          </Key>
+          <Property Name="TestStepID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestStepName" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <Association Name="FK_FailureDetailTestResult">
           <End Role="TestFailureDetails" Type="Self.TestFailureDetails" Multiplicity="1" />
@@ -486,6 +519,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TestStepResultTestResult">
+          <End Role="TestResults" Type="Self.TestResults" Multiplicity="1" />
+          <End Role="TestStepResults" Type="Self.TestStepResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResults">
+              <PropertyRef Name="TestResultID" />
+            </Principal>
+            <Dependent Role="TestStepResults">
+              <PropertyRef Name="TestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestStepResultTestStep">
+          <End Role="TestSteps" Type="Self.TestSteps" Multiplicity="1" />
+          <End Role="TestStepResults" Type="Self.TestStepResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestSteps">
+              <PropertyRef Name="TestStepID" />
+            </Principal>
+            <Dependent Role="TestStepResults">
+              <PropertyRef Name="TestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestStepResultTestStepResultType">
+          <End Role="TestStepResultTypes" Type="Self.TestStepResultTypes" Multiplicity="1" />
+          <End Role="TestStepResults" Type="Self.TestStepResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestStepResultTypes">
+              <PropertyRef Name="TestStepResultTypeID" />
+            </Principal>
+            <Dependent Role="TestStepResults">
+              <PropertyRef Name="TestStepResultTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestStepTest">
+          <End Role="TestSteps" Type="Self.TestSteps" Multiplicity="1" />
+          <End Role="Tests_TestSteps" Type="Self.Tests_TestSteps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestSteps">
+              <PropertyRef Name="TestStepID" />
+            </Principal>
+            <Dependent Role="Tests_TestSteps">
+              <PropertyRef Name="TestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TestSuite">
           <End Role="Tests" Type="Self.Tests" Multiplicity="1" />
           <End Role="Suites_Tests" Type="Self.Suites_Tests" Multiplicity="*" />
@@ -494,6 +575,18 @@
               <PropertyRef Name="TestID" />
             </Principal>
             <Dependent Role="Suites_Tests">
+              <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestTestStep">
+          <End Role="Tests" Type="Self.Tests" Multiplicity="1" />
+          <End Role="Tests_TestSteps" Type="Self.Tests_TestSteps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tests">
+              <PropertyRef Name="TestID" />
+            </Principal>
+            <Dependent Role="Tests_TestSteps">
               <PropertyRef Name="TestId" />
             </Dependent>
           </ReferentialConstraint>
@@ -519,6 +612,10 @@
           <EntitySet Name="TestResults" EntityType="Self.TestResults" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestResultTypes" EntityType="Self.TestResultTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tests" EntityType="Self.Tests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tests_TestSteps" EntityType="Self.Tests_TestSteps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestStepResults" EntityType="Self.TestStepResults" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestStepResultTypes" EntityType="Self.TestStepResultTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestSteps" EntityType="Self.TestSteps" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_FailureDetailTestResult" Association="Self.FK_FailureDetailTestResult">
             <End Role="TestFailureDetails" EntitySet="TestFailureDetails" />
             <End Role="TestResult_TestFailureDetails" EntitySet="TestResult_TestFailureDetails" />
@@ -623,9 +720,29 @@
             <End Role="TestResultTypes" EntitySet="TestResultTypes" />
             <End Role="TestResults" EntitySet="TestResults" />
           </AssociationSet>
+          <AssociationSet Name="FK_TestStepResultTestResult" Association="Self.FK_TestStepResultTestResult">
+            <End Role="TestResults" EntitySet="TestResults" />
+            <End Role="TestStepResults" EntitySet="TestStepResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestStepResultTestStep" Association="Self.FK_TestStepResultTestStep">
+            <End Role="TestSteps" EntitySet="TestSteps" />
+            <End Role="TestStepResults" EntitySet="TestStepResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestStepResultTestStepResultType" Association="Self.FK_TestStepResultTestStepResultType">
+            <End Role="TestStepResultTypes" EntitySet="TestStepResultTypes" />
+            <End Role="TestStepResults" EntitySet="TestStepResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestStepTest" Association="Self.FK_TestStepTest">
+            <End Role="TestSteps" EntitySet="TestSteps" />
+            <End Role="Tests_TestSteps" EntitySet="Tests_TestSteps" />
+          </AssociationSet>
           <AssociationSet Name="FK_TestSuite" Association="Self.FK_TestSuite">
             <End Role="Tests" EntitySet="Tests" />
             <End Role="Suites_Tests" EntitySet="Suites_Tests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestTestStep" Association="Self.FK_TestTestStep">
+            <End Role="Tests" EntitySet="Tests" />
+            <End Role="Tests_TestSteps" EntitySet="Tests_TestSteps" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -721,6 +838,7 @@
           <NavigationProperty Name="LatestTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTestResult" FromRole="TestResult" ToRole="LatestTestResult" />
           <NavigationProperty Name="TestFailureDurations" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationTestResult" FromRole="TestResult" ToRole="TestFailureDuration" />
           <NavigationProperty Name="TemporaryTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_TemporaryTestResultTestResult" FromRole="TestResult" ToRole="TemporaryTestResult" />
+          <NavigationProperty Name="TestStepResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestStepResultTestResult" FromRole="TestResult" ToRole="TestStepResult" />
         </EntityType>
         <EntityType Name="TestResultType">
           <Key>
@@ -742,6 +860,7 @@
           <NavigationProperty Name="TestCategories" Relationship="Self.Test_TestCategories" FromRole="Tests" ToRole="TestCategories" />
           <NavigationProperty Name="LatestTestResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTest" FromRole="Test" ToRole="LatestTestResult" />
           <NavigationProperty Name="TestFailureDurations" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestFailureDurationTest" FromRole="Test" ToRole="TestFailureDuration" />
+          <NavigationProperty Name="TestSteps" Relationship="ZigNet.Database.EntityFramework.Model.Tests_TestSteps" FromRole="Test" ToRole="TestStep" />
         </EntityType>
         <Association Name="FK_SuiteResultSuite">
           <End Role="Suites" Type="Self.Suite" Multiplicity="1" />
@@ -926,6 +1045,25 @@
           <AssociationSet Name="FK_SuiteEnvironment" Association="ZigNet.Database.EntityFramework.Model.FK_SuiteEnvironment">
             <End Role="Environment" EntitySet="Environments" />
             <End Role="Suite" EntitySet="Suites" />
+          </AssociationSet>
+          <EntitySet Name="TestStepResults" EntityType="ZigNet.Database.EntityFramework.Model.TestStepResult" />
+          <EntitySet Name="TestStepResultTypes" EntityType="ZigNet.Database.EntityFramework.Model.TestStepResultType" />
+          <EntitySet Name="TestSteps" EntityType="ZigNet.Database.EntityFramework.Model.TestStep" />
+          <AssociationSet Name="FK_TestStepResultTestResult" Association="ZigNet.Database.EntityFramework.Model.FK_TestStepResultTestResult">
+            <End Role="TestResult" EntitySet="TestResults" />
+            <End Role="TestStepResult" EntitySet="TestStepResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestStepResultTestStep" Association="ZigNet.Database.EntityFramework.Model.FK_TestStepResultTestStep">
+            <End Role="TestStep" EntitySet="TestSteps" />
+            <End Role="TestStepResult" EntitySet="TestStepResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestStepResultTestStepResultType" Association="ZigNet.Database.EntityFramework.Model.FK_TestStepResultTestStepResultType">
+            <End Role="TestStepResultType" EntitySet="TestStepResultTypes" />
+            <End Role="TestStepResult" EntitySet="TestStepResults" />
+          </AssociationSet>
+          <AssociationSet Name="Tests_TestSteps" Association="ZigNet.Database.EntityFramework.Model.Tests_TestSteps">
+            <End Role="TestStep" EntitySet="TestSteps" />
+            <End Role="Test" EntitySet="Tests" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="LatestTestResult">
@@ -1134,6 +1272,77 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TestStepResult">
+          <Key>
+            <PropertyRef Name="TestStepResultID" />
+          </Key>
+          <Property Name="TestStepResultID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestStepId" Type="Int32" Nullable="false" />
+          <Property Name="TestResultId" Type="Int32" Nullable="false" />
+          <Property Name="TestStepResultStartDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TestStepResultEndDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TestStepResultTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TestResult" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestStepResultTestResult" FromRole="TestStepResult" ToRole="TestResult" />
+          <NavigationProperty Name="TestStep" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestStepResultTestStep" FromRole="TestStepResult" ToRole="TestStep" />
+          <NavigationProperty Name="TestStepResultType" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestStepResultTestStepResultType" FromRole="TestStepResult" ToRole="TestStepResultType" />
+        </EntityType>
+        <EntityType Name="TestStepResultType">
+          <Key>
+            <PropertyRef Name="TestStepResultTypeID" />
+          </Key>
+          <Property Name="TestStepResultTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestStepResultTypeName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TestStepResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestStepResultTestStepResultType" FromRole="TestStepResultType" ToRole="TestStepResult" />
+        </EntityType>
+        <EntityType Name="TestStep">
+          <Key>
+            <PropertyRef Name="TestStepID" />
+          </Key>
+          <Property Name="TestStepID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestStepName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TestStepResults" Relationship="ZigNet.Database.EntityFramework.Model.FK_TestStepResultTestStep" FromRole="TestStep" ToRole="TestStepResult" />
+          <NavigationProperty Name="Tests" Relationship="ZigNet.Database.EntityFramework.Model.Tests_TestSteps" FromRole="TestStep" ToRole="Test" />
+        </EntityType>
+        <Association Name="FK_TestStepResultTestResult">
+          <End Type="ZigNet.Database.EntityFramework.Model.TestResult" Role="TestResult" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.TestStepResult" Role="TestStepResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestResult">
+              <PropertyRef Name="TestResultID" />
+            </Principal>
+            <Dependent Role="TestStepResult">
+              <PropertyRef Name="TestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestStepResultTestStep">
+          <End Type="ZigNet.Database.EntityFramework.Model.TestStep" Role="TestStep" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.TestStepResult" Role="TestStepResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestStep">
+              <PropertyRef Name="TestStepID" />
+            </Principal>
+            <Dependent Role="TestStepResult">
+              <PropertyRef Name="TestStepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestStepResultTestStepResultType">
+          <End Type="ZigNet.Database.EntityFramework.Model.TestStepResultType" Role="TestStepResultType" Multiplicity="1" />
+          <End Type="ZigNet.Database.EntityFramework.Model.TestStepResult" Role="TestStepResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestStepResultType">
+              <PropertyRef Name="TestStepResultTypeID" />
+            </Principal>
+            <Dependent Role="TestStepResult">
+              <PropertyRef Name="TestStepResultTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Tests_TestSteps">
+          <End Type="ZigNet.Database.EntityFramework.Model.TestStep" Role="TestStep" Multiplicity="*" />
+          <End Type="ZigNet.Database.EntityFramework.Model.Test" Role="Test" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1324,6 +1533,42 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TestStepResults">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.TestStepResult">
+              <MappingFragment StoreEntitySet="TestStepResults">
+                <ScalarProperty Name="TestStepResultTypeId" ColumnName="TestStepResultTypeId" />
+                <ScalarProperty Name="TestStepResultEndDateTime" ColumnName="TestStepResultEndDateTime" />
+                <ScalarProperty Name="TestStepResultStartDateTime" ColumnName="TestStepResultStartDateTime" />
+                <ScalarProperty Name="TestResultId" ColumnName="TestResultId" />
+                <ScalarProperty Name="TestStepId" ColumnName="TestStepId" />
+                <ScalarProperty Name="TestStepResultID" ColumnName="TestStepResultID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestStepResultTypes">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.TestStepResultType">
+              <MappingFragment StoreEntitySet="TestStepResultTypes">
+                <ScalarProperty Name="TestStepResultTypeName" ColumnName="TestStepResultTypeName" />
+                <ScalarProperty Name="TestStepResultTypeID" ColumnName="TestStepResultTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestSteps">
+            <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.TestStep">
+              <MappingFragment StoreEntitySet="TestSteps">
+                <ScalarProperty Name="TestStepName" ColumnName="TestStepName" />
+                <ScalarProperty Name="TestStepID" ColumnName="TestStepID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Tests_TestSteps" TypeName="ZigNet.Database.EntityFramework.Model.Tests_TestSteps" StoreEntitySet="Tests_TestSteps">
+            <EndProperty Name="Test">
+              <ScalarProperty Name="TestID" ColumnName="TestId" />
+            </EndProperty>
+            <EndProperty Name="TestStep">
+              <ScalarProperty Name="TestStepID" ColumnName="TestStepId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -105,6 +105,15 @@
     <Compile Include="TestResultType.cs">
       <DependentUpon>ZigNetDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="TestStep.cs">
+      <DependentUpon>ZigNetDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TestStepResult.cs">
+      <DependentUpon>ZigNetDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TestStepResultType.cs">
+      <DependentUpon>ZigNetDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ZigNetDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
