@@ -32,6 +32,7 @@ namespace ZigNet.Api
             container.Register<ILatestSuiteResultsService, LatestSuiteResultsService>(Lifestyle.Scoped);
             container.Register<ITestResultSaverService, TestResultSaverService>(Lifestyle.Scoped);
             container.Register<ITestResultService, TestResultService>(Lifestyle.Scoped);
+            container.Register<ITestStepService, TestStepService>(Lifestyle.Scoped);
 
             container.Register<ISuiteBusinessProvider, SuiteBusinessProvider>(Lifestyle.Scoped);
             container.Register<ITestResultBusinessProvider, TestResultBusinessProvider>(Lifestyle.Scoped);

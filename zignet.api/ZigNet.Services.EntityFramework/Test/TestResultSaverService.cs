@@ -24,16 +24,18 @@ namespace ZigNet.Services.EntityFramework
         private ILatestTestResultService _latestTestResultService;
         private ITemporaryTestResultService _temporaryTestResultService;
         private ITestFailureDurationService _testFailureDurationService;
+        private ITestStepService _testStepService;
         private ITestResultMapper _testResultMapper;
 
         public TestResultSaverService(IDbContext dbContext, ILatestTestResultService latestTestResultService,
             ITemporaryTestResultService temporaryTestResultService, ITestFailureDurationService testFailureDurationService,
-            ITestResultMapper testResultMapper)
+            ITestStepService testStepService, ITestResultMapper testResultMapper)
         {
             _db = dbContext.Get();
             _latestTestResultService = latestTestResultService;
             _temporaryTestResultService = temporaryTestResultService;
-            _testFailureDurationService = testFailureDurationService;            
+            _testFailureDurationService = testFailureDurationService;
+            _testStepService = testStepService;
             _testResultMapper = testResultMapper;
         }
 
@@ -113,6 +115,8 @@ namespace ZigNet.Services.EntityFramework
             _db.SaveChanges();
 
             var savedTestResult = Map(dbTestResult, suiteResult.SuiteId);
+
+            _testStepService.Save(savedTestResult.TestResultID, testResult.TestStepResults);
 
             _temporaryTestResultService.Save(_testResultMapper.ToTemporaryTestResult(savedTestResult));
 
