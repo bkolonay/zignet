@@ -32,8 +32,10 @@ namespace ZigNet.Services.EntityFramework
                     TestStepResultTypeId = Map(testStepResult.ResultType)
                 };
 
+                // use FirstOrDefault instead of SingleOrDefault because first-run multi-threaded tests can end up inserting duplicate step names
+                // (before the check for duplicates happens)
                 var existingTestStep = dbTestSteps
-                    .SingleOrDefault(t => t.TestStepName == testStepResult.TestStep.Name);
+                    .FirstOrDefault(t => t.TestStepName == testStepResult.TestStep.Name);
                 if (existingTestStep != null)
                     dbTestStepResult.TestStepId = existingTestStep.TestStepID;
                 else
