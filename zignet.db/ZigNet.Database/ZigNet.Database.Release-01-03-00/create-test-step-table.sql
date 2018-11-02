@@ -1,8 +1,8 @@
 USE ZigNet
 
-DROP TABLE IF EXISTS TestSteps
+DROP TABLE IF EXISTS dbo.TestSteps
 
-CREATE TABLE TestSteps (
+CREATE TABLE dbo.TestSteps (
 	TestStepID int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	TestStepName NVARCHAR(MAX) NOT NULL
 )

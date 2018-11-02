@@ -1,6 +1,8 @@
-DROP TABLE IF EXISTS TestStepResultTypes
+USE ZigNet
 
-CREATE TABLE TestStepResultTypes (
+DROP TABLE IF EXISTS dbo.TestStepResultTypes
+
+CREATE TABLE dbo.TestStepResultTypes (
 	TestStepResultTypeID int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	TestStepResultTypeName NVARCHAR(MAX) NOT NULL
 )

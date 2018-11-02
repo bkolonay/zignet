@@ -4,7 +4,9 @@
 ----DROP TABLE IF EXISTS SuiteResultTypes
 --DROP TABLE SuiteResults
 
-CREATE TABLE TestStepResults (
+USE ZigNet
+
+CREATE TABLE dbo.TestStepResults (
 	TestStepResultID int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	TestStepId int NOT NULL,
 	TestResultId int NOT NULL,

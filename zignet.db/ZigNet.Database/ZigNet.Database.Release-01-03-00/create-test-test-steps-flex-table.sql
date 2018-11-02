@@ -4,7 +4,9 @@
 --DROP CONSTRAINT FK_TestCategoryCategory
 --DROP TABLE Test_TestCategories
 
-CREATE TABLE Tests_TestSteps (
+USE ZigNet
+
+CREATE TABLE dbo.Tests_TestSteps (
 	TestId int NOT NULL,
 	TestStepId int NOT NULL,
 	PRIMARY KEY (TestId, TestStepId),
