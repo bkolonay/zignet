@@ -2,38 +2,25 @@
 <SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="ZigNet.Database.Api.Get.Suite.LatestTestResults">
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
-      <Items>
-        <ConnectionNode Name="JERRY-WIN10\SQLEXPRESS:JERRY-WIN10\bmkol">
-          <Created>2018-06-06T12:02:32.0206999-07:00</Created>
-          <Type>SQL</Type>
-          <Server>JERRY-WIN10\SQLEXPRESS</Server>
-          <UserName />
-          <Authentication>Windows Authentication</Authentication>
-          <InitialDB />
-          <LoginTimeout>30</LoginTimeout>
-          <ExecutionTimeout>0</ExecutionTimeout>
-          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
-          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
-        </ConnectionNode>
-      </Items>
+      <Items />
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
         <FileNode Name="get-latest-test-results.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:JERRY-WIN10\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>JERRY-WIN10\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>get-latest-test-results.sql</FullPath>
         </FileNode>
         <FileNode Name="get-suite-name.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:JERRY-WIN10\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>JERRY-WIN10\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>get-suite-name.sql</FullPath>
         </FileNode>
         <FileNode Name="get-test-failure-durations.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:JERRY-WIN10\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>JERRY-WIN10\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>get-test-failure-durations.sql</FullPath>
         </FileNode>

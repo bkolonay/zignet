@@ -2,20 +2,7 @@
 <SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="ZigNet.Database.Tables">
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
-      <Items>
-        <ConnectionNode Name="JERRY-WIN10\SQLEXPRESS:JERRY-WIN10\bmkol">
-          <Created>2018-06-06T09:13:48.343319-07:00</Created>
-          <Type>SQL</Type>
-          <Server>JERRY-WIN10\SQLEXPRESS</Server>
-          <UserName />
-          <Authentication>Windows Authentication</Authentication>
-          <InitialDB>master</InitialDB>
-          <LoginTimeout>30</LoginTimeout>
-          <ExecutionTimeout>0</ExecutionTimeout>
-          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
-          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
-        </ConnectionNode>
-      </Items>
+      <Items />
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
@@ -80,8 +67,8 @@
           <FullPath>create-test-results-table.sql</FullPath>
         </FileNode>
         <FileNode Name="create-test-results-table-suiteResultId-index.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:JERRY-WIN10\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>JERRY-WIN10\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>create-test-results-table-suiteResultId-index.sql</FullPath>
         </FileNode>

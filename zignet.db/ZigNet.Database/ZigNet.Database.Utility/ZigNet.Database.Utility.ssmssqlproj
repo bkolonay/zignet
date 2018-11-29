@@ -2,38 +2,13 @@
 <SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="ZigNet.Database.Utility">
   <Items>
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
-      <Items>
-        <ConnectionNode Name="JERRY-WIN10\SQLEXPRESS:US\bkolonay">
-          <Created>2018-06-06T08:32:38.1056986-07:00</Created>
-          <Type>SQL</Type>
-          <Server>JERRY-WIN10\SQLEXPRESS</Server>
-          <UserName />
-          <Authentication>Windows Authentication</Authentication>
-          <InitialDB />
-          <LoginTimeout>30</LoginTimeout>
-          <ExecutionTimeout>0</ExecutionTimeout>
-          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
-          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
-        </ConnectionNode>
-        <ConnectionNode Name="LABKOLONAY:US\bkolonay">
-          <Created>2018-08-09T11:39:17.4339021-07:00</Created>
-          <Type>SQL</Type>
-          <Server>LABKOLONAY</Server>
-          <UserName />
-          <Authentication>Windows Authentication</Authentication>
-          <InitialDB>ZigNet</InitialDB>
-          <LoginTimeout>15</LoginTimeout>
-          <ExecutionTimeout>0</ExecutionTimeout>
-          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
-          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
-        </ConnectionNode>
-      </Items>
+      <Items />
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
         <FileNode Name="backup-database.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:LABKOLONAY:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>LABKOLONAY</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>backup-database.sql</FullPath>
         </FileNode>
@@ -92,8 +67,8 @@
           <FullPath>reset-test-results-dummy-data.sql</FullPath>
         </FileNode>
         <FileNode Name="update-duplicated-test-failure-types.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:JERRY-WIN10\SQLEXPRESS:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>JERRY-WIN10\SQLEXPRESS</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>update-duplicated-test-failure-types.sql</FullPath>
         </FileNode>

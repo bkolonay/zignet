@@ -66,6 +66,12 @@
           <AssociatedConnUserName />
           <FullPath>get-test-steps.sql</FullPath>
         </FileNode>
+        <FileNode Name="get-test-steps-for-suite.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>get-test-steps-for-suite.sql</FullPath>
+        </FileNode>
       </Items>
     </LogicalFolder>
     <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
