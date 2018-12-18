@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import SuiteResultChart from './SuiteResultChart'
-import GroupSuitesButton from './GroupSuitesButton'
+import ListButton from './ListButton'
 
 class SuiteResults extends Component {
   render() {
     return (
   	  <div className="container">
         <div className="text-right">
-          <GroupSuitesButton />
+          <ListButton />
         </div>
   	  	<div className="row">
           {this.props.suiteResults.map((suiteResult) =>

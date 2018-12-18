@@ -9,11 +9,11 @@ exports[`snapshot with multiple suites 1`] = `
   >
     <a
       className="btn btn-primary"
-      href="/?group=true"
+      href="/list"
       role="button"
-      title="Click to group results by environment"
+      title="View results as list"
     >
-      Group
+      List
     </a>
   </div>
   <div
@@ -92,11 +92,11 @@ exports[`snapshot with single grouped suite 1`] = `
   >
     <a
       className="btn btn-primary"
-      href="/?group=true"
+      href="/list"
       role="button"
-      title="Click to group results by environment"
+      title="View results as list"
     >
-      Group
+      List
     </a>
   </div>
   <div
@@ -139,11 +139,11 @@ exports[`snapshot with single suite 1`] = `
   >
     <a
       className="btn btn-primary"
-      href="/?group=true"
+      href="/list"
       role="button"
-      title="Click to group results by environment"
+      title="View results as list"
     >
-      Group
+      List
     </a>
   </div>
   <div
@@ -186,11 +186,11 @@ exports[`snapshot with zero suites 1`] = `
   >
     <a
       className="btn btn-primary"
-      href="/?group=true"
+      href="/list"
       role="button"
-      title="Click to group results by environment"
+      title="View results as list"
     >
-      Group
+      List
     </a>
   </div>
   <div
