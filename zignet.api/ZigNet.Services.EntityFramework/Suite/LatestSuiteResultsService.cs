@@ -90,6 +90,7 @@ namespace ZigNet.Services.EntityFramework
             return suiteSummaries;
         }
 
+        // todo: unit test
         public IEnumerable<SuiteSummary> GetLatest(SuiteResultsFilter suiteResultsFilter)
         {
             var suites = _suiteService.GetAll();
