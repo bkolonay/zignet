@@ -75,7 +75,7 @@ exports[`snapshot with grouped suites 1`] = `
     className="text-center chart-label"
   >
     <a
-      href="/1?group=true"
+      href="/1"
     >
       Total: 
       220

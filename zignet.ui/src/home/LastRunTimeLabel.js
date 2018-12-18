@@ -6,8 +6,6 @@ class LastRunTimeLabel extends Component {
   render() {
 
     let label = null;
-    if (this.props.grouped)
-    	label = <p/>;
     if (this.props.showRunningLabel)
       label = <p className="text-center text-warning"><small>running...</small></p>;
     else if (this.props.suiteEndTime)

@@ -17,7 +17,3 @@ class TestListRouter extends Component {
 }
 
 export default TestListRouter;
-
-      // <TestList grouped={grouped} 
-      //           suiteId={this.props.suiteId}
-      //           getTests={() => getTestResults(this.props.suiteId, grouped)} />

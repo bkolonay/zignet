@@ -2,7 +2,7 @@
 
 exports[`snapshot when grouped 1`] = `
 <a
-  href="/1?group=true"
+  href="/1"
 >
   Total: 
   2

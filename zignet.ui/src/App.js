@@ -22,5 +22,3 @@ class App extends Component {
 }
 
 export default App;
-
-// <TestListRouter queryString={props.location.search} suiteId={props.match.params.suiteId} />} />

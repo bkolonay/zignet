@@ -10,7 +10,6 @@ class SuiteResultChart extends Component {
 
     const suiteResult = this.props.suiteResult;
     const suiteId = suiteResult.SuiteIds[0];
-    const grouped = this.props.grouped;
     const totalTests = suiteResult.TotalPassedTests + suiteResult.TotalFailedTests;
     const chartData = {
       series: [
@@ -24,9 +23,9 @@ class SuiteResultChart extends Component {
         <h3 className="text-center">{suiteResult.SuiteName}</h3>
         <ChartistPieChart chartId={suiteId} chartData={chartData} />
         <p className="text-center chart-label">
-          <ListPageLink grouped={grouped} suiteId={suiteId} totalTests={totalTests} />
+          <ListPageLink suiteId={suiteId} totalTests={totalTests} />
         </p>
-        <LastRunTimeLabel grouped={grouped} suiteEndTime={suiteResult.SuiteEndTime} />
+        <LastRunTimeLabel suiteEndTime={suiteResult.SuiteEndTime} />
       </div>
     );
   }

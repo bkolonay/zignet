@@ -91,12 +91,12 @@ exports[`snapshot with single grouped suite 1`] = `
     className="text-right"
   >
     <a
-      className="btn btn-outline-primary"
-      href="/"
+      className="btn btn-primary"
+      href="/?group=true"
       role="button"
-      title="Click to ungroup results"
+      title="Click to group results by environment"
     >
-      Ungroup
+      Group
     </a>
   </div>
   <div
@@ -118,7 +118,7 @@ exports[`snapshot with single grouped suite 1`] = `
         className="text-center chart-label"
       >
         <a
-          href="/1?group=true"
+          href="/1"
         >
           Total: 
           300

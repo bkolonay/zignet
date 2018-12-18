@@ -2,15 +2,11 @@ function url() {
 	return process.env.REACT_APP_API_BASE_URL + 'api/';
 }
 
-function getSuiteResults(grouped, debug) {
-	if (grouped && debug)
-	  return _get(url() + 'suite/latest?group=true&debug=true');
-	else if (grouped)
-	  return _get(url() + 'suite/latest?group=true');
-	else if (debug)
+function getSuiteResults(debug) {
+	if (debug)
 	  return _get(url() + 'suite/latest?debug=true');
 	else
-	  return _get(url() + 'suite/latestFilter');
+	  return _get(url() + 'suite/latest');
 }
 
 function getTestResults(suiteId, grouped) {

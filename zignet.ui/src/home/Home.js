@@ -31,7 +31,7 @@ class Home extends Component {
     return (
       <div>
         <h1 className="text-center">ZigNet</h1>
-        <SuiteResults grouped={this.props.grouped} suiteResults={this.state.latestSuiteResults} />
+        <SuiteResults suiteResults={this.state.latestSuiteResults} />
       </div>
     );
   }
