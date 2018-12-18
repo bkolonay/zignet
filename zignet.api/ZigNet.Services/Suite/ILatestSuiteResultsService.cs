@@ -7,5 +7,6 @@ namespace ZigNet.Services
     {
         IEnumerable<SuiteSummary> GetLatest();
         IEnumerable<SuiteSummary> GetLatestGrouped();
+        IEnumerable<SuiteSummary> GetLatest(SuiteResultsFilter suiteResultsFilter);
     }
 }

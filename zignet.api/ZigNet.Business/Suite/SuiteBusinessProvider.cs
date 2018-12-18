@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ZigNet.Api.Model;
 using ZigNet.Domain.Suite;
 using ZigNet.Services;
 using ZigNet.Services.DTOs;
@@ -59,6 +60,15 @@ namespace ZigNet.Business
         {
             var suiteSummaries = group ? _latestSuiteResultsService.GetLatestGrouped() : _latestSuiteResultsService.GetLatest();
             return includeDebug ? suiteSummaries : suiteSummaries.Where(s => !s.SuiteName.Contains("(D)"));
+        }
+
+        public IEnumerable<SuiteSummary> GetLatest(SuiteResultsFilter suiteResultsFilter)
+        {
+            if (suiteResultsFilter == null)
+                suiteResultsFilter = new SuiteResultsFilter();
+
+            var suiteSummaries = _latestSuiteResultsService.GetLatest(suiteResultsFilter);
+            return suiteResultsFilter.Debug ? suiteSummaries : suiteSummaries.Where(s => !s.SuiteName.Contains("(D)"));
         }
     }
 }

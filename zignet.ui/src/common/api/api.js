@@ -10,7 +10,7 @@ function getSuiteResults(grouped, debug) {
 	else if (debug)
 	  return _get(url() + 'suite/latest?debug=true');
 	else
-	  return _get(url() + 'suite/latest');
+	  return _get(url() + 'suite/latestFilter');
 }
 
 function getTestResults(suiteId, grouped) {

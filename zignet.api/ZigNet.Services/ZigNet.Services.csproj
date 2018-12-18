@@ -52,6 +52,7 @@
     <Compile Include="DTOs\SuiteSummary.cs" />
     <Compile Include="DTOs\TemporaryTestResultDto.cs" />
     <Compile Include="DTOs\TestFailureDurationDto.cs" />
+    <Compile Include="SuiteResultsFilter.cs" />
     <Compile Include="Suite\ILatestSuiteResultsService.cs" />
     <Compile Include="Test\ILatestTestResultService.cs" />
     <Compile Include="Test\ITestResultSaverService.cs" />

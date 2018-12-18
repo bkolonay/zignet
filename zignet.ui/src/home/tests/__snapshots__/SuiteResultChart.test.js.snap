@@ -54,13 +54,7 @@ exports[`snapshot with empty data 1`] = `
       NaN
     </a>
   </p>
-  <p
-    className="text-center text-warning"
-  >
-    <small>
-      running...
-    </small>
-  </p>
+  <p />
 </div>
 `;
 
@@ -114,13 +108,7 @@ exports[`snapshot with only failed tests 1`] = `
       NaN
     </a>
   </p>
-  <p
-    className="text-center text-warning"
-  >
-    <small>
-      running...
-    </small>
-  </p>
+  <p />
 </div>
 `;
 
@@ -147,13 +135,7 @@ exports[`snapshot with only passed tests 1`] = `
       NaN
     </a>
   </p>
-  <p
-    className="text-center text-warning"
-  >
-    <small>
-      running...
-    </small>
-  </p>
+  <p />
 </div>
 `;
 
@@ -180,12 +162,6 @@ exports[`snapshot with single suite and passed and failed tests 1`] = `
       110
     </a>
   </p>
-  <p
-    className="text-center text-warning"
-  >
-    <small>
-      running...
-    </small>
-  </p>
+  <p />
 </div>
 `;

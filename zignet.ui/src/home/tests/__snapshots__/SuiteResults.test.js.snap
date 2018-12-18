@@ -45,7 +45,7 @@ exports[`snapshot with multiple suites 1`] = `
         className="text-center text-muted"
       >
         <small>
-          3 months ago
+          10 months ago
         </small>
       </p>
     </div>
@@ -75,7 +75,7 @@ exports[`snapshot with multiple suites 1`] = `
         className="text-center text-muted"
       >
         <small>
-          in 10 months
+          in 3 months
         </small>
       </p>
     </div>
@@ -171,13 +171,7 @@ exports[`snapshot with single suite 1`] = `
           110
         </a>
       </p>
-      <p
-        className="text-center text-warning"
-      >
-        <small>
-          running...
-        </small>
-      </p>
+      <p />
     </div>
   </div>
 </div>

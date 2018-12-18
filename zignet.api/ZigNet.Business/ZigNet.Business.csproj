@@ -54,6 +54,10 @@
     <Compile Include="Test\TestResultBusinessProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ZigNet.Api.Model\ZigNet.Api.Model.csproj">
+      <Project>{C2A50FE1-D26A-4DD4-ABDD-31173386CCC2}</Project>
+      <Name>ZigNet.Api.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ZigNet.Services\ZigNet.Services.csproj">
       <Project>{93772535-6350-46DC-9041-CAEAC4A6B943}</Project>
       <Name>ZigNet.Services</Name>

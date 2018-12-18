@@ -5,6 +5,7 @@ using System.Web.Http;
 using ZigNet.Api.Mapping;
 using ZigNet.Api.Model;
 using ZigNet.Business;
+using ZigNet.Services;
 using ZigNet.Services.DTOs;
 
 namespace ZigNet.Api.Controllers
@@ -44,6 +45,12 @@ namespace ZigNet.Api.Controllers
         public IEnumerable<SuiteSummary> GetLatest(bool group = false, bool debug = false)
         {
             return _suiteBusinessProvider.GetLatest(group, debug);
+        }
+
+        [Route("api/Suite/LatestFilter")]
+        public IEnumerable<SuiteSummary> GetLatest([FromUri]SuiteResultsFilter suiteResultsFilter)
+        {
+            return _suiteBusinessProvider.GetLatest(suiteResultsFilter);
         }
     }
 }
