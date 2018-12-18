@@ -12,8 +12,8 @@ class App extends Component {
         <Switch>
           <Route exact path="/" render={(props) => 
             <HomeRouter queryString={props.location.search} />} />
-          <Route path='/:suiteId' render={(props) =>
-            <TestListRouter queryString={props.location.search} suiteId={props.match.params.suiteId} />} />
+          <Route path='/list' render={(props) =>
+            <TestListRouter queryString={props.location.search} />} />
           <Route component={BadRoute} />
         </Switch>
       </div>
@@ -22,3 +22,5 @@ class App extends Component {
 }
 
 export default App;
+
+// <TestListRouter queryString={props.location.search} suiteId={props.match.params.suiteId} />} />

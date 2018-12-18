@@ -14,10 +14,12 @@ function getSuiteResults(grouped, debug) {
 }
 
 function getTestResults(suiteId, grouped) {
+  return _post(url() + 'testResult/latest?group=true', 25);
+
   if (grouped)
     return _post(url() + 'testResult/latest?group=true', suiteId);
   else
-    return _post(url() + 'testResult/latest', suiteId);	
+    return _post(url() + 'testResult/latest', suiteId);
 }
 
 function _get(url) {

@@ -33,7 +33,7 @@ namespace ZigNet.Services.EntityFramework
         {
             var suite = _suiteService.Get(suiteId);
             var suiteIds = _suiteService.GetAll()
-                .Where(s => s.EnvironmentId == suite.EnvironmentId && s.ApplicationId == suite.ApplicationId)
+                .Where(s => /*s.EnvironmentId == suite.EnvironmentId &&*/ s.ApplicationId == suite.ApplicationId && !s.Name.Contains("(D)"))
                 .Select(s => s.SuiteID)
                 .ToArray();
 
