@@ -9,7 +9,7 @@ it('renders', () => {
 });
 
 it('snapshot', () => {
-  const component = <ListButton grouped={false} />;
+  const component = <ListButton />;
   const tree = renderer.create(component).toJSON();
   expect(tree).toMatchSnapshot();
 });
