@@ -3,7 +3,7 @@
     // todo: move to ZigNet.Domain package
     public class SuiteResultsFilter
     {
-        public string[] Environments { get; set; }
+        public string[] Applications { get; set; }
         public bool Debug { get; set; }
     }
 }

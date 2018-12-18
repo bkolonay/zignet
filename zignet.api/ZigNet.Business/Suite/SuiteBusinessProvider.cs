@@ -56,12 +56,6 @@ namespace ZigNet.Business
             return group ? suite.GetNameGrouped() : suite.GetName();
         }
 
-        public IEnumerable<SuiteSummary> GetLatest(bool group, bool includeDebug)
-        {
-            var suiteSummaries = group ? _latestSuiteResultsService.GetLatestGrouped() : _latestSuiteResultsService.GetLatest();
-            return includeDebug ? suiteSummaries : suiteSummaries.Where(s => !s.SuiteName.Contains("(D)"));
-        }
-
         public IEnumerable<SuiteSummary> GetLatest(SuiteResultsFilter suiteResultsFilter)
         {
             if (suiteResultsFilter == null)

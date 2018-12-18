@@ -11,7 +11,6 @@ namespace ZigNet.Business
         int StartSuite(string applicationName, string suiteName, string environmentName);
         void StopSuite(int suiteResultId, SuiteResultType suiteResultType);
         string GetSuiteName(int suiteId, bool group);
-        IEnumerable<SuiteSummary> GetLatest(bool group, bool includeDebug);
         IEnumerable<SuiteSummary> GetLatest(SuiteResultsFilter suiteResultsFilter);
     }
 }

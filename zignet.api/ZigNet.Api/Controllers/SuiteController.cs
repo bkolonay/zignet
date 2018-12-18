@@ -42,12 +42,6 @@ namespace ZigNet.Api.Controllers
         }
 
         [Route("api/Suite/Latest")]
-        public IEnumerable<SuiteSummary> GetLatest(bool group = false, bool debug = false)
-        {
-            return _suiteBusinessProvider.GetLatest(group, debug);
-        }
-
-        [Route("api/Suite/LatestFilter")]
         public IEnumerable<SuiteSummary> GetLatest([FromUri]SuiteResultsFilter suiteResultsFilter)
         {
             return _suiteBusinessProvider.GetLatest(suiteResultsFilter);
