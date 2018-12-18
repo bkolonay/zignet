@@ -36,9 +36,7 @@ class TestList extends Component {
       <div>
         <LatestTestResultsList 
           suiteName={this.state.suiteName}
-          suiteId={this.props.suiteId}
-          testResults={this.state.latestTestResults}
-          grouped={this.props.grouped} />
+          testResults={this.state.latestTestResults} />
       </div>
     );
   }

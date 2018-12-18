@@ -6,12 +6,11 @@ import TestHistoryBar from './TestHistoryBar'
 class TestResultRow extends Component {
 
   render() {
-    const grouped = this.props.grouped;
     const testResult = this.props.testResult;
     return (
   	  <tr>
         <td style={{"width": "52%"}}>{testResult.TestName}</td>
-        {grouped && <td><small className="text-muted">{testResult.SuiteName}</small></td>}
+        {null && <td><small className="text-muted">{testResult.SuiteName}</small></td>}
         <td style={{"width": "18%"}}>
           <TestStatusBadge failingFromDate={testResult.FailingFromDate}/>&nbsp;
           <TestStatusLabel failingFromDate={testResult.FailingFromDate} passingFromDate={testResult.PassingFromDate}/>
