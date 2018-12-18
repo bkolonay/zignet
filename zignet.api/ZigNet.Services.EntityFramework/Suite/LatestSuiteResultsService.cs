@@ -100,7 +100,7 @@ namespace ZigNet.Services.EntityFramework
             {
                 var temporaryTestResultsForSuite = allTemporaryTestResults.Where(t => t.SuiteId == suite.SuiteID);
 
-                var key = suite.EnvironmentNameAbbreviation;
+                var key = suite.ApplicationNameAbbreviation;
                 if (suiteSummaryDictionary.ContainsKey(key))
                 {
                     var existingSuiteSummary = suiteSummaryDictionary[key];
