@@ -9,13 +9,11 @@ function getSuiteResults(debug) {
 	  return _get(url() + 'suite/latest');
 }
 
-function getTestResults(suiteId, grouped) {
-  return _post(url() + 'testResult/latest?group=true', 25);
-
-  if (grouped)
-    return _post(url() + 'testResult/latest?group=true', suiteId);
+function getTestResults(debug) {
+  if (debug)
+    return _get(url() + 'testResult/latest?debug=true');
   else
-    return _post(url() + 'testResult/latest', suiteId);
+    return _get(url() + 'testResult/latest');
 }
 
 function _get(url) {

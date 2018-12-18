@@ -22,25 +22,25 @@ namespace ZigNet.Services.EntityFramework
             _suiteService = suiteService;
         }
 
-        public IEnumerable<LatestTestResultDto> GetLatest(int suiteId)
+        public IEnumerable<LatestTestResultDto> GetLatest(SuiteResultsFilter suiteResultsFilter)
         {
-            var latestTestResults = _latestTestResultService.Get(suiteId).ToList();
-            latestTestResults = AssignTestFailureDurations(latestTestResults);
-            return Sort(latestTestResults);
-        }
-
-        public IEnumerable<LatestTestResultDto> GetLatestGrouped(int suiteId)
-        {
-            var suite = _suiteService.Get(suiteId);
-            var suiteIds = _suiteService.GetAll()
-                .Where(s => /*s.EnvironmentId == suite.EnvironmentId &&*/ s.ApplicationId == suite.ApplicationId && !s.Name.Contains("(D)"))
-                .Select(s => s.SuiteID)
-                .ToArray();
+            var suites = _suiteService.GetAll();
+            if (!suiteResultsFilter.Debug)
+                suites = suites.Where(s => !s.Name.Contains("(D)"));
+            var suiteIds = suites.Select(s => s.SuiteID).ToArray();
 
             var latestTestResults = _latestTestResultService.Get(suiteIds).ToList();
             latestTestResults = AssignTestFailureDurations(latestTestResults);
             return Sort(latestTestResults);
         }
+
+        // below saved for getting by single suitid
+        //public IEnumerable<LatestTestResultDto> GetLatest(int suiteId)
+        //{
+        //    var latestTestResults = _latestTestResultService.Get(suiteId).ToList();
+        //    latestTestResults = AssignTestFailureDurations(latestTestResults);
+        //    return Sort(latestTestResults);
+        //}
 
         private List<LatestTestResultDto> AssignTestFailureDurations(List<LatestTestResultDto> latestTestResults)
         {

@@ -50,6 +50,7 @@ namespace ZigNet.Business
             _suiteResultService.SaveSuiteResult(suiteResult);
         }
 
+        // todo: delete if not used any more
         public string GetSuiteName(int suiteId, bool group)
         {
             var suite = _suiteService.Get(suiteId);

@@ -39,6 +39,7 @@ namespace ZigNet.Services.EntityFramework
                     ApplicationId = s.ApplicationId,
                     EnvironmentId = s.EnvironmentId,
                     ApplicationNameAbbreviation = s.Application.ApplicationNameAbbreviation,
+                    ApplicationName = s.Application.ApplicationName,
                     EnvironmentNameAbbreviation = s.Environment.EnvironmentNameAbbreviation
                 });
         }

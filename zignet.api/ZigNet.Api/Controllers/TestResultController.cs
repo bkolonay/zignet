@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ZigNet.Api.Mapping;
 using ZigNet.Api.Model;
 using ZigNet.Business;
+using ZigNet.Services;
 
 namespace ZigNet.Api.Controllers
 {
@@ -29,12 +31,19 @@ namespace ZigNet.Api.Controllers
         }
 
         [Route("api/TestResult/Latest")]
-        public GetLatestTestResultsModel Latest([FromBody] int suiteId, bool group = false)
+        public GetLatestTestResultsModel GetLatest([FromUri]SuiteResultsFilter suiteResultsFilter)
         {
+            if (suiteResultsFilter == null)
+                suiteResultsFilter = new SuiteResultsFilter();
+
+            var suiteName = "";
+            if (suiteResultsFilter.Applications == null || suiteResultsFilter.Applications.Length == 0)
+                suiteName = "All Tests";
+
             return new GetLatestTestResultsModel
             {
-                SuiteName = _suiteBusinessProvider.GetSuiteName(suiteId, group),
-                LatestTestResults = _testResultBusinessProvider.GetLatest(suiteId, group)
+                SuiteName = suiteName,
+                LatestTestResults = _testResultBusinessProvider.GetLatest(suiteResultsFilter)
             };
         }
     }
