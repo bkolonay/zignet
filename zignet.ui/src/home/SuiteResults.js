@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SuiteResultChart from './SuiteResultChart'
 import ListButton from './ListButton'
+import Filter from './Filter'
 
 class SuiteResults extends Component {
   render() {
@@ -8,6 +9,9 @@ class SuiteResults extends Component {
   	  <div className="container">
         <div className="text-right">
           <ListButton />
+        </div>
+        <div className="row">
+          <Filter />
         </div>
   	  	<div className="row">
           {this.props.suiteResults.map((suiteResult) =>

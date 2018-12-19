@@ -100,7 +100,7 @@ namespace ZigNet.Services.EntityFramework
             if (suiteResultsFilter.Applications == null || suiteResultsFilter.Applications.Length == 0)
                 suites = _suiteService.GetAll();
             else
-                suites = _suiteService.GetAll().Where(s => suiteResultsFilter.Applications.Contains(s.ApplicationName));             
+                suites = _suiteService.GetAll().Where(s => suiteResultsFilter.Applications.Contains(s.ApplicationName));
 
             var allTemporaryTestResults = _db.TemporaryTestResults.AsNoTracking().ToList();
 
