@@ -2,7 +2,7 @@
 
 exports[`snapshot when grouped 1`] = `
 <a
-  href="/?group=true"
+  href="/"
 >
   ZigNet
 </a>

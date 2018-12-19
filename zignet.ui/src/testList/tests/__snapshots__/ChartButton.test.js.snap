@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot 1`] = `
+<a
+  className="btn btn-primary float-right"
+  href="/"
+  role="button"
+  title="View results as charts"
+>
+  Chart
+</a>
+`;
