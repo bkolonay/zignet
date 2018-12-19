@@ -6,14 +6,17 @@ class HomeRouter extends Component {
   constructor(props) {
     super(props);
 
-    this.debug = false;
+    this.filter = {
+      debug: false
+    };
+
     if (this.props.queryString.indexOf('debug=true') !== -1)
-      this.debug = true;
+      this.filter.debug = true;
   }  
 
   render() {
     return (
-      <Home getResults={() => getSuiteResults(this.debug)} />
+      <Home getResults={() => getSuiteResults(this.filter)} />
     );
   }
 }

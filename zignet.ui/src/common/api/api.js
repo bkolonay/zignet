@@ -2,8 +2,8 @@ function url() {
 	return process.env.REACT_APP_API_BASE_URL + 'api/';
 }
 
-function getSuiteResults(debug) {
-	if (debug)
+function getSuiteResults(filter) {
+	if (filter.debug)
 	  return _get(url() + 'suite/latest?debug=true');
 	else
 	  return _get(url() + 'suite/latest');
