@@ -93,8 +93,15 @@ namespace ZigNet.Services.EntityFramework
         // todo: unit test
         public IEnumerable<SuiteSummary> GetLatest(SuiteResultsFilter suiteResultsFilter)
         {
+            IEnumerable<SuiteDto> suites;
+
             // todo: is there any performance difference if we don't get debug suites?
-            var suites = _suiteService.GetAll();
+
+            if (suiteResultsFilter.Applications == null || suiteResultsFilter.Applications.Length == 0)
+                suites = _suiteService.GetAll();
+            else
+                suites = _suiteService.GetAll().Where(s => suiteResultsFilter.Applications.Contains(s.ApplicationName));             
+
             var allTemporaryTestResults = _db.TemporaryTestResults.AsNoTracking().ToList();
 
             var suiteSummaryDictionary = new Dictionary<string, SuiteSummary>();
