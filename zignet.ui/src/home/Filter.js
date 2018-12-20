@@ -4,19 +4,13 @@ class Filter extends Component {
 	constructor(props) {
 		super(props)
 
-		this.handleLoopNetChange = this.handleLoopNetChange.bind(this);
-		this.handleLmMobileChange = this.handleLmMobileChange.bind(this);
+		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
 	}
 
-	handleLoopNetChange(event) 	{	
-		this.props.filter.showLoopNet = event.target.checked;
+	handleCheckboxChange(event) {
+		this.props.filter[event.target.name] = event.target.checked;
 		this.props.onFilterChange(this.props.filter);
 	}
-
-	handleLmMobileChange(event) {
-		this.props.filter.showLmMobile = event.target.checked;
-		this.props.onFilterChange(this.props.filter);
-	}	
 
   render() {
     return (
@@ -26,7 +20,7 @@ class Filter extends Component {
 				  	name="showLoopNet"
 				  	type="checkbox"
 				  	checked={this.props.filter.showLoopNet}
-				  	onChange={this.handleLoopNetChange}
+				  	onChange={this.handleCheckboxChange}
 				  	className="form-check-input"
 				  	id="showLoopNet"/>
 				  <label className="form-check-label" htmlFor="showLoopNet">LoopNet</label>
@@ -36,7 +30,7 @@ class Filter extends Component {
 				  	name="showLmMobile"
 				  	type="checkbox"
 				  	checked={this.props.filter.showLmMobile}
-				  	onChange={this.handleLmMobileChange}
+				  	onChange={this.handleCheckboxChange}
 				  	className="form-check-input"
 				  	id="showLmMobile"/>
 				  <label className="form-check-label" htmlFor="showLmMobile">LmMobile</label>
