@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SuiteResults from './SuiteResults'
+import { getUrlParams } from '../common/routing/SearchFilter.js'
 
 class Home extends Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class Home extends Component {
     this.setState({
       filter: filter
     })
+    window.location.search = getUrlParams(filter);
     this.getData();
   }
 
