@@ -1,20 +1,11 @@
+import { getUrlParams } from '../routing/SearchFilter.js'
+
 function url() {
 	return process.env.REACT_APP_API_BASE_URL + 'api/';
 }
 
 function getSuiteResults(filter) {
-  let localUrl = url() + 'suite/latest?';
-
-  if (filter.debug)
-    localUrl = localUrl + 'debug=true';
-  else if (filter.showLoopNet && filter.showLmMobile)
-    localUrl = localUrl + 'applications=LoopNet&applications=Listing+Manager+Mobile';
-  else if (filter.showLoopNet)
-    localUrl = localUrl + 'applications=LoopNet';
-  else if (filter.showLmMobile)
-    localUrl = localUrl + 'applications=Listing+Manager+Mobile';
-
-  return _get(localUrl);
+  return _get(url() + 'suite/latest?' + getUrlParams(filter));
 }
 
 function getTestResults(debug) {
