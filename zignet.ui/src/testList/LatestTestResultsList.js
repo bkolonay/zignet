@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TestResultRow from './TestResultRow'
 import HomeLink from '../common/HomeLink'
 import ChartButton from './ChartButton'
+import Filter from '../home/Filter'
 
 class LatestTestResultsList extends Component {
 
@@ -17,6 +18,9 @@ class LatestTestResultsList extends Component {
           <div className="col-4">
             <ChartButton />
           </div>
+        <div className="row">
+          <Filter filter={this.props.filter} onFilterChange={this.props.onFilterChange} />
+        </div>          
         </div>
         <table className="table">
           <thead>

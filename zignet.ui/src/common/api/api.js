@@ -8,11 +8,8 @@ function getSuiteResults(filter) {
   return _get(url() + 'suite/latest?' + getUrlParams(filter));
 }
 
-function getTestResults(debug) {
-  if (debug)
-    return _get(url() + 'testResult/latest?debug=true');
-  else
-    return _get(url() + 'testResult/latest');
+function getTestResults(filter) {
+  return _get(url() + 'testResult/latest?' + getUrlParams(filter));
 }
 
 function _get(url) {
