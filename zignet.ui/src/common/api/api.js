@@ -3,12 +3,18 @@ function url() {
 }
 
 function getSuiteResults(filter) {
-	if (filter.debug)
-	  return _get(url() + 'suite/latest?debug=true');
+  let localUrl = url() + 'suite/latest?';
+
+  if (filter.debug)
+    localUrl = localUrl + 'debug=true';
+  else if (filter.showLoopNet && filter.showLmMobile)
+    localUrl = localUrl + 'applications=LoopNet&applications=Listing+Manager+Mobile';
   else if (filter.showLoopNet)
-    return _get(url() + 'suite/latest?applications=LoopNet');
-	else
-	  return _get(url() + 'suite/latest');
+    localUrl = localUrl + 'applications=LoopNet';
+  else if (filter.showLmMobile)
+    localUrl = localUrl + 'applications=Listing+Manager+Mobile';
+
+  return _get(localUrl);
 }
 
 function getTestResults(debug) {
