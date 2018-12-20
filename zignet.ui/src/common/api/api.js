@@ -5,6 +5,8 @@ function url() {
 function getSuiteResults(filter) {
 	if (filter.debug)
 	  return _get(url() + 'suite/latest?debug=true');
+  else if (filter.showLoopNet)
+    return _get(url() + 'suite/latest?applications=LoopNet');
 	else
 	  return _get(url() + 'suite/latest');
 }

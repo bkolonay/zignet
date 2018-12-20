@@ -3,24 +3,19 @@ import React, { Component } from 'react';
 class Filter extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {
-			showLoopNet: false,
-			showLmMobile: false,
-		};
 
-		this.handleInputChange = this.handleInputChange.bind(this);
+		this.handleLoopNetChange = this.handleLoopNetChange.bind(this);
 	}
 
-	handleInputChange(event) {
-		const target = event.target;
-		const value = target.checked;
-		const name = target.name;
+	handleLoopNetChange(event) {
+		// const target = event.target;
+		// const value = target.checked;
+		// const name = target.name;
 
-		this.setState({
-			[name]: value
-		})
+		let filter = this.props.filter;
+		filter.showLoopNet = event.target.checked;
+		this.props.onFilterChange(filter);
 	}
-
 
   render() {
     return (
@@ -28,9 +23,9 @@ class Filter extends Component {
 				<div className="form-check">
 				  <input 
 				  	name="showLoopNet"
-				  	type="checkbox" 
-				  	checked={this.state.showLoopNet}
-				  	onChange={this.handleInputChange}
+				  	type="checkbox"
+				  	checked={this.props.showLoopNet}
+				  	onChange={this.handleLoopNetChange}
 				  	className="form-check-input"
 				  	id="showLoopNet"/>
 				  <label className="form-check-label" htmlFor="showLoopNet">LoopNet</label>
@@ -39,7 +34,7 @@ class Filter extends Component {
 				  <input 
 				  	name="showLmMobile"
 				  	type="checkbox"
-				  	checked={this.state.showLmMobile}
+				  	checked={this.props.showLmMobile}
 				  	onChange={this.handleInputChange}
 				  	className="form-check-input"
 				  	id="showLmMobile"/>

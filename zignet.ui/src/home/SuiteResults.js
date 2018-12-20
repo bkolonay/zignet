@@ -11,7 +11,7 @@ class SuiteResults extends Component {
           <ListButton />
         </div>
         <div className="row">
-          <Filter />
+          <Filter filter={this.props.filter} onFilterChange={this.props.onFilterChange} />
         </div>
   	  	<div className="row">
           {this.props.suiteResults.map((suiteResult) =>

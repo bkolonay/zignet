@@ -16,7 +16,7 @@ class HomeRouter extends Component {
 
   render() {
     return (
-      <Home getResults={() => getSuiteResults(this.filter)} />
+      <Home getResults={getSuiteResults} filter={this.filter} />
     );
   }
 }
