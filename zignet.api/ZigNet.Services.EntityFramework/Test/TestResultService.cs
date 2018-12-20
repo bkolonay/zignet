@@ -24,9 +24,16 @@ namespace ZigNet.Services.EntityFramework
 
         public IEnumerable<LatestTestResultDto> GetLatest(SuiteResultsFilter suiteResultsFilter)
         {
-            var suites = _suiteService.GetAll();
+            IEnumerable<SuiteDto> suites;
+
+            if (suiteResultsFilter.Applications == null || suiteResultsFilter.Applications.Length == 0)
+                suites = _suiteService.GetAll();
+            else
+                suites = _suiteService.GetAll().Where(s => suiteResultsFilter.Applications.Contains(s.ApplicationName));
+
             if (!suiteResultsFilter.Debug)
                 suites = suites.Where(s => !s.Name.Contains("(D)"));
+
             var suiteIds = suites.Select(s => s.SuiteID).ToArray();
 
             var latestTestResults = _latestTestResultService.Get(suiteIds).ToList();
