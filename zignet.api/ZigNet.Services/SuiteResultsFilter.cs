@@ -5,6 +5,7 @@
     public class SuiteResultsFilter
     {
         public string[] Applications { get; set; }
+        public string[] Environments { get; set; }
         public bool Debug { get; set; }
     }
 }

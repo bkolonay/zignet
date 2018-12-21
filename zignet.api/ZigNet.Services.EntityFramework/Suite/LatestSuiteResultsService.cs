@@ -102,6 +102,9 @@ namespace ZigNet.Services.EntityFramework
             else
                 suites = _suiteService.GetAll().Where(s => suiteResultsFilter.Applications.Contains(s.ApplicationName));
 
+            if (suiteResultsFilter.Environments != null && suiteResultsFilter.Environments.Length > 0)
+                suites = suites.Where(s => suiteResultsFilter.Environments.Contains(s.EnvironmentNameAbbreviation));
+
             var allTemporaryTestResults = _db.TemporaryTestResults.AsNoTracking().ToList();
 
             var suiteSummaryDictionary = new Dictionary<string, SuiteSummary>();
