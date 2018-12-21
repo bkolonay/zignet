@@ -8,7 +8,7 @@ class SuiteResults extends Component {
     return (
   	  <div className="container">
         <div className="text-right">
-          <ListButton />
+          <ListButton filter={this.props.filter} />
         </div>
         <div className="row">
           <Filter filter={this.props.filter} onFilterChange={this.props.onFilterChange} />
