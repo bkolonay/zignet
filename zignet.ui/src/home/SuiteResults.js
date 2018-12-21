@@ -10,9 +10,7 @@ class SuiteResults extends Component {
         <div className="text-right">
           <ListButton filter={this.props.filter} />
         </div>
-        <div className="row">
-          <Filter filter={this.props.filter} onFilterChange={this.props.onFilterChange} />
-        </div>
+        <Filter filter={this.props.filter} onFilterChange={this.props.onFilterChange} />
   	  	<div className="row">
           {this.props.suiteResults.map((suiteResult) =>
             <SuiteResultChart key={suiteResult.SuiteIds[0]}
