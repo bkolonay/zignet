@@ -37,8 +37,8 @@ namespace ZigNet.Api.Controllers
                 suiteResultsFilter = new SuiteResultsFilter();
 
             var suiteName = "";
-            if (suiteResultsFilter.Applications == null || suiteResultsFilter.Applications.Length == 0)
-                suiteName = "All Tests";
+            //if (suiteResultsFilter.Applications == null || suiteResultsFilter.Applications.Length == 0)
+            //    suiteName = "All Tests";
 
             return new GetLatestTestResultsModel
             {
