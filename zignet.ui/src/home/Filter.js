@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { getDefaultFilter } from '../common/routing/SearchFilter.js'
 
 class Filter extends Component {
 	constructor(props) {
 		super(props)
 
 		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+		this.handleClear = this.handleClear.bind(this);
 	}
 
 	handleCheckboxChange(event) {
@@ -12,9 +14,15 @@ class Filter extends Component {
 		this.props.onFilterChange(this.props.filter);
 	}
 
+	handleClear(event) {
+		event.preventDefault();
+		this.props.onFilterChange(getDefaultFilter());
+	}
+
   render() {
     return (
       <div>
+      	<button onClick={this.handleClear} type="button" className="btn btn-link">Clear</button>
 				<div className="form-check">
 				  <input 
 				  	name="showLoopNet"

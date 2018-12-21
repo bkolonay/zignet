@@ -3,13 +3,7 @@ import { parseUrlParams, stringifyUrlParams } from './UrlParameterParser.js';
 function getFilter(search) {
 	let urlParams = parseUrlParams(search);
 
-	let filter = {
-		debug: false,
-		showLoopNet: false,
-		showLmMobile: false,
-		showCityFeet: false,
-		showShowcase: false
-	};
+	let filter = getDefaultFilter();
 
 	if (urlParams.debug === 'true')
 		filter.debug = true;
@@ -45,4 +39,14 @@ function getUrlParams(filter) {
 	return stringifyUrlParams(urlParams);
 }
 
-export { getFilter, getUrlParams }
+function getDefaultFilter() {
+	return {
+		debug: false,
+		showLoopNet: false,
+		showLmMobile: false,
+		showCityFeet: false,
+		showShowcase: false
+	};
+}
+
+export { getFilter, getUrlParams, getDefaultFilter }
