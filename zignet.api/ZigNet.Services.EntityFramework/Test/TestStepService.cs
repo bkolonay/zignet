@@ -6,6 +6,7 @@ using TestStepResultType = ZigNet.Domain.Test.TestStep.TestStepResultType;
 using DbTestStepResult = ZigNet.Database.EntityFramework.TestStepResult;
 using DbTestStep = ZigNet.Database.EntityFramework.TestStep;
 using System.Linq;
+using System.Data.Entity;
 
 namespace ZigNet.Services.EntityFramework
 {
@@ -18,9 +19,12 @@ namespace ZigNet.Services.EntityFramework
             _db = dbContext.Get();
         }
 
-        public void Save(int testResultId, IEnumerable<TestStepResult> testStepResults)
+        public void Save(int testId, int testResultId, IEnumerable<TestStepResult> testStepResults)
         {
             var dbTestSteps = _db.TestSteps.AsNoTracking().ToList();
+            var dbTest = _db.Tests
+                .Include(t => t.TestSteps)
+                .Single(t => t.TestID == testId);
 
             foreach (var testStepResult in testStepResults)
             {
@@ -32,6 +36,9 @@ namespace ZigNet.Services.EntityFramework
                     TestStepResultTypeId = Map(testStepResult.ResultType)
                 };
 
+                // todo: need to create test step dto and return it if want to unit test
+                //  - test both scenarios where existing test step is assigned, and when new test step is created (will new test step have an ID?)
+
                 // use FirstOrDefault instead of SingleOrDefault because first-run multi-threaded tests can end up inserting duplicate step names
                 // (before the check for duplicates happens)
                 var existingTestStep = dbTestSteps
@@ -42,6 +49,12 @@ namespace ZigNet.Services.EntityFramework
                     dbTestStepResult.TestStep = new DbTestStep { TestStepName = testStepResult.TestStep.Name };
 
                 _db.TestStepResults.Add(dbTestStepResult);
+                _db.SaveChanges();
+
+                if (!dbTest.TestSteps.Any(t => t.TestStepID == dbTestStepResult.TestStepId))
+                    dbTest.TestSteps.Add(
+                        _db.TestSteps
+                           .Single(ts => ts.TestStepID == dbTestStepResult.TestStepId));
             }
 
             _db.SaveChanges();

@@ -85,6 +85,7 @@
     <Compile Include="Test\TestFailureDurationServiceTests.cs" />
     <Compile Include="Test\TestResultSaverServiceTests.cs" />
     <Compile Include="Test\TestResultsServiceTests.cs" />
+    <Compile Include="Test\TestStepServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -116,7 +116,7 @@ namespace ZigNet.Services.EntityFramework
 
             var savedTestResult = Map(dbTestResult, suiteResult.SuiteId);
 
-            _testStepService.Save(savedTestResult.TestResultID, testResult.TestStepResults);
+            _testStepService.Save(savedTestResult.Test.TestID, savedTestResult.TestResultID, testResult.TestStepResults);
 
             _temporaryTestResultService.Save(_testResultMapper.ToTemporaryTestResult(savedTestResult));
 
