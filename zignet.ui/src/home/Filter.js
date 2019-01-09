@@ -23,7 +23,6 @@ class Filter extends Component {
     return (
       <div className="row">
       	<div className="col">
-	      	<button onClick={this.handleClear} type="button" className="btn btn-link">Clear</button>
 					<div className="form-check">
 					  <input 
 					  	name="showLoopNet"
@@ -65,9 +64,72 @@ class Filter extends Component {
 					  <label className="form-check-label" htmlFor="showShowcase">Showcase</label>
 					</div>
 				</div>
-				<div className="col">more checkboxes</div>
+				<div className="col">
+					<div className="form-check">
+					  <input 
+					  	name="showDvm"
+					  	type="checkbox"
+					  	checked={this.props.filter.showDvm}
+					  	onChange={this.handleCheckboxChange}
+					  	className="form-check-input"
+					  	id="showDvm"/>
+					  <label className="form-check-label" htmlFor="showDvm">DVM</label>
+					</div>
+					<div className="form-check">
+					  <input 
+					  	name="showTsm"
+					  	type="checkbox"
+					  	checked={this.props.filter.showDvm}
+					  	onChange={this.handleCheckboxChange}
+					  	className="form-check-input"
+					  	id="showTsm"/>
+					  <label className="form-check-label" htmlFor="showTsm">TSM</label>
+					</div>
+					<div className="form-check">
+					  <input 
+					  	name="showTsr"
+					  	type="checkbox"
+					  	checked={this.props.filter.showTsr}
+					  	onChange={this.handleCheckboxChange}
+					  	className="form-check-input"
+					  	id="showTsr"/>
+					  <label className="form-check-label" htmlFor="showTsr">TSR</label>
+					</div>
+					<div className="form-check">
+					  <input 
+					  	name="showProd"
+					  	type="checkbox"
+					  	checked={this.props.filter.showProd}
+					  	onChange={this.handleCheckboxChange}
+					  	className="form-check-input"
+					  	id="showProd"/>
+					  <label className="form-check-label" htmlFor="showProd">Prod</label>
+					</div>
+					<div className="form-check">
+					  <input 
+					  	name="showProd"
+					  	type="checkbox"
+					  	checked={this.props.filter.showProd}
+					  	onChange={this.handleCheckboxChange}
+					  	className="form-check-input"
+					  	id="showProd"/>
+					  <label className="form-check-label" htmlFor="showProd">Dev</label>
+					</div>
+					<div className="form-check">
+					  <input 
+					  	name="showProd"
+					  	type="checkbox"
+					  	checked={this.props.filter.showProd}
+					  	onChange={this.handleCheckboxChange}
+					  	className="form-check-input"
+					  	id="showProd"/>
+					  <label className="form-check-label" htmlFor="showProd">Test</label>
+					</div>					
+				</div>
 				<div className="col"/>
-				<div className="col"/>
+				<div className="col">
+					<button onClick={this.handleClear} type="button" className="btn btn-link">Clear filters</button>
+				</div>
       </div>
     );
   }

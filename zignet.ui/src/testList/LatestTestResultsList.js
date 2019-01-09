@@ -18,10 +18,8 @@ class LatestTestResultsList extends Component {
           <div className="col-4">
             <ChartButton filter={this.props.filter} />
           </div>
-        <div className="row">
-          <Filter filter={this.props.filter} onFilterChange={this.props.onFilterChange} />
-        </div>          
         </div>
+        <Filter filter={this.props.filter} onFilterChange={this.props.onFilterChange} />        
         <table className="table">
           <thead>
             <tr>
