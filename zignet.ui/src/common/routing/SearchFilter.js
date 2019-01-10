@@ -14,7 +14,20 @@ function getFilter(search) {
 	if (urlParams.applications && urlParams.applications.includes('CityFeet'))
 		filter.showCityFeet = true;
 	if (urlParams.applications && urlParams.applications.includes('Showcase'))
-		filter.showShowcase = true;	
+		filter.showShowcase = true;
+
+	if (urlParams.environments && urlParams.environments.includes('DVM'))
+		filter.showDVM = true;
+	if (urlParams.environments && urlParams.environments.includes('TSM'))
+		filter.showTSM = true;	
+	if (urlParams.environments && urlParams.environments.includes('TSR'))
+		filter.showTSR = true;		
+	if (urlParams.environments && urlParams.environments.includes('Prod'))
+		filter.showProd = true;			
+	if (urlParams.environments && urlParams.environments.includes('Dev'))
+		filter.showDev = true;			
+	if (urlParams.environments && urlParams.environments.includes('Test'))
+		filter.showTest = true;						
 
 	return filter;
 }
@@ -22,7 +35,8 @@ function getFilter(search) {
 function getUrlParams(filter) {
 	let urlParams = {
 	  debug: false,
-	  applications: []
+	  applications: [],
+	  environments: []
 	};
 
 	if (filter.debug)
@@ -34,7 +48,20 @@ function getUrlParams(filter) {
 	if (filter.showCityFeet)
 	  urlParams.applications.push('CityFeet');
 	if (filter.showShowcase)
-	  urlParams.applications.push('Showcase');	
+	  urlParams.applications.push('Showcase');
+
+	if (filter.showDVM)
+	  urlParams.environments.push('DVM');
+	if (filter.showTSM)
+	  urlParams.environments.push('TSM');
+	if (filter.showTSR)
+	  urlParams.environments.push('TSR');
+	if (filter.showProd)
+	  urlParams.environments.push('Prod');
+	if (filter.showDev)
+	  urlParams.environments.push('Dev');	  	  	
+	if (filter.showTest)
+	  urlParams.environments.push('Test');
 
 	return stringifyUrlParams(urlParams);
 }
@@ -45,7 +72,13 @@ function getDefaultFilter() {
 		showLoopNet: false,
 		showLmMobile: false,
 		showCityFeet: false,
-		showShowcase: false
+		showShowcase: false,
+		showDVM: false,
+		showTSM: false,
+		showTSR: false,
+		showProd: false,
+		showDev: false,
+		showTest: false
 	};
 }
 
