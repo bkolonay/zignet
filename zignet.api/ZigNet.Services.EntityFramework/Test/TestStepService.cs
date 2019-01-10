@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using ZigNet.Database.EntityFramework;
+using Test = ZigNet.Domain.Test.Test;
+using TestStep = ZigNet.Domain.Test.TestStep.TestStep;
+using TestResult = ZigNet.Domain.Test.TestResult;
 using TestStepResult = ZigNet.Domain.Test.TestStep.TestStepResult;
 using TestStepResultType = ZigNet.Domain.Test.TestStep.TestStepResultType;
+using DbTest = ZigNet.Database.EntityFramework.Test;
 using DbTestStepResult = ZigNet.Database.EntityFramework.TestStepResult;
 using DbTestStep = ZigNet.Database.EntityFramework.TestStep;
 using System.Linq;
@@ -19,13 +23,14 @@ namespace ZigNet.Services.EntityFramework
             _db = dbContext.Get();
         }
 
-        public void Save(int testId, int testResultId, IEnumerable<TestStepResult> testStepResults)
+        public ICollection<TestStepResult> Save(int testId, int testResultId, IEnumerable<TestStepResult> testStepResults)
         {
             var dbTestSteps = _db.TestSteps.AsNoTracking().ToList();
             var dbTest = _db.Tests
                 .Include(t => t.TestSteps)
                 .Single(t => t.TestID == testId);
 
+            var savedTestStepResults = new List<TestStepResult>();
             foreach (var testStepResult in testStepResults)
             {
                 var dbTestStepResult = new DbTestStepResult
@@ -35,9 +40,6 @@ namespace ZigNet.Services.EntityFramework
                     TestStepResultEndDateTime = testStepResult.EndTime,
                     TestStepResultTypeId = Map(testStepResult.ResultType)
                 };
-
-                // todo: need to create test step dto and return it if want to unit test
-                //  - test both scenarios where existing test step is assigned, and when new test step is created (will new test step have an ID?)
 
                 // use FirstOrDefault instead of SingleOrDefault because first-run multi-threaded tests can end up inserting duplicate step names
                 // (before the check for duplicates happens)
@@ -55,9 +57,13 @@ namespace ZigNet.Services.EntityFramework
                     dbTest.TestSteps.Add(
                         _db.TestSteps
                            .Single(ts => ts.TestStepID == dbTestStepResult.TestStepId));
+
+                savedTestStepResults.Add(Map(dbTestStepResult, dbTest));
             }
 
             _db.SaveChanges();
+
+            return savedTestStepResults;
         }
 
         private int Map(TestStepResultType testStepResultType)
@@ -73,6 +79,48 @@ namespace ZigNet.Services.EntityFramework
                 default:
                     throw new InvalidOperationException("Test Step Result Type not recognized");
             }
+        }
+
+        private TestStepResultType Map(int testStepResultType)
+        {
+            switch (testStepResultType)
+            {
+                case 1:
+                    return TestStepResultType.Fail;
+                case 2:
+                    return TestStepResultType.Inconclusive;
+                case 3:
+                    return TestStepResultType.Pass;
+                default:
+                    throw new InvalidOperationException("Test Step Result Type not recognized");
+            }
+        }
+
+        private TestStepResult Map(DbTestStepResult dbTestStepResult, DbTest dbTest)
+        {
+            var testStepResult = new TestStepResult
+            {
+                TestStep = new TestStep { TestStepID = dbTestStepResult.TestStepId, Tests = new List<Test>() },
+                TestResult = new TestResult { TestResultID = dbTestStepResult.TestResultId },
+                StartTime = dbTestStepResult.TestStepResultStartDateTime,
+                EndTime = dbTestStepResult.TestStepResultEndDateTime,
+                ResultType = Map(dbTestStepResult.TestStepResultTypeId)
+            };
+
+            testStepResult.TestStep.Tests.Add(
+                new Test {
+                    TestID = dbTest.TestID, Name = dbTest.TestName,
+                    TestSteps = new List<TestStep>()
+                });
+
+            foreach (var testStep in dbTest.TestSteps)
+                testStepResult.TestStep.Tests.First().TestSteps.Add(
+                    new TestStep { TestStepID = testStep.TestStepID, Name = testStep.TestStepName });
+
+            if (dbTestStepResult.TestStep != null)
+                testStepResult.TestStep.Name = dbTestStepResult.TestStep.TestStepName;
+
+            return testStepResult;
         }
     }
 }

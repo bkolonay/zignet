@@ -5,6 +5,6 @@ namespace ZigNet.Services
 {
     public interface ITestStepService
     {
-        void Save(int testId, int testResultId, IEnumerable<TestStepResult> testStepResults);
+        ICollection<TestStepResult> Save(int testId, int testResultId, IEnumerable<TestStepResult> testStepResults);
     }
 }
