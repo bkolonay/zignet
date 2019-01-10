@@ -21,17 +21,17 @@ function _get(url) {
     });
 }
 
-function _post(url, requestBody) {
-  return fetch(url, {
-    headers: { 'content-type': 'application/json' },
-    body: requestBody,
-    method: 'POST'
-  })
-  .then(function(response) {
-    if (response.ok)
-      return response.json();
-    throw new Error(`URL ${url} returned status code ${response.status}`);
-  });
-}
+// function _post(url, requestBody) {
+//   return fetch(url, {
+//     headers: { 'content-type': 'application/json' },
+//     body: requestBody,
+//     method: 'POST'
+//   })
+//   .then(function(response) {
+//     if (response.ok)
+//       return response.json();
+//     throw new Error(`URL ${url} returned status code ${response.status}`);
+//   });
+// }
 
 export { getSuiteResults, getTestResults };
