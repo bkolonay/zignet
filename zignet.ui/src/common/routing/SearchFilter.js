@@ -27,7 +27,12 @@ function getFilter(search) {
 	if (urlParams.environments && urlParams.environments.includes('Dev'))
 		filter.showDev = true;			
 	if (urlParams.environments && urlParams.environments.includes('Test'))
-		filter.showTest = true;						
+		filter.showTest = true;
+
+	if (urlParams.suites && urlParams.suites.includes('UI'))
+		filter.showUI = true;
+	if (urlParams.suites && urlParams.suites.includes('Services'))
+		filter.showServices = true;	
 
 	return filter;
 }
@@ -36,7 +41,8 @@ function getUrlParams(filter) {
 	let urlParams = {
 	  debug: false,
 	  applications: [],
-	  environments: []
+	  environments: [],
+	  suites: []
 	};
 
 	if (filter.debug)
@@ -63,6 +69,11 @@ function getUrlParams(filter) {
 	if (filter.showTest)
 	  urlParams.environments.push('Test');
 
+	if (filter.showUI)
+	  urlParams.suites.push('UI');
+	if (filter.showServices)
+	  urlParams.suites.push('Services');	
+
 	return stringifyUrlParams(urlParams);
 }
 
@@ -78,7 +89,9 @@ function getDefaultFilter() {
 		showTSR: false,
 		showProd: false,
 		showDev: false,
-		showTest: false
+		showTest: false,
+		showUI: false,
+		showServices: false
 	};
 }
 

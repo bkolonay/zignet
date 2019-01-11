@@ -26,8 +26,7 @@ class Filter extends Component {
 		
 		this.suites = [			
 			{ Id: 1, Name: "UI" },
-			{ Id: 2, Name: "Services" },
-			{ Id: 3, Name: "MobileServices", Label:"Mobile Services" }
+			{ Id: 2, Name: "Services" }
 		];		
 	}
 
