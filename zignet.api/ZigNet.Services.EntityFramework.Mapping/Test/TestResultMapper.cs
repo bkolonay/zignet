@@ -14,7 +14,9 @@ namespace ZigNet.Services.EntityFramework.Mapping
                 SuiteId = testResult.SuiteResult.Suite.SuiteID,
                 TestId = testResult.Test.TestID,
                 TestName = testResult.Test.Name,
-                SuiteName = testResult.SuiteResult.Suite.Name
+                SuiteName = testResult.SuiteResult.Suite.Name,
+                ApplicationName = testResult.SuiteResult.Suite.Application.Name,
+                EnvironmentNameAbbreviation = testResult.SuiteResult.Suite.Environment.Abbreviation
             };
         }
 
