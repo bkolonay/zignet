@@ -10,7 +10,8 @@
 namespace ZigNet.Database.EntityFramework
 {
     using System;
-
+    using System.Collections.Generic;
+    
     public partial class LatestTestResult
     {
         public int LatestTestResultID { get; set; }
@@ -21,6 +22,8 @@ namespace ZigNet.Database.EntityFramework
         public Nullable<System.DateTime> PassingFromDateTime { get; set; }
         public Nullable<System.DateTime> FailingFromDateTime { get; set; }
         public string SuiteName { get; set; }
+        public string SuiteApplicationName { get; set; }
+        public string SuiteEnvironmentNameAbbreviation { get; set; }
     
         public virtual Suite Suite { get; set; }
         public virtual Test Test { get; set; }

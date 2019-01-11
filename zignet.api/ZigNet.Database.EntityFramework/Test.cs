@@ -9,6 +9,7 @@
 
 namespace ZigNet.Database.EntityFramework
 {
+    using System;
     using System.Collections.Generic;
     
     public partial class Test

@@ -9,7 +9,9 @@
 
 namespace ZigNet.Database.EntityFramework
 {
-
+    using System;
+    using System.Collections.Generic;
+    
     public partial class TemporaryTestResult
     {
         public int TemporaryTestResultID { get; set; }

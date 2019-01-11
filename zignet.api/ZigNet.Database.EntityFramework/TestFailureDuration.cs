@@ -10,7 +10,8 @@
 namespace ZigNet.Database.EntityFramework
 {
     using System;
-
+    using System.Collections.Generic;
+    
     public partial class TestFailureDuration
     {
         public int TestFailureDurationID { get; set; }

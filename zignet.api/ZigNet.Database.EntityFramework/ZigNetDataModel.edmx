@@ -33,6 +33,8 @@
           <Property Name="PassingFromDateTime" Type="datetime" />
           <Property Name="FailingFromDateTime" Type="datetime" />
           <Property Name="SuiteName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SuiteApplicationName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SuiteEnvironmentNameAbbreviation" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Suite_SuiteCategories">
           <Key>
@@ -1081,6 +1083,8 @@
           <NavigationProperty Name="Test" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTest" FromRole="LatestTestResult" ToRole="Test" />
           <NavigationProperty Name="TestResult" Relationship="ZigNet.Database.EntityFramework.Model.FK_LatestTestResultTestResult" FromRole="LatestTestResult" ToRole="TestResult" />
           <Property Name="SuiteName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SuiteApplicationName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SuiteEnvironmentNameAbbreviation" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_LatestTestResultSuite">
           <End Type="ZigNet.Database.EntityFramework.Model.Suite" Role="Suite" Multiplicity="1" />
@@ -1481,6 +1485,8 @@
           <EntitySetMapping Name="LatestTestResults">
             <EntityTypeMapping TypeName="ZigNet.Database.EntityFramework.Model.LatestTestResult">
               <MappingFragment StoreEntitySet="LatestTestResults">
+                <ScalarProperty Name="SuiteEnvironmentNameAbbreviation" ColumnName="SuiteEnvironmentNameAbbreviation" />
+                <ScalarProperty Name="SuiteApplicationName" ColumnName="SuiteApplicationName" />
                 <ScalarProperty Name="SuiteName" ColumnName="SuiteName" />
                 <ScalarProperty Name="FailingFromDateTime" ColumnName="FailingFromDateTime" />
                 <ScalarProperty Name="PassingFromDateTime" ColumnName="PassingFromDateTime" />
