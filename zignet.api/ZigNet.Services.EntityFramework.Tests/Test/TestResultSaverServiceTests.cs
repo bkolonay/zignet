@@ -18,6 +18,7 @@ using TestCategory = ZigNet.Domain.Test.TestCategory;
 using TestFailureType = ZigNet.Domain.Test.TestFailureType;
 using SuiteResult = ZigNet.Domain.Suite.SuiteResult;
 using TestFailureDetails = ZigNet.Domain.Test.TestFailureDetails;
+using ZigNet.Services.DTOs;
 
 namespace ZigNet.Services.EntityFramework.Tests
 {
@@ -72,6 +73,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(m => m.GetAll()).Returns(new List<SuiteDto> { new SuiteDto { SuiteID = 2 } });
+
                 var testResult = new TestResult
                 {
                     Test = new Test
@@ -85,7 +89,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
                     new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
                     new Mock<ITestFailureDurationService>().Object, new Mock<ITestStepService>().Object,
-                    mockTestResultMapper.Object);
+                    mockTestResultMapper.Object, mockSuiteService.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -138,6 +142,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(m => m.GetAll()).Returns(new List<SuiteDto> { new SuiteDto { SuiteID = 2 } });
+
                 var testResult = new TestResult
                 {
                     Test = new Test
@@ -151,7 +158,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
                     new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
                     new Mock<ITestFailureDurationService>().Object, new Mock<ITestStepService>().Object,
-                    mockTestResultMapper.Object);
+                    mockTestResultMapper.Object, mockSuiteService.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -191,6 +198,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(m => m.GetAll()).Returns(new List<SuiteDto> { new SuiteDto { SuiteID = 2 } });
+
                 var testResult = new TestResult
                 {
                     Test = new Test
@@ -204,7 +214,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
                     new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
                     new Mock<ITestFailureDurationService>().Object, new Mock<ITestStepService>().Object,
-                    mockTestResultMapper.Object);
+                    mockTestResultMapper.Object, mockSuiteService.Object);
                 testResultSaverService.Save(testResult);
             }
 
@@ -254,6 +264,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(m => m.GetAll()).Returns(new List<SuiteDto> { new SuiteDto { SuiteID = 2 } });
+
                 var testResult = new TestResult
                 {
                     Test = new Test
@@ -267,7 +280,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
                     new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
                     new Mock<ITestFailureDurationService>().Object, new Mock<ITestStepService>().Object,
-                    mockTestResultMapper.Object);
+                    mockTestResultMapper.Object, mockSuiteService.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -329,6 +342,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(m => m.GetAll()).Returns(new List<SuiteDto> { new SuiteDto { SuiteID = 2 } });
+
                 var testResult = new TestResult
                 {
                     Test = new Test
@@ -342,7 +358,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
                     new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
                     new Mock<ITestFailureDurationService>().Object, new Mock<ITestStepService>().Object,
-                    mockTestResultMapper.Object);
+                    mockTestResultMapper.Object, mockSuiteService.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -412,6 +428,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(m => m.GetAll()).Returns(new List<SuiteDto> { new SuiteDto { SuiteID = 2 } });
+
                 var testResult = new TestResult
                 {
                     Test = new Test
@@ -425,7 +444,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
                     new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
                     new Mock<ITestFailureDurationService>().Object, new Mock<ITestStepService>().Object,
-                    mockTestResultMapper.Object);
+                    mockTestResultMapper.Object, mockSuiteService.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -493,6 +512,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(m => m.GetAll()).Returns(new List<SuiteDto> { new SuiteDto { SuiteID = 2 } });
+
                 var testResult = new TestResult
                 {
                     Test = new Test
@@ -512,7 +534,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
                     new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
                     new Mock<ITestFailureDurationService>().Object, new Mock<ITestStepService>().Object,
-                    mockTestResultMapper.Object);
+                    mockTestResultMapper.Object, mockSuiteService.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -574,6 +596,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(m => m.GetAll()).Returns(new List<SuiteDto> { new SuiteDto { SuiteID = 2 } });
+
                 var now = DateTime.Now;
                 var testResult = new TestResult
                 {
@@ -591,7 +616,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
                     new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
                     new Mock<ITestFailureDurationService>().Object, new Mock<ITestStepService>().Object,
-                    mockTestResultMapper.Object);
+                    mockTestResultMapper.Object, mockSuiteService.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -659,6 +684,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var zignetEntitiesWrapperMock = new Mock<IDbContext>();
                 zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
 
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(m => m.GetAll()).Returns(new List<SuiteDto> { new SuiteDto { SuiteID = 2 } });
+
                 var now = DateTime.UtcNow;
                 var testResult = new TestResult
                 {
@@ -677,7 +705,7 @@ namespace ZigNet.Services.EntityFramework.Tests
                 var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
                     new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
                     new Mock<ITestFailureDurationService>().Object, new Mock<ITestStepService>().Object,
-                    mockTestResultMapper.Object);
+                    mockTestResultMapper.Object, mockSuiteService.Object);
                 var savedTestResult = testResultSaverService.Save(testResult);
 
                 Assert.AreEqual(0, savedTestResult.TestResultID);
@@ -692,6 +720,85 @@ namespace ZigNet.Services.EntityFramework.Tests
                 Assert.AreEqual(1, savedTestResult.Test.Suites.Count);
                 Assert.AreEqual(2, savedTestResult.Test.Suites.ToList()[0].SuiteID);
                 Assert.AreEqual(0, savedTestResult.Test.Categories.Count);
+            }
+
+            [TestMethod]
+            public void MapsSuiteData()
+            {
+                var mockTests = new List<DbTest>
+                {
+                    new DbTest {
+                        TestName = "existing test", TestID = 1,
+                        TestCategories = new List<DbTestCategory>(),
+                        Suites = new List<Suite> { new Suite { SuiteID = 2 } }
+                    }
+                }.ToDbSetMock();
+                mockTests.Setup(m => m.AsNoTracking()).Returns(mockTests.Object);
+                mockTests.Setup(m => m.Include(It.IsAny<string>())).Returns(mockTests.Object);
+
+                var mockTestResultMapper = new Mock<ITestResultMapper>();
+                mockTestResultMapper.Setup(t => t.ToDbTestResultTypeId(TestResultType.Pass)).Returns(3);
+                mockTestResultMapper.Setup(t => t.ToTestResultType(3)).Returns(TestResultType.Pass);
+
+                var mockTestCategories = new List<DbTestCategory>().ToDbSetMock();
+
+                var mockSuiteResults = new List<DbSuiteResult>
+                {
+                    new DbSuiteResult { SuiteResultID = 3, SuiteId = 2 }
+                }.ToDbSetMock();
+                mockSuiteResults.Setup(m => m.AsNoTracking()).Returns(mockSuiteResults.Object);
+
+                var mockSuites = new List<Suite>
+                {
+                    new Suite { SuiteID = 2 }
+                }.ToDbSetMock();
+                mockSuites.Setup(m => m.AsNoTracking()).Returns(mockSuites.Object);
+                mockSuites.Setup(m => m.Include(It.IsAny<string>())).Returns(mockSuites.Object);
+
+                var mockTestResults = new List<DbTestResult>().ToDbSetMock();
+
+                var mockContext = new Mock<ZigNetEntities>();
+                mockContext.Setup(m => m.Tests).Returns(mockTests.Object);
+                mockContext.Setup(m => m.TestCategories).Returns(mockTestCategories.Object);
+                mockContext.Setup(m => m.SuiteResults).Returns(mockSuiteResults.Object);
+                mockContext.Setup(m => m.Suites).Returns(mockSuites.Object);
+                mockContext.Setup(m => m.TestResults).Returns(mockTestResults.Object);
+
+                var zignetEntitiesWrapperMock = new Mock<IDbContext>();
+                zignetEntitiesWrapperMock.Setup(z => z.Get()).Returns(mockContext.Object);
+
+                var mockSuiteService = new Mock<ISuiteService>();
+                mockSuiteService.Setup(m => m.GetAll()).Returns(new List<SuiteDto> {
+                    new SuiteDto {
+                        SuiteID = 2,
+                        ApplicationName = "app-name",
+                        EnvironmentNameAbbreviation = "ena"
+                    }
+                });
+
+                var now = DateTime.Now;
+                var testResult = new TestResult
+                {
+                    Test = new Test
+                    {
+                        Name = "existing test",
+                        Categories = new List<TestCategory>()
+                    },
+                    SuiteResult = new SuiteResult { SuiteResultID = 3 },
+                    ResultType = TestResultType.Pass,
+                    StartTime = now,
+                    EndTime = now.AddHours(1)
+                };
+
+                var testResultSaverService = new TestResultSaverService(zignetEntitiesWrapperMock.Object,
+                    new Mock<ILatestTestResultService>().Object, new Mock<ITemporaryTestResultService>().Object,
+                    new Mock<ITestFailureDurationService>().Object, new Mock<ITestStepService>().Object,
+                    mockTestResultMapper.Object, mockSuiteService.Object);
+                var savedTestResult = testResultSaverService.Save(testResult);
+
+                Assert.AreEqual(2, savedTestResult.SuiteResult.Suite.SuiteID);
+                Assert.AreEqual("app-name", savedTestResult.SuiteResult.Suite.Application.Name);
+                Assert.AreEqual("ena", savedTestResult.SuiteResult.Suite.Environment.Abbreviation);
             }
         }
     }

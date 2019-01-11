@@ -30,8 +30,9 @@ namespace ZigNet.Services.EntityFramework
         {
             return _db.Suites
                 .AsNoTracking()
+                .Include(s => s.Application.ApplicationNameAbbreviation)
                 .Include(s => s.Application.ApplicationName)
-                .Include(s => s.Environment.EnvironmentName)
+                .Include(s => s.Environment.EnvironmentNameAbbreviation)
                 .Select(s => new SuiteDto
                 {
                     SuiteID = s.SuiteID,

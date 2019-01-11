@@ -14,7 +14,10 @@ using TestCategory = ZigNet.Domain.Test.TestCategory;
 using TestFailureDetails = ZigNet.Domain.Test.TestFailureDetails;
 using SuiteResult = ZigNet.Domain.Suite.SuiteResult;
 using Suite = ZigNet.Domain.Suite.Suite;
+using Application = ZigNet.Domain.Suite.Application;
+using Environment = ZigNet.Domain.Suite.Environment;
 using ZigNet.Services.EntityFramework.Mapping;
+using ZigNet.Services.DTOs;
 
 namespace ZigNet.Services.EntityFramework
 {
@@ -26,10 +29,11 @@ namespace ZigNet.Services.EntityFramework
         private ITestFailureDurationService _testFailureDurationService;
         private ITestStepService _testStepService;
         private ITestResultMapper _testResultMapper;
+        private ISuiteService _suiteService;
 
         public TestResultSaverService(IDbContext dbContext, ILatestTestResultService latestTestResultService,
             ITemporaryTestResultService temporaryTestResultService, ITestFailureDurationService testFailureDurationService,
-            ITestStepService testStepService, ITestResultMapper testResultMapper)
+            ITestStepService testStepService, ITestResultMapper testResultMapper, ISuiteService suiteService)
         {
             _db = dbContext.Get();
             _latestTestResultService = latestTestResultService;
@@ -37,6 +41,7 @@ namespace ZigNet.Services.EntityFramework
             _testFailureDurationService = testFailureDurationService;
             _testStepService = testStepService;
             _testResultMapper = testResultMapper;
+            _suiteService = suiteService;
         }
 
         public TestResult Save(TestResult testResult)
@@ -114,17 +119,14 @@ namespace ZigNet.Services.EntityFramework
             _db.TestResults.Add(dbTestResult);
             _db.SaveChanges();
 
-            var savedTestResult = Map(dbTestResult, suiteResult.SuiteId);
+            var suiteDto = _suiteService.GetAll().Single(s => s.SuiteID == suiteResult.SuiteId);
+            var savedTestResult = Map(dbTestResult, suiteDto);
 
             _testStepService.Save(savedTestResult.TestResultID, testResult.TestStepResults);
 
             _temporaryTestResultService.Save(_testResultMapper.ToTemporaryTestResult(savedTestResult));
 
             var utcNow = DateTime.UtcNow;
-            savedTestResult.SuiteResult.Suite.Name = _db.Suites
-                .AsNoTracking()
-                .Single(s => s.SuiteID == suiteResult.SuiteId)
-                .SuiteName;
             _latestTestResultService.Save(
                 _testResultMapper.ToLatestTestResult(savedTestResult), savedTestResult.ResultType, utcNow);
 
@@ -134,7 +136,7 @@ namespace ZigNet.Services.EntityFramework
             return savedTestResult;
         }
 
-        private TestResult Map(DbTestResult dbTestResult, int suiteId)
+        private TestResult Map(DbTestResult dbTestResult, SuiteDto suiteDto)
         {
             var testResult = new TestResult
             {
@@ -149,18 +151,25 @@ namespace ZigNet.Services.EntityFramework
                 SuiteResult = new SuiteResult
                 {
                     SuiteResultID = dbTestResult.SuiteResultId,
-                    Suite = new Suite { SuiteID = suiteId }
+                    Suite = new Suite {
+                        SuiteID = suiteDto.SuiteID,
+                        Name = suiteDto.Name,
+                        Application = new Application { Name = suiteDto.ApplicationName },
+                        Environment = new Environment { Abbreviation = suiteDto.EnvironmentNameAbbreviation }
+                    }
                 },
                 ResultType = _testResultMapper.ToTestResultType(dbTestResult.TestResultTypeId),
                 StartTime = dbTestResult.TestResultStartDateTime,
                 EndTime = dbTestResult.TestResultEndDateTime
             };
+
             if (testResult.ResultType == TestResultType.Fail)
                 testResult.TestFailureDetails = new TestFailureDetails
                 {
                     FailureDetailMessage = dbTestResult.TestFailureDetails.Count == 0 ? null : dbTestResult.TestFailureDetails.First().TestFailureDetail1,
                     FailureType = _testResultMapper.ToTestFailureType(dbTestResult.TestFailureTypes.First().TestFailureTypeID)
                 };
+
             foreach (var dbSuite in dbTestResult.Test.Suites)
                 testResult.Test.Suites.Add(new Suite { SuiteID = dbSuite.SuiteID });
             foreach (var dbTestCategory in dbTestResult.Test.TestCategories)
