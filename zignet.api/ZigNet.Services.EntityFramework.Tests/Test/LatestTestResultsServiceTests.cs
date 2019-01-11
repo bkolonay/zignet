@@ -34,7 +34,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     SuiteId = 2,
                     TestId = 0,
                     TestName = "first time failing test",
-                    SuiteName = "suite-name"
+                    SuiteName = "suite-name",
+                    SuiteApplicationName = "app-name",
+                    SuiteEnvironmentNameAbbreviation = "ena"
                 };
 
                 var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
@@ -44,6 +46,8 @@ namespace ZigNet.Services.EntityFramework.Tests
                 Assert.AreEqual(0, savedLatestTestResultDto.TestId);
                 Assert.AreEqual("first time failing test", savedLatestTestResultDto.TestName);
                 Assert.AreEqual("suite-name", savedLatestTestResultDto.SuiteName);
+                Assert.AreEqual("app-name", savedLatestTestResultDto.SuiteApplicationName);
+                Assert.AreEqual("ena", savedLatestTestResultDto.SuiteEnvironmentNameAbbreviation);
                 Assert.AreEqual(4, savedLatestTestResultDto.TestResultID);
                 Assert.AreEqual(utcNow, savedLatestTestResultDto.FailingFromDate);
                 Assert.AreEqual(null, savedLatestTestResultDto.PassingFromDate);
@@ -167,7 +171,7 @@ namespace ZigNet.Services.EntityFramework.Tests
             }
 
             [TestMethod]
-            public void UpdatesSuiteName()
+            public void UpdatesSuite()
             {
                 var utcNow = DateTime.UtcNow;
 
@@ -177,7 +181,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                         SuiteId = 2,
                         TestId = 1,
                         TestName = "existing test",
-                        SuiteName = "existing suite name"
+                        SuiteName = "existing suite name",
+                        SuiteApplicationName = "existing-app-name",
+                        SuiteEnvironmentNameAbbreviation = "existing-env-abbr"
                     }
                 }.ToDbSetMock();
 
@@ -192,7 +198,9 @@ namespace ZigNet.Services.EntityFramework.Tests
                     TestResultID = 4,
                     SuiteId = 2,
                     TestId = 1,
-                    SuiteName = "new suite name"
+                    SuiteName = "new suite name",
+                    SuiteApplicationName = "new-app-name",
+                    SuiteEnvironmentNameAbbreviation = "new-env-abbr"
                 };
 
                 var latestTestResultsService = new LatestTestResultService(mockZignetEntitiesWrapper.Object);
@@ -202,6 +210,8 @@ namespace ZigNet.Services.EntityFramework.Tests
                 Assert.AreEqual(1, savedLatestTestResultDto.TestId);
                 Assert.AreEqual("existing test", savedLatestTestResultDto.TestName);
                 Assert.AreEqual("new suite name", savedLatestTestResultDto.SuiteName);
+                Assert.AreEqual("new-app-name", savedLatestTestResultDto.SuiteApplicationName);
+                Assert.AreEqual("new-env-abbr", savedLatestTestResultDto.SuiteEnvironmentNameAbbreviation);
                 Assert.AreEqual(4, savedLatestTestResultDto.TestResultID);
                 Assert.AreEqual(utcNow, savedLatestTestResultDto.FailingFromDate);
                 Assert.AreEqual(null, savedLatestTestResultDto.PassingFromDate);

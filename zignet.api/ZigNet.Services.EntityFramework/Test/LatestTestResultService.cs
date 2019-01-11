@@ -42,19 +42,34 @@ namespace ZigNet.Services.EntityFramework
                     t.TestId == latestTestResultDto.TestId
                 );
 
-            var suiteNameChanged = false;
+            var suiteChanged = false;
             if (dbLatestTestResult == null)
                 dbLatestTestResult = new DbLatestTestResult
                 {
                     SuiteId = latestTestResultDto.SuiteId,
                     TestId = latestTestResultDto.TestId,
                     TestName = latestTestResultDto.TestName,
-                    SuiteName = latestTestResultDto.SuiteName
+                    SuiteName = latestTestResultDto.SuiteName,
+                    SuiteApplicationName = latestTestResultDto.SuiteApplicationName,
+                    SuiteEnvironmentNameAbbreviation = latestTestResultDto.SuiteEnvironmentNameAbbreviation
                 };
-            else if (dbLatestTestResult.SuiteName != latestTestResultDto.SuiteName)
+            else
             {
-                dbLatestTestResult.SuiteName = latestTestResultDto.SuiteName;
-                suiteNameChanged = true;
+                if (dbLatestTestResult.SuiteName != latestTestResultDto.SuiteName)
+                {
+                    dbLatestTestResult.SuiteName = latestTestResultDto.SuiteName;
+                    suiteChanged = true;
+                }
+                if (dbLatestTestResult.SuiteApplicationName != latestTestResultDto.SuiteApplicationName)
+                {
+                    dbLatestTestResult.SuiteApplicationName = latestTestResultDto.SuiteApplicationName;
+                    suiteChanged = true;
+                }
+                if (dbLatestTestResult.SuiteEnvironmentNameAbbreviation != latestTestResultDto.SuiteEnvironmentNameAbbreviation)
+                {
+                    dbLatestTestResult.SuiteEnvironmentNameAbbreviation = latestTestResultDto.SuiteEnvironmentNameAbbreviation;
+                    suiteChanged = true;
+                }
             }
 
             if (testResultType == TestResultType.Pass && dbLatestTestResult.PassingFromDateTime == null)
@@ -72,7 +87,7 @@ namespace ZigNet.Services.EntityFramework
                 dbLatestTestResult.PassingFromDateTime = null;
                 SaveLatestTestResult(dbLatestTestResult);
             }
-            else if (suiteNameChanged)
+            else if (suiteChanged)
                 SaveLatestTestResult(dbLatestTestResult);
 
             // todo: move to mapping class
@@ -84,6 +99,8 @@ namespace ZigNet.Services.EntityFramework
                 TestId = dbLatestTestResult.TestId,
                 TestName = dbLatestTestResult.TestName,
                 SuiteName = dbLatestTestResult.SuiteName,
+                SuiteApplicationName = dbLatestTestResult.SuiteApplicationName,
+                SuiteEnvironmentNameAbbreviation = dbLatestTestResult.SuiteEnvironmentNameAbbreviation,
                 PassingFromDate = dbLatestTestResult.PassingFromDateTime,
                 FailingFromDate = dbLatestTestResult.FailingFromDateTime
             };
