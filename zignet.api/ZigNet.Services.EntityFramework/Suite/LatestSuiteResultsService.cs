@@ -102,8 +102,13 @@ namespace ZigNet.Services.EntityFramework
             else
                 suites = _suiteService.GetAll().Where(s => suiteResultsFilter.Applications.Contains(s.ApplicationName));
 
+            bool groupByEnv = false;
             if (suiteResultsFilter.Environments != null && suiteResultsFilter.Environments.Length > 0)
+            {
+                if (suiteResultsFilter.Environments.Length > 1)
+                    groupByEnv = true;
                 suites = suites.Where(s => suiteResultsFilter.Environments.Contains(s.EnvironmentNameAbbreviation));
+            }
 
             if (suiteResultsFilter.Suites != null && suiteResultsFilter.Suites.Length > 0)
                 suites = suites.Where(s => suiteResultsFilter.Suites.Contains(s.Name));
@@ -115,7 +120,7 @@ namespace ZigNet.Services.EntityFramework
             {
                 var temporaryTestResultsForSuite = allTemporaryTestResults.Where(t => t.SuiteId == suite.SuiteID);
 
-                var key = suite.ApplicationName;
+                var key = groupByEnv ? suite.GetNameGrouped() : suite.ApplicationName;
                 if (suiteSummaryDictionary.ContainsKey(key))
                 {
                     var existingSuiteSummary = suiteSummaryDictionary[key];
