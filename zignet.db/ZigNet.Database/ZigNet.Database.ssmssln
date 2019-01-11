@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # SQL Server Management Studio Solution File, Format Version 13.00
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Utility", "ZigNet.Database.Utility\ZigNet.Database.Utility.ssmssqlproj", "{DB9342DD-07D8-4FC4-81A4-57AC7E7C0388}"
 EndProject
@@ -27,6 +27,8 @@ Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Release-01-
 EndProject
 Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Release-01-03-00", "ZigNet.Database.Release-01-03-00\ZigNet.Database.Release-01-03-00.ssmssqlproj", "{41FDFC8A-8CCA-4919-AEE0-4A8E59289752}"
 EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Release-01-04-00", "ZigNet.Database.Release-01-04-00\ZigNet.Database.Release-01-04-00.ssmssqlproj", "{A01182AE-A9DC-42F7-87B7-D2C3C012DB97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Default|Default = Default|Default
@@ -42,7 +44,8 @@ Global
 		{6F3A683F-65EE-41BB-9F47-4E24FFE8D40D}.Default|Default.ActiveCfg = Default
 		{CDCA6972-8C56-4BB0-8F46-5060DB017FAA}.Default|Default.ActiveCfg = Default
 		{41FDFC8A-8CCA-4919-AEE0-4A8E59289752}.Default|Default.ActiveCfg = Default
-		{6E4145D2-E59E-4F2D-AB1E-D483E8D4E32D}.Default|Default.ActiveCfg = Default
+		{14625EB6-8637-4169-BB7D-E700C36870B2}.Default|Default.ActiveCfg = Default
+		{A01182AE-A9DC-42F7-87B7-D2C3C012DB97}.Default|Default.ActiveCfg = Default
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,5 +56,6 @@ Global
 		{6F3A683F-65EE-41BB-9F47-4E24FFE8D40D} = {59A5901A-0399-40A7-BB4B-C6044EBA0431}
 		{CDCA6972-8C56-4BB0-8F46-5060DB017FAA} = {7D3086B2-CBFC-4C3E-B5CD-473EA72426EF}
 		{41FDFC8A-8CCA-4919-AEE0-4A8E59289752} = {7D3086B2-CBFC-4C3E-B5CD-473EA72426EF}
+		{A01182AE-A9DC-42F7-87B7-D2C3C012DB97} = {7D3086B2-CBFC-4C3E-B5CD-473EA72426EF}
 	EndGlobalSection
 EndGlobal

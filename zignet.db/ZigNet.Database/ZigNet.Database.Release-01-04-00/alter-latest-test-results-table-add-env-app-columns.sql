@@ -1,0 +1,17 @@
+USE ZigNet
+
+ALTER TABLE LatestTestResults
+ADD SuiteApplicationName NVARCHAR(MAX) NOT NULL
+CONSTRAINT DF_LatestTestResultsDefaultSuiteApplicationName DEFAULT ''
+
+ALTER TABLE LatestTestResults
+ADD SuiteEnvironmentNameAbbreviation NVARCHAR(MAX) NOT NULL
+CONSTRAINT DF_LatestTestResultsDefaultSuiteEnvironmentNameAbbreviation DEFAULT ''
+
+ALTER TABLE LatestTestResults
+DROP CONSTRAINT DF_LatestTestResultsDefaultSuiteApplicationName
+
+ALTER TABLE LatestTestResults
+DROP CONSTRAINT DF_LatestTestResultsDefaultSuiteEnvironmentNameAbbreviation
+
+SELECT * FROM LatestTestResults
