@@ -34,6 +34,9 @@ namespace ZigNet.Services.EntityFramework
             if (suiteResultsFilter.Environments != null && suiteResultsFilter.Environments.Length > 0)
                 suites = suites.Where(s => suiteResultsFilter.Environments.Contains(s.EnvironmentNameAbbreviation));
 
+            if (suiteResultsFilter.Suites != null && suiteResultsFilter.Suites.Length > 0)
+                suites = suites.Where(s => suiteResultsFilter.Suites.Contains(s.Name));
+
             if (!suiteResultsFilter.Debug)
                 suites = suites.Where(s => !s.Name.Contains("(D)"));
 
