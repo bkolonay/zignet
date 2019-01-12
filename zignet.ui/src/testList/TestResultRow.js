@@ -9,8 +9,10 @@ class TestResultRow extends Component {
     const testResult = this.props.testResult;
     return (
   	  <tr>
+        <td><small className="text-muted">{testResult.ApplicationName}</small></td>
+        <td><small className="text-muted">{testResult.EnvironmentName}</small></td>
         <td style={{"width": "52%"}}>{testResult.TestName}</td>
-        {null && <td><small className="text-muted">{testResult.SuiteName}</small></td>}
+        <td><small className="text-muted">{testResult.SuiteName}</small></td>
         <td style={{"width": "18%"}}>
           <TestStatusBadge failingFromDate={testResult.FailingFromDate}/>&nbsp;
           <TestStatusLabel failingFromDate={testResult.FailingFromDate} passingFromDate={testResult.PassingFromDate}/>

@@ -23,8 +23,10 @@ class LatestTestResultsList extends Component {
         <table className="table">
           <thead>
             <tr>
+              <th scope="col">App</th>
+              <th scope="col">Env</th>
               <th scope="col">Name</th>
-              {null && <th scope="col">Type</th>}
+              <th scope="col">Suite</th>
               <th scope="col">Status</th>
               <th scope="col">History</th>
             </tr>
