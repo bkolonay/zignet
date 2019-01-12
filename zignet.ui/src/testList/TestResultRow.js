@@ -9,8 +9,8 @@ class TestResultRow extends Component {
     const testResult = this.props.testResult;
     return (
   	  <tr>
-        <td><small className="text-muted">{testResult.ApplicationName}</small></td>
-        <td><small className="text-muted">{testResult.EnvironmentName}</small></td>
+        <td><small className="text-muted">{testResult.SuiteApplicationName}</small></td>
+        <td><small className="text-muted">{testResult.SuiteEnvironmentNameAbbreviation}</small></td>
         <td style={{"width": "52%"}}>{testResult.TestName}</td>
         <td><small className="text-muted">{testResult.SuiteName}</small></td>
         <td style={{"width": "18%"}}>

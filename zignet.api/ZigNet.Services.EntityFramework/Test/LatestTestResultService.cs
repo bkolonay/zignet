@@ -124,6 +124,8 @@ namespace ZigNet.Services.EntityFramework
                     TestResultID = l.TestResultId,
                     TestName = l.TestName,
                     SuiteName = l.SuiteName,
+                    SuiteApplicationName = l.SuiteApplicationName,
+                    SuiteEnvironmentNameAbbreviation = l.SuiteEnvironmentNameAbbreviation,
                     FailingFromDate = l.FailingFromDateTime,
                     PassingFromDate = l.PassingFromDateTime
                 });
