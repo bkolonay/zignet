@@ -6,6 +6,12 @@
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
+        <FileNode Name="get-latest-test-step-for-test-in-suite.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>get-latest-test-step-for-test-in-suite.sql</FullPath>
+        </FileNode>
         <FileNode Name="get-suite-categories.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
@@ -60,6 +66,12 @@
           <AssociatedConnUserName />
           <FullPath>get-test-results-for-suite.sql</FullPath>
         </FileNode>
+        <FileNode Name="get-tests-for-suite.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>get-tests-for-suite.sql</FullPath>
+        </FileNode>
         <FileNode Name="get-test-steps.sql">
           <AssociatedConnectionMoniker />
           <AssociatedConnSrvName />
@@ -71,6 +83,12 @@
           <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>get-test-steps-for-suite.sql</FullPath>
+        </FileNode>
+        <FileNode Name="get-test-steps-for-test.sql">
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
+          <AssociatedConnUserName />
+          <FullPath>get-test-steps-for-test.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>
