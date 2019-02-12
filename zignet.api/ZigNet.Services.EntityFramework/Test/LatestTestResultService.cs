@@ -17,7 +17,6 @@ namespace ZigNet.Services.EntityFramework
             _db = dbContext.Get();
         }
 
-        // note: class is not unit tested (change with caution)
         public IEnumerable<LatestTestResultDto> Get(int suiteId)
         {
             var dbLatestTestResultsForSuite = _db.LatestTestResults
