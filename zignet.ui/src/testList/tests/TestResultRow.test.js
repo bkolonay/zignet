@@ -7,7 +7,7 @@ it('renders when not grouped', () => {
   const testResult = {
     TestName: 'test-name',
     SuiteName: 'suite-name',
-    PassingFromDate: '2018-05-24T01:00:00',
+    PassingFromDate: '2019-04-24T01:00:00',
     TestFailureDurations: []
   }
 
@@ -19,7 +19,7 @@ it('renders when grouped', () => {
   const testResult = {
     TestName: 'grouped-test-name',
     SuiteName: 'grouped-suite-name',
-    PassingFromDate: '2018-05-24T01:00:00',
+    PassingFromDate: '2019-04-24T01:00:00',
     TestFailureDurations: []
   }
 

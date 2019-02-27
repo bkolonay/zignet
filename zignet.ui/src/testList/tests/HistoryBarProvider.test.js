@@ -14,10 +14,10 @@ it('returns zero divs when no failures', () => {
 
 it('returns 1 div when 1 failure', () => {
   let historyBarDiv = { offsetWidth: 309 }
-  let now = moment("2018-05-07T01:00:00-07:00");
+  let now = moment("2019-04-07T01:00:00-07:00");
   const testFailureDurations = [{
-    FailureStart: moment("2018-05-06T03:00:00-07:00").utc().format(),
-    FailureEnd: moment("2018-05-06T04:00:00-07:00").utc().format()
+    FailureStart: moment("2019-04-06T03:00:00-07:00").utc().format(),
+    FailureEnd: moment("2019-04-06T04:00:00-07:00").utc().format()
   }];
 
   let failureDivs = HistoryBarProvider.getFailureDivs(testFailureDurations, historyBarDiv, now);
@@ -27,14 +27,14 @@ it('returns 1 div when 1 failure', () => {
 
 it('returns 2 divs when 2 failures', () => {
   let historyBarDiv = { offsetWidth: 309 }
-  let now = moment("2018-05-07T01:00:00-07:00");
+  let now = moment("2019-04-07T01:00:00-07:00");
   const testFailureDurations = [{
-    FailureStart: moment("2018-05-06T03:00:00-07:00").utc().format(),
-    FailureEnd: moment("2018-05-06T04:00:00-07:00").utc().format()
+    FailureStart: moment("2019-04-06T03:00:00-07:00").utc().format(),
+    FailureEnd: moment("2019-04-06T04:00:00-07:00").utc().format()
   },
   {
-    FailureStart: moment("2018-05-06T04:30:00-07:00").utc().format(),
-    FailureEnd: moment("2018-05-06T05:00:00-07:00").utc().format()    
+    FailureStart: moment("2019-04-06T04:30:00-07:00").utc().format(),
+    FailureEnd: moment("2019-04-06T05:00:00-07:00").utc().format()    
   }];
 
   let failureDivs = HistoryBarProvider.getFailureDivs(testFailureDurations, historyBarDiv, now);
@@ -44,9 +44,9 @@ it('returns 2 divs when 2 failures', () => {
 
 // getErrorDivAttributes()
 it('gets a failure duration with a start and end time', () => {
-  let now = moment("2018-05-07T01:00:00-07:00"); // 5/7/2018 1am
-  var failureStart = moment("2018-05-06T03:00:00-07:00"); // 5/6/2018 3am
-  var failureEnd = moment("2018-05-06T04:00:00-07:00"); // 5/6/2018 4am
+  let now = moment("2019-04-07T01:00:00-07:00"); // 5/7/2019 1am
+  var failureStart = moment("2019-04-06T03:00:00-07:00"); // 5/6/2019 3am
+  var failureEnd = moment("2019-04-06T04:00:00-07:00"); // 5/6/2019 4am
   let testFailureDuration = {
     FailureStart: failureStart.utc().format(),
     FailureEnd: failureEnd.utc().format()
@@ -59,9 +59,9 @@ it('gets a failure duration with a start and end time', () => {
 });
 
 it('gets a failure with a duration of 1 second', () => {
-  let now = moment("2018-05-07T01:00:00-07:00"); // 5/7/2018 1am
-  var failureStart = moment("2018-05-06T03:00:00-07:00"); // 5/6/2018 3am
-  var failureEnd = moment("2018-05-06T03:00:01-07:00"); // 5/6/2018 3:00:01am
+  let now = moment("2019-04-07T01:00:00-07:00"); // 5/7/2019 1am
+  var failureStart = moment("2019-04-06T03:00:00-07:00"); // 5/6/2019 3am
+  var failureEnd = moment("2019-04-06T03:00:01-07:00"); // 5/6/2019 3:00:01am
   let testFailureDuration = {
     FailureStart: failureStart.utc().format(),
     FailureEnd: failureEnd.utc().format()
@@ -74,8 +74,8 @@ it('gets a failure with a duration of 1 second', () => {
 });
 
 it('gets a failure duration with no end time', () => {
-  let now = moment("2018-05-07T06:00:00-07:00"); // 5/7/2018 6am
-  var failureStart = moment("2018-05-07T04:00:00-07:00"); // 5/7/2018 4am
+  let now = moment("2019-04-07T06:00:00-07:00"); // 5/7/2019 6am
+  var failureStart = moment("2019-04-07T04:00:00-07:00"); // 5/7/2019 4am
   let testFailureDuration = {
     FailureStart: failureStart.utc().format()
   };
@@ -88,9 +88,9 @@ it('gets a failure duration with no end time', () => {
 });
 
 it('gets a failure duration with end time 1 second before now', () => {
-  let now = moment("2018-05-07T03:00:00-07:00"); // 5/7/2018 3am
-  var failureStart = moment("2018-05-07T02:00:00-07:00"); // 5/7/2018 2am
-  var failureEnd = moment("2018-05-07T02:59:59-07:00"); // 5/7/2018 2:59:59am
+  let now = moment("2019-04-07T03:00:00-07:00"); // 5/7/2019 3am
+  var failureStart = moment("2019-04-07T02:00:00-07:00"); // 5/7/2019 2am
+  var failureEnd = moment("2019-04-07T02:59:59-07:00"); // 5/7/2019 2:59:59am
   let testFailureDuration = {
     FailureStart: failureStart.utc().format(),
     FailureEnd: failureEnd.utc().format()
@@ -104,9 +104,9 @@ it('gets a failure duration with end time 1 second before now', () => {
 });
 
 it('gets a failure duration with a start time before 24 hours ago and end time within 24 hours', () => {
-  let now = moment("2018-05-07T01:00:00-07:00"); // 5/7/2018 1am
-  var failureStart = moment("2018-05-06T00:30:00-07:00"); // 5/6/2018 12:30am
-  var failureEnd = moment("2018-05-06T02:00:00-07:00"); // 5/6/2018 2am
+  let now = moment("2019-04-07T01:00:00-07:00"); // 5/7/2019 1am
+  var failureStart = moment("2019-04-06T00:30:00-07:00"); // 5/6/2019 12:30am
+  var failureEnd = moment("2019-04-06T02:00:00-07:00"); // 5/6/2019 2am
   let testFailureDuration = {
     FailureStart: failureStart.utc().format(),
     FailureEnd: failureEnd.utc().format()
@@ -119,8 +119,8 @@ it('gets a failure duration with a start time before 24 hours ago and end time w
 });
 
 it('gets a failure duration with a start time before 24 hours ago and no end time', () => {
-  let now = moment("2018-05-07T01:00:00-07:00"); // 5/7/2018 1am
-  var failureStart = moment("2018-05-05T01:00:00-07:00"); // 5/5/2018 1am
+  let now = moment("2019-04-07T01:00:00-07:00"); // 5/7/2019 1am
+  var failureStart = moment("2019-04-05T01:00:00-07:00"); // 5/5/2019 1am
   let testFailureDuration = {
     FailureStart: failureStart.utc().format()
   };
@@ -132,9 +132,9 @@ it('gets a failure duration with a start time before 24 hours ago and no end tim
 });
 
 it('gets a failure duration with a start time 1 second before 24 hours ago and end time 1 second within 24 hours', () => {
-  let now = moment("2018-05-07T01:00:00-07:00"); // 5/7/2018 1am
-  var failureStart = moment("2018-05-06T00:59:59-07:00"); // 5/6/2018 12:59:59am (1 second before 24 hours ago)
-  var failureEnd = moment("2018-05-06T01:00:01-07:00"); // 5/6/2018 1:00:01
+  let now = moment("2019-04-07T01:00:00-07:00"); // 5/7/2019 1am
+  var failureStart = moment("2019-04-06T00:59:59-07:00"); // 5/6/2019 12:59:59am (1 second before 24 hours ago)
+  var failureEnd = moment("2019-04-06T01:00:01-07:00"); // 5/6/2019 1:00:01
   let testFailureDuration = {
     FailureStart: failureStart.utc().format(),
     FailureEnd: failureEnd.utc().format()
@@ -148,8 +148,8 @@ it('gets a failure duration with a start time 1 second before 24 hours ago and e
 
 // getDivTitle()
 it('get title when failure has a start and end time', () => {
-  var failureStart = moment("2018-05-06T03:00:00-07:00"); // 5/6/2018 3am
-  var failureEnd = moment("2018-05-06T04:00:00-07:00"); // 5/6/2018 4am
+  var failureStart = moment("2019-04-06T03:00:00-07:00"); // 5/6/2019 3am
+  var failureEnd = moment("2019-04-06T04:00:00-07:00"); // 5/6/2019 4am
   let testFailureDuration = {
     FailureStart: failureStart.utc().format(),
     FailureEnd: failureEnd.utc().format()
@@ -157,12 +157,12 @@ it('get title when failure has a start and end time', () => {
 
   let errorDivTitle = HistoryBarProvider.getDivTitle(testFailureDuration);
 
-  expect(errorDivTitle).toEqual('an hour from 5/6/2018 3:00am - 5/6/2018 4:00am');
+  expect(errorDivTitle).toEqual('an hour from 5/6/2019 3:00am - 5/6/2019 4:00am');
 });
 
 it('get title when dates have double digits', () => {
-  var failureStart = moment("2018-11-12T12:29:34-07:00"); // 11/12/2018 12:29pm
-  var failureEnd = moment("2018-11-24T14:40:45-07:00"); // 11/24/2018 2:40pm
+  var failureStart = moment("2019-11-12T12:29:34-07:00"); // 11/12/2019 12:29pm
+  var failureEnd = moment("2019-11-24T14:40:45-07:00"); // 11/24/2019 2:40pm
   let testFailureDuration = {
     FailureStart: failureStart.utc().format(),
     FailureEnd: failureEnd.utc().format()
@@ -170,11 +170,11 @@ it('get title when dates have double digits', () => {
 
   let errorDivTitle = HistoryBarProvider.getDivTitle(testFailureDuration);
 
-  expect(errorDivTitle).toEqual('12 days from 11/12/2018 11:29am - 11/24/2018 1:40pm');
+  expect(errorDivTitle).toEqual('12 days from 11/12/2019 11:29am - 11/24/2019 1:40pm');
 });
 
 it('get title when end date is null', () => {
-  var failureStart = moment("2018-05-06T03:00:00-07:00"); // 5/6/2018 3am
+  var failureStart = moment("2019-04-06T03:00:00-07:00"); // 5/6/2019 3am
   let testFailureDuration = {
     FailureStart: failureStart.utc().format(),
     FailureEnd: null
@@ -182,7 +182,7 @@ it('get title when end date is null', () => {
 
   let errorDivTitle = HistoryBarProvider.getDivTitle(testFailureDuration);
 
-  expect(errorDivTitle).toMatch(new RegExp('5/6/2018 3:00am - now'));
+  expect(errorDivTitle).toMatch(new RegExp('5/6/2019 3:00am - now'));
 });
 
 it('does not throw when dates empty', () => {

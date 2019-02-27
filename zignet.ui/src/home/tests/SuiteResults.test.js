@@ -11,7 +11,7 @@ it('renders single suite', () => {
     'TotalPassedTests':100,
     'TotalFailedTests':10,
     'TotalInconclusiveTests':0,
-    'SuiteEndTime':'2018-02-28T15:05:00'
+    'SuiteEndTime':'2019-02-28T15:05:00'
   }];
 
   const component = <SuiteResults suiteResults={suiteResults} grouped={false} />;
@@ -33,7 +33,7 @@ it('renders multiple suites', () => {
       'TotalPassedTests':100,
       'TotalFailedTests':10,
       'TotalInconclusiveTests':0,
-      'SuiteEndTime':'2018-02-28T15:05:00'
+      'SuiteEndTime':'2019-03-28T15:05:00'
     },
     {
       'SuiteIds':[2],
@@ -41,7 +41,7 @@ it('renders multiple suites', () => {
       'TotalPassedTests':0,
       'TotalFailedTests':100,
       'TotalInconclusiveTests':5,
-      'SuiteEndTime':'2019-03-28T16:19:00'
+      'SuiteEndTime':'2019-04-28T16:19:00'
     }
   ];
   
@@ -85,7 +85,7 @@ it('snapshot with multiple suites', () => {
       'TotalPassedTests':100,
       'TotalFailedTests':10,
       'TotalInconclusiveTests':0,
-      'SuiteEndTime':'2018-02-28T15:05:00'
+      'SuiteEndTime':'2019-03-28T15:05:00'
     },
     {
       'SuiteIds':[2],
@@ -93,7 +93,7 @@ it('snapshot with multiple suites', () => {
       'TotalPassedTests':0,
       'TotalFailedTests':100,
       'TotalInconclusiveTests':5,
-      'SuiteEndTime':'2019-03-28T16:19:00'
+      'SuiteEndTime':'2019-04-28T16:19:00'
     }
   ];
 

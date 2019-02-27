@@ -8,7 +8,7 @@ exports[`returns 1 div when 1 failure 1`] = `
       "width": 12,
     }
   }
-  title="an hour from 5/6/2018 3:00am - 5/6/2018 4:00am"
+  title="an hour from 5/6/2019 3:00am - 5/6/2019 4:00am"
 />
 `;
 
@@ -21,7 +21,7 @@ Array [
             "width": 12,
           }
     }
-    title="an hour from 5/6/2018 3:00am - 5/6/2018 4:00am"
+    title="an hour from 5/6/2019 3:00am - 5/6/2019 4:00am"
 />,
   <div
     style={
@@ -30,7 +30,7 @@ Array [
             "width": 6,
           }
     }
-    title="30 minutes from 5/6/2018 4:30am - 5/6/2018 5:00am"
+    title="30 minutes from 5/6/2019 4:30am - 5/6/2019 5:00am"
 />,
 ]
 `;

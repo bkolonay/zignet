@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer';
 import TestStatusBadge from '../TestStatusBadge';
 
 it('renders when has failing from date', () => {
-  const component = <TestStatusBadge failingFromDate={'2018-05-24T01:00:00'} />;
+  const component = <TestStatusBadge failingFromDate={'2019-04-24T01:00:00'} />;
   ReactDOM.render(component,document.createElement('div'));
 });
 
@@ -14,7 +14,7 @@ it('renders when does not have failing from date', () => {
 });
 
 it('snapshot when has failing from date', () => {
-  const component = <TestStatusBadge failingFromDate={'2018-05-24T01:00:00'} />;
+  const component = <TestStatusBadge failingFromDate={'2019-04-24T01:00:00'} />;
   const tree = renderer.create(component).toJSON();
   expect(tree).toMatchSnapshot();
 });

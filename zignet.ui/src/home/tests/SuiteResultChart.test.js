@@ -57,7 +57,7 @@ it('renders when suite has end time', () => {
     'SuiteIds':[1],
     'SuiteName':'suite-name',
     'TotalFailedTests':50,
-    'SuiteEndTime':'2018-05-24T01:00:00'
+    'SuiteEndTime':'2019-04-24T01:00:00'
   };
 
   const component = <SuiteResultChart suiteResult={suiteResult} grouped={false} />;
@@ -128,7 +128,7 @@ it('snapshot when suite has end time', () => {
     'SuiteIds':[1],
     'SuiteName':'suite-name',
     'TotalFailedTests':50,
-    'SuiteEndTime':'2018-05-24T01:00:00'
+    'SuiteEndTime':'2019-04-24T01:00:00'
   };
 
   getTimeFromNowWithSuffix.mockReturnValue('3 days ago');
