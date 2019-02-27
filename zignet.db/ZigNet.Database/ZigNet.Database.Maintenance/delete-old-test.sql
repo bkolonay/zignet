@@ -5,10 +5,10 @@ USE ZigNet
 -- 2. run SELECT query to determine which Tests haven't run within x days (e.g. 30, 15, 5, or 1)
 
 --SELECT DATEADD(day, -5, GETUTCDATE())
-DECLARE @thirtyDaysAgoUtc DateTime = '2018-08-21 22:12:04.100'
-DECLARE @fifteenDaysAgoUtc DateTime = '2018-09-05 19:08:21.837'
-DECLARE @fiveDaysAgoUtc DateTime = '2018-09-15 22:40:10.587'
-DECLARE @oneDayAgoUtc DateTime = '2018-09-19 19:27:14.393'
+DECLARE @thirtyDaysAgoUtc DateTime = '2019-03-21 22:12:04.100'
+DECLARE @fifteenDaysAgoUtc DateTime = '2019-04-05 19:08:21.837'
+DECLARE @fiveDaysAgoUtc DateTime = '2019-04-15 22:40:10.587'
+DECLARE @oneDayAgoUtc DateTime = '2019-04-19 19:27:14.393'
 
 SELECT Tests.TestID, Tests.TestName,
 	(SELECT COUNT(TestResults.TestResultID)

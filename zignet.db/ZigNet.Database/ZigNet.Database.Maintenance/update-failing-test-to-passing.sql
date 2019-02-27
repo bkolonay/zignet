@@ -2,7 +2,7 @@ USE ZigNet
 
 SELECT Suites.SuiteName, LatestTestResults.TestResultId, LatestTestResults.TestId, LatestTestResults.TestName, LatestTestResults.PassingFromDateTime, LatestTestResults.FailingFromDateTime
 --UPDATE LatestTestResults
---SET PassingFromDateTime = '7/2/2018 1:00AM',
+--SET PassingFromDateTime = '4/2/2019 1:00AM',
 --	FailingFromDateTime = NULL	
 FROM LatestTestResults
 JOIN Suites

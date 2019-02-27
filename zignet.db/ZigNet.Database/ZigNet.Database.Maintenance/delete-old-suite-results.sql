@@ -7,7 +7,7 @@ USE ZigNet
 
 -- need to use a consistent date through the whole query because test result times can vary by milliseconds
 --SELECT DATEADD(day, -30, GETUTCDATE())
-DECLARE @thirtyDaysAgoUtc DateTime = '2018-08-20 17:22:56.380'
+DECLARE @thirtyDaysAgoUtc DateTime = '2019-04-20 17:22:56.380'
 --SELECT @thirtyDaysAgoUtc
 
 --DELETE SuiteResults
@@ -18,7 +18,7 @@ DECLARE @thirtyDaysAgoUtc DateTime = '2018-08-20 17:22:56.380'
 
 -- this helps fix the issue where a SuiteResult falls within the 'past 30 days' window, but TestResult(s)
 --  attached to it have an end time before the window (so it throws foreign key errors)
--- use this query to change the '30 days ago' date to farther into the past (e.g. from 8/21 to 8/20)
+-- use this query to change the '30 days ago' date to farther into the past (e.g. from 4/21 to 4/20)
 --SELECT SuiteResults.SuiteResultID, TestResults.TestResultID, SuiteResults.SuiteResultEndDateTime, TestResults.TestResultEndDateTime
 --FROM SuiteResults
 --	JOIN TestResults ON TestResults.SuiteResultId = SuiteResults.SuiteResultID

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # SQL Server Management Studio Solution File, Format Version 13.00
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Utility", "ZigNet.Database.Utility\ZigNet.Database.Utility.ssmssqlproj", "{DB9342DD-07D8-4FC4-81A4-57AC7E7C0388}"
 EndProject
@@ -9,23 +9,7 @@ Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Tables", "Z
 EndProject
 Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Maintenance", "ZigNet.Database.Maintenance\ZigNet.Database.Maintenance.ssmssqlproj", "{FFEE0607-D782-4691-AA1D-732A2FB24B80}"
 EndProject
-Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Analytics", "ZigNet.Database.Analytics\ZigNet.Database.Analytics.ssmssqlproj", "{CC5340B3-3047-461D-911D-95FCFE34FA7F}"
-EndProject
 Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Data", "ZigNet.Database.Data\ZigNet.Database.Data.ssmssqlproj", "{5AE99365-60EE-4574-B2AE-E009B0843269}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Release", "Release", "{7D3086B2-CBFC-4C3E-B5CD-473EA72426EF}"
-EndProject
-Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Release-01-01-00", "ZigNet.Database.Release-01-01-00\ZigNet.Database.Release-01-01-00.ssmssqlproj", "{502D7D93-43EB-4EAE-9DD9-8400B86B8522}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{59A5901A-0399-40A7-BB4B-C6044EBA0431}"
-EndProject
-Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Api.Get.Suite.LatestTestResults", "ZigNet.Database.Api.Get.Suite.LatestTestResults\ZigNet.Database.Api.Get.Suite.LatestTestResults.ssmssqlproj", "{EB9021D1-AFD6-4201-89B9-1FE32BB0C9E9}"
-EndProject
-Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Api.Get.LatestSuiteResults", "ZigNet.Database.Api.Get.LatestSuiteResults\ZigNet.Database.Api.Get.LatestSuiteResults.ssmssqlproj", "{6F3A683F-65EE-41BB-9F47-4E24FFE8D40D}"
-EndProject
-Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Release-01-02-00", "ZigNet.Database.Release-01-02-00\ZigNet.Database.Release-01-02-00.ssmssqlproj", "{CDCA6972-8C56-4BB0-8F46-5060DB017FAA}"
-EndProject
-Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "ZigNet.Database.Release-01-03-00", "ZigNet.Database.Release-01-03-00\ZigNet.Database.Release-01-03-00.ssmssqlproj", "{41FDFC8A-8CCA-4919-AEE0-4A8E59289752}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,23 +19,10 @@ Global
 		{DB9342DD-07D8-4FC4-81A4-57AC7E7C0388}.Default|Default.ActiveCfg = Default
 		{95F4F075-0C51-4694-B388-4FA0C5219E06}.Default|Default.ActiveCfg = Default
 		{FFEE0607-D782-4691-AA1D-732A2FB24B80}.Default|Default.ActiveCfg = Default
-		{CC5340B3-3047-461D-911D-95FCFE34FA7F}.Default|Default.ActiveCfg = Default
 		{5AE99365-60EE-4574-B2AE-E009B0843269}.Default|Default.ActiveCfg = Default
-		{502D7D93-43EB-4EAE-9DD9-8400B86B8522}.Default|Default.ActiveCfg = Default
-		{EB9021D1-AFD6-4201-89B9-1FE32BB0C9E9}.Default|Default.ActiveCfg = Default
-		{6F3A683F-65EE-41BB-9F47-4E24FFE8D40D}.Default|Default.ActiveCfg = Default
-		{CDCA6972-8C56-4BB0-8F46-5060DB017FAA}.Default|Default.ActiveCfg = Default
-		{41FDFC8A-8CCA-4919-AEE0-4A8E59289752}.Default|Default.ActiveCfg = Default
-		{77AB2C56-9496-4CAC-AC10-1E626A354815}.Default|Default.ActiveCfg = Default
+		{F96B8F86-1885-4EB4-81F9-10DC0A2B6008}.Default|Default.ActiveCfg = Default
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{502D7D93-43EB-4EAE-9DD9-8400B86B8522} = {7D3086B2-CBFC-4C3E-B5CD-473EA72426EF}
-		{EB9021D1-AFD6-4201-89B9-1FE32BB0C9E9} = {59A5901A-0399-40A7-BB4B-C6044EBA0431}
-		{6F3A683F-65EE-41BB-9F47-4E24FFE8D40D} = {59A5901A-0399-40A7-BB4B-C6044EBA0431}
-		{CDCA6972-8C56-4BB0-8F46-5060DB017FAA} = {7D3086B2-CBFC-4C3E-B5CD-473EA72426EF}
-		{41FDFC8A-8CCA-4919-AEE0-4A8E59289752} = {7D3086B2-CBFC-4C3E-B5CD-473EA72426EF}
 	EndGlobalSection
 EndGlobal

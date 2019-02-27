@@ -5,15 +5,15 @@ USE ZigNet
 --SELECT * FROM TestResults WHERE TestID = 57
 
 --INSERT INTO TestFailureDurations
---VALUES (24, 57, 763785, '5/6/2018 7:00PM', NULL)
---VALUES (24, 52, 763785, '5/7/2018 11:00PM', '5/7/2018 11:15PM')
---VALUES (24, 57, 763785, '5/7/2018 7:00AM', '5/7/2018 7:01AM')
+--VALUES (24, 57, 763785, '4/13/2019 7:00PM', NULL)
+--VALUES (24, 52, 763785, '4/13/2019 11:00PM', '4/15/2019 11:15PM')
+--VALUES (24, 57, 763785, '4/13/2019 7:00AM', '4/15/2019 7:01AM')
 
 --DELETE FROM TestFailureDurations
 --WHERE TestFailureDurationID = 17
 
 --UPDATE TestFailureDurations
---SET FailureStartDateTime = '5/7/2018 11:00am', FailureEndDateTime = '5/7/2018 4:00pm'
+--SET FailureStartDateTime = '4/13/2019 11:00am', FailureEndDateTime = '4/15/2019 4:00pm'
 --WHERE TestFailureDurationID = 7
 
 --UPDATE TestFailureDurations

@@ -4,7 +4,7 @@ USE ZigNet
 
 -- 2. use a consistent date through the whole query because test result times can vary by milliseconds
 --SELECT DATEADD(day, -30, GETUTCDATE())
-DECLARE @thirtyDaysAgoUtc DateTime = '2018-08-21 17:22:56.380'
+DECLARE @thirtyDaysAgoUtc DateTime = '2019-04-21 17:22:56.380'
 --SELECT @thirtyDaysAgoUtc
 
 --SELECT COUNT(SuiteResults.SuiteResultID) from SuiteResults
