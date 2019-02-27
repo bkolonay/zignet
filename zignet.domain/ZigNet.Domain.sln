@@ -22,12 +22,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA31CD9D-2AB4-4EB5-9271-34D181A74CC7}
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.prd.costargroup.com/tfs/costarcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ZigNet.Domain.csproj
-		SccLocalPath1 = .
-	EndGlobalSection
 EndGlobal
