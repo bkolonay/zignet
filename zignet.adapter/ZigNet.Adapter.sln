@@ -34,19 +34,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0BDAA7F0-C8CA-48D5-9093-EF2A7355E516}
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.prd.costargroup.com/tfs/costarcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ZigNet.Adapter\\ZigNet.Adapter.csproj
-		SccProjectName1 = ZigNet.Adapter
-		SccLocalPath1 = ZigNet.Adapter
-		SccProjectUniqueName2 = ZigNet.Adapter.SpecFlow\\ZigNet.Adapter.SpecFlow.csproj
-		SccProjectName2 = ZigNet.Adapter.SpecFlow
-		SccLocalPath2 = ZigNet.Adapter.SpecFlow
-		SccProjectUniqueName3 = ZigNet.Adapter.SpecFlow.Tests\\ZigNet.Adapter.SpecFlow.Tests.csproj
-		SccProjectName3 = ZigNet.Adapter.SpecFlow.Tests
-		SccLocalPath3 = ZigNet.Adapter.SpecFlow.Tests
-	EndGlobalSection
 EndGlobal
