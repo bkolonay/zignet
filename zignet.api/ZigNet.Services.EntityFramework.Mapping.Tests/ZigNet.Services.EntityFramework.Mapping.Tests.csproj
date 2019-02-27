@@ -16,10 +16,6 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,7 +37,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="ZigNet.Domain, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZigNet.Domain.1.0.8\lib\net45\ZigNet.Domain.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\assemblies\ZigNet.Domain.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
@@ -69,9 +66,6 @@
       <Project>{E53EF582-5EAE-4016-82F8-05C5B6FDF4D4}</Project>
       <Name>ZigNet.Services.EntityFramework.Mapping</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

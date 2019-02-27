@@ -88,46 +88,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCF5F878-FB81-45EC-8F0B-A9D616D199E1}
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 13
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.prd.costargroup.com/tfs/costarcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ZigNet.Api\\ZigNet.Api.csproj
-		SccProjectName1 = ZigNet.Api
-		SccLocalPath1 = ZigNet.Api
-		SccProjectUniqueName2 = ZigNet.Database.EntityFramework\\ZigNet.Database.EntityFramework.csproj
-		SccProjectName2 = ZigNet.Database.EntityFramework
-		SccLocalPath2 = ZigNet.Database.EntityFramework
-		SccProjectUniqueName3 = ZigNet.Business\\ZigNet.Business.csproj
-		SccProjectName3 = ZigNet.Business
-		SccLocalPath3 = ZigNet.Business
-		SccProjectUniqueName4 = ZigNet.Business.Tests\\ZigNet.Business.Tests.csproj
-		SccProjectName4 = ZigNet.Business.Tests
-		SccLocalPath4 = ZigNet.Business.Tests
-		SccProjectUniqueName5 = ZigNet.Api.Mapping\\ZigNet.Api.Mapping.csproj
-		SccProjectName5 = ZigNet.Api.Mapping
-		SccLocalPath5 = ZigNet.Api.Mapping
-		SccProjectUniqueName6 = ZigNet.Api.Mapping.Tests\\ZigNet.Api.Mapping.Tests.csproj
-		SccProjectName6 = ZigNet.Api.Mapping.Tests
-		SccLocalPath6 = ZigNet.Api.Mapping.Tests
-		SccProjectUniqueName7 = ZigNet.Api.Model\\ZigNet.Api.Model.csproj
-		SccProjectName7 = ZigNet.Api.Model
-		SccLocalPath7 = ZigNet.Api.Model
-		SccProjectUniqueName8 = ZigNet.Services\\ZigNet.Services.csproj
-		SccProjectName8 = ZigNet.Services
-		SccLocalPath8 = ZigNet.Services
-		SccProjectUniqueName9 = ZigNet.Services.EntityFramework\\ZigNet.Services.EntityFramework.csproj
-		SccProjectName9 = ZigNet.Services.EntityFramework
-		SccLocalPath9 = ZigNet.Services.EntityFramework
-		SccProjectUniqueName10 = ZigNet.Services.EntityFramework.Mapping\\ZigNet.Services.EntityFramework.Mapping.csproj
-		SccProjectName10 = ZigNet.Services.EntityFramework.Mapping
-		SccLocalPath10 = ZigNet.Services.EntityFramework.Mapping
-		SccProjectUniqueName11 = ZigNet.Services.EntityFramework.Tests\\ZigNet.Services.EntityFramework.Tests.csproj
-		SccProjectName11 = ZigNet.Services.EntityFramework.Tests
-		SccLocalPath11 = ZigNet.Services.EntityFramework.Tests
-		SccProjectUniqueName12 = ZigNet.Services.EntityFramework.Mapping.Tests\\ZigNet.Services.EntityFramework.Mapping.Tests.csproj
-		SccProjectName12 = ZigNet.Services.EntityFramework.Mapping.Tests
-		SccLocalPath12 = ZigNet.Services.EntityFramework.Mapping.Tests
-	EndGlobalSection
 EndGlobal
