@@ -73,28 +73,28 @@ namespace ZigNet.Services.EntityFramework.Tests
                         SuiteId = 1,
                         TestResultID = 2,
                         TestName = "test passing the longest",
-                        PassingFromDate = new DateTime(2018, 3, 1, 1, 00, 00),
+                        PassingFromDate = new DateTime(2019, 3, 1, 1, 00, 00),
                     },
                     new LatestTestResultDto
                     {
                         SuiteId = 1,
                         TestResultID = 3,
                         TestName = "test failing the longest",
-                        FailingFromDate = new DateTime(2018, 3, 1, 1, 00, 00),
+                        FailingFromDate = new DateTime(2019, 3, 1, 1, 00, 00),
                     },
                     new LatestTestResultDto
                     {
                         SuiteId = 1,
                         TestResultID = 4,
                         TestName = "test passing the shortest",
-                        PassingFromDate = new DateTime(2018, 3, 1, 1, 01, 00),
+                        PassingFromDate = new DateTime(2019, 3, 1, 1, 01, 00),
                     },
                     new LatestTestResultDto
                     {
                         SuiteId = 1,
                         TestResultID = 5,
                         TestName = "test failing the shortest",
-                        FailingFromDate = new DateTime(2018, 3, 1, 1, 01, 00),
+                        FailingFromDate = new DateTime(2019, 3, 1, 1, 01, 00),
                     }
                 };
                 var mockLatestTestResultsService = new Mock<ILatestTestResultService>();
